@@ -33,7 +33,7 @@ class Enviroment {
       return 'db_tescom_dev';
     }
     if (this.enviroment === Enviroments.qa_environment) {
-      return 'db_vms_qa';
+      return 'db_tescom_qa';
     }
     return 'db_tescom_local';
   }
