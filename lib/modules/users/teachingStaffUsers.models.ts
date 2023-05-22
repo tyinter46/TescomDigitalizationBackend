@@ -1,18 +1,17 @@
-
 // export class TeacherUser {
- 
-//   @prop({required:true})
-//   teacherName: string; 
 
 //   @prop({required:true})
-//   email: string 
+//   teacherName: string;
 
 //   @prop({required:true})
-//   ogNumber: string 
+//   email: string
 
 //   @prop({required:true})
-//   password: string 
- 
+//   ogNumber: string
+
+//   @prop({required:true})
+//   password: string
+
 //   @prop({required: true, default:()=> nanoid()})
 //   verificationCode:string;
 

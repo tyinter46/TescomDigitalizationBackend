@@ -1,5 +1,3 @@
-
-
 //  export class TeachingStaff{
 //   @prop({required:true, unique:true})
 //   ogNum: string
@@ -19,4 +17,3 @@
 //   @prop({required:true})
 //   dateOfBirth: Date
 //   }
-
