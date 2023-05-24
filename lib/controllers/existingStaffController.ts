@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
-import CommonService from 'modules/common/service';
-import ExistingStaffService from 'modules/existingStaff/service';
-import logger from 'config/logger';
-import { IExistingStaff } from 'modules/existingStaff/model';
+import CommonService from '../modules/common/service';
+import ExistingStaffService from '../modules/existingStaff/service';
+import logger from '../config/logger';
+import { IExistingStaff } from '../modules/existingStaff/model';
 
 export class ExistingStaffController {
   private existingStaffService: ExistingStaffService = new ExistingStaffService();
-
+ 
   public getAllExistingStaff(req: any, res: Response) {
-
-    res.json(this.existingStaffService.getAllStaff())
+   
     const {
       pageNumber = 1,
       pageSize = 20,
@@ -58,27 +57,28 @@ export class ExistingStaffController {
       customLabels,
     };
 
-    // this.existingStaffService.getAllStaff(
-    //   {},
-    //   options,
-    //   (err: any, existingStaffData: IExistingStaff) => {
-    //     if (err) {
-    //       logger.error({ message: err, service: 'ExistingStaffService' });
-    //       return CommonService.mongoError(err, res);
-    //     } else {
-    //       CommonService.successResponse(
-    //         'Existing Staff retrieved  successfukly',
-    //         existingStaffData,
-    //         res
-    //       );
-    //     }
-    //   }
-    // );
+    this.existingStaffService.getAllStaff(
+      {},
+      options,
+      (err: any, existingStaffData: IExistingStaff) => {
+        if (err) {
+          logger.error({ message: err, service: 'ExistingStaffService' });
+          return CommonService.mongoError(err, res);
+        } else {
+          logger.info(existingStaffData)
+          CommonService.successResponse(
+            'Existing Staff retrieved  successfully',
+            existingStaffData,
+            res
+          );
+        }
+      }
+    );
   }
 
   public getExistingStaffById(req: Request, res: Response) {
-    if (req.params.staffId) {
-      const existingStaffFilter = { _id: req.params.staffId };
+    if (req.params.existingStaffId) {
+      const existingStaffFilter = { _id: req.params.existingStaffId };
       this.existingStaffService.filterStaff(
         existingStaffFilter,
         (err: any, existingStaffData: IExistingStaff) => {
@@ -96,5 +96,5 @@ export class ExistingStaffController {
     } else {
       CommonService.insufficientParameters(res);
     }
-  }
+   }
 }

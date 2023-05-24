@@ -6,8 +6,9 @@ import mongoose from 'mongoose';
 import expressSession from 'express-session';
 import passport from 'passport';
 import logger from './logger';
+import { CommonRoutes } from '../routes/commonRoutes';
+import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
-
 dotenv.config();
 
 class App {
@@ -17,12 +18,17 @@ class App {
       ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
       : process.env.MONGO_DB_URI;
 
+  private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
+  private commonRoutes: CommonRoutes = new CommonRoutes();
+
   constructor() {
     this.app = express();
     this.config();
     this.mongoSetup();
 
     //every other routes must come above the common routes
+    this.existingStaffRoutes.route(this.app);
+    this.commonRoutes.route(this.app);
   }
   private config(): void {
     this.app.use(
@@ -62,6 +68,7 @@ class App {
         _send.bind(res)(data);
         sent = true;
       } as any;
+      next();
     });
   }
 

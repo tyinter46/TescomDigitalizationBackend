@@ -12,9 +12,9 @@ const existingStaffValidationSchema = {
     gradeLevel: Joi.number().max(17).messages({
       'string.max': 'Page size cannot be greeater than 17',
     }),
-    dateOfBirth: Joi.string().isoDate().required(),
+    dateOfBirth: Joi.string().isoDate(),
     dateOfRetirement: Joi.string().isoDate().optional(),
-    dateOfFirstAppointment: Joi.string().isoDate().required(),
+    dateOfFirstAppointment: Joi.string().isoDate(),
 
     sort: Joi.string().optional(),
     pageNumber: Joi.number().max(100).messages({

@@ -5,5 +5,6 @@ import ExistingStaffService from './modules/existingStaff/service';
 
 http.createServer(app).listen(PORT, () => {
   logger.info(`Express server listening on port ${PORT} `);
- logger.info( new ExistingStaffService().getAllStaff())
+//  logger.info( new ExistingStaffService().getAllStaff())
+
 });
