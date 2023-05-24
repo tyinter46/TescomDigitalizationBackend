@@ -1,25 +1,24 @@
-import { Response } from "express";
-import { responseStatusCodes } from "./model";
+import { Response } from 'express';
+import { responseStatusCodes } from './model';
 
 class CommonService {
-   public static successResponse (message: string, DATA: any, res:Response){
-      res.status(responseStatusCodes.success).json({
-        STATUS: 'SUCCESS',
-        MESSAGE : message,
-        DATA,
-      })
+  public static successResponse(message: string, DATA: any, res: Response) {
+    res.status(responseStatusCodes.success).json({
+      STATUS: 'SUCCESS',
+      MESSAGE: message,
+      DATA,
+    });
+  }
 
-   }
-
-   public static failureResponse(message: string, DATA: any, response: Response ){
+  public static failureResponse(message: string, DATA: any, response: Response) {
     response.status(responseStatusCodes.bad_request).json({
-        SATATUS: 'FAILUE',
-        MESSAGE: message,
-        DATA,
-    })
-   }
- 
-   public static UnprocessableResponse(message: string, res: Response) {
+      SATATUS: 'FAILUE',
+      MESSAGE: message,
+      DATA,
+    });
+  }
+
+  public static UnprocessableResponse(message: string, res: Response) {
     res.status(responseStatusCodes.unprocessable).json({
       STATUS: 'FAILURE',
       MESSAGE: message,
@@ -47,7 +46,6 @@ class CommonService {
       MESSAGE: message,
     });
   }
-
 }
 
-export default CommonService
+export default CommonService;

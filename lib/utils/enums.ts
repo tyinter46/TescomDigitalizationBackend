@@ -13,13 +13,13 @@ export enum UserLevelEnum {
   DAS = '2',
   DMS = '2',
   DFA = '2',
-  TEACHING= '1',
-  NONTEACHING ='1'
+  TEACHING = '1',
+  NONTEACHING = '1',
 }
 
 export enum GenderEnum {
-  MALE = "Male",
-  FEMALE = "Female",
+  MALE = 'Male',
+  FEMALE = 'Female',
 }
 
 export enum ZonesEnum {
@@ -42,21 +42,21 @@ export enum ZonesEnum {
   IKENNE = 'Ikenne',
   REMONORTH = 'Remo North',
   OGUNWATERSIDE = 'Ogun Water Side',
-  IJEBUEAST = 'Ijebu East'
+  IJEBUEAST = 'Ijebu East',
 }
 
 export enum DivisionsEnum {
- EGBA = "Egba",
- REMO = "Remo",
- IJEBU = "Ijebu",
- YEWA = "Yewa"
+  EGBA = 'Egba',
+  REMO = 'Remo',
+  IJEBU = 'Ijebu',
+  YEWA = 'Yewa',
 }
 
 export enum QualificationsEnum {
- BED = "Bed",
- PGDE = "Pgde",
- BSC = "Bsc",
- HND = "HND",
- OND = "OND",
- NCE = "NCE"
+  BED = 'Bed',
+  PGDE = 'Pgde',
+  BSC = 'Bsc',
+  HND = 'HND',
+  OND = 'OND',
+  NCE = 'NCE',
 }
