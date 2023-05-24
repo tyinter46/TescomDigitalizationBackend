@@ -65,8 +65,7 @@ export class ExistingStaffController {
           logger.error({ message: err, service: 'ExistingStaffService' });
           return CommonService.mongoError(err, res);
         } else {
-          logger.info(existingStaffData)
-          CommonService.successResponse(
+             CommonService.successResponse(
             'Existing Staff retrieved  successfully',
             existingStaffData,
             res

@@ -14,7 +14,7 @@ export class ExistingStaffRoutes {
             }
         );
 
-        app.route('api/existingStaff/:existingStaffId')
+        app.route('/api/existingStaff/:existingStaffId')
         .get(ValidationMiddleware(existingStaffValidationSchema.verifyParamsId, 'params'),
         (req: Request, res: Response)=>{
             this.existingStaffController.getExistingStaffById(req, res)
