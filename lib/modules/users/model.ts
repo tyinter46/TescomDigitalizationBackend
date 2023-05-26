@@ -6,29 +6,70 @@ import {
   AccountStatusEnum,
   GenderEnum,
   DivisionsEnum,
-  QualificationsEnum,
+  QualificationsTypeEnum,
+  ServiceStatusEnum,
+  ProfessionalStatusEnum,
 } from 'utils/enums';
+
+
+export interface Qualifications {
+  degreeType: QualificationsTypeEnum;
+  specialization: string;
+  year: Date;
+  schoolName: string;
+}
+
+export const Qualifications = {
+  degreeType: String,
+  specialization: String,
+  year: Date,
+  schoolName: String,
+}
 
 export interface IUser {
   _id?: string;
-  staffName: {
-    surname: string;
-    middleName: string;
+  staffName?: {
+    firstName?: string;
+    middleName?: string;
     lastName?: string;
   };
+  gender?: GenderEnum;
+  phoneNumber?: string;
+  tscFileNumber?: string;
+  schoolOfPresentPosting?: string;
+  zone?: ZonesEnum;
+  division?: DivisionsEnum;
+  nationality?: string;
+  stateOfOrigin?: string;
+  lgOfOrigin?: string;
+  ward?: string;
+  qualifications?: Qualifications [];
+  subjectTaught?: string;
+  dateOfPresentSchoolPosting?: Date;
+  cadre?: string; 
+  dateOfFirstAppointment?: Date;
+  dateOfLastPromotion?: Date;
+  dateOfBirth?: Date;
+  gradeLevel?: Number;
+  pfa?: string;
+  pensionNumber?: string;
+  dateOfRetirement?: Date;
+  professionalStatus?: ProfessionalStatusEnum;
   email?: string;
-  ogNumber: string;
-  password: string;
-  lastVisited: Date;
+  ogNumber?: string;
+  password?: string;
   confirmationCode?: string;
   profilePhoto?: string;
   isAdmin?: boolean;
-  authLevel: UserLevelEnum;
+  authLevel?: UserLevelEnum;
   resetPasswordToken?: string;
   resetPasswordExpires?: number;
   isDeleted?: boolean;
   accountStatus?: AccountStatusEnum;
   accountSource?: AccountSourceEnum;
+  serviceStatus?: ServiceStatusEnum;
+  remark?: string;
+  lastVisited?: Date;
   // staffDetailsFromCaps? :
   modificationNotes?: ModificationNote[];
   authToken?: {

@@ -3,6 +3,13 @@ export enum AccountStatusEnum {
   ACTIVATED = 'activated',
 }
 
+export enum ServiceStatusEnum {
+  ACTIVE= 'Active',
+  RETIRED = 'Retired',
+  RESIGNED = 'Resigned',
+  DECEASED = 'Deceased',
+  ONSTUDYLEAVE='On study leave'
+}
 export enum AccountSourceEnum {
   LOCAL = 'local',
 }
@@ -13,8 +20,8 @@ export enum UserLevelEnum {
   DAS = '2',
   DMS = '2',
   DFA = '2',
-  TEACHING = '1',
-  NONTEACHING = '1',
+  TSCSTAFF = '1',
+
 }
 
 export enum GenderEnum {
@@ -52,7 +59,13 @@ export enum DivisionsEnum {
   YEWA = 'Yewa',
 }
 
-export enum QualificationsEnum {
+export enum ProfessionalStatusEnum {
+  PROFESSIONAL = 'Professional',
+  NONPROFESSIONAL = 'Non-Professional'
+}
+
+export enum QualificationsTypeEnum {
+  PHD = 'Phd',
   BED = 'Bed',
   PGDE = 'Pgde',
   BSC = 'Bsc',
@@ -60,3 +73,4 @@ export enum QualificationsEnum {
   OND = 'OND',
   NCE = 'NCE',
 }
+
