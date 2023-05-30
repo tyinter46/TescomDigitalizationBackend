@@ -2,7 +2,7 @@ import {Schema, Document, model,  PaginateModel} from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from 'modules/common/model';    
 import { IUser, Qualifications } from './model';
-import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, UserLevelEnum, ZonesEnum } from 'utils/enums';
+import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from 'utils/enums';
 
 const UserSchema = new Schema({
   
@@ -117,8 +117,8 @@ const UserSchema = new Schema({
     ogNumber:{
         type: String,
         required: [true, 'OG number is required'],
-        unique: [true, 'OG number already registered']
-    },
+        unique: [true, 'OG number already registered'],
+         },
     password: {type: String, required: true, select: false },
     confirmationCode: {
         type: String,
@@ -148,6 +148,12 @@ const UserSchema = new Schema({
         type: String,
         enum: [...Object.values(ServiceStatusEnum)],
         default: ServiceStatusEnum.ACTIVE
+     },
+     staffType: {
+        type: String,
+        enum: [...Object.values(StaffTypeEnum)],
+        default: null,
+        trim: true
      },
      remark: {
         type: String

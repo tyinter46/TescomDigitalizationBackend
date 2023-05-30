@@ -59,6 +59,11 @@ export enum DivisionsEnum {
   YEWA = 'Yewa',
 }
 
+export enum StaffTypeEnum {
+  TEACHING = 'Teaching',
+  NONTEACHING = 'Non-Teaching'
+}
+
 export enum ProfessionalStatusEnum {
   PROFESSIONAL = 'Professional',
   NONPROFESSIONAL = 'Non-Professional'

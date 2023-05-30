@@ -9,6 +9,7 @@ import {
   QualificationsTypeEnum,
   ServiceStatusEnum,
   ProfessionalStatusEnum,
+  StaffTypeEnum,
 } from 'utils/enums';
 
 
@@ -68,6 +69,7 @@ export interface IUser {
   accountStatus?: AccountStatusEnum;
   accountSource?: AccountSourceEnum;
   serviceStatus?: ServiceStatusEnum;
+  staffType?: StaffTypeEnum;
   remark?: string;
   lastVisited?: Date;
   // staffDetailsFromCaps? :
