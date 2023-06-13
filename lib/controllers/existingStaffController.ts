@@ -22,22 +22,59 @@ export class ExistingStaffController {
       id = '',
     } = req.query;
 
-    const query = {
-      nameOfOfficer: { $regex: nameOfOfficer, $options: 'i' },
-      $or: [
-        { ogNum: { $regex: ogNum, $options: 'i' } },
-        { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
-        { dateOfBirth: { $regex: dateOfBirth, $options: 'i' } },
-        { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
-        { dateOfRetirement: { $regex: dateOfRetirement, $options: 'i' } },
-      ],
-    };
+    // const query = {
+      
+    //   $or: [
+    //    {nameOfOfficer: { $regex: nameOfOfficer, $options: 'i' }},
+    //     { ogNum: { $regex: ogNum , $options: 'i' } },
+    //     { gradeLevel: { $regex: gradeLevel , $options: 'i' } },
+    //     { dateOfBirth },
+    //     { dateOfFirstAppointment },
+    //     { dateOfRetirement},
+    //   ],
+    // };
+
+    const query: any = {};
+    const orConditions: any[] = [];
+  
+    if (ogNum) {
+      orConditions.push({ ogNum: { $regex: ogNum, $options: 'i' } });
+    }
+  
+    if (nameOfOfficer) {
+      orConditions.push({ nameOfOfficer: { $regex: nameOfOfficer, $options: 'i' } });
+    }
+  
+    if (gradeLevel) {
+      orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
+    }
+  
+    if (dateOfBirth) {
+      orConditions.push({ dateOfBirth: new Date(dateOfBirth) });
+    }
+  
+    if (dateOfFirstAppointment) {
+      orConditions.push({ dateOfFirstAppointment: new Date(dateOfFirstAppointment) });
+    }
+  
+    if (dateOfRetirement) {
+      orConditions.push({ dateOfRetirement: new Date(dateOfRetirement) });
+    }
+  
     if (id) {
-      query['_id'] = { $eq: id };
+      query._id = { $eq: id };
+    }
+  
+    if (orConditions.length > 0) {
+      query.$or = orConditions;
     }
 
+    // if (id) {
+    //   query['_id'] = { $eq: id };
+    // }
+
     const sortQuery = {
-      ogNum: sort === 'desc' ? -1 : 1,
+      dateOfFirstAppointment: sort === 'desc' ? -1 : 1,
     };
 
     const customLabels = {
@@ -53,12 +90,12 @@ export class ExistingStaffController {
       page: parseInt(pageNumber as string, 10),
       limit: parseInt(pageSize as string, 10),
       srt: sortQuery,
-      // populate: [],
+      //  populate: [],
       customLabels,
     };
 
     this.existingStaffService.getAllStaff(
-      {},
+      query,
       options,
       (err: any, existingStaffData: IExistingStaff) => {
         if (err) {

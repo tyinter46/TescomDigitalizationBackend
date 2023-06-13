@@ -17,8 +17,8 @@ const existingStaffValidationSchema = {
     dateOfFirstAppointment: Joi.string().isoDate(),
 
     sort: Joi.string().optional(),
-    pageNumber: Joi.number().max(100).messages({
-      'string.max': 'Page number cannot be greater than 100',
+    pageNumber: Joi.number().max(600).messages({
+      'string.max': 'Page number cannot be greater than 600',
     }),
     pageSize: Joi.number().max(100).messages({
       'string.max': 'Page size cannot be greater than 100',
