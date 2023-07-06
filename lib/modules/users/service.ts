@@ -1,0 +1,24 @@
+import {IUser} from "./model";
+import UsersModel from "./schema";
+import { FilterQuery, UpdateQuery } from "mongoose"; 
+
+export default class UserService {
+ public createUser(params: IUser, callback:any){
+    const newUser = new UsersModel (params)
+    newUser.save(callback)
+ }
+
+ public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean){
+    if (selectPassword) UsersModel.findOne(query, callback).select('+password');
+    UsersModel.findOne(query, callback);
+ }
+
+ public deleteUser(query: FilterQuery<IUser>, callback: any){
+    UsersModel.deleteOne(query, callback);
+ }
+
+ public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any ){
+    UsersModel.findByIdAndUpdate(query, updateQuery, {new: true}, callback)
+ }
+
+}

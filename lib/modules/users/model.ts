@@ -51,7 +51,7 @@ export interface IUser {
   dateOfFirstAppointment?: Date;
   dateOfLastPromotion?: Date;
   dateOfBirth?: Date;
-  gradeLevel?: Number;
+  gradeLevel?: number;
   pfa?: string;
   pensionNumber?: string;
   dateOfRetirement?: Date;
