@@ -15,10 +15,10 @@ export enum AccountSourceEnum {
 }
 
 export enum UserLevelEnum {
-  DIT = '3',
-  DPRS = '2',
-  DAS = '2',
-  DMS = '2',
+  DIT = '6',
+  DAS = '5',
+  DMS = '4',
+  DPRS = '3',
   DFA = '2',
   TSCSTAFF = '1',
 
