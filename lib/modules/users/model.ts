@@ -1,4 +1,4 @@
-import { ModificationNote } from 'modules/common/model';
+import { ModificationNote } from '../common/model';
 import {
   UserLevelEnum,
   AccountSourceEnum,
@@ -10,7 +10,7 @@ import {
   ServiceStatusEnum,
   ProfessionalStatusEnum,
   StaffTypeEnum,
-} from 'utils/enums';
+} from '../../utils/enums';
 
 
 export interface Qualifications {

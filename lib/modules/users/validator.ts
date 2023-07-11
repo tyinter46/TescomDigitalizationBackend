@@ -8,6 +8,7 @@ const stringPassswordError =
   const userValidatorSchema = {
     signUp: Joi.object().keys({
         firstName: Joi.string().min(3).required(),
+        middleName: Joi.string().min(3),
         lastName: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
         ogNumber: Joi.string().email().required(),
@@ -18,7 +19,7 @@ const stringPassswordError =
         }),
     }), 
     verifyAuthToken: Joi.object().keys({
-        code: Joi.string().length(6).required().messages({
+        code: Joi.string().length(4).required().messages({
             'string.length': 'Invalid Params Id',
             'string.required': 'Params Id cannot be empty',
           }),

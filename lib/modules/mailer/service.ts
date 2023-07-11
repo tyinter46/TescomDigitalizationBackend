@@ -18,7 +18,7 @@ const transporter: Transporter = createTransport ({
         type: 'OAuth2',
         user: process.env.GMAIL_USER,
         clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLINET_SECRET,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         refreshToken: process.env.GMAIL_USER_REFRESH_TOKEN
     },
 });

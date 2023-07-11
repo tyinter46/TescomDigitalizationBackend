@@ -7,18 +7,25 @@ import expressSession from 'express-session';
 import passport from 'passport';
 import logger from './logger';
 import { CommonRoutes } from '../routes/commonRoutes';
+import { AuthRoutes } from '../routes/authRoutes';
+import { UserRoutes } from '../routes/userRoutes';
+
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
 dotenv.config();
 
 class App {
   public app: Application;
+
   public mongoUrl =
     process.env.NODE_ENV === 'development'
       ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
       : process.env.MONGO_DB_URI;
 
+      private authRoutes: AuthRoutes = new AuthRoutes ();
+      private userRoutes: UserRoutes = new UserRoutes ();
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
+
   private commonRoutes: CommonRoutes = new CommonRoutes();
 
   constructor() {
@@ -27,6 +34,8 @@ class App {
     this.mongoSetup();
 
     //every other routes must come above the common routes
+    this.authRoutes.route(this.app);
+    this.userRoutes.route(this.app)
     this.existingStaffRoutes.route(this.app);
     this.commonRoutes.route(this.app);
   }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken'
-import { UserLevelEnum } from "utils/enums";
-import CommonService from "modules/common/service";
+import { UserLevelEnum } from "../utils/enums";
+import CommonService from "../modules/common/service";
 import {IUser} from '../modules/users/model'
 
 class AuthMiddleWare {

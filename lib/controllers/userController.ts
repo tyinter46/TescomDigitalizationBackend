@@ -16,7 +16,7 @@ import redisCache from '../config/redisCache';
 
 dotenv.config();
 
-class userController{
+class UserController{
     private userService: UserService = new UserService();
     private mailService: MailService = new MailService();
 
@@ -149,4 +149,4 @@ class userController{
     }
 }
 
-export default userController
+export default UserController

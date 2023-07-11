@@ -1,8 +1,8 @@
 import {Schema, Document, model,  PaginateModel} from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
-import { ModificationNote } from 'modules/common/model';    
+import { ModificationNote } from '../common/model';    
 import { IUser, Qualifications } from './model';
-import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from 'utils/enums';
+import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from '../../utils/enums';
 
 const UserSchema = new Schema({
   

@@ -13,8 +13,8 @@ import passport from "passport";
 import redisCache from "../config/redisCache";
 import { AUTH_PREFIX } from "../utils/constants";
 
-import ExistingStaffService from "modules/existingStaff/service";
-import { IExistingStaff } from "modules/existingStaff/model";
+import ExistingStaffService from "../modules/existingStaff/service";
+import { IExistingStaff } from "../modules/existingStaff/model";
 
 
 class AuthController {
