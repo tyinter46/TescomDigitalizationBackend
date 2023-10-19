@@ -131,8 +131,11 @@ class AuthController {
                         lastName: lastName
                     },
                     email: email,
-                    ogNumber: ogNumber,
+                    ogNumber: existingStaff.ogNum,
                     password: hashedPassword,
+                    dateOfBirth : existingStaff.dateOfBirth,
+                    dateOfFirstAppointment : existingStaff.dateOfFirstAppointment,
+                    dateOfRetirement: existingStaff.dateOfRetirement,
                     authToken: {code: null, expiresIn: null},
                     modificationNotes:[
                         {

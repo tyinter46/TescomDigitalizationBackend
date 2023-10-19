@@ -48,13 +48,10 @@ const {
   subjectTaught,
   dateOfPresentSchoolPosting,
   cadre,
-  dateOfFirstAppointment,
   dateOfLastPromotion,
-  dateOfBirth,
   pfa,
   pensionNumber,
   professionalStatus,
-  email,
   profilePhoto = '',
   tetiaryCertificate ='',
   primarySchoolCertificate ='',
@@ -79,13 +76,10 @@ if(
   subjectTaught ||
   dateOfPresentSchoolPosting||
   cadre ||
-  dateOfFirstAppointment ||
   dateOfLastPromotion ||
-  dateOfBirth ||
   pfa ||
   pensionNumber ||
   professionalStatus ||
-  email ||
   profilePhoto ||
   tetiaryCertificate ||
   primarySchoolCertificate ||
@@ -96,8 +90,73 @@ if(
   staffType
 ) {
 
+  const userFilter= {_id: req.params.id};
+  this.userService.filterUser(userFilter, (err: any, userData: IUser)=>{
+    if (err){
+      CommonService.mongoError(err, res)
+       } else if (userData){
+        userData.modificationNotes.push({
+          modifiedOn: new Date(),
+          modifiedBy: req.user.id,
+          modificationNote: 'User Profile Updated Successfully',
+        });
 
-  
+        const userParams: IUser = {
+        _id: req.params.id,
+        gender: gender ? gender : userData.gender,
+        phoneNumber:  phoneNumber ?  phoneNumber : userData.phoneNumber,
+        schoolOfPresentPosting :  schoolOfPresentPosting  ?  schoolOfPresentPosting  : userData.schoolOfPresentPosting ,
+        zone : zone ? zone : userData.zone,
+        nationality: nationality ? nationality : userData.nationality,
+        stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
+        lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
+        ward: ward ? ward : userData.ward,
+        qualifications: qualifications ? qualifications : userData.qualifications,
+        subjectTaught: subjectTaught ? subjectTaught : userData.subjectTaught,
+        dateOfPresentSchoolPosting: dateOfPresentSchoolPosting ? dateOfPresentSchoolPosting : userData.dateOfPresentSchoolPosting,
+        cadre: cadre ? cadre : userData.cadre,
+        dateOfLastPromotion: dateOfLastPromotion ? dateOfLastPromotion : userData.dateOfLastPromotion,
+        pfa: pfa ? pfa : userData.pfa,
+        pensionNumber: pensionNumber ? pensionNumber : userData.pensionNumber,
+        professionalStatus: professionalStatus ? professionalStatus : userData.professionalStatus,
+        profilePhoto: profilePhoto ? profilePhoto : userData.profilePhoto,
+        tetiaryCertificate: tetiaryCertificate ? tetiaryCertificate : userData.tetiaryCertificate,
+        primarySchoolCertificate: primarySchoolCertificate ? primarySchoolCertificate : userData.primarySchoolCertificate,
+        secondarySchoolCert: secondarySchoolCert ? secondarySchoolCert : userData.secondarySchoolCert,
+        firstAppointmentLetter: firstAppointmentLetter ? firstAppointmentLetter : userData.firstAppointmentLetter,
+        lastPromotionLetter: lastPromotionLetter ? lastPromotionLetter : userData.lastPromotionLetter,
+        birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
+        staffType: staffType ? staffType : userData.staffType,
+        
+ }
+ this.userService.updateUser(userFilter, userParams, (err: any, updatedUserData: IUser | any) => {
+  if (err) {
+    CommonService.mongoError(err, res);
+  } else {
+    updatedUserData
+      .populate('profilePhoto')
+      .then((populatedUserData: any) => {
+        const profilePhoto = populatedUserData.profilePhoto
+          ? populatedUserData.profilePhoto?.imageUrl
+          : '';
+        return CommonService.successResponse(
+          'User Profile Updated Successfully',
+          { ...populatedUserData._doc, profilePhoto },
+          res
+        );
+      })
+      .catch((err: any) => {
+        return CommonService.mongoError(err, res);
+      });
+  }
+})
+
+
+
+             }
+  })
+
+
 }
 
   

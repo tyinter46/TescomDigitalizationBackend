@@ -29,7 +29,7 @@ export const Qualifications = {
 
 export interface IUser {
   _id?: string;
-  staffName: {
+  staffName?: {
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -57,7 +57,7 @@ export interface IUser {
   dateOfRetirement?: Date;
   professionalStatus?: ProfessionalStatusEnum;
   email?: string;
-  ogNumber: string;
+  ogNumber?: string;
   password?: string;
   confirmationCode?: string;
   profilePhoto?: string;
