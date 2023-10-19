@@ -13,7 +13,10 @@ export class UserRoutes{
     (req: Request, res: Response)=>{
           this.UserController.getUser(req, res)
     })
-
+    
+    app.get('/api/users', (req: Request, res: Response)=>{
+        this.UserController.getAllUsers(req, res)
+    })
 
     app.get('/api/user:id/forgotPassword',
     ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'), 

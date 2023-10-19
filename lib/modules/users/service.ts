@@ -3,7 +3,7 @@ import UsersModel from "./schema";
 import { FilterQuery, UpdateQuery } from "mongoose"; 
 
 export default class UserService {
- public createUser(params: IUser, callback:any){
+ public createUser(params: IUser,  callback:any){
     const newUser = new UsersModel (params)
     newUser.save(callback)
  }
@@ -21,4 +21,7 @@ export default class UserService {
     UsersModel.findByIdAndUpdate(query, updateQuery, {new: true}, callback)
  }
 
+ public getAllUser (query: any, options: any, callback: any){
+     UsersModel.paginate(query, options, callback)
+ }
 }

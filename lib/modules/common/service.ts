@@ -12,7 +12,7 @@ class CommonService {
 
   public static failureResponse(message: string, DATA: any, response: Response) {
     response.status(responseStatusCodes.bad_request).json({
-      SATATUS: 'FAILUE',
+      STATUS: 'FAILUE',
       MESSAGE: message,
       DATA,
     });

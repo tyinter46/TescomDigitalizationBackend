@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { NextFunction, Request, Response } from "express";
 import { AccountStatusEnum } from "../utils/enums";
 import CommonService from "../modules/common/service";
@@ -8,14 +9,17 @@ import UserService from "../modules/users/service";
 import AuthMiddleWare from "../middlewares/auth";
 import { IConfirmationMail } from "../modules/mailer/model";
 import logger from "../config/logger";
-import CryptoJS from "crypto-js";
+import cryptoJS from "crypto-js";
 import passport from "passport";
 import redisCache from "../config/redisCache";
 import { AUTH_PREFIX } from "../utils/constants";
 
+
 import ExistingStaffService from "../modules/existingStaff/service";
 import { IExistingStaff } from "../modules/existingStaff/model";
 
+
+dotenv.config();
 
 class AuthController {
     private userService: UserService = new UserService();
@@ -67,22 +71,27 @@ class AuthController {
         const { firstName, middleName, lastName, email, ogNumber, password} = req.body
         if(!firstName || !lastName || !email || !ogNumber || !password){
             return CommonService.insufficientParameters(res);
-        } else {
-            this.existingStaffService.filterStaff({ogNumber}, (err:any, existingStaff: IExistingStaff | null)=>{
+        } 
+         this.existingStaffService.filterStaff({ogNum: ogNumber}, (err:any, existingStaff: IExistingStaff | null )=>{
                 if (err) {
                     return CommonService.mongoError(err,res)
-                } if (!existingStaff){
+                } 
+                if (!existingStaff.ogNum){
+                    console.log(existingStaff)
+                     console.log(ogNumber)
                     return CommonService.notFoundResponse('Staff not found please visit admin', res)       
                 }
-
+                   
+        
            
-            this.userService.filterUser({email, ogNumber}, (err: any, userResult: IUser | null)=>{
-               if (err) return CommonService.mongoError(err, res);
+            this.userService.filterUser({email: email, ogNumber: existingStaff.ogNum}, (err: any, userResult: IUser | null)=>{
+                console.log(existingStaff)
+                if (err) return CommonService.mongoError(err, res);
                 const secret = `${email} -${ogNumber} - ${new Date(Date.now()).getTime().toString()}`;
                 const token = jwt.sign({email, ogNumber}, secret);
-                const fullName = `${firstName} - ${middleName} - ${lastName}`;
+                const fullName = `${firstName}  - ${lastName}`;
                 
-                const IConfirmationParams: IConfirmationMail ={
+                const IConfirmationParams: IConfirmationMail = {
                     confirmationCode: token,
                     email: email,
                     name: fullName,
@@ -102,15 +111,17 @@ class AuthController {
                 );
                }
                if (!userResult){
-                const hashedPassword = CryptoJS.AES.encrypt(
-                    password,
-                    process.env.CRYPTOJS_JS_PASS_SEC
+                 const hashedPassword = cryptoJS.AES.encrypt(
+                password,
+                   'secretkey'
                 ).toString();
-
+              console.log(hashedPassword)
                 const iUserParams: IUser = {
+
+                    //to use names from existing officer in staffName
                     staffName:{
                         firstName: firstName,
-                        middleName: middleName,
+                         middleName: middleName,
                         lastName: lastName
                     },
                     email: email,
@@ -128,30 +139,33 @@ class AuthController {
 
                 this.userService.createUser(iUserParams, (err: any, newUser: IUser)=>{
                     if (err) return CommonService.mongoError(err, res);
-                    this.mailService.sendAccountActivationRequest(IConfirmationParams)
-                    .then(()=>{
-                        CommonService.successResponse(
-                            'Account Created Successfully!',
-                            {_id: newUser._id},
-                            res
-                        )
-                    })
-                    .catch((err)=>{
-                        logger.error({message: 'MailService Error'});
-                        this.userService.deleteUser({_id: newUser._id}, ()=>{
-                            CommonService.failureResponse(
-                                'Mailer Service Error, kindly try again!',
-                                null, 
-                                res
-                            )
-                        })
-                    })
+                    CommonService.successResponse(
+                        'Account Created Successfully!',
+                        {_id: newUser._id},
+                        res
+                    )
+                    // this.mailService.sendAccountActivationRequest(IConfirmationParams)
+                    // .then(()=>{
+                    //     CommonService.successResponse(
+                    //         'Account Created Successfully!',
+                    //         {_id: newUser._id},
+                    //         res
+                    //     )
+                    // })
+                    // .catch((err)=>{
+                    //     logger.error({message: 'MailService Error'});
+                    //     this.userService.deleteUser({_id: newUser._id}, ()=>{
+                    //         CommonService.failureResponse(
+                    //             'Mailer Service Error, kindly try again!',
+                    //             null, 
+                    //             res
+                    //         )
+                    //     })
+                    // })
                 })
                }
             })
-        })
-        }
-        
+        })        
     }
 
     public confirmAccount (req: Request, res: Response){
@@ -232,24 +246,24 @@ public loginUser(req: Request, res: Response, next: NextFunction){
          }
    const code = Math.floor(Math.random() * (9999 - 1000) + 1000).toString();
       const codeExpiration = 15 * 60;
-      redisCache.set(AUTH_PREFIX + user._id, {code}, codeExpiration, (err: boolean)=>{
-        if (err){
-            return CommonService.failureResponse('An Error Occured Try Again', null, res);
-        }
-        this.mailService.send2FAAuthCode({name: user.staffName.firstName, email: user.email, code})
-        .then(()=> {
-            const {_id, email} = user;
-            CommonService.successResponse(`2Factor Code sent to ${email} `, { _id, email }, res)
-        })
-        .catch((err:any)=>{
-            logger.error({message: err, service: 'AuthService'})
-            return CommonService.failureResponse(
-                'Failed to send Two-factor code to email',
-                err,
-                res
-            )
-        })
-      })
+    //   redisCache.set(AUTH_PREFIX + user._id, {code}, codeExpiration, (err: boolean)=>{
+    //     if (err){
+    //         return CommonService.failureResponse('An Error Occured Try Again', null, res);
+    //     }
+    //     this.mailService.send2FAAuthCode({name: user.staffName.firstName, email: user.email, code})
+    //     .then(()=> {
+    //         const {_id, email} = user;
+    //         CommonService.successResponse(`2Factor Code sent to ${email} `, { _id, email }, res)
+    //     })
+    //     .catch((err:any)=>{
+    //         logger.error({message: err, service: 'AuthService'})
+    //         return CommonService.failureResponse(
+    //             'Failed to send Two-factor code to email',
+    //             err,
+    //             res
+    //         )
+    //     })
+    //   })
     })(req, res, next)
 }
 

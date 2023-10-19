@@ -6,12 +6,13 @@ const stringPassswordError =
   'Password must be strong. At least one upper case alphabet. At least one lower case alphabet. At least one digit. At least one special character. Minimum eight in length';
 
   const userValidatorSchema = {
+    
     signUp: Joi.object().keys({
         firstName: Joi.string().min(3).required(),
         middleName: Joi.string().min(3),
         lastName: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
-        ogNumber: Joi.string().email().required(),
+        ogNumber: Joi.string().min(7).required(),
         password: Joi.string().min(8).regex(strongPasswordRegex).required().messages({
             'string.min' : 'Must have at least 8 characters',
             'object.regex': 'Must have at least 8 characters',
@@ -46,7 +47,7 @@ const stringPassswordError =
     }),
 
     login: Joi.object().keys({
-        username: Joi.string().email().required(),
+        ogNumber: Joi.string().required(),
         password: Joi.string().min(8).regex(strongPasswordRegex).required().label('Password').messages({
           'string.min': 'Must have at least 8 characters',
           'object.regex': 'Must have at least 8 characters',

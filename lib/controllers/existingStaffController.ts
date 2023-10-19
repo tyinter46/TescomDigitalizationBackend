@@ -12,7 +12,7 @@ export class ExistingStaffController {
     const {
       pageNumber = 1,
       pageSize = 20,
-      ogNum = '',
+      ogNumber = '',
       nameOfOfficer = '',
       gradeLevel = '',
       dateOfBirth = '',
@@ -37,8 +37,8 @@ export class ExistingStaffController {
     const query: any = {};
     const orConditions: any[] = [];
   
-    if (ogNum) {
-      orConditions.push({ ogNum: { $regex: ogNum, $options: 'i' } });
+    if (ogNumber) {
+      orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
     }
   
     if (nameOfOfficer) {

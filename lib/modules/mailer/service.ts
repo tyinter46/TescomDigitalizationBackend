@@ -19,7 +19,7 @@ const transporter: Transporter = createTransport ({
         user: process.env.GMAIL_USER,
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        refreshToken: process.env.GMAIL_USER_REFRESH_TOKEN
+        refreshToken : process.env.GMAIL_USER_REFRESH_TOKEN
     },
 });
 
@@ -33,7 +33,10 @@ class MailService {
     public async sendAccountActivationRequest(params: IConfirmationMail){
         const html = confirmAccount(params.confirmationCode, this.client_base_url);
         try {
-            await this.transporter.verify();
+          const verifyTransporter =  await this.transporter.verify();
+                       await this.transporter.verify();
+
+             console.log(verifyTransporter)
             this.transporter.sendMail({
                 from: this.user,
                 to: params.email,

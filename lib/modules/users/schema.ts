@@ -1,4 +1,4 @@
-import {Schema, Document, model,  PaginateModel} from 'mongoose';
+import {Schema, Document, model,  PaginateModel, Mongoose} from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from '../common/model';    
 import { IUser, Qualifications } from './model';
@@ -17,45 +17,45 @@ const UserSchema = new Schema({
         type: String,
         enum: [...Object.values(GenderEnum).concat([null])],
         trim: true,
-        default: null,
+        default: undefined,
     },
     phoneNumber: {
         type: String,
-        required: [true, 'phone number is required'],
+        default: null,
         unique: true,
         },
     tscFileNumber: {
         type: String,
-        required: [true, 'file number is required'],
+        default: null,
         unique: true,
         },
     schoolOfPresentPosting:{
         type: String,
-        required: [true, 'school of present posting is required'],
+        default: null,
             },
     zone:{
         type: String,
         enum: [...Object.values(ZonesEnum)],
-        default: null,
-        required: [true, 'zone is required']
+        default: ZonesEnum.NULL,
+       
        },
     division:{
        type: String,
        enum:[...Object.values(DivisionsEnum)],
-       default: null,
-       required: [true, 'division is required']
+       default: DivisionsEnum.NULL,
+      
     },
     nationality: {
         type: String,
-        required: [true, 'nationality is required'],
+        default: null,
        },
     stateOfOrigin: {
         type: String,
-        required: [true, 'state of origin posting is required'],
+        default: null,
        },
     lgOfOrigin: {
         type: String,
-        required: [true, 'local government of  is required'],
+        default: null,
        },
     ward: {
         type: String,
@@ -64,40 +64,40 @@ const UserSchema = new Schema({
   
     subjectTaught: {
         type: String,
-        required: [true, 'subject taught in school is required'],
+        default: null,
        },
     dateOfPresentSchoolPosting:{
         type: Date,
-        required: [true, 'date of present posting is required'],
+        default: null,
       },
     cadre: {
         type: String,
-        required: [true, 'cadre is required'],
+        default: null,
       },
     dateOfFirstAppointment: {
         type: Date,
-        required: [true, 'date  of first appointment is required'],
+        default: null,
       },
     dateOfLastPromotion: {
         type: Date,
-        required: [true, 'date  of last promotion is required'],
+        default: null,
       },
     dateOfBirth:{
         type: Date,
-        required: [true, 'date  of birth is required'],
+        default: null,
       },
     gradeLevel:{
-        type: Number,
-        required: [true, 'grade level is required'],
+        type: String,
+        default: null,
         },
     pfa: {
         type: String,
-        required: [true, ' is required'],
+        default: null,
         
     },
     pensionNumber:{
         type: String, 
-        required: [true, 'pension number is required'],
+        default: null,
         },
     dateOfRetirement: {
         type: Date,
@@ -106,7 +106,7 @@ const UserSchema = new Schema({
     professionalStatus: {
         type: String,
         enum: [...Object.values(ProfessionalStatusEnum)],
-        default: null,
+        default: ProfessionalStatusEnum.NULL,
         trim: true
     },
     email:{
@@ -128,11 +128,17 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
      },
+     tetiaryCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     primarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     secondarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     firstAppointmentLetter:{type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     lastPromotionLetter:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     birthCertificate:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
     lastVisited:  {type: Date, default: new Date()},   
      authLevel:{
         type: String,
         enum: [...Object.values(UserLevelEnum)],
-        default: UserLevelEnum.TSCSTAFF,
+        default: UserLevelEnum.TSCSTAFF ,
         trim: true,
      },
      resetPasswordToken:{ type: String, default: null},
@@ -140,8 +146,8 @@ const UserSchema = new Schema({
      isDeleted: {type: Boolean, default: false},
      accountStatus:{
         type: String,
-        enum: [...Object.values(AccountStatusEnum)],
-        default: AccountStatusEnum.PENDING,
+        enum: [...Object.values(AccountStatusEnum)] ,
+        default: AccountStatusEnum.PENDING ,
         trim: true
      }, 
      serviceStatus: {
@@ -152,7 +158,7 @@ const UserSchema = new Schema({
      staffType: {
         type: String,
         enum: [...Object.values(StaffTypeEnum)],
-        default: null,
+        default: StaffTypeEnum.NULL,
         trim: true
      },
      remark: {

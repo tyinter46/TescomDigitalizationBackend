@@ -61,6 +61,12 @@ export interface IUser {
   password?: string;
   confirmationCode?: string;
   profilePhoto?: string;
+  tetiaryCertificate?:string;
+  primarySchoolCertificate?:string;
+  secondarySchoolCert?:string;
+  firstAppointmentLetter?:string;
+  lastPromotionLetter?:string;
+  birthCertificate?:string;
   isAdmin?: boolean;
   authLevel?: UserLevelEnum;
   resetPasswordToken?: string;
@@ -79,3 +85,9 @@ export interface IUser {
     expiresIn: number;
   };
 }
+
+// tetiaryCertificate?:string;
+//   primarySchoolCertificate?:string;
+//   schoolCert?:string;
+//   firstAppointmentLetter?:string;
+//   lastPromotionLetter?:string;

@@ -7,7 +7,7 @@ export class AuthRoutes {
     private authController: AuthController = new AuthController();
 
     public route (app: Application){
-        app.post('/api/auth.local/signup',
+        app.post('/api/auth/local/signup',
         ValidationMiddleware(userValidatorSchema.signUp, 'body'), (req: Request, res: Response)=> {
             this.authController.signup(req, res)
         });

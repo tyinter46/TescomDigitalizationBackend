@@ -12,17 +12,18 @@ dotenv.config();
 const userService = new UserService();
 
 passport.use(
-    new LocalStrategy.Strategy((username:string, password: string, done: any)=>{
+    new LocalStrategy.Strategy((ogNumber:string, password: string, done: any)=>{
         userService.filterUser(
-            {ogNumber: username},
+            {ogNumber: ogNumber},
             (err: any, user: IUser | null)=>{
                 if (!user || err){
-                    return done(err, false, {message: `Error or user with ${username} does not exist`});
+                    return done(err, false, {message: `Error or user with ${ogNumber} does not exist`});
 
                 } 
                 if (!user.password) return;
                 const hashedPassword = CryptoJS.AES.decrypt(user.password!, process.env.CRYPTO_JS_PASS_SEC);
                 const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8)
+                console.log(originalPassword)
                 if (!(password == originalPassword)){
                     return done(err, false, {message: `Wrong credentials`})
                 }
