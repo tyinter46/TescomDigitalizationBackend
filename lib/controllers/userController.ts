@@ -32,7 +32,80 @@ class UserController {
     });
   }
 
-  public updateUser(req: Request, res: Response) {}
+  public updateUser(req: Request | any, res: Response) {
+
+const {
+  gender, 
+  phoneNumber,
+  tscFileNumber,
+  schoolOfPresentPosting,
+  zone,
+  nationality,
+  stateOfOrigin,
+  lgOfOrigin,
+  ward,
+  qualifications,
+  subjectTaught,
+  dateOfPresentSchoolPosting,
+  cadre,
+  dateOfFirstAppointment,
+  dateOfLastPromotion,
+  dateOfBirth,
+  pfa,
+  pensionNumber,
+  professionalStatus,
+  email,
+  profilePhoto = '',
+  tetiaryCertificate ='',
+  primarySchoolCertificate ='',
+  secondarySchoolCert ='',
+  firstAppointmentLetter ='',
+  lastPromotionLetter = '',
+  birthCertificate ='',
+  staffType,
+  } = req.body 
+
+if( 
+  gender || 
+  phoneNumber ||
+  tscFileNumber ||
+  schoolOfPresentPosting ||
+  zone ||
+  nationality ||
+  stateOfOrigin ||
+  lgOfOrigin ||
+  ward ||
+  qualifications ||
+  subjectTaught ||
+  dateOfPresentSchoolPosting||
+  cadre ||
+  dateOfFirstAppointment ||
+  dateOfLastPromotion ||
+  dateOfBirth ||
+  pfa ||
+  pensionNumber ||
+  professionalStatus ||
+  email ||
+  profilePhoto ||
+  tetiaryCertificate ||
+  primarySchoolCertificate ||
+  secondarySchoolCert ||
+  firstAppointmentLetter ||
+  lastPromotionLetter ||
+  birthCertificate ||
+  staffType
+) {
+
+
+  
+}
+
+  
+  }
+
+
+
+
 
   public getAllUsers(req: Request, res: Response) {
     const {
@@ -42,9 +115,9 @@ class UserController {
        pageSize = 10,
        firstName = '',
        tscFileNumber = '',
-      // middleName = '',
-      // lastName = '',
-      // gradeLevel = '',
+       middleName = '',
+       lastName = '',
+       gradeLevel = '',
       // dateOfBirth = '',
       // dateOfFirstAppointment = '',
       // dateOfRetirement = '',
@@ -64,7 +137,7 @@ class UserController {
         { 'staffName.firstName': { $regex: firstName, $options: 'i' } },
         { 'staffName.lastName': { $regex: firstName, $options: 'i' } },
         { 'staffName.middleName': { $regex: firstName, $options: 'i' } },
-        // { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
+        { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
          { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
         // { dateOfBirth: { $regex: dateOfBirth, $options: 'i' } },
         // { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },

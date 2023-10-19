@@ -8,9 +8,7 @@ const stringPassswordError =
   const userValidatorSchema = {
     
     signUp: Joi.object().keys({
-        firstName: Joi.string().min(3).required(),
-        middleName: Joi.string().min(3),
-        lastName: Joi.string().min(3).required(),
+      
         email: Joi.string().email().required(),
         ogNumber: Joi.string().min(7).required(),
         password: Joi.string().min(8).regex(strongPasswordRegex).required().messages({

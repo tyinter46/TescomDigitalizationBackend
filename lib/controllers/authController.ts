@@ -68,8 +68,8 @@ class AuthController {
     }
 
     public signup(req: Request, res: Response){
-        const { firstName, middleName, lastName, email, ogNumber, password} = req.body
-        if(!firstName || !lastName || !email || !ogNumber || !password){
+        const { email, ogNumber, password} = req.body
+        if( !email || !ogNumber || !password){
             return CommonService.insufficientParameters(res);
         } 
          this.existingStaffService.filterStaff({ogNum: ogNumber}, (err:any, existingStaff: IExistingStaff | null )=>{
@@ -77,19 +77,25 @@ class AuthController {
                     return CommonService.mongoError(err,res)
                 } 
                 if (!existingStaff.ogNum){
-                    console.log(existingStaff)
-                     console.log(ogNumber)
+                   
                     return CommonService.notFoundResponse('Staff not found please visit admin', res)       
                 }
                    
+          
         
            
             this.userService.filterUser({email: email, ogNumber: existingStaff.ogNum}, (err: any, userResult: IUser | null)=>{
-                console.log(existingStaff)
+                console.log(existingStaff.nameOfOfficer)
+
+                const firstName = existingStaff.nameOfOfficer.split(" ")[1]
+                const middleName = existingStaff.nameOfOfficer.split(" ")[2] + existingStaff.nameOfOfficer.split(" ")[3]
+                const lastName = existingStaff.nameOfOfficer.split(" ")[4] + " " + existingStaff.nameOfOfficer.split(" ")[5]
+
+                console.log(firstName, middleName, lastName)
                 if (err) return CommonService.mongoError(err, res);
                 const secret = `${email} -${ogNumber} - ${new Date(Date.now()).getTime().toString()}`;
                 const token = jwt.sign({email, ogNumber}, secret);
-                const fullName = `${firstName}  - ${lastName}`;
+                const fullName = `${existingStaff.nameOfOfficer}`;
                 
                 const IConfirmationParams: IConfirmationMail = {
                     confirmationCode: token,
