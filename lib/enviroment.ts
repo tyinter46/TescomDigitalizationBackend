@@ -1,3 +1,4 @@
+
 enum Enviroments {
   local_environment = 'local',
   dev_environment = 'dev',
@@ -6,6 +7,7 @@ enum Enviroments {
 }
 
 class Enviroment {
+  
   private enviroment: string;
 
   constructor(enviroment: string) {
@@ -23,7 +25,7 @@ class Enviroment {
     if (this.enviroment === Enviroments.qa_environment) {
       return 8083;
     }
-    return 8000;
+    return 8001;
   }
   getDbName(): string {
     if (this.enviroment === Enviroments.prod_environment) {

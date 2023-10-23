@@ -12,11 +12,26 @@ class CommonService {
 
   public static failureResponse(message: string, DATA: any, response: Response) {
     response.status(responseStatusCodes.bad_request).json({
-      SATATUS: 'FAILUE',
+      STATUS: 'FAILUE',
       MESSAGE: message,
       DATA,
     });
   }
+
+  public static unAuthorizedResponse(message: string, res: Response) {
+    res.status(responseStatusCodes.unauthorized).json({
+      STATUS: 'FAILURE',
+      MESSAGE: message,
+    });
+  }
+  
+  public static forbiddenResponse(message: string, res: Response) {
+    res.status(responseStatusCodes.forbidden).json({
+      STATUS: 'FAILURE',
+      MESSAGE: message,
+    });
+  }
+
 
   public static UnprocessableResponse(message: string, res: Response) {
     res.status(responseStatusCodes.unprocessable).json({

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Schema, ValidationErrorItem } from 'joi';
-import CommonService from 'modules/common/service';
+import CommonService from '../modules/common/service';
 
 const ValidationMiddleware = (schema: Schema, property: any) => {
   return (req: Request, res: Response, next: NextFunction) => {

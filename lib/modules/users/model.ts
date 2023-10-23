@@ -1,4 +1,4 @@
-import { ModificationNote } from 'modules/common/model';
+import { ModificationNote } from '../common/model';
 import {
   UserLevelEnum,
   AccountSourceEnum,
@@ -6,29 +6,78 @@ import {
   AccountStatusEnum,
   GenderEnum,
   DivisionsEnum,
-  QualificationsEnum,
-} from 'utils/enums';
+  QualificationsTypeEnum,
+  ServiceStatusEnum,
+  ProfessionalStatusEnum,
+  StaffTypeEnum,
+} from '../../utils/enums';
+
+
+export interface Qualifications {
+  degreeType: QualificationsTypeEnum;
+  specialization: string;
+  year: Date;
+  schoolName: string;
+}
+
+export const Qualifications = {
+  degreeType: String,
+  specialization: String,
+  year: Date,
+  schoolName: String,
+}
 
 export interface IUser {
   _id?: string;
-  staffName: {
-    surname: string;
-    middleName: string;
-    lastName?: string;
+  staffName?: {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
   };
+  gender?: GenderEnum;
+  phoneNumber?: string;
+  tscFileNumber?: string;
+  schoolOfPresentPosting?: string;
+  zone?: ZonesEnum;
+  division?: DivisionsEnum;
+  nationality?: string;
+  stateOfOrigin?: string;
+  lgOfOrigin?: string;
+  ward?: string;
+  qualifications?: Qualifications [];
+  subjectTaught?: string;
+  dateOfPresentSchoolPosting?: Date;
+  cadre?: string; 
+  dateOfFirstAppointment?: Date;
+  dateOfLastPromotion?: Date;
+  dateOfBirth?: Date;
+  gradeLevel?: number;
+  pfa?: string;
+  pensionNumber?: string;
+  dateOfRetirement?: Date;
+  professionalStatus?: ProfessionalStatusEnum;
   email?: string;
-  ogNumber: string;
-  password: string;
-  lastVisited: Date;
+  ogNumber?: string;
+  password?: string;
   confirmationCode?: string;
   profilePhoto?: string;
+  tetiaryCertificate?:string;
+  primarySchoolCertificate?:string;
+  secondarySchoolCert?:string;
+  firstAppointmentLetter?:string;
+  lastPromotionLetter?:string;
+  birthCertificate?:string;
   isAdmin?: boolean;
-  authLevel: UserLevelEnum;
+  authLevel?: UserLevelEnum;
   resetPasswordToken?: string;
   resetPasswordExpires?: number;
   isDeleted?: boolean;
   accountStatus?: AccountStatusEnum;
   accountSource?: AccountSourceEnum;
+  serviceStatus?: ServiceStatusEnum;
+  staffType?: StaffTypeEnum;
+  remark?: string;
+  lastVisited?: Date;
   // staffDetailsFromCaps? :
   modificationNotes?: ModificationNote[];
   authToken?: {
@@ -36,3 +85,9 @@ export interface IUser {
     expiresIn: number;
   };
 }
+
+// tetiaryCertificate?:string;
+//   primarySchoolCertificate?:string;
+//   schoolCert?:string;
+//   firstAppointmentLetter?:string;
+//   lastPromotionLetter?:string;
