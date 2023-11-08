@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tyinter46/TescomDigitalizationBackend#readme",
   "dependencies": {
+    "argon2": "^0.31.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
@@ -42,6 +43,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@types/argon2": "^0.15.0",
     "@types/bcrypt": "^5.0.1",
     "@types/cors": "^2.8.13",
     "@types/crypto-js": "^4.1.1",

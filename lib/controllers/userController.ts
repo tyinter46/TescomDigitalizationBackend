@@ -10,7 +10,7 @@ import RedisCache from '../config/redisCache';
 import MailService from '../modules/mailer/service';
 import { IForgotPassword } from '../modules/mailer/model';
 import logger from '../config/logger';
-import CryptoJS from 'crypto-js';
+import cryptoJS from 'crypto-js';
 import redisCache from '../config/redisCache';
 import { IExistingStaff } from 'modules/existingStaff/model';
 

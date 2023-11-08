@@ -34,11 +34,11 @@ passport.use(
   
             try {
            
-              // const hashedPassword = cryptoJS.AES.decrypt(user.password, process.env.CRYPTO_JS_PASS_SEC);
-              // const originalPassword = hashedPassword.toString(cryptoJS.enc.Utf8);
-              // console.log(originalPassword.length)
-              if (password === user.password) {
-                // console.log('Password matches.');
+              const hashedPassword = cryptoJS.AES.decrypt(user.password, process.env.CRYPTO_JS_PASS_SEC);
+              const originalPassword = hashedPassword.toString(cryptoJS.enc.Utf8);
+              console.log(originalPassword.length)
+            if (password === user.password) {
+                console.log('Password matches.');
                 return done(null, user);
               } else {
                 console.log('Password does not match.');

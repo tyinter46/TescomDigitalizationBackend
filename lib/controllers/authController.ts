@@ -119,7 +119,7 @@ class AuthController {
                if (!userResult){
                  const hashedPassword = cryptoJS.AES.encrypt(
                 password,
-                   'secretkey'
+                   process.env.CRYPTO_JS_PASS_SEC
                 ).toString();
               console.log(hashedPassword)
                 const iUserParams: IUser = {
@@ -249,7 +249,7 @@ public loginUser(req: Request, res: Response, next: NextFunction){
           return CommonService.unAuthorizedResponse('Wrong Credentials!', res);
         }
     
-        // console.log( AccountStatusEnum.ACTIVATED.length)
+        console.log( AccountStatusEnum.ACTIVATED.length)
         // if (user.accountStatus !== AccountStatusEnum.ACTIVATED) {
             
         //   return CommonService.unAuthorizedResponse(
