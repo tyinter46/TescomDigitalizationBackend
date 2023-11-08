@@ -13,6 +13,7 @@ export class AuthRoutes {
         });
 
         app.post ('/api/auth/local/signin',
+        
         ValidationMiddleware(userValidatorSchema.login, 'body'),
         (req: Request, res: Response, next: NextFunction)=>{
             this.authController.loginUser(req, res, next)
@@ -20,7 +21,7 @@ export class AuthRoutes {
         })
 
         app.patch('/api/auth/local/verify/:id/verify-auth', 
-           ValidationMiddleware(userValidatorSchema.verifyAuthToken, 'body'),
+          ValidationMiddleware(userValidatorSchema.verifyAuthToken, 'body'),
            ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
            (req:Request, res: Response)=>{
              this.authController.verifyAuthToken(req, res)

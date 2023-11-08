@@ -9,7 +9,7 @@ export default class UserService {
  }
 
  public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean){
-    if (selectPassword) UsersModel.findOne(query, callback).select('+password');
+    if (selectPassword) UsersModel.findOne(query, callback).select('password');
     UsersModel.findOne(query, callback);
  }
 
@@ -17,8 +17,9 @@ export default class UserService {
     UsersModel.deleteOne(query, callback);
  }
 
- public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any ){
-    UsersModel.findByIdAndUpdate(query, updateQuery, {new: true}, callback)
+ public updateUser(useParams: IUser, callback: any) {
+   const query = { _id: useParams._id };
+   UsersModel.findOneAndUpdate(query, useParams, callback);
  }
 
  public getAllUser (query: any, options: any, callback: any){

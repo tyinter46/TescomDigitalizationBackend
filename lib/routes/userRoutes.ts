@@ -2,6 +2,7 @@ import UserController from "../controllers/userController";
 import { Application, Request, Response } from "express";
 import ValidationMiddleware from "../middlewares/validator";    
 import userValidatorSchema from "../modules/users/validator";   
+import AuthMiddleWare from "../middlewares/auth";
 
 export class UserRoutes{
        
@@ -12,7 +13,13 @@ export class UserRoutes{
     ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
     (req: Request, res: Response)=>{
           this.UserController.getUser(req, res)
-    })
+    }).patch('/api/user/:id',
+         ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+         AuthMiddleWare.verifyToken,
+         (req: Request, res: Response)=>{
+            this.UserController.updateUser(req, res);
+        })
+    
     
     app.get('/api/users', (req: Request, res: Response)=>{
         this.UserController.getAllUsers(req, res)

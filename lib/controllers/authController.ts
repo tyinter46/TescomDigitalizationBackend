@@ -187,8 +187,7 @@ class AuthController {
             }
             const updateData = { status: AccountStatusEnum.ACTIVATED, confirmationCode: null }
             this.userService.updateUser(
-                {_id: userData._id},
-                updateData,
+                      updateData,
                 (err: any, updateData: IUser)=>{
                     if (err) return CommonService.mongoError(err, res);
                     if(!updateData){
@@ -239,45 +238,44 @@ public verifyAuthToken(req: Request, res: Response){
 }
 
 public loginUser(req: Request, res: Response, next: NextFunction){
-    passport.authenticate('local', (err:any, user: IUser, info: any)=>{
+    passport.authenticate('local', function (err:any, user: IUser | any, info:any) {
         if (info && Object.keys(info).length > 0) {
-            return CommonService.failureResponse(info?.message, null, res)
-        }else if (err){
-            next(err);
-        } else if (!user){
-            return CommonService.unAuthorizedResponse('Unauthorized', res);
-         } else if (user && user.accountStatus !== AccountStatusEnum.ACTIVATED){
-                    return CommonService.failureResponse(
-                        'Account not activated, kindly check your mail for activation link',
-                        null,
-                        res
-                    )
-         }
-   const code = Math.floor(Math.random() * (9999 - 1000) + 1000).toString();
-      const codeExpiration = 15 * 60;
-    //   redisCache.set(AUTH_PREFIX + user._id, {code}, codeExpiration, (err: boolean)=>{
-    //     if (err){
-    //         return CommonService.failureResponse('An Error Occured Try Again', null, res);
-    //     }
-    //     this.mailService.send2FAAuthCode({name: user.staffName.firstName, email: user.email, code})
-    //     .then(()=> {
-    //         const {_id, email} = user;
-    //         CommonService.successResponse(`2Factor Code sent to ${email} `, { _id, email }, res)
-    //     })
-    //     .catch((err:any)=>{
-    //         logger.error({message: err, service: 'AuthService'})
-    //         return CommonService.failureResponse(
-    //             'Failed to send Two-factor code to email',
-    //             err,
-    //             res
-    //         )
-    //     })
-    //   })
-    })(req, res, next)
+          return CommonService.failureResponse(info?.message, null, res);
+        }
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return CommonService.unAuthorizedResponse('Wrong Credentials!', res);
+        }
+    
+        // console.log( AccountStatusEnum.ACTIVATED.length)
+        // if (user.accountStatus !== AccountStatusEnum.ACTIVATED) {
+            
+        //   return CommonService.unAuthorizedResponse(
+        //     'Pending Account. Please Verify Your Email!',
+        //     res
+        //   );
+        // }
+        req.logIn(user, function (err) {
+          if (err) {
+            return next(err);
+          }
+          const accessToken = AuthMiddleWare.createToken(user);
+          user.populate('profilePhoto', (err: any, userData: any) => {
+            if (err) return CommonService.mongoError(err, res);
+            const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
+            const { password, ...rest } = user._doc;
+            return CommonService.successResponse(
+              'Successful',
+              { user: { ...rest, profilePhoto }, accessToken },
+              res
+            );
+          });
+        });
+      })(req, res, next);
 }
-
 
 }
 
 export default AuthController
-

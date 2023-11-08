@@ -33,155 +33,155 @@ class UserController {
   }
 
   public updateUser(req: Request | any, res: Response) {
+    const {
+      gender,
+      phoneNumber,
+      tscFileNumber,
+      schoolOfPresentPosting,
+      zone,
+      nationality,
+      stateOfOrigin,
+      lgOfOrigin,
+      ward,
+      qualifications,
+      subjectTaught,
+      dateOfPresentSchoolPosting,
+      cadre,
+      dateOfLastPromotion,
+      pfa,
+      pensionNumber,
+      professionalStatus,
+      profilePhoto = '',
+      tetiaryCertificate = '',
+      primarySchoolCertificate = '',
+      secondarySchoolCert = '',
+      firstAppointmentLetter = '',
+      lastPromotionLetter = '',
+      birthCertificate = '',
+      staffType,
+    } = req.body;
 
-const {
-  gender, 
-  phoneNumber,
-  tscFileNumber,
-  schoolOfPresentPosting,
-  zone,
-  nationality,
-  stateOfOrigin,
-  lgOfOrigin,
-  ward,
-  qualifications,
-  subjectTaught,
-  dateOfPresentSchoolPosting,
-  cadre,
-  dateOfLastPromotion,
-  pfa,
-  pensionNumber,
-  professionalStatus,
-  profilePhoto = '',
-  tetiaryCertificate ='',
-  primarySchoolCertificate ='',
-  secondarySchoolCert ='',
-  firstAppointmentLetter ='',
-  lastPromotionLetter = '',
-  birthCertificate ='',
-  staffType,
-  } = req.body 
+    if (
+      gender ||
+      phoneNumber ||
+      tscFileNumber ||
+      schoolOfPresentPosting ||
+      zone ||
+      nationality ||
+      stateOfOrigin ||
+      lgOfOrigin ||
+      ward ||
+      qualifications ||
+      subjectTaught ||
+      dateOfPresentSchoolPosting ||
+      cadre ||
+      dateOfLastPromotion ||
+      pfa ||
+      pensionNumber ||
+      professionalStatus ||
+      profilePhoto ||
+      tetiaryCertificate ||
+      primarySchoolCertificate ||
+      secondarySchoolCert ||
+      firstAppointmentLetter ||
+      lastPromotionLetter ||
+      birthCertificate ||
+      staffType
+    ) {
+      const userFilter = { _id: req.params.id };
+      this.userService.filterUser(userFilter, (err: any, userData: IUser) => {
+        if (err) {
+          CommonService.mongoError(err, res);
+        } else if (userData) {
+          if (!userData.modificationNotes) {
+            userData.modificationNotes = [];
+          }
+          userData.modificationNotes.push({
+            modifiedOn: new Date(Date.now()),
+            modifiedBy: req.id,
+            modificationNote: 'User Profile Updated Successfully',
+          });
 
-if( 
-  gender || 
-  phoneNumber ||
-  tscFileNumber ||
-  schoolOfPresentPosting ||
-  zone ||
-  nationality ||
-  stateOfOrigin ||
-  lgOfOrigin ||
-  ward ||
-  qualifications ||
-  subjectTaught ||
-  dateOfPresentSchoolPosting||
-  cadre ||
-  dateOfLastPromotion ||
-  pfa ||
-  pensionNumber ||
-  professionalStatus ||
-  profilePhoto ||
-  tetiaryCertificate ||
-  primarySchoolCertificate ||
-  secondarySchoolCert ||
-  firstAppointmentLetter ||
-  lastPromotionLetter ||
-  birthCertificate ||
-  staffType
-) {
+          const userParams: IUser = {
+            _id: req.params.id,
 
-  const userFilter= {_id: req.params.id};
-  this.userService.filterUser(userFilter, (err: any, userData: IUser)=>{
-    if (err){
-      CommonService.mongoError(err, res)
-       } else if (userData){
-        userData.modificationNotes.push({
-          modifiedOn: new Date(),
-          modifiedBy: req.user.id,
-          modificationNote: 'User Profile Updated Successfully',
-        });
-
-        const userParams: IUser = {
-        _id: req.params.id,
-        gender: gender ? gender : userData.gender,
-        phoneNumber:  phoneNumber ?  phoneNumber : userData.phoneNumber,
-        schoolOfPresentPosting :  schoolOfPresentPosting  ?  schoolOfPresentPosting  : userData.schoolOfPresentPosting ,
-        zone : zone ? zone : userData.zone,
-        nationality: nationality ? nationality : userData.nationality,
-        stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
-        lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
-        ward: ward ? ward : userData.ward,
-        qualifications: qualifications ? qualifications : userData.qualifications,
-        subjectTaught: subjectTaught ? subjectTaught : userData.subjectTaught,
-        dateOfPresentSchoolPosting: dateOfPresentSchoolPosting ? dateOfPresentSchoolPosting : userData.dateOfPresentSchoolPosting,
-        cadre: cadre ? cadre : userData.cadre,
-        dateOfLastPromotion: dateOfLastPromotion ? dateOfLastPromotion : userData.dateOfLastPromotion,
-        pfa: pfa ? pfa : userData.pfa,
-        pensionNumber: pensionNumber ? pensionNumber : userData.pensionNumber,
-        professionalStatus: professionalStatus ? professionalStatus : userData.professionalStatus,
-        profilePhoto: profilePhoto ? profilePhoto : userData.profilePhoto,
-        tetiaryCertificate: tetiaryCertificate ? tetiaryCertificate : userData.tetiaryCertificate,
-        primarySchoolCertificate: primarySchoolCertificate ? primarySchoolCertificate : userData.primarySchoolCertificate,
-        secondarySchoolCert: secondarySchoolCert ? secondarySchoolCert : userData.secondarySchoolCert,
-        firstAppointmentLetter: firstAppointmentLetter ? firstAppointmentLetter : userData.firstAppointmentLetter,
-        lastPromotionLetter: lastPromotionLetter ? lastPromotionLetter : userData.lastPromotionLetter,
-        birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
-        staffType: staffType ? staffType : userData.staffType,
-        
- }
- this.userService.updateUser(userFilter, userParams, (err: any, updatedUserData: IUser | any) => {
-  if (err) {
-    CommonService.mongoError(err, res);
-  } else {
-    updatedUserData
-      .populate('profilePhoto')
-      .then((populatedUserData: any) => {
-        const profilePhoto = populatedUserData.profilePhoto
-          ? populatedUserData.profilePhoto?.imageUrl
-          : '';
-        return CommonService.successResponse(
-          'User Profile Updated Successfully',
-          { ...populatedUserData._doc, profilePhoto },
-          res
-        );
-      })
-      .catch((err: any) => {
-        return CommonService.mongoError(err, res);
+            gender: gender ? gender : userData.gender,
+            phoneNumber: phoneNumber ? phoneNumber : userData.phoneNumber,
+            schoolOfPresentPosting: schoolOfPresentPosting
+              ? schoolOfPresentPosting
+              : userData.schoolOfPresentPosting,
+            zone: zone ? zone : userData.zone,
+            nationality: nationality ? nationality : userData.nationality,
+            stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
+            lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
+            ward: ward ? ward : userData.ward,
+            qualifications: qualifications ? qualifications : userData.qualifications,
+            subjectTaught: subjectTaught ? subjectTaught : userData.subjectTaught,
+            dateOfPresentSchoolPosting: dateOfPresentSchoolPosting
+              ? dateOfPresentSchoolPosting
+              : userData.dateOfPresentSchoolPosting,
+            cadre: cadre ? cadre : userData.cadre,
+            dateOfLastPromotion: dateOfLastPromotion
+              ? dateOfLastPromotion
+              : userData.dateOfLastPromotion,
+            pfa: pfa ? pfa : userData.pfa,
+            pensionNumber: pensionNumber ? pensionNumber : userData.pensionNumber,
+            professionalStatus: professionalStatus
+              ? professionalStatus
+              : userData.professionalStatus,
+            profilePhoto: profilePhoto ? profilePhoto : userData.profilePhoto,
+            tetiaryCertificate: tetiaryCertificate
+              ? tetiaryCertificate
+              : userData.tetiaryCertificate,
+            primarySchoolCertificate: primarySchoolCertificate
+              ? primarySchoolCertificate
+              : userData.primarySchoolCertificate,
+            secondarySchoolCert: secondarySchoolCert
+              ? secondarySchoolCert
+              : userData.secondarySchoolCert,
+            firstAppointmentLetter: firstAppointmentLetter
+              ? firstAppointmentLetter
+              : userData.firstAppointmentLetter,
+            lastPromotionLetter: lastPromotionLetter
+              ? lastPromotionLetter
+              : userData.lastPromotionLetter,
+            birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
+            staffType: staffType ? staffType : userData.staffType,
+          };
+          
+          this.userService.updateUser(userParams, (err: any) => {
+            if (err) {
+              logger.error({ message: err, service: 'UserService' });
+              CommonService.mongoError(err, res);
+            } else {
+              CommonService.successResponse('update user successfull', null, res);
+            }
+          });
+        } else {
+          CommonService.failureResponse('invalid user', null, res);
+        }
       });
-  }
-})
-
-
-
-             }
-  })
-
-
-}
-
-  
-  }
-
-
-
-
+    } else {
+      CommonService.insufficientParameters(res);
+    }
+               }
 
   public getAllUsers(req: Request, res: Response) {
     const {
       ogNumber = '',
       // // accountStatus = AccountStatusEnum.PENDING,
-       pageNumber = 1,
-       pageSize = 10,
-       firstName = '',
-       tscFileNumber = '',
-       middleName = '',
-       lastName = '',
-       gradeLevel = '',
+      pageNumber = 1,
+      pageSize = 10,
+      firstName = '',
+      tscFileNumber = '',
+      middleName = '',
+      lastName = '',
+      gradeLevel = '',
       // dateOfBirth = '',
       // dateOfFirstAppointment = '',
       // dateOfRetirement = '',
-       sort = 'desc',
-       id = '',
+      sort = 'desc',
+      id = '',
       isDeleted = false,
     } = req.query;
 
@@ -190,14 +190,14 @@ if(
     const orConditions: any[] = [];
 
     const query = {
-       ogNumber: { $regex: ogNumber, $options: 'i' },
+      ogNumber: { $regex: ogNumber, $options: 'i' },
 
       $or: [
         { 'staffName.firstName': { $regex: firstName, $options: 'i' } },
         { 'staffName.lastName': { $regex: firstName, $options: 'i' } },
         { 'staffName.middleName': { $regex: firstName, $options: 'i' } },
         { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
-         { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
+        { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
         // { dateOfBirth: { $regex: dateOfBirth, $options: 'i' } },
         // { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
         // { dateOfRetirement:{ $regex: dateOfRetirement, $options: 'i' } }
@@ -212,7 +212,6 @@ if(
       createdAt: sort === 'desc' ? -1 : 1,
     };
 
-    
     const customLabels = {
       totalDocs: 'itemsCount',
       docs: 'users',
@@ -231,7 +230,6 @@ if(
     };
 
     this.userService.getAllUser(query, options, (err: any, users: IUser) => {
-     
       if (err) {
         logger.error({ message: err, service: 'userService' });
         return CommonService.mongoError(err, res);
