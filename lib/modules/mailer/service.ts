@@ -34,9 +34,7 @@ class MailService {
         const html = confirmAccount(params.confirmationCode, this.client_base_url);
         try {
           const verifyTransporter =  await this.transporter.verify();
-                       await this.transporter.verify();
-
-             console.log(verifyTransporter)
+           console.log(verifyTransporter)
             this.transporter.sendMail({
                 from: this.user,
                 to: params.email,

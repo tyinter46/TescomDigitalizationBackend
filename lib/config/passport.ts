@@ -18,7 +18,7 @@ passport.use(
         userService.filterUser(
           { ogNumber: ogNumber },
           (err: any, user: IUser | null) => {
-            user.password = "Password@123"
+      
             if (err) {
               return done(err, false, { message: 'Error occurred while finding the user' });
             }
@@ -28,16 +28,18 @@ passport.use(
             }
   
             if (!user.password) {
-              console.log(user)
-              return done(null, false, { message: 'User password is missing' });
+              console.log(user.password)
+              return done(null, false, { message: 'User password is missing' })
             }
   
             try {
-           
-              const hashedPassword = cryptoJS.AES.decrypt(user.password, process.env.CRYPTO_JS_PASS_SEC);
-              const originalPassword = hashedPassword.toString(cryptoJS.enc.Utf8);
-              console.log(originalPassword.length)
-            if (password === user.password) {
+            const databasePassword = user.password
+            // console.log(JSON.stringify({databasePassword}))
+              const hashedPassword = cryptoJS.AES.decrypt(databasePassword, process.env.CRYPTO_JS_PASS_SEC).toString(cryptoJS.enc.Utf8);
+              // const originalPassword = hashedPassword.toString(cryptoJS.enc.Utf8);
+           console.log(hashedPassword)
+            
+            if (password == hashedPassword) {
                 console.log('Password matches.');
                 return done(null, user);
               } else {

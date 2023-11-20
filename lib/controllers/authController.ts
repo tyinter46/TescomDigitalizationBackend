@@ -96,6 +96,7 @@ class AuthController {
                 const secret = `${email} -${ogNumber} - ${new Date(Date.now()).getTime().toString()}`;
                 const token = jwt.sign({email, ogNumber}, secret);
                 const fullName = `${existingStaff.nameOfOfficer}`;
+                console.log(token)
                 
                 const IConfirmationParams: IConfirmationMail = {
                     confirmationCode: token,
@@ -250,13 +251,13 @@ public loginUser(req: Request, res: Response, next: NextFunction){
         }
     
         console.log( AccountStatusEnum.ACTIVATED.length)
-        // if (user.accountStatus !== AccountStatusEnum.ACTIVATED) {
+        if (user.accountStatus !== AccountStatusEnum.ACTIVATED) {
             
-        //   return CommonService.unAuthorizedResponse(
-        //     'Pending Account. Please Verify Your Email!',
-        //     res
-        //   );
-        // }
+          return CommonService.unAuthorizedResponse(
+            'Pending Account. Please Verify Your Email!',
+            res
+          );
+        }
         req.logIn(user, function (err) {
           if (err) {
             return next(err);
