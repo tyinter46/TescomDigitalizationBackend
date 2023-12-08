@@ -17,9 +17,8 @@ export default class UserService {
     UsersModel.deleteOne(query, callback);
  }
 
- public updateUser(useParams: IUser, callback: any) {
-   const query = { _id: useParams._id };
-   UsersModel.findOneAndUpdate(query, useParams, callback);
+ public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
+   UsersModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
  }
 
  public getAllUser (query: any, options: any, callback: any){

@@ -9,7 +9,8 @@ const stringPassswordError =
     
     signUp: Joi.object().keys({
       
-        email: Joi.string().email().required(),
+
+        phoneNumber: Joi.string().min(14).required(),
         ogNumber: Joi.string().min(7).required(),
         password: Joi.string().min(8).regex(strongPasswordRegex).required().messages({
             'string.min' : 'Must have at least 8 characters',
@@ -53,7 +54,7 @@ const stringPassswordError =
         }),
       }),
       confirmAccount: Joi.object().keys({
-        confirmationCode: Joi.string().min(50).required().messages({
+        code: Joi.string().min(6).required().messages({
           'string.min': 'Invalid Confirmation Code',
           'string.required': 'Confirmation Code cannot be empty',
         }),

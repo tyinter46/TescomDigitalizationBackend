@@ -4,7 +4,7 @@ import cryptoJS from 'crypto-js';
 import LocalStrategy from 'passport-local';
 import UserService from '../modules/users/service'
 import {IUser} from '../modules/users/model'
-import { AccountSourceEnum, AccountStatusEnum } from 'utils/enums';
+import { AccountStatusEnum } from '../utils/enums';
 import logger from './logger';
 
 
@@ -17,7 +17,7 @@ passport.use(
       async function (ogNumber: string, password: string, done: any) {
         userService.filterUser(
           { ogNumber: ogNumber },
-          (err: any, user: IUser | null) => {
+          (err: any, user: IUser ) => {
       
             if (err) {
               return done(err, false, { message: 'Error occurred while finding the user' });
@@ -26,9 +26,9 @@ passport.use(
             if (!user) {
               return done(null, false, { message: `User with ${ogNumber} does not exist` });
             }
-  
-            if (!user.password) {
-              console.log(user.password)
+         
+            if (!password) {
+          
               return done(null, false, { message: 'User password is missing' })
             }
   
@@ -40,14 +40,15 @@ passport.use(
            console.log(hashedPassword)
             
             if (password == hashedPassword) {
-                console.log('Password matches.');
+                  
+               // user.accountStatus = AccountStatusEnum.ACTIVATED
                 return done(null, user);
               } else {
-                console.log('Password does not match.');
+             
                 return done(null, false, { message: 'Incorrect password' });
               }
             } catch (decryptionError) {
-              console.error('Error during decryption:', decryptionError);
+            
               return done(decryptionError, false, { message: 'Error during password decryption' });
             }
           },

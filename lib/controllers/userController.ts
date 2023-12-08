@@ -149,7 +149,7 @@ class UserController {
             staffType: staffType ? staffType : userData.staffType,
           };
           
-          this.userService.updateUser(userParams, (err: any) => {
+          this.userService.updateUser(  { _id: userData._id },userParams, (err: any) => {
             if (err) {
               logger.error({ message: err, service: 'UserService' });
               CommonService.mongoError(err, res);

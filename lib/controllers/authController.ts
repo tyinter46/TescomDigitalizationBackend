@@ -13,7 +13,7 @@ import cryptoJS from "crypto-js";
 import passport from "passport";
 import redisCache from "../config/redisCache";
 import { AUTH_PREFIX } from "../utils/constants";
-
+import SMSService from '../modules/sms/service';
 
 import ExistingStaffService from "../modules/existingStaff/service";
 import { IExistingStaff } from "../modules/existingStaff/model";
@@ -25,6 +25,7 @@ class AuthController {
     private userService: UserService = new UserService();
     private existingStaffService :  ExistingStaffService = new ExistingStaffService()
     private mailService: MailService = new MailService();
+    private smsService : SMSService = new SMSService ()
 
 
     public loginSuccess(req: Request, res: Response){
@@ -68,8 +69,8 @@ class AuthController {
     }
 
     public signup(req: Request, res: Response){
-        const { email, ogNumber, password} = req.body
-        if( !email || !ogNumber || !password){
+        const { phoneNumber, ogNumber, password} = req.body
+        if( !phoneNumber || !ogNumber || !password){
             return CommonService.insufficientParameters(res);
         } 
          this.existingStaffService.filterStaff({ogNum: ogNumber}, (err:any, existingStaff: IExistingStaff | null )=>{
@@ -84,7 +85,7 @@ class AuthController {
           
         
            
-            this.userService.filterUser({email: email, ogNumber: existingStaff.ogNum}, (err: any, userResult: IUser | null)=>{
+            this.userService.filterUser({phoneNumber: phoneNumber, ogNumber: existingStaff.ogNum}, (err: any, userResult: IUser | null)=>{
                 console.log(existingStaff.nameOfOfficer)
 
                 const firstName = existingStaff.nameOfOfficer.split(" ")[1]
@@ -93,16 +94,14 @@ class AuthController {
 
                 console.log(firstName, middleName, lastName)
                 if (err) return CommonService.mongoError(err, res);
-                const secret = `${email} -${ogNumber} - ${new Date(Date.now()).getTime().toString()}`;
-                const token = jwt.sign({email, ogNumber}, secret);
-                const fullName = `${existingStaff.nameOfOfficer}`;
-                console.log(token)
-                
-                const IConfirmationParams: IConfirmationMail = {
-                    confirmationCode: token,
-                    email: email,
-                    name: fullName,
-                };
+                // const secret = `${email} -${ogNumber} - ${new Date(Date.now()).getTime().toString()}`;
+                // const token = jwt.sign({email, ogNumber}, secret);
+                // const fullName = `${existingStaff.nameOfOfficer}`;
+                // console.log(token)
+                const code = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+                const codeExpiration = 15 * 60;
+                const authToken = { code, expiresIn: Date.now() };
+          
 
                 if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING){
                     return CommonService.failureResponse(
@@ -122,7 +121,7 @@ class AuthController {
                 password,
                    process.env.CRYPTO_JS_PASS_SEC
                 ).toString();
-              console.log(hashedPassword)
+            
                 const iUserParams: IUser = {
 
                     //to use names from existing officer in staffName
@@ -131,9 +130,11 @@ class AuthController {
                          middleName: middleName,
                         lastName: lastName
                     },
-                    email: email,
+                    email: null,
+                    phoneNumber:phoneNumber,
                     ogNumber: existingStaff.ogNum,
                     password: hashedPassword,
+                    confirmationCode: code,
                     dateOfBirth : existingStaff.dateOfBirth,
                     dateOfFirstAppointment : existingStaff.dateOfFirstAppointment,
                     dateOfRetirement: existingStaff.dateOfRetirement,
@@ -154,6 +155,29 @@ class AuthController {
                         {_id: newUser._id},
                         res
                     )
+                   try {
+                    
+                  
+                    redisCache.set(AUTH_PREFIX + newUser._id, { code }, codeExpiration, (err: boolean) => {
+                        if (err) {
+                          return CommonService.failureResponse('An Error Occured Try Again', null, res);
+                        }
+                    this.smsService.sendCode({phoneNumer:newUser.phoneNumber, code:code})
+                    .then(()=>{
+                           const {_id, phoneNumber} = newUser;
+                           
+                          CommonService.successResponse(`2Factor Code sent to ${phoneNumber} `, { _id, phoneNumber }, res)
+                    }).catch((err: any) => {
+                        logger.error({ message: err, service: 'SmSService' });
+                        this.userService.deleteUser({_id: newUser._id}, ()=>{
+                            CommonService.failureResponse(
+                                'Failed to send Two-factor code to phone number, please sign up again',
+                                null, 
+                                res
+                            )})
+                    
+                     
+                    
                     // this.mailService.sendAccountActivationRequest(IConfirmationParams)
                     // .then(()=>{
                     //     CommonService.successResponse(
@@ -164,52 +188,32 @@ class AuthController {
                     // })
                     // .catch((err)=>{
                     //     logger.error({message: 'MailService Error'});
-                    //     this.userService.deleteUser({_id: newUser._id}, ()=>{
-                    //         CommonService.failureResponse(
-                    //             'Mailer Service Error, kindly try again!',
-                    //             null, 
-                    //             res
-                    //         )
+                        // this.userService.deleteUser({_id: newUser._id}, ()=>{
+                        //     CommonService.failureResponse(
+                        //         'Mailer Service Error, kindly try again!',
+                        //         null, 
+                        //         res
+                        //     )
                     //     })
-                    // })
+                    })
                 })
-               }
-            })
+            }
+                catch (error) {
+                    throw new error
+                }
+               })
+            
+         }
+        })
+        
         })        
     }
 
     public confirmAccount (req: Request, res: Response){
-        const {confirmationCode} = req.params;
-        if (!confirmationCode) return CommonService.insufficientParameters(res);
-        this.userService.filterUser({confirmationCode}, (err: any, userData: IUser)=>{
-            if (err) return CommonService.mongoError(err, res);
-            if(!userData){
-                return CommonService.failureResponse('Code expired or invalid', null, res);
-            }
-            const updateData = { status: AccountStatusEnum.ACTIVATED, confirmationCode: null }
-            this.userService.updateUser(
-                      updateData,
-                (err: any, updateData: IUser)=>{
-                    if (err) return CommonService.mongoError(err, res);
-                    if(!updateData){
-                        logger.error({message: 'Account Activation'});
-                        return CommonService.failureResponse('Account Activation failed!', null, res)
-                    }
-                    return CommonService.successResponse('Account Activation was successful',
-                    updateData, 
-                    res
-                    )
-                }
-
-            )
-        
-    })
-}
-
-public verifyAuthToken(req: Request, res: Response){
-    const {id} = req.params;
-    const {code: token} = req.body
-    if (!token || id) return CommonService.insufficientParameters(res);
+      
+        const {id} = req.params;
+    const {code} = req.body
+    if (!code || !id) return CommonService.insufficientParameters(res);
     this.userService.filterUser({_id: id}, (err: any, user: IUser | any)=>{
         if (err) {
             logger.error({message: err, service: 'Auth Service'})
@@ -218,28 +222,90 @@ public verifyAuthToken(req: Request, res: Response){
         if (!user){
             return CommonService.unAuthorizedResponse('You seem not to be authorized', res)   
         }
+
+
         redisCache.get(AUTH_PREFIX + id, (error: boolean, authToken: {code: number} | null)=>{
             if (error || !authToken){
                 return CommonService.failureResponse('Auth Code expired or does not exist', null, res)
             }
-            if (token !==authToken.code.toString()){
+            if (code !==authToken.code.toString()){
                 return CommonService.forbiddenResponse('Forbidden!', res)
             } else {
                 redisCache.del(AUTH_PREFIX + id, ()=>{
-                    const accessToken = AuthMiddleWare.createToken(user);
+                    user.AccountStatusEnum = 'activated'
+                    // const accessToken = AuthMiddleWare.createToken(user);
+                   
                     return CommonService.successResponse(
-                        'You have successfully login',
-                        {...user.doc, accessToken},
+                       'Your account has been confirmed, kindly proceed to login',
+                       null,
                         res
-                    )
+                     )
                 })
             }
         })
-    })
+    //     this.userService.filterUser({confirmationCode: code}, (err: any, userData: IUser)=>{
+    //         if (err) return CommonService.mongoError(err, res);
+    //         if(!userData){
+    //             return CommonService.failureResponse('Code expired or invalid', null, res);
+    //         }
+    //         const updateData = { status: AccountStatusEnum.ACTIVATED, confirmationCode: null }
+    //         console.log(updateData)
+    //         this.userService.updateUser(
+    //             { _id: userData._id },
+    //                   updateData,
+    //             (err: any, updateData: IUser)=>{
+    //                 if (err) return CommonService.mongoError(err, res);
+    //                 if(!updateData){
+    //                     logger.error({message: 'Account Activation'});
+    //                     return CommonService.failureResponse('Account Activation failed!', null, res)
+    //                 }
+    //                 return CommonService.successResponse('Account Activation was successful',
+    //                 updateData, 
+    //                 res
+    //                 )
+    //             }
+
+    //         )
+        
+    // })
+})
+
+// public verifyAuthToken(req: Request, res: Response){
+//     const {id} = req.params;
+//     const {code: token} = req.body
+//     if (!token || id) return CommonService.insufficientParameters(res);
+//     this.userService.filterUser({_id: id}, (err: any, user: IUser | any)=>{
+//         if (err) {
+//             logger.error({message: err, service: 'Auth Service'})
+//         return CommonService.mongoError(err,res)
+//         }
+//         if (!user){
+//             return CommonService.unAuthorizedResponse('You seem not to be authorized', res)   
+//         }
+//         redisCache.get(AUTH_PREFIX + id, (error: boolean, authToken: {code: number} | null)=>{
+//             if (error || !authToken){
+//                 return CommonService.failureResponse('Auth Code expired or does not exist', null, res)
+//             }
+//             if (token !==authToken.code.toString()){
+//                 return CommonService.forbiddenResponse('Forbidden!', res)
+//             } else {
+//                 redisCache.del(AUTH_PREFIX + id, ()=>{
+//                     const accessToken = AuthMiddleWare.createToken(user);
+//                     return CommonService.successResponse(
+//                         'You have successfully login',
+//                         {...user.doc, accessToken},
+//                         res
+//                     )
+//                 })
+//             }
+//         })
+// //     })
 }
 
 public loginUser(req: Request, res: Response, next: NextFunction){
+    
     passport.authenticate('local', function (err:any, user: IUser | any, info:any) {
+      
         if (info && Object.keys(info).length > 0) {
           return CommonService.failureResponse(info?.message, null, res);
         }
@@ -250,11 +316,12 @@ public loginUser(req: Request, res: Response, next: NextFunction){
           return CommonService.unAuthorizedResponse('Wrong Credentials!', res);
         }
     
-        console.log( AccountStatusEnum.ACTIVATED.length)
-        if (user.accountStatus !== AccountStatusEnum.ACTIVATED) {
+    
+        console.log(user)
+        if (user.accountStatus != 'activated') {
             
           return CommonService.unAuthorizedResponse(
-            'Pending Account. Please Verify Your Email!',
+            'Pending Account. Please Verify Your phone number!',
             res
           );
         }
@@ -263,6 +330,7 @@ public loginUser(req: Request, res: Response, next: NextFunction){
             return next(err);
           }
           const accessToken = AuthMiddleWare.createToken(user);
+        console.log(accessToken)
           user.populate('profilePhoto', (err: any, userData: any) => {
             if (err) return CommonService.mongoError(err, res);
             const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';

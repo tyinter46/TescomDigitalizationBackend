@@ -20,12 +20,12 @@ export class AuthRoutes {
 
         })
 
-        app.patch('/api/auth/local/verify/:id/verify-auth', 
-          ValidationMiddleware(userValidatorSchema.verifyAuthToken, 'body'),
-           ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
-           (req:Request, res: Response)=>{
-             this.authController.verifyAuthToken(req, res)
-           })
+        // app.patch('/api/auth/local/verify/:id/verify-auth', 
+        //   ValidationMiddleware(userValidatorSchema.verifyAuthToken, 'body'),
+        //    ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+        //    (req:Request, res: Response)=>{
+        //      this.authController.verifyAuthToken(req, res)
+        //    })
 
            app.get('/api/auth/mail/:id/success',
            ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
@@ -33,8 +33,9 @@ export class AuthRoutes {
             this.authController.sendAccountSuccessMail(req,res)
            })
 
-           app.get('/api/auth/local/account-activation/:confirmationCode', 
-           ValidationMiddleware(userValidatorSchema.confirmAccount, 'params'),
+           app.patch('/api/auth/local/account-activation/:id', 
+           ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+           ValidationMiddleware(userValidatorSchema.confirmAccount, 'body'),
            (req: Request, res: Response)=>{
             this.authController.confirmAccount(req, res);
            })
