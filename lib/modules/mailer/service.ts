@@ -109,26 +109,26 @@ public async sendAccountSuccessEmail(params: Partial<IConfirmationMail>){
         throw new Error(err.toString())
     }
 }
-
-public  async sendPasswordReset (params: IForgotPassword){
-    const html = forgotPassword(params.token, this.client_base_url, params.name)
-    try{
-        await this.transporter.verify();
-        this.transporter.sendMail({
-           from: this.user,
-           to: params.email,
-           subject: PASSWORD_RESET_HELP,
-           html: html,
-        },
-        (error)=>{
-            if (error) throw new Error(error.toString());
-            else return true
-        })
-    }   catch (error){
-         throw new Error(error)
-    }
 }
+// public  async sendPasswordReset (params: IForgotPassword){
+//     const html = forgotPassword(params.token, this.client_base_url, params.name)
+//     try{
+//         await this.transporter.verify();
+//         this.transporter.sendMail({
+//            from: this.user,
+//            to: params.email,
+//            subject: PASSWORD_RESET_HELP,
+//            html: html,
+//         },
+//         (error)=>{
+//             if (error) throw new Error(error.toString());
+//             else return true
+//         })
+//     }   catch (error){
+//          throw new Error(error)
+//     }
+// }
 
-}
+// }
 
-export default MailService;
+//export default MailService;

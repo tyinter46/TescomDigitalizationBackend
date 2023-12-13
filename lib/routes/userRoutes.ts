@@ -25,19 +25,19 @@ export class UserRoutes{
         this.UserController.getAllUsers(req, res)
     })
 
-    app.get('/api/user:id/forgotPassword',
-    ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'), 
+    app.get('/api/user/forgotPassword',
+    //ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'), 
     ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),
     (req: Request, res: Response)=>{
         this.UserController.forgotPassword(req, res);
     })
    
 
-    app.get('api/user/forgotPassword/verify/:token',
-    ValidationMiddleware(userValidatorSchema.verifyForgotPasswordToken, 'params'),
-    (req: Request , res: Response)=>{
-        this.UserController.confirmForgotPasswordToken(req, res)
-    })
+    // app.get('api/user/forgotPassword/verify/:token',
+    // ValidationMiddleware(userValidatorSchema.verifyForgotPasswordToken, 'params'),
+    // (req: Request , res: Response)=>{
+    //     this.UserController.confirmForgotPasswordToken(req, res)
+    // })
 
     app.get ('api/user/:id/resetPassword',
     ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
@@ -46,6 +46,14 @@ export class UserRoutes{
         this.UserController.resetPassword(req, res);
     })
 
+
+    app.patch(
+        '/api/users/:id/password-update',
+        AuthMiddleWare.verifyToken,
+        (req: Request, res: Response) => {
+          this.UserController.updateUserPassword(req, res);
+        }
+      );
 
 
 

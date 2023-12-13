@@ -3,7 +3,7 @@ import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from '../common/model';    
 import { IUser, Qualifications } from './model';
 import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from '../../utils/enums';
-
+import { Image } from '../upload/schema';
 const UserSchema = new Schema({
   
     staffName:{
@@ -125,7 +125,7 @@ const UserSchema = new Schema({
     confirmationCode: {
         type: String,
     },
-    profilePhoto: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+    profilePhoto: {type:Schema.Types.ObjectId, ref: Image},
      isAdmin: {
         type: Boolean,
         default: false

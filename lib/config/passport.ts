@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import passport from 'passport';
-import cryptoJS from 'crypto-js';
+import cryptoJs from 'crypto-js';
 import LocalStrategy from 'passport-local';
 import UserService from '../modules/users/service'
 import {IUser} from '../modules/users/model'
@@ -9,8 +9,9 @@ import logger from './logger';
 
 
 
-const userService = new UserService();
+
 dotenv.config();
+const userService = new UserService();
 passport.use(
     new LocalStrategy.Strategy(
       { usernameField: 'ogNumber', passwordField: 'password' },
@@ -18,7 +19,7 @@ passport.use(
         userService.filterUser(
           { ogNumber: ogNumber },
           (err: any, user: IUser ) => {
-      
+           
             if (err) {
               return done(err, false, { message: 'Error occurred while finding the user' });
             }
@@ -27,25 +28,22 @@ passport.use(
               return done(null, false, { message: `User with ${ogNumber} does not exist` });
             }
          
-            if (!password) {
+            if (!user.password) {
           
               return done(null, false, { message: 'User password is missing' })
             }
   
             try {
             const databasePassword = user.password
-            // console.log(JSON.stringify({databasePassword}))
-              const hashedPassword = cryptoJS.AES.decrypt(databasePassword, process.env.CRYPTO_JS_PASS_SEC).toString(cryptoJS.enc.Utf8);
-              // const originalPassword = hashedPassword.toString(cryptoJS.enc.Utf8);
-           console.log(hashedPassword)
-            
+          
+              const hashedPassword = cryptoJs.AES.decrypt(databasePassword, process.env.CRYPTO_JS_PASS_SEC).toString(cryptoJs.enc.Utf8);
+              
+        
             if (password == hashedPassword) {
-                  
-               // user.accountStatus = AccountStatusEnum.ACTIVATED
-                return done(null, user);
+                      return done(null, user);
               } else {
              
-                return done(null, false, { message: 'Incorrect password' });
+                return done(err, false, { message: 'Incorrect password' });
               }
             } catch (decryptionError) {
             
@@ -60,7 +58,7 @@ passport.use(
   
 
     passport.serializeUser(async function (user: IUser, done: any){
-        done(null, {id: user._id});
+        done(null, {_id: user._id});
 
     })
 

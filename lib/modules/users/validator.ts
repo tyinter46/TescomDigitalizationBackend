@@ -42,7 +42,7 @@ const stringPassswordError =
   }),
 
     forgotPassword: Joi.object().keys({
-        email: Joi.string().email().required(),
+        ogNumber: Joi.string().email().required(),
     }),
 
     login: Joi.object().keys({
@@ -58,6 +58,10 @@ const stringPassswordError =
           'string.min': 'Invalid Confirmation Code',
           'string.required': 'Confirmation Code cannot be empty',
         }),
+        ogNumber: Joi.string().min(7).required().messages({
+          'string.min': 'Invalid ogNumber Number',
+          'string.required': 'ogNumber cannot be empty',
+        })
       }),
       verifyParamsId: Joi.object().keys({
         id: Joi.string().length(24).required().messages({
