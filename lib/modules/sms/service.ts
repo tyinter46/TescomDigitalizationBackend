@@ -77,7 +77,7 @@ export default class SMSService {
     }
   }
 
-  public async sendResetPasswordToken(params: {phoneNumber: string}) {
+  public async sendResetPasswordToken(params: {phoneNumber: string, newToken: string}) {
     const data = {
       api_key: this.termiiApiKey,
       message_type: 'NUMERIC',
@@ -87,8 +87,8 @@ export default class SMSService {
       pin_attempts: 10,
       pin_time_to_live: 5,
       pin_length: 6,
-      pin_placeholder: `< UPDATED PASSWORD >`,
-      message_text: `Your TESCOM password has been updated. kindly contact HQ if this is not done from your end`,
+      pin_placeholder: `< token >`,
+      message_text: `Your TESCOM password reset token is ${params.newToken}, this expires in 15 minutes`,
       pin_type: 'NUMERIC',
     };
     const options = {

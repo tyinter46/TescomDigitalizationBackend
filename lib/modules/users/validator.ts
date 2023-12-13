@@ -39,10 +39,11 @@ const stringPassswordError =
         token: Joi.string().required().messages({
             'string.required': 'Token is required',
     }),
+    ogNumber: Joi.string().required()
   }),
 
     forgotPassword: Joi.object().keys({
-        ogNumber: Joi.string().email().required(),
+        ogNumber: Joi.string().required(),
     }),
 
     login: Joi.object().keys({

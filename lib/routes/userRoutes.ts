@@ -24,10 +24,9 @@ export class UserRoutes{
     app.get('/api/users', (req: Request, res: Response)=>{
         this.UserController.getAllUsers(req, res)
     })
+    app.get('/api/forgotPassword',
 
-    app.get('/api/user/forgotPassword',
-    //ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'), 
-    ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),
+     ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),
     (req: Request, res: Response)=>{
         this.UserController.forgotPassword(req, res);
     })
@@ -39,8 +38,8 @@ export class UserRoutes{
     //     this.UserController.confirmForgotPasswordToken(req, res)
     // })
 
-    app.get ('api/user/:id/resetPassword',
-    ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+    app.patch ('/api/resetPassword',
+    // ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
     ValidationMiddleware(userValidatorSchema.resetPassword, 'body'),
     (req: Request, res: Response)=>{
         this.UserController.resetPassword(req, res);

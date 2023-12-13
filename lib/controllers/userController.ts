@@ -250,20 +250,21 @@ class UserController {
         return CommonService.failureResponse('Password Link expired try Again!', null, res);
       }
       this.userService.filterUser(
-        { ogNumber: ogNumber },
+        {  ogNumber },
         (err: any, userData: any) => {
           if (err) return CommonService.mongoError(err, res);
           else if (!userData) {
             return CommonService.failureResponse('Not Authorized', null, res);
           }
-          const hashedPassword = CryptoJS.AES.encrypt(
+          const hashedPassword = cryptoJs.AES.encrypt(
             password,
             process.env.CRYPTO_JS_PASS_SEC
           ).toString();
           userData.password = hashedPassword;
-          userData.modificationNotes.push({
+         
+          userData.ModificationNotes.push({
             modificationNote: 'Password Updated',
-            modifiedBy: `${userData.name.firstName} - ${userData.name.lastName}`,
+            modifiedBy: `${userData.staffName.firstName} - ${userData.staffName.lastName}`,
             modifiedOn: new Date(Date.now()),
           });
           userData.save((err: any, updatedUser: IUser) => {
@@ -381,7 +382,7 @@ class UserController {
     if (!ogNumber) {
       return CommonService.insufficientParameters(res);
     }
-    this.userService.filterUser({ ogNumber }, (err: any, userData: IUser | null) => {
+    this.userService.filterUser({ ogNumber:ogNumber }, (err: any, userData: IUser) => {
       if (err || !userData) {
         return CommonService.failureResponse('User does not exist', null, res);
       }
@@ -396,10 +397,8 @@ class UserController {
         } else {
           newToken = token;
         }
-        const forgetPasswordParams: IForgotPassword = {
-                 token: newToken
-        };
-
+      
+   // console.log(userData._id)
         const expT = 15 * 60;
         RedisCache.set(RESET_PASSWORD + userData.ogNumber, newToken, expT, (err: boolean) => {
           if (err) {
@@ -410,7 +409,7 @@ class UserController {
             );
           }
           const phoneNumber = userData.phoneNumber
-           this.smsService.sendResetPasswordToken( {phoneNumber})
+           this.smsService.sendResetPasswordToken( {phoneNumber, newToken})
             .then(() => {
               CommonService.successResponse('Password Reset token Sent!', null, res);
             })
@@ -418,7 +417,7 @@ class UserController {
               logger.error({ message: 'Phone Service error', service: 'forgetPassword' });
               RedisCache.del(RESET_PASSWORD + userData.ogNumber, () => {
                 CommonService.failureResponse(
-                  'Unable to Send Password Reset Link at the moment!',
+                  'Unable to Send Password Reset token at the moment!',
                   null,
                   res
                 );
