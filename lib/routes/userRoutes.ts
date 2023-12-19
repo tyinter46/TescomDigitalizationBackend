@@ -14,8 +14,10 @@ export class UserRoutes{
     (req: Request, res: Response)=>{
           this.UserController.getUser(req, res)
     }).patch('/api/user/:id',
-         ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
          AuthMiddleWare.verifyToken,
+         ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+         ValidationMiddleware(userValidatorSchema.updateUser, 'body'),
+       
          (req: Request, res: Response)=>{
             this.UserController.updateUser(req, res);
         })
@@ -38,6 +40,7 @@ export class UserRoutes{
     //     this.UserController.confirmForgotPasswordToken(req, res)
     // })
 
+
     app.patch ('/api/resetPassword',
     // ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
     ValidationMiddleware(userValidatorSchema.resetPassword, 'body'),
@@ -53,10 +56,5 @@ export class UserRoutes{
           this.UserController.updateUserPassword(req, res);
         }
       );
-
-
-
-
-
    } 
 }

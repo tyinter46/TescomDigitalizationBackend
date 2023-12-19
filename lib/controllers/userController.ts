@@ -45,7 +45,7 @@ class UserController {
       stateOfOrigin,
       lgOfOrigin,
       ward,
-      qualifications,
+      qualifications:{...rest},
       subjectTaught,
       dateOfPresentSchoolPosting,
       cadre,
@@ -73,7 +73,7 @@ class UserController {
       stateOfOrigin ||
       lgOfOrigin ||
       ward ||
-      qualifications ||
+      rest ||
       subjectTaught ||
       dateOfPresentSchoolPosting ||
       cadre ||
@@ -117,7 +117,7 @@ class UserController {
             stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
             lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
             ward: ward ? ward : userData.ward,
-            qualifications: qualifications ? qualifications : userData.qualifications,
+            qualifications: rest ? rest : userData.qualifications,
             subjectTaught: subjectTaught ? subjectTaught : userData.subjectTaught,
             dateOfPresentSchoolPosting: dateOfPresentSchoolPosting
               ? dateOfPresentSchoolPosting

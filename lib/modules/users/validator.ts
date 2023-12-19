@@ -1,6 +1,4 @@
 import Joi from "joi";
-import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from 'utils/enums';
-
 const strongPasswordRegex =  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 const stringPassswordError =
   'Password must be strong. At least one upper case alphabet. At least one lower case alphabet. At least one digit. At least one special character. Minimum eight in length';
@@ -70,6 +68,63 @@ const stringPassswordError =
           'string.required': 'Params Id cannot be empty',
         }),
       }),
+
+      updateUser: Joi.object().keys({
+           
+        gender: Joi.string().required(),
+        phoneNumber: Joi.string().required().messages({
+          'string.required': 'Phone number cannot be empty'
+        }),
+        tscFileNumber: Joi.string().required().messages({
+          'string.required': 'tscFileNumber number cannot be empty'
+        }),
+        schoolOfPresentPosting: Joi.string().required().messages({
+          'string.required': 'School of present posting cannot be empty'
+        }),
+        zone : Joi.string().required().messages({
+          'string.required': 'zone cannot be empty'
+        }),
+        nationality: Joi.string().required().messages({
+          'string.required': 'Nationality cannot be empty'
+        }),
+        stateOfOrigin: Joi.string().required().messages({
+          'string.required': 'State of origin cannot be empty'
+        }),
+        lgOfOrigin: Joi.string().required().messages({
+          'string.required': 'Local government of origin cannot be empty'
+        }),
+        ward: Joi.string().required().messages({
+          'string.required': 'ward cannot be empty'
+        }),
+        qualifications:Joi.array().required().messages({
+          'string.required': 'qualifications cannot be empty'
+        }),
+        subjectTaught: Joi.string().required().messages({
+          'string.required': 'subject taught cannot be empty'
+        }),
+        dateOfPresentSchoolPosting: Joi.date().required().messages({
+          'string.required': 'Date cannot be empty'
+        }),
+        cadre: Joi.string().required().messages({
+          'string.required': 'Cadre cannot be empty'
+        }),
+        dateOfLastPromotion: Joi.string().required().messages({
+          'string.required': 'Date of Last Promotion cannot be empty'
+        }),
+        pfa: Joi.string().required().messages({
+          'string.required': 'PFA cannot be empty'
+        }),
+        pensionNumber: Joi.number().required().messages({
+          'string.required': 'Pension Number cannot be empty'
+        }),
+        professionalStatus: Joi.string().required().messages({
+          'string.required': 'Professional Status cannot be empty'
+        }),
+        
+         staffType: Joi.string().required().messages({
+          'string.required': 'Pension Number cannot be empty'
+        }),
+      })
 }
 
 export default userValidatorSchema;

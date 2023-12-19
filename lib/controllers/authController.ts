@@ -3,11 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { AccountStatusEnum } from '../utils/enums';
 import CommonService from '../modules/common/service';
 import { IUser } from '../modules/users/model';
-import jwt from 'jsonwebtoken';
-//import MailService from '../modules/mailer/service';
 import UserService from '../modules/users/service';
 import AuthMiddleWare from '../middlewares/auth';
-import { IConfirmationMail } from '../modules/mailer/model';
 import logger from '../config/logger';
 import cryptoJs from 'crypto-js';
 import passport from 'passport';
@@ -18,7 +15,7 @@ import { MongooseError } from 'mongoose';
 
 import ExistingStaffService from '../modules/existingStaff/service';
 import { IExistingStaff } from '../modules/existingStaff/model';
-import { string } from 'joi';
+
 
 dotenv.config();
 
@@ -106,7 +103,7 @@ class AuthController {
             if (err) return CommonService.mongoError(err, res);
             const code = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
             const codeExpiration = 15 * 60;
-            const authToken = { code, expiresIn: Date.now() };
+            // const authToken = { code, expiresIn: Date.now() };
 
             if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
               return CommonService.failureResponse(

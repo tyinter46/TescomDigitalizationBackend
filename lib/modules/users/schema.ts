@@ -62,7 +62,7 @@ const UserSchema = new Schema({
     ward: {
         type: String,
            },
-    qualifications: [Qualifications],
+    qualifications: [],
   
     subjectTaught: {
         type: String,
@@ -130,12 +130,12 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
      },
-     tetiaryCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     primarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     secondarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     firstAppointmentLetter:{type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     lastPromotionLetter:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     birthCertificate:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     tetiaryCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     primarySchoolCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     secondarySchoolCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     firstAppointmentLetter:{type: Schema.Types.ObjectId, ref: Image, default: null},
+     lastPromotionLetter:  {type: Schema.Types.ObjectId, ref: Image, default: null},
+     birthCertificate:  {type: Schema.Types.ObjectId, ref: Image, default: null},
     lastVisited:  {type: Date, default: new Date()},   
      authLevel:{
         type: String,
