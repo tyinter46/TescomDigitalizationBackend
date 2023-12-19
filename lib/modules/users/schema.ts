@@ -3,7 +3,7 @@ import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from '../common/model';    
 import { IUser, Qualifications } from './model';
 import { AccountSourceEnum, AccountStatusEnum, DivisionsEnum, GenderEnum, ProfessionalStatusEnum, ServiceStatusEnum, StaffTypeEnum, UserLevelEnum, ZonesEnum } from '../../utils/enums';
-
+import { Image } from '../upload/schema';
 const UserSchema = new Schema({
   
     staffName:{
@@ -21,8 +21,10 @@ const UserSchema = new Schema({
     },
     phoneNumber: {
         type: String,
+        required: [true, 'phone number is required'],
+        unique: [true, 'phone number already registered'],
         default: null,
-        unique: true,
+      
         },
     tscFileNumber: {
         type: String,
@@ -60,7 +62,7 @@ const UserSchema = new Schema({
     ward: {
         type: String,
            },
-    qualifications: [Qualifications],
+    qualifications: [],
   
     subjectTaught: {
         type: String,
@@ -111,7 +113,7 @@ const UserSchema = new Schema({
     },
     email:{
         type: String,
-        required: [true, 'email is required'],
+        default: null,
         unique: [true, 'email already registered']
     },
     ogNumber:{
@@ -123,17 +125,17 @@ const UserSchema = new Schema({
     confirmationCode: {
         type: String,
     },
-    profilePhoto: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+    profilePhoto: {type:Schema.Types.ObjectId, ref: Image},
      isAdmin: {
         type: Boolean,
         default: false
      },
-     tetiaryCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     primarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     secondarySchoolCertificate: {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     firstAppointmentLetter:{type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     lastPromotionLetter:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
-     birthCertificate:  {type: Schema.Types.ObjectId, ref: 'Image', default: null},
+     tetiaryCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     primarySchoolCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     secondarySchoolCertificate: {type: Schema.Types.ObjectId, ref: Image, default: null},
+     firstAppointmentLetter:{type: Schema.Types.ObjectId, ref: Image, default: null},
+     lastPromotionLetter:  {type: Schema.Types.ObjectId, ref: Image, default: null},
+     birthCertificate:  {type: Schema.Types.ObjectId, ref: Image, default: null},
     lastVisited:  {type: Date, default: new Date()},   
      authLevel:{
         type: String,

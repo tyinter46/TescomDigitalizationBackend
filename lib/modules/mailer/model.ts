@@ -5,8 +5,7 @@ export interface IConfirmationMail{
 }
 
 export interface IForgotPassword {
-    name: string;
-    email: string;
+
     token: string;
 }
 

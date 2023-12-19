@@ -25,12 +25,7 @@ const ExistingStaffSchema = new Schema({
   dateOfFirstAppointment: {
     type: String,
   },
-  //     ogNum: string;
-  //     nameOfOfficer:string;
-  //    gradeLevel: string;
-  //    dateOfRetirement: Date;
-  //    dateOfFirstAppointment: Date;
-});
+ });
 
 ExistingStaffSchema.plugin(paginate);
 

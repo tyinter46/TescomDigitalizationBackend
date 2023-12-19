@@ -2,6 +2,7 @@ import UserController from "../controllers/userController";
 import { Application, Request, Response } from "express";
 import ValidationMiddleware from "../middlewares/validator";    
 import userValidatorSchema from "../modules/users/validator";   
+import AuthMiddleWare from "../middlewares/auth";
 
 export class UserRoutes{
        
@@ -12,37 +13,48 @@ export class UserRoutes{
     ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
     (req: Request, res: Response)=>{
           this.UserController.getUser(req, res)
-    })
+    }).patch('/api/user/:id',
+         AuthMiddleWare.verifyToken,
+         ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+         ValidationMiddleware(userValidatorSchema.updateUser, 'body'),
+       
+         (req: Request, res: Response)=>{
+            this.UserController.updateUser(req, res);
+        })
+    
     
     app.get('/api/users', (req: Request, res: Response)=>{
         this.UserController.getAllUsers(req, res)
     })
+    app.get('/api/forgotPassword',
 
-    app.get('/api/user:id/forgotPassword',
-    ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'), 
-    ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),
+     ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),
     (req: Request, res: Response)=>{
         this.UserController.forgotPassword(req, res);
     })
    
 
-    app.get('api/user/forgotPassword/verify/:token',
-    ValidationMiddleware(userValidatorSchema.verifyForgotPasswordToken, 'params'),
-    (req: Request , res: Response)=>{
-        this.UserController.confirmForgotPasswordToken(req, res)
-    })
+    // app.get('api/user/forgotPassword/verify/:token',
+    // ValidationMiddleware(userValidatorSchema.verifyForgotPasswordToken, 'params'),
+    // (req: Request , res: Response)=>{
+    //     this.UserController.confirmForgotPasswordToken(req, res)
+    // })
 
-    app.get ('api/user/:id/resetPassword',
-    ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
+
+    app.patch ('/api/resetPassword',
+    // ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
     ValidationMiddleware(userValidatorSchema.resetPassword, 'body'),
     (req: Request, res: Response)=>{
         this.UserController.resetPassword(req, res);
     })
 
 
-
-
-
-
+    app.patch(
+        '/api/users/:id/password-update',
+        AuthMiddleWare.verifyToken,
+        (req: Request, res: Response) => {
+          this.UserController.updateUserPassword(req, res);
+        }
+      );
    } 
 }

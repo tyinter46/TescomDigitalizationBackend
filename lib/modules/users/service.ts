@@ -10,16 +10,32 @@ export default class UserService {
 
  public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean){
     if (selectPassword) UsersModel.findOne(query, callback).select('+password');
-    UsersModel.findOne(query, callback);
+   else  UsersModel.findOne(query, callback);
  }
 
  public deleteUser(query: FilterQuery<IUser>, callback: any){
     UsersModel.deleteOne(query, callback);
  }
 
- public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any ){
-    UsersModel.findByIdAndUpdate(query, updateQuery, {new: true}, callback)
+ public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
+   UsersModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
  }
+//  public updateUser(userParams: any, callback: any) {
+//    let query = {};
+//    if (userParams.query) {
+//      query = userParams.query;
+//      delete userParams.query;
+//    } else query = { _id: userParams._id };
+
+//    UsersModel.findOneAndUpdate(
+//      query,
+//      userParams,
+//      {
+//        new: true,
+//      },
+//      callback
+//    );
+//  }
 
  public getAllUser (query: any, options: any, callback: any){
      UsersModel.paginate(query, options, callback)

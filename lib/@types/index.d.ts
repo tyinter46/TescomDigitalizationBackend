@@ -2,13 +2,13 @@ import { Express } from 'express-serve-static-core';
 
 interface User {
   id?: string;
-  staffName: {
+  staffName?: {
     firstName: string;
     middleName?: string
     lastName: string;
   
   };
-  ogNumber: string;
+  ogNumber?: string;
   isAdmin?: boolean;
 }
 
