@@ -1,16 +1,16 @@
 export enum AccountStatusEnum {
   PENDING = 'pending',
   ACTIVATED = 'activated',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum ServiceStatusEnum {
-  ACTIVE= 'Active',
+  ACTIVE = 'Active',
   RETIRED = 'Retired',
   RESIGNED = 'Resigned',
   DECEASED = 'Deceased',
-  ONSTUDYLEAVE='On study leave',
-  NULL = 'null'
+  ONSTUDYLEAVE = 'On study leave',
+  NULL = 'null',
 }
 export enum AccountSourceEnum {
   LOCAL = 'local',
@@ -23,13 +23,12 @@ export enum UserLevelEnum {
   DPRS = '3',
   DFA = '2',
   TSCSTAFF = '1',
-
 }
 
 export enum GenderEnum {
   MALE = 'Male',
   FEMALE = 'Female',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum ZonesEnum {
@@ -53,7 +52,7 @@ export enum ZonesEnum {
   REMONORTH = 'Remo North',
   OGUNWATERSIDE = 'Ogun Water Side',
   IJEBUEAST = 'Ijebu East',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum DivisionsEnum {
@@ -61,19 +60,19 @@ export enum DivisionsEnum {
   REMO = 'Remo',
   IJEBU = 'Ijebu',
   YEWA = 'Yewa',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum StaffTypeEnum {
   TEACHING = 'Teaching',
   NONTEACHING = 'Non-Teaching',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum ProfessionalStatusEnum {
   PROFESSIONAL = 'Professional',
   NONPROFESSIONAL = 'Non-Professional',
-  NULL = 'null'
+  NULL = 'null',
 }
 
 export enum QualificationsTypeEnum {
@@ -84,6 +83,5 @@ export enum QualificationsTypeEnum {
   HND = 'HND',
   OND = 'OND',
   NCE = 'NCE',
-  NULL = 'null'
+  NULL = 'null',
 }
-

@@ -10,8 +10,6 @@ export const ModificationNote = {
   modificationNote: String,
 };
 
-
-
 export enum responseStatusCodes {
   success = 200,
   created = 201,

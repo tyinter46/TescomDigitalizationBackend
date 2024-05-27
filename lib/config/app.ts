@@ -5,11 +5,13 @@ import enviroment from '../enviroment';
 import mongoose from 'mongoose';
 import expressSession from 'express-session';
 import passport from 'passport';
+import helmet from 'helmet';
 import logger from './logger';
 import { CommonRoutes } from '../routes/commonRoutes';
 import { AuthRoutes } from '../routes/authRoutes';
 import { UserRoutes } from '../routes/userRoutes';
-
+import { UploadRoutes } from '../routes/uploadRoutes';
+// import { UploadRoutes } from '../routes/uploadRoutes';
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
 dotenv.config();
@@ -17,14 +19,17 @@ dotenv.config();
 class App {
   public app: Application;
 
-  public mongoUrl =
-    process.env.NODE_ENV === 'development'
-      ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
-      : process.env.MONGO_DB_URI;
+  public mongoUrl = process.env.MONGO_DB_URI;
 
-      private authRoutes: AuthRoutes = new AuthRoutes ();
-      private userRoutes: UserRoutes = new UserRoutes ();
+  // process.env.NODE_ENV === 'development'
+  //   ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
+  //   : process.env.MONGO_DB_URI;
+
+  private authRoutes: AuthRoutes = new AuthRoutes();
+  private userRoutes: UserRoutes = new UserRoutes();
+  private uploadRoutes : UploadRoutes = new UploadRoutes();
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
+
 
   private commonRoutes: CommonRoutes = new CommonRoutes();
 
@@ -35,11 +40,13 @@ class App {
 
     //every other routes must come above the common routes
     this.authRoutes.route(this.app);
-    this.userRoutes.route(this.app)
+    this.userRoutes.route(this.app);
+    this.uploadRoutes.route(this.app);
     this.existingStaffRoutes.route(this.app);
     this.commonRoutes.route(this.app);
   }
   private config(): void {
+    this.app.use(helmet.hsts());
     this.app.use(
       cors({
         origin:

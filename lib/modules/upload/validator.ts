@@ -1,17 +1,16 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const uploadValidatorSchema = {
-   verifyParamsId: Joi.object().keys({
+  verifyParamsId: Joi.object().keys({
     id: Joi.string().required().length(24).messages({
-        'string.length': 'Invalid Params Id',
-        'string.required': 'Params Id cannot be empty',
+      'string.length': 'Invalid Params Id',
+      'string.required': 'Params Id cannot be empty',
     }),
-   }),
+  }),
 
-   uploadImageUrl: Joi.object().keys({
+  uploadImageUrl: Joi.object().keys({
     imageUrl: Joi.string().required(),
-   })
+  }),
+};
 
-}
-
-export default uploadValidatorSchema
+export default uploadValidatorSchema;

@@ -7,7 +7,6 @@ import { IUser } from '../modules/users/model';
 import UserService from '../modules/users/service';
 import jwt from 'jsonwebtoken';
 import RedisCache from '../config/redisCache';
-//import MailService from '../modules/mailer/service';
 import { IForgotPassword } from '../modules/mailer/model';
 import logger from '../config/logger';
 import cryptoJs from 'crypto-js';
@@ -20,7 +19,7 @@ dotenv.config();
 class UserController {
   private userService: UserService = new UserService();
   //private mailService: MailService = new MailService();
-  private smsService : SMSService = new SMSService();
+  private smsService: SMSService = new SMSService();
 
   public getUser(req: Request, res: Response) {
     const { id } = req.params;
@@ -45,7 +44,7 @@ class UserController {
       stateOfOrigin,
       lgOfOrigin,
       ward,
-      qualifications:{...rest},
+      qualifications: { ...rest },
       subjectTaught,
       dateOfPresentSchoolPosting,
       cadre,
@@ -81,7 +80,6 @@ class UserController {
       pfa ||
       pensionNumber ||
       professionalStatus ||
-      profilePhoto ||
       tetiaryCertificate ||
       primarySchoolCertificate ||
       secondarySchoolCert ||
@@ -150,15 +148,33 @@ class UserController {
             birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
             staffType: staffType ? staffType : userData.staffType,
           };
-          
-          this.userService.updateUser(  { _id: userData._id }, userParams, (err: any) => {
-            if (err) {
-              logger.error({ message: err, service: 'UserService' });
-              CommonService.mongoError(err, res);
-            } else {
-              CommonService.successResponse('user update successfull', null, res);
+
+          this.userService.updateUser(
+            { _id: userData._id },
+            userParams,
+            (err: any, updatedUserData: IUser | any) => {
+              if (err) {
+                logger.error({ message: err, service: 'UserService' });
+                CommonService.mongoError(err, res);
+              } else {
+                updatedUserData
+                  .populate('profilePhoto')
+                  .then((populatedUserData: any) => {
+                    const profilePhoto = populatedUserData.profilePhoto
+                      ? populatedUserData.profilePhoto?.imageUrl
+                      : '';
+                    return CommonService.successResponse(
+                      'user update successfull',
+                      { ...populatedUserData._doc, profilePhoto },
+                      res
+                    );
+                  })
+                  .catch((err: any) => {
+                    return CommonService.mongoError(err, res);
+                  });
+              }
             }
-          });
+          );
         } else {
           CommonService.failureResponse('invalid user', null, res);
         }
@@ -166,7 +182,7 @@ class UserController {
     } else {
       CommonService.insufficientParameters(res);
     }
-               }
+  }
 
   public getAllUsers(req: Request, res: Response) {
     const {
@@ -236,7 +252,7 @@ class UserController {
         logger.error({ message: err, service: 'userService' });
         return CommonService.mongoError(err, res);
       } else {
-        CommonService.successResponse('Existing Staff retrieved successsfully', users, res);
+        CommonService.successResponse('Tescom staff retrieved successsfully', users, res);
       }
     });
   }
@@ -250,7 +266,7 @@ class UserController {
         return CommonService.failureResponse('Password Link expired try Again!', null, res);
       }
       this.userService.filterUser(
-        {  ogNumber },
+        { ogNumber },
         (err: any, userData: any) => {
           if (err) return CommonService.mongoError(err, res);
           else if (!userData) {
@@ -261,7 +277,7 @@ class UserController {
             process.env.CRYPTO_JS_PASS_SEC
           ).toString();
           userData.password = hashedPassword;
-         
+
           userData.ModificationNotes.push({
             modificationNote: 'Password Updated',
             modifiedBy: `${userData.staffName.firstName} - ${userData.staffName.lastName}`,
@@ -321,44 +337,54 @@ class UserController {
               userData.password,
               process.env.CRYPTO_JS_PASS_SEC
             );
-            console.log(hashedPassword.toString(cryptoJs.enc.Utf8), `this is ${currentPassword}`)
-             if (hashedPassword.toString(cryptoJs.enc.Utf8) === currentPassword) {
-           
+            console.log(hashedPassword.toString(cryptoJs.enc.Utf8), `this is ${currentPassword}`);
+            if (hashedPassword.toString(cryptoJs.enc.Utf8) === currentPassword) {
               if (newPassword === confirmPassword) {
                 userData.password = cryptoJs.AES.encrypt(
                   newPassword,
                   process.env.CRYPTO_JS_PASS_SEC
                 ).toString();
 
-              const   hashNewPassword = cryptoJs.AES.encrypt(newPassword, process.env.CRYPTO_JS_PASS_SEC).toString();
+                const hashNewPassword = cryptoJs.AES.encrypt(
+                  newPassword,
+                  process.env.CRYPTO_JS_PASS_SEC
+                ).toString();
                 // userData.modificationNotes.push({
                 //   modifiedOn: new Date(),
                 //   modifiedBy: req.user.id,
                 //   modificationNote: 'User password updated',
                 // });
                 const userParams: IUser = {
-                  password: hashNewPassword
+                  password: hashNewPassword,
+                };
 
-                }
-
-                this.userService.updateUser({_id:userData._id}, userParams, (err: any, updatedUserData: IUser) => {
-                  if (err) {
-                    return CommonService.mongoError(err, res);
-                  } else {
-                    const phoneNumber = updatedUserData.phoneNumber
-                    this.smsService.PasswordUpdateNotification({phoneNumber})
-                      .then((result) => {
-                        return CommonService.successResponse(
-                          'User password updated successfully',
-                          { id: updatedUserData._id },
-                          res
-                        );
-                      })
-                      .catch((err) => {
-                        return CommonService.failureResponse('SMS Service Service error', err, res);
-                      });
+                this.userService.updateUser(
+                  { _id: userData._id },
+                  userParams,
+                  (err: any, updatedUserData: IUser) => {
+                    if (err) {
+                      return CommonService.mongoError(err, res);
+                    } else {
+                      const phoneNumber = updatedUserData.phoneNumber;
+                      this.smsService
+                        .PasswordUpdateNotification({ phoneNumber })
+                        .then((result) => {
+                          return CommonService.successResponse(
+                            'User password updated successfully',
+                            { id: updatedUserData._id },
+                            res
+                          );
+                        })
+                        .catch((err) => {
+                          return CommonService.failureResponse(
+                            'SMS Service Service error',
+                            err,
+                            res
+                          );
+                        });
+                    }
                   }
-                });
+                );
               } else {
                 CommonService.failureResponse('Passwords do not match', null, res);
               }
@@ -382,7 +408,7 @@ class UserController {
     if (!ogNumber) {
       return CommonService.insufficientParameters(res);
     }
-    this.userService.filterUser({ ogNumber:ogNumber }, (err: any, userData: IUser) => {
+    this.userService.filterUser({ ogNumber: ogNumber }, (err: any, userData: IUser) => {
       if (err || !userData) {
         return CommonService.failureResponse('User does not exist', null, res);
       }
@@ -391,14 +417,13 @@ class UserController {
         let newToken: string;
         if (err) return CommonService.failureResponse('Try Again!', null, res);
         if (!token) {
-          
-          newToken =   Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+          newToken = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
           // const codeExpiration = 15 * 60;
         } else {
           newToken = token;
         }
-      
-   // console.log(userData._id)
+
+        // console.log(userData._id)
         const expT = 15 * 60;
         RedisCache.set(RESET_PASSWORD + userData.ogNumber, newToken, expT, (err: boolean) => {
           if (err) {
@@ -408,8 +433,9 @@ class UserController {
               res
             );
           }
-          const phoneNumber = userData.phoneNumber
-           this.smsService.sendResetPasswordToken( {phoneNumber, newToken})
+          const phoneNumber = userData.phoneNumber;
+          this.smsService
+            .sendResetPasswordToken({ phoneNumber, newToken })
             .then(() => {
               CommonService.successResponse('Password Reset token Sent!', null, res);
             })

@@ -25,7 +25,7 @@ const ExistingStaffSchema = new Schema({
   dateOfFirstAppointment: {
     type: String,
   },
- });
+});
 
 ExistingStaffSchema.plugin(paginate);
 
