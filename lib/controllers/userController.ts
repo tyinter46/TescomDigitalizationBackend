@@ -45,7 +45,7 @@ class UserController {
       lgOfOrigin,
       ward,
       qualifications: { ...rest },
-      subjectTaught,
+      subjectsTaught,
       dateOfPresentSchoolPosting,
       cadre,
       dateOfLastPromotion,
@@ -73,7 +73,7 @@ class UserController {
       lgOfOrigin ||
       ward ||
       rest ||
-      subjectTaught ||
+      subjectsTaught ||
       dateOfPresentSchoolPosting ||
       cadre ||
       dateOfLastPromotion ||
@@ -116,7 +116,7 @@ class UserController {
             lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
             ward: ward ? ward : userData.ward,
             qualifications: rest ? rest : userData.qualifications,
-            subjectTaught: subjectTaught ? subjectTaught : userData.subjectTaught,
+            subjectsTaught: subjectsTaught ? subjectsTaught : userData.subjectsTaught,
             dateOfPresentSchoolPosting: dateOfPresentSchoolPosting
               ? dateOfPresentSchoolPosting
               : userData.dateOfPresentSchoolPosting,
@@ -324,8 +324,8 @@ class UserController {
   // }
 
   public updateUserPassword(req: Request | any, res: Response) {
-    const { currentPassword, newPassword, confirmPassword } = req.body;
-    if (currentPassword && newPassword && confirmPassword) {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    if (currentPassword && newPassword && confirmNewPassword) {
       const userFilter = { _id: req.params.id };
       this.userService.filterUser(
         userFilter,
@@ -339,7 +339,7 @@ class UserController {
             );
             console.log(hashedPassword.toString(cryptoJs.enc.Utf8), `this is ${currentPassword}`);
             if (hashedPassword.toString(cryptoJs.enc.Utf8) === currentPassword) {
-              if (newPassword === confirmPassword) {
+              if (newPassword === confirmNewPassword) {
                 userData.password = cryptoJs.AES.encrypt(
                   newPassword,
                   process.env.CRYPTO_JS_PASS_SEC

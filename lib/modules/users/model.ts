@@ -33,6 +33,10 @@ export interface IUser {
     middleName?: string;
     lastName: string;
   };
+  coordinates?: {
+    latitude: string;
+    longitude: string;
+  };
   gender?: GenderEnum;
   phoneNumber?: string;
   tscFileNumber?: string;
@@ -44,7 +48,7 @@ export interface IUser {
   lgOfOrigin?: string;
   ward?: string;
   qualifications?: Qualifications[];
-  subjectTaught?: string;
+  subjectsTaught?: string [];
   dateOfPresentSchoolPosting?: Date;
   cadre?: string;
   dateOfFirstAppointment?: Date;

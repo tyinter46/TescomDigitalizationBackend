@@ -30,7 +30,7 @@ export class UserRoutes {
     app.get('/api/users', (req: Request, res: Response) => {
       this.UserController.getAllUsers(req, res);
     });
-    app.get(
+    app.post(
       '/api/forgotPassword',
 
       ValidationMiddleware(userValidatorSchema.forgotPassword, 'body'),

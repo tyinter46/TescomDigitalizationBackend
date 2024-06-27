@@ -54,7 +54,7 @@ class AuthController {
           return CommonService.mongoError(err, res);
         }
         if (!existingStaff.ogNum) {
-          return CommonService.notFoundResponse('Staff not found please visit admin', res);
+          return CommonService.notFoundResponse('An error occured!', res);
         }
 
         this.userService.filterUser(

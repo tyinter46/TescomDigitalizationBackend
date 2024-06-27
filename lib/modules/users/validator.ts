@@ -129,8 +129,8 @@ const userValidatorSchema = {
     qualifications: Joi.array().required().messages({
       'string.required': 'qualifications cannot be empty',
     }),
-    subjectTaught: Joi.string().required().messages({
-      'string.required': 'subject taught cannot be empty',
+    subjectsTaught: Joi.array().required().messages({
+      'string.required': 'subjects taught cannot be empty',
     }),
     dateOfPresentSchoolPosting: Joi.date().required().messages({
       'string.required': 'Date cannot be empty',

@@ -58,7 +58,7 @@ export class UploadController {
           if (result.secure_url && result.public_id) {
             const imageParams = {
               imageUrl: result.secure_url,
-              key: result.public_id,
+              publicId: result.public_id,
             };
             this.uploadService.uploadPhoto(imageParams, (err: any, uploadedImage: UploadModel) => {
               if (err) {
@@ -84,70 +84,78 @@ export class UploadController {
       
   
 
-  // public updateImage(req: any, res: Response) {
-  //   const { id } = req.params;
-  //   if (!id || !req.file?.key) {
-  //     CommonService.insufficientParameters(res);
-  //   } else {
-  //     const query = { _id: id };
-  //     this.uploadService.filterImage(query, (err: any, imageData: UploadModel) => {
-  //       if (err) return CommonService.mongoError(err, res);
-  //       if (!imageData) return CommonService.failureResponse('Cannot get Image!', null, res);
-  //       this.s3Params.Key = imageData.key;
-  //       this.S3.deleteObject(this.s3Params, (err: any, data: any) => {
-  //         if (err) return CommonService.failureResponse('Unable to Delete File!', null, res);
-  //         const updateParams = { imageUrl: req.file?.location, key: req.file?.key };
-  //         this.uploadService.updateImage(
-  //           query,
-  //           updateParams,
-  //           (err: any, updatedImage: UploadModel) => {
-  //             if (err) {
-  //               logger.error({ message: err, service: 'UploadService' });
-  //               return CommonService.mongoError(err, res);
-  //             }
-  //             if (updatedImage) {
-  //               return CommonService.successResponse(
-  //                 'Image Updated Successfully!',
-  //                 { imageId: updatedImage?._id },
-  //                 res
-  //               );
-  //             } else {
-  //               return CommonService.failureResponse('Failed to Update Image!', null, res);
-  //             }
-  //           }
-  //         );
-  //       });
-  //     });
-  //   }
-  // }
+  public updateImage(req: any, res: Response, result: any) {
+    const { id } = req.params;
+    if (!id) {
+      CommonService.insufficientParameters(res);
+    } else {
+      const query = { _id: id };
+      this.uploadService.filterImage(query, async (err: any, imageData: UploadModel) => {
+        if (err) return CommonService.mongoError(err, res);
+        if (!imageData) return CommonService.failureResponse('Cannot get Image!', null, res);
+        cloudinary.uploader.destroy(imageData.publicId, (err: any)=>{
+                if (err) return CommonService.failureResponse('error updating image', null, res)
+        })
+        if (result.secure_url && result.public_id) {
+          const imageParams = {
+            imageUrl: result.secure_url,
+            publicId: result.public_id,
+          };
+     
+          const updateParams = { imageUrl: imageParams.imageUrl, publicId: imageParams.publicId };
+          this.uploadService.updateImage(
+            query,
+            updateParams,
+            (err: any, updatedImage: UploadModel) => {
+              if (err) {
+                logger.error({ message: err, service: 'UploadService' });
+                return CommonService.mongoError(err, res);
+              }
+              if (updatedImage) {
+                return CommonService.successResponse(
+                  'Image Updated Successfully!',
+                  { imageId: updatedImage?._id },
+                  res
+                );
+              } else {
+                return CommonService.failureResponse('Failed to Update Image!', null, res);
+              }
+            }
+          );
+        }
+    });
+      };
+    }
+  
 
-  // public deleteImage(req: Request, res: Response) {
-  //   const { id } = req.params;
-  //   const query = { _id: id };
-  //   if (!id) return CommonService.insufficientParameters(res);
-  //   this.uploadService.filterImage(query, (err: any, imageData: UploadModel) => {
-  //     if (err) return CommonService.mongoError(err, res);
-  //     if (!imageData) return CommonService.failureResponse('Cannot get Image!', null, res);
-  //     if (imageData.key) {
-  //       this.s3Params.Key = imageData.key;
-  //       this.S3.deleteObject(this.s3Params, (err: any) => {
-  //         if (err) return CommonService.failureResponse('Unable to Delete File!', null, res);
-  //         this.uploadService.deleteImage(query, (err: any, data: any) => {
-  //           if (err) return CommonService.mongoError(err, res);
-  //           if (data) return CommonService.successResponse('Image Deleted Successfully', null, res);
-  //         });
-  //       });
-  //     } else {
-  //       this.uploadService.deleteImage(query, (err: any, data: any) => {
-  //         if (err) {
-  //           logger.error({ message: err, service: 'UploadService' });
-  //           return CommonService.mongoError(err, res);
-  //         }
-  //         if (data) return CommonService.successResponse('Image Deleted Successfully', null, res);
-  //       });
-  //     }
-  //   });
-  // }
+  public deleteImage(req: Request, res: Response) {
+    const { id } = req.params;
+    const query = { _id: id };
+    if (!id) return CommonService.insufficientParameters(res);
+    this.uploadService.filterImage(query,  async (err: any, imageData: UploadModel) => {
+      if (err) return CommonService.mongoError(err, res);
+      if (!imageData) return CommonService.failureResponse('Cannot get Image!', null, res);
+      if (imageData.publicId) {
+        await cloudinary.uploader.destroy(imageData.publicId,  (err: any) => {
+          if (err) return CommonService.failureResponse('Unable to Delete File!', null, res);
+
+          this.uploadService.deleteImage(query, (err: any, data: any) => {
+            if (err) return CommonService.mongoError(err, res);
+            if (data) return CommonService.successResponse('Image Deleted Successfully', null, res);
+          });
+        }) 
+      
+      } else {
+        this.uploadService.deleteImage(query, (err: any, data: any) => {
+          if (err) {
+            logger.error({ message: err, service: 'UploadService' });
+            return CommonService.mongoError(err, res);
+          }
+          if (data) return CommonService.successResponse('Image Deleted Successfully', null, res);
+        });
+      }
+    });
+  }
 
   public uploadImageUrl(req: Request, res: Response) {
     const { imageUrl } = req.body ?? {};

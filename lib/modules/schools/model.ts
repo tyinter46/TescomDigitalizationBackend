@@ -11,5 +11,4 @@ export interface ISchools {
     listOfStaff: IUser [];
     latitude: string;
     longitude: string;
-
   }

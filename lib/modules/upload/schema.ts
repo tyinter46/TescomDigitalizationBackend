@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const imageSchema = new Schema(
   {
     imageUrl: { type: String, required: true },
-    key: { type: String },
+    publicId: { type: String, required: true },
   },
   { timestamps: true }
 );

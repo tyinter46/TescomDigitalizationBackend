@@ -23,6 +23,12 @@ const UserSchema = new Schema(
         lastName: String,
       },
     },
+    coordinates:{
+      type: {
+        latitude: String,
+        longitude: String
+      },
+    },
     gender: {
       type: String,
       enum: [...Object.values(GenderEnum).concat([null])],
@@ -71,8 +77,8 @@ const UserSchema = new Schema(
     },
     qualifications: [],
 
-    subjectTaught: {
-      type: String,
+    subjectsTaught: {
+      type: [String],
       default: null,
     },
     dateOfPresentSchoolPosting: {
