@@ -39,6 +39,7 @@ export interface IUser {
   };
   gender?: GenderEnum;
   phoneNumber?: string;
+  confirmPhoneNumber?:string;
   tscFileNumber?: string;
   schoolOfPresentPosting?: string;
   zone?: ZonesEnum;

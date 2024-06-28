@@ -101,7 +101,9 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-
+         if (userData.tscFileNumber) {
+          return CommonService.UnprocessableResponse("Tsc File Number Already Exist, Kindly verify your file number", res)
+         }
           const userParams: IUser = {
             // _id: req.params.id,
 

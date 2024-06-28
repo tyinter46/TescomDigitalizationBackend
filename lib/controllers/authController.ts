@@ -42,11 +42,12 @@ class AuthController {
   }
 
   public signup(req: Request, res: Response) {
-    const { phoneNumber, ogNumber, password } = req.body;
-    if (!phoneNumber || !ogNumber || !password) {
+    const { phoneNumber, ogNumber, password, confirmPhoneNumber } = req.body;
+    console.log(phoneNumber, ogNumber, password, confirmPhoneNumber)
+        if (!phoneNumber || !ogNumber || !password || !confirmPhoneNumber) {
       return CommonService.insufficientParameters(res);
     }
-
+  // if (phoneNumber != confirmPhoneNumber) {return CommonService.UnprocessableResponse("Phone numbers do not match",res)}
     this.existingStaffService.filterStaff(
       { ogNum: ogNumber },
       (err: any, existingStaff: IExistingStaff | null) => {
@@ -54,7 +55,8 @@ class AuthController {
           return CommonService.mongoError(err, res);
         }
         if (!existingStaff.ogNum) {
-          return CommonService.notFoundResponse('An error occured!', res);
+          throw new Error(err.message)
+          // return CommonService.notFoundResponse('An error occured!', res);
         }
 
         this.userService.filterUser(
@@ -107,6 +109,7 @@ class AuthController {
                 },
                 email: null,
                 phoneNumber: phoneNumber,
+                confirmPhoneNumber: confirmPhoneNumber,
                 ogNumber: existingStaff.ogNum,
                 password: hashedPassword,
                 confirmationCode: code,
@@ -125,13 +128,14 @@ class AuthController {
 
               this.userService.createUser(iUserParams, (err: any, newUser: IUser) => {
                 if (err) {
-                  if (err?.keyValue && err?.keyValue?.email) {
+                  if (err?.keyValue && err?.keyValue?.ogNumber) {
                     CommonService.failureResponse(
                       `User already exist`,
                       { ogNumber: err?.keyValue?.ogNumber },
                       res
                     );
                   } else {
+                    console.log(err.message)
                     return CommonService.mongoError(err, res);
                   }
                 } else {

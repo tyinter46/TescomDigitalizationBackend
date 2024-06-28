@@ -41,10 +41,14 @@ const UserSchema = new Schema(
       unique: [true, 'phone number already registered'],
       default: null,
     },
+    confirmPhoneNumber: {
+      type: String,
+      required: [true, 'confirm phone number is required'],
+       default: null,
+    },
     tscFileNumber: {
       type: String,
-      default: null,
-      unique: true,
+       default: null
     },
     schoolOfPresentPosting: {
       type: String,
