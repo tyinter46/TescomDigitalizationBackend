@@ -38,7 +38,7 @@ const UserSchema = new Schema(
     phoneNumber: {
       type: String,
       required: [true, 'phone number is required'],
-      unique: [true, 'phone number already registered'],
+      // unique: [true, 'phone number already registered'],
       default: null,
     },
     confirmPhoneNumber: {

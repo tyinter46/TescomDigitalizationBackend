@@ -247,7 +247,7 @@ class AuthController {
           this.smsService
             .sendConfirmationToken({ phoneNumber, newToken })
             .then(() => {
-              CommonService.successResponse('Confirmation Account token Sent!', null, res);
+              CommonService.successResponse('Confirmation Account token Sent!',{phoneNumber: phoneNumber, firstName: userData.staffName.firstName}, res);
             })
             .catch((err: any) => {
               logger.error({ message: 'Sms Service error', service: 'Confirm Account' });
@@ -300,7 +300,7 @@ class AuthController {
                   return CommonService.failureResponse('Account Activation failed!', null, res);
                 }
                 return CommonService.successResponse(
-                  'Your account has been confirmed, kindly proceed to login',
+                  'Your account has been confirmed, kindly login',
                   updateData,
                   res
                 );
