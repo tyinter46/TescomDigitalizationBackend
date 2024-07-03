@@ -214,55 +214,193 @@ class AuthController {
     );
   }
 
+
   public resendConfirmAccountToken(req: Request, res: Response) {
     const { ogNumber } = req.body;
+    console.log(ogNumber)
     if (!ogNumber) {
       return CommonService.insufficientParameters(res);
     }
-    this.userService.filterUser({ ogNumber: ogNumber }, (err: any, userData: IUser) => {
+  
+    this.userService.filterUser({ ogNumber }, (err: any, userData: IUser) => {
       if (err || !userData) {
-        return CommonService.failureResponse('User does not exist', null, res);
+        console.log(ogNumber)
+        console.log(userData)
+        return CommonService.failureResponse('An error occurred or user not found', null, res);
       }
-
+  
+      if (userData.accountStatus === AccountStatusEnum.ACTIVATED) {
+        return CommonService.failureResponse(
+          'You previously activated your account, kindly login',
+          null,
+          res
+        );
+      }
+  
+      
       redisCache.get(AUTH_PREFIX + userData.ogNumber, (err: boolean, token: string) => {
+        if (err) {
+          return CommonService.failureResponse('Error retrieving token from cache', null, res);
+        }
+  
         let newToken: string;
-        if (err) return CommonService.failureResponse('Try Again!', null, res);
         if (!token) {
           newToken = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
         } else {
           newToken = token;
+          redisCache.del(AUTH_PREFIX + ogNumber, (delErr) => {
+            if (delErr) {
+              return CommonService.failureResponse('Error deleting old token', null, res);
+            }
+          });
         }
-
-        // console.log(userData._id)
-        const expT = 60 * 60;
-        redisCache.set(AUTH_PREFIX + userData.ogNumber, newToken, expT, (err: boolean) => {
-          if (err) {
-            return CommonService.failureResponse(
-              'Unable to resend confirmation code at this time',
-              null,
-              res
-            );
+  
+        const expT = 60 * 60; // Token expiry time in seconds
+        redisCache.set(AUTH_PREFIX + userData.ogNumber, newToken, expT, (setErr: boolean) => {
+          if (setErr) {
+            return CommonService.failureResponse('Unable to resend confirmation code at this time', null, res);
           }
-          const phoneNumber = userData.phoneNumber;
-          this.smsService
-            .sendConfirmationToken({ phoneNumber, newToken })
+  
+          this.smsService.sendConfirmationToken({ phoneNumber: userData.phoneNumber, newToken })
             .then(() => {
-              CommonService.successResponse('Confirmation Account token Sent!',{phoneNumber: phoneNumber, firstName: userData.staffName.firstName}, res);
+              CommonService.successResponse('Confirmation account token sent!', { phoneNumber: userData.phoneNumber, firstName: userData.staffName.firstName }, res);
             })
-            .catch((err: any) => {
-              logger.error({ message: 'Sms Service error', service: 'Confirm Account' });
-              redisCache.del(AUTH_PREFIX + userData.ogNumber, () => {
-                CommonService.failureResponse(
-                  'Unable to Send Confirmation Account Reset token at the moment!',
-                  null,
-                  res
-                );
+            .catch((smsErr: any) => {
+              redisCache.del(AUTH_PREFIX + userData.ogNumber, (delErr) => {
+                if (delErr) {
+                  console.error('Error deleting token after SMS service failure:', delErr);
+                }
+                CommonService.failureResponse('Unable to send confirmation account reset token at the moment!', null, res);
               });
             });
         });
       });
     });
   }
+  
+
+//   public resendConfirmAccountToken(req: Request, res: Response) {
+//   const { ogNumber } = req.body;
+//   if (!ogNumber) {
+//     return CommonService.insufficientParameters(res);
+//   }
+
+//   this.userService.filterUser({ ogNumber }, (err: any, userData: IUser) => {
+//     if (err || !userData) {
+//       return CommonService.failureResponse('An error occurred or user not found', null, res);
+//     }
+
+//     if (userData && userData.accountStatus === AccountStatusEnum.ACTIVATED ) {
+//       return CommonService.failureResponse(
+//         'You previously activated your account, kindly login',
+//         null,
+//         res
+//       );
+//     }
+//     if (userData && userData.phoneNumber === AccountStatusEnum.PENDING ) {
+//       return CommonService.failureResponse(
+//         'Cannot send sms at this time!',
+//         null,
+//         res
+//       );
+//     }
+//     redisCache.get(AUTH_PREFIX + userData.ogNumber, (err: boolean, token: string) => {
+//       if (err) {
+//         return CommonService.failureResponse('Error retrieving token from cache', null, res);
+//       }
+
+//       let newToken: string;
+//       if (!token) {
+//         newToken = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+//       } else {
+//         redisCache.del(AUTH_PREFIX + ogNumber, (err) => {
+//           if (err) {
+//             return CommonService.failureResponse('Error deleting old token', null, res);
+//           }
+//           newToken = token;
+      
+//       const expT = 60 * 60;
+//       redisCache.set(AUTH_PREFIX + userData.ogNumber, newToken, expT, (err: boolean) => {
+//         if (err) {
+//           return CommonService.failureResponse('Unable to resend confirmation code at this time', null, res);
+//         }
+
+//         this.smsService.sendConfirmationToken({ phoneNumber: userData.phoneNumber, newToken })
+//           .then(() => {
+//             CommonService.successResponse('Confirmation account token sent!', { phoneNumber: userData.phoneNumber, firstName: userData.staffName.firstName }, res);
+//           })
+//           .catch((err: any) => {
+//             redisCache.del(AUTH_PREFIX + userData.ogNumber, (err) => {
+//               if (err) {
+//                 console.error('Error deleting token after SMS service failure:', err);
+//               }
+//               CommonService.failureResponse('Unable to send confirmation account reset token at the moment!', null, res);
+//             });
+//           });
+//         });
+//       })
+//     };
+//     });
+//   });
+// }
+
+  // public resendConfirmAccountToken(req: Request, res: Response) {
+  //   const { ogNumber}  = req.body;
+  //   if (!ogNumber) {
+  //     return CommonService.insufficientParameters(res);
+  //   }
+  //   this.userService.filterUser({ ogNumber: ogNumber }, (err: any, userData: IUser) => {
+  //     console.log(`${ogNumber} + "user found"`)
+  //     if (err || !userData) {
+  //       return CommonService.failureResponse('An error occured', null, res);
+  //     }
+
+  //     redisCache.get(AUTH_PREFIX + userData.ogNumber, (err: boolean, token: string) => {
+  //       let newToken: string;
+  //       if (err) return CommonService.failureResponse('Try Again!', null, res);
+  //       if (!token) {
+  //         newToken = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+  //       } else {
+
+  //         redisCache.del(AUTH_PREFIX + ogNumber, () => {
+  //           userData.confirmationCode = null,
+  //           console.log(userData.confirmationCode)
+  //       })
+  //         newToken = token;
+        
+  //     }
+  //          console.log(userData._id, newToken, userData.confirmationCode)
+  //       const expT = 60 * 60;
+  //       redisCache.set(AUTH_PREFIX + userData.ogNumber, newToken, expT, (err: boolean) => {
+  //         console.log(newToken)
+  //         if (err) {
+  //           return CommonService.failureResponse(
+  //             'Unable to resend confirmation code at this time',
+  //             null,
+  //             res
+  //           );
+  //         }
+  //         const phoneNumber = userData.phoneNumber;
+  //         this.smsService
+  //           .sendConfirmationToken({ phoneNumber, newToken })
+  //           .then(() => {
+  //             CommonService.successResponse('Confirmation Account token Sent!',{phoneNumber: phoneNumber, firstName: userData.staffName.firstName}, res);
+  //           })
+  //           .catch((err: any) => {
+  //             logger.error({ message: 'Sms Service error', service: 'Confirm Account' });
+  //             console.log(err.message)
+  //             redisCache.del(AUTH_PREFIX + userData.ogNumber, () => {
+  //               CommonService.failureResponse(
+  //                 'Unable to Send Confirmation Account Reset token at the moment!',
+  //                 null,
+  //                 res
+  //               );
+  //             });
+  //           });
+  //       });
+  //     });
+  //   });
+  // }
 
   public confirmAccount(req: Request, res: Response) {
     const { code, ogNumber } = req.body;

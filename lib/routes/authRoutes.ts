@@ -49,8 +49,7 @@ export class AuthRoutes {
 
     app.patch(
       '/api/auth/local/resendConfirmAccountToken',
-      // ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
-      ValidationMiddleware(userValidatorSchema.resendConfirmAccountToken, 'body'),
+       ValidationMiddleware(userValidatorSchema.resendConfirmAccountToken, 'body'),
       (req: Request, res: Response) => {
         this.authController.resendConfirmAccountToken(req, res);
       }

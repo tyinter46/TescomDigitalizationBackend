@@ -7,7 +7,7 @@ const userValidatorSchema = {
   signUp: Joi.object().keys({
     phoneNumber: Joi.string().min(14).required(),
     confirmPhoneNumber: Joi.string().required(),
-    ogNumber: Joi.string().min(7).required(),
+    ogNumber: Joi.string().min(6).required(),
     password: Joi.string().min(8).regex(strongPasswordRegex).required().messages({
       'string.min': 'Must have at least 8 characters',
       'object.regex': 'Must have at least 8 characters',
