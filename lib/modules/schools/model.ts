@@ -9,6 +9,9 @@ export interface ISchools {
     zone: string;
     division: string;
     listOfStaff: IUser [];
+    principal: IUser;
+    vicePrincipalAdmin: IUser;
+    vicePrincipalAcademics: IUser;
     latitude: string;
     longitude: string;
   }

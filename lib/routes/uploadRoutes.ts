@@ -94,6 +94,7 @@ export class UploadRoutes {
        
                 cloudinary.uploader.upload(file).then( result =>{
                   this.uploadController.updateImage(req, res,result)
+                  
                   console.log(result)
                                     
                  
