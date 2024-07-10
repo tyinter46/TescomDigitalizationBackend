@@ -15,16 +15,14 @@ import {
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
   specialization: string;
-  startYear: Date;
-  endYear: Date;
+  year: Date;
   schoolName: string;
 }
 
 export const Qualifications = {
   degreeType: String,
   specialization: String,
-  startYear: Date,
-  endYear: Date,
+  year: Date,
   schoolName: String,
 };
 
