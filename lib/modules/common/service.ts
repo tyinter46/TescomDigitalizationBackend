@@ -24,14 +24,13 @@ class CommonService {
       MESSAGE: message,
     });
   }
-  
+
   public static forbiddenResponse(message: string, res: Response) {
     res.status(responseStatusCodes.forbidden).json({
       STATUS: 'FAILURE',
       MESSAGE: message,
     });
   }
-
 
   public static UnprocessableResponse(message: string, res: Response) {
     res.status(responseStatusCodes.unprocessable).json({
