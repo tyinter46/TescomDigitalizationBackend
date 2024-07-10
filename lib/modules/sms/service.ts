@@ -20,7 +20,7 @@ export default class SMSService {
       message_text: `Your TESCOM authentication code is ${params.code}. it expires in 15 minutes`,
       pin_type: 'NUMERIC',
     };
-    console.log(params.code,params.phoneNumber)
+    console.log(params.code, params.phoneNumber);
     const options = {
       method: 'POST',
       url: 'https://api.ng.termii.com/api/sms/otp/send',
@@ -41,7 +41,7 @@ export default class SMSService {
     }
   }
 
-  public async PasswordUpdateNotification(params: {phoneNumber: string}) {
+  public async PasswordUpdateNotification(params: { phoneNumber: string }) {
     const data = {
       api_key: this.termiiApiKey,
       message_type: 'NUMERIC',
@@ -70,14 +70,12 @@ export default class SMSService {
         .then((result) => {
           console.log(result);
         });
-      
-  
     } catch (error) {
       throw new Error(error?.toString());
     }
   }
 
-  public async sendResetPasswordToken(params: {phoneNumber: string, newToken: string}) {
+  public async sendResetPasswordToken(params: { phoneNumber: string; newToken: string }) {
     const data = {
       api_key: this.termiiApiKey,
       message_type: 'NUMERIC',
@@ -106,8 +104,40 @@ export default class SMSService {
         .then((result) => {
           console.log(result);
         });
-      
-  
+    } catch (error) {
+      throw new Error(error?.toString());
+    }
+  }
+
+  public async sendConfirmationToken(params: { phoneNumber: string; newToken: string }) {
+    const data = {
+      api_key: this.termiiApiKey,
+      message_type: 'NUMERIC',
+      to: `${params.phoneNumber}`,
+      from: 'N-Alert',
+      channel: 'dnd',
+      pin_attempts: 10,
+      pin_time_to_live: 5,
+      pin_length: 6,
+      pin_placeholder: `< token >`,
+      message_text: `Your TESCOM confirmation token is ${params.newToken}, this expires in 15 minutes`,
+      pin_type: 'NUMERIC',
+    };
+    const options = {
+      method: 'POST',
+      url: 'https://api.ng.termii.com/api/sms/otp/send',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const fetchRes = fetch(options.url, options);
+      fetchRes
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result);
+        });
     } catch (error) {
       throw new Error(error?.toString());
     }

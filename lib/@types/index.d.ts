@@ -4,9 +4,8 @@ interface User {
   id?: string;
   staffName?: {
     firstName: string;
-    middleName?: string
+    middleName?: string;
     lastName: string;
-  
   };
   ogNumber?: string;
   isAdmin?: boolean;

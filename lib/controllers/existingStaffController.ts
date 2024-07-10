@@ -6,9 +6,8 @@ import { IExistingStaff } from '../modules/existingStaff/model';
 
 export class ExistingStaffController {
   private existingStaffService: ExistingStaffService = new ExistingStaffService();
- 
+
   public getAllExistingStaff(req: any, res: Response) {
-   
     const {
       pageNumber = 1,
       pageSize = 20,
@@ -23,7 +22,7 @@ export class ExistingStaffController {
     } = req.query;
 
     // const query = {
-      
+
     //   $or: [
     //    {nameOfOfficer: { $regex: nameOfOfficer, $options: 'i' }},
     //     { ogNum: { $regex: ogNum , $options: 'i' } },
@@ -36,35 +35,35 @@ export class ExistingStaffController {
 
     const query: any = {};
     const orConditions: any[] = [];
-  
+
     if (ogNumber) {
       orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
     }
-  
+
     if (nameOfOfficer) {
       orConditions.push({ nameOfOfficer: { $regex: nameOfOfficer, $options: 'i' } });
     }
-  
+
     if (gradeLevel) {
       orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
     }
-  
+
     if (dateOfBirth) {
       orConditions.push({ dateOfBirth: new Date(dateOfBirth) });
     }
-  
+
     if (dateOfFirstAppointment) {
       orConditions.push({ dateOfFirstAppointment: new Date(dateOfFirstAppointment) });
     }
-  
+
     if (dateOfRetirement) {
       orConditions.push({ dateOfRetirement: new Date(dateOfRetirement) });
     }
-  
+
     if (id) {
       query._id = { $eq: id };
     }
-  
+
     if (orConditions.length > 0) {
       query.$or = orConditions;
     }
@@ -102,7 +101,7 @@ export class ExistingStaffController {
           logger.error({ message: err, service: 'ExistingStaffService' });
           return CommonService.mongoError(err, res);
         } else {
-             CommonService.successResponse(
+          CommonService.successResponse(
             'Existing Staff retrieved  successfully',
             existingStaffData,
             res
@@ -132,5 +131,5 @@ export class ExistingStaffController {
     } else {
       CommonService.insufficientParameters(res);
     }
-   }
+  }
 }

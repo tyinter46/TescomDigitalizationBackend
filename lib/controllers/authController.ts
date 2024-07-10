@@ -16,13 +16,12 @@ import { MongooseError } from 'mongoose';
 import ExistingStaffService from '../modules/existingStaff/service';
 import { IExistingStaff } from '../modules/existingStaff/model';
 
-
 dotenv.config();
 
 class AuthController {
   private userService: UserService = new UserService();
   private existingStaffService: ExistingStaffService = new ExistingStaffService();
- // private mailService: MailService = new MailService();
+  // private mailService: MailService = new MailService();
   private smsService: SMSService = new SMSService();
 
   public loginSuccess(req: Request, res: Response) {
@@ -42,48 +41,22 @@ class AuthController {
     }
   }
 
-  // public sendAccountSuccessMail(req: Request, res: Response) {
-  //   const { id } = req.params;
-  //   if (!id) return CommonService.insufficientParameters(res);
-  //   this.userService.filterUser({ _id: id }, (err: any, user: IUser | null) => {
-  //     if (err) return CommonService.mongoError(err, res);
-  //     else if (!user) {
-  //       return CommonService.failureResponse('Unable to send Mail User does not exist', null, res);
-  //     }
-  //     const mailingUser: Partial<IConfirmationMail> = {
-  //       email: user.email,
-  //       name: user.staffName.firstName,
-  //     };
-  //     this.mailService
-  //       .sendAccountSuccessEmail(mailingUser)
-  //       .then(() => {
-  //         CommonService.successResponse(
-  //           'Welcome on board we are glad to  have you here',
-  //           null,
-  //           res
-  //         );
-  //       })
-  //       .catch((err) => {
-  //         logger.error({ message: 'MailService Error' });
-  //         CommonService.failureResponse('MailService Error', null, res);
-  //       });
-  //   });
-  // }
-
   public signup(req: Request, res: Response) {
-    const { phoneNumber, ogNumber, password } = req.body;
-    if (!phoneNumber || !ogNumber || !password) {
+    const { phoneNumber, ogNumber, password, confirmPhoneNumber } = req.body;
+    console.log(phoneNumber, ogNumber, password, confirmPhoneNumber)
+        if (!phoneNumber || !ogNumber || !password || !confirmPhoneNumber) {
       return CommonService.insufficientParameters(res);
     }
-    
-    this.existingStaffService.filterStaff (
+  // if (phoneNumber != confirmPhoneNumber) {return CommonService.UnprocessableResponse("Phone numbers do not match",res)}
+    this.existingStaffService.filterStaff(
       { ogNum: ogNumber },
       (err: any, existingStaff: IExistingStaff | null) => {
         if (err) {
           return CommonService.mongoError(err, res);
         }
         if (!existingStaff.ogNum) {
-          return CommonService.notFoundResponse('Staff not found please visit admin', res);
+          throw new Error(err.message)
+          // return CommonService.notFoundResponse('An error occured!', res);
         }
 
         this.userService.filterUser(
@@ -96,13 +69,16 @@ class AuthController {
               existingStaff.nameOfOfficer.split(' ')[2] + existingStaff.nameOfOfficer.split(' ')[3];
             const lastName =
               existingStaff.nameOfOfficer.split(' ')[4] +
-              ' ' +
-              existingStaff.nameOfOfficer.split(' ')[5] == undefined ? "" : existingStaff.nameOfOfficer.split(' ')[5];
+                ' ' +
+                existingStaff.nameOfOfficer.split(' ')[5] ==
+              undefined
+                ? ''
+                : existingStaff.nameOfOfficer.split(' ')[5];
 
             console.log(firstName, middleName, lastName);
             if (err) return CommonService.mongoError(err, res);
             const code = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
-            const codeExpiration = 15 * 60;
+            const codeExpiration = 60 * 60;
             // const authToken = { code, expiresIn: Date.now() };
 
             if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
@@ -127,12 +103,13 @@ class AuthController {
               const iUserParams: IUser = {
                 //to use names from existing officer in staffName
                 staffName: {
-                  firstName: firstName,
+                  firstName: existingStaff.nameOfOfficer,
                   middleName: middleName,
                   lastName: lastName,
                 },
                 email: null,
                 phoneNumber: phoneNumber,
+                confirmPhoneNumber: confirmPhoneNumber,
                 ogNumber: existingStaff.ogNum,
                 password: hashedPassword,
                 confirmationCode: code,
@@ -151,26 +128,27 @@ class AuthController {
 
               this.userService.createUser(iUserParams, (err: any, newUser: IUser) => {
                 if (err) {
-                  if (err?.keyValue && err?.keyValue?.email) {
+                  if (err?.keyValue && err?.keyValue?.ogNumber) {
                     CommonService.failureResponse(
                       `User already exist`,
                       { ogNumber: err?.keyValue?.ogNumber },
                       res
                     );
                   } else {
+                    console.log(err.message)
                     return CommonService.mongoError(err, res);
                   }
                 } else {
                   CommonService.successResponse(
                     'Account Created Successfully!',
-                    { _id: newUser._id },
+                    { _id: newUser._id, user:newUser },
                     res
                   );
 
                   try {
                     redisCache.set(
                       AUTH_PREFIX + newUser.ogNumber,
-                      { code },
+                      code,
                       codeExpiration,
                       (err: boolean) => {
                         if (err) {
@@ -180,8 +158,11 @@ class AuthController {
                             res
                           );
                         }
+
+                        const phoneNumber = newUser.phoneNumber;
+                        const newToken = code;
                         this.smsService
-                          .sendCode({ phoneNumber: newUser.phoneNumber, code: code })
+                          .sendCode({ phoneNumber, code })
                           .then(() => {
                             const { _id, phoneNumber } = newUser;
 
@@ -201,23 +182,7 @@ class AuthController {
                               );
                             });
 
-                            // this.mailService.sendAccountActivationRequest(IConfirmationParams)
-                            // .then(()=>{
-                            //     CommonService.successResponse(
-                            //         'Account Created Successfully!',
-                            //         {_id: newUser._id},
-                            //         res
-                            //     )
-                            // })
-                            // .catch((err)=>{
-                            //     logger.error({message: 'MailService Error'});
-                            // this.userService.deleteUser({_id: newUser._id}, ()=>{
-                            //     CommonService.failureResponse(
-                            //         'Mailer Service Error, kindly try again!',
-                            //         null,
-                            //         res
-                            //     )
-                            //     })
+                          
                           });
                       }
                     );
@@ -233,11 +198,75 @@ class AuthController {
     );
   }
 
+
+  public resendConfirmAccountToken(req: Request, res: Response) {
+    const { ogNumber } = req.body;
+    console.log(ogNumber)
+    if (!ogNumber) {
+      return CommonService.insufficientParameters(res);
+    }
+  
+    this.userService.filterUser({ ogNumber }, (err: any, userData: IUser) => {
+      if (err || !userData) {
+        console.log(ogNumber)
+        console.log(userData)
+        return CommonService.failureResponse('An error occurred or user not found', null, res);
+      }
+  
+      if (userData.accountStatus === AccountStatusEnum.ACTIVATED) {
+        return CommonService.failureResponse(
+          'You previously activated your account, kindly login',
+          null,
+          res
+        );
+      }
+  
+      
+      redisCache.get(AUTH_PREFIX + userData.ogNumber, (err: boolean, token: string) => {
+        if (err) {
+          return CommonService.failureResponse('Error retrieving token from cache', null, res);
+        }
+  
+        let newToken: string;
+        if (!token) {
+          newToken = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+        } else {
+          newToken = token;
+          redisCache.del(AUTH_PREFIX + ogNumber, (delErr) => {
+            if (delErr) {
+              return CommonService.failureResponse('Error deleting old token', null, res);
+            }
+          });
+        }
+  
+        const expT = 60 * 60; // Token expiry time in seconds
+        redisCache.set(AUTH_PREFIX + userData.ogNumber, newToken, expT, (setErr: boolean) => {
+          if (setErr) {
+            return CommonService.failureResponse('Unable to resend confirmation code at this time', null, res);
+          }
+  
+          this.smsService.sendConfirmationToken({ phoneNumber: userData.phoneNumber, newToken })
+            .then(() => {
+              CommonService.successResponse('Confirmation account token sent!', { phoneNumber: userData.phoneNumber, firstName: userData.staffName.firstName }, res);
+            })
+            .catch((smsErr: any) => {
+              redisCache.del(AUTH_PREFIX + userData.ogNumber, (delErr) => {
+                if (delErr) {
+                  console.error('Error deleting token after SMS service failure:', delErr);
+                }
+                CommonService.failureResponse('Unable to send confirmation account reset token at the moment!', null, res);
+              });
+            });
+        });
+      });
+    });
+  }
+  
+
   public confirmAccount(req: Request, res: Response) {
-    
     const { code, ogNumber } = req.body;
     if (!code || !ogNumber) return CommonService.insufficientParameters(res);
-    this.userService.filterUser({ ogNumber: ogNumber}, (err: any, user: IUser | any) => {
+    this.userService.filterUser({ ogNumber: ogNumber }, (err: any, user: IUser | any) => {
       if (err) {
         logger.error({ message: err, service: 'Auth Service' });
         return CommonService.mongoError(err, res);
@@ -246,37 +275,40 @@ class AuthController {
         return CommonService.unAuthorizedResponse('You seem not to be authorized', res);
       }
 
-      redisCache.get(AUTH_PREFIX + ogNumber, (error: boolean, authToken: { code: number } | null) => {
-        if (error || !authToken) {
+      redisCache.get(AUTH_PREFIX + ogNumber, (error: boolean, token: string | null) => {
+        if (error || !token) {
           return CommonService.failureResponse('Auth Code expired or does not exist', null, res);
         }
-        if (code !== authToken.code.toString()) {
+        console.log(token, code);
+        if (code !== token.toString()) {
           return CommonService.forbiddenResponse('Forbidden!', res);
         } else {
           redisCache.del(AUTH_PREFIX + ogNumber, () => {
-            const updateData = { accountStatus: AccountStatusEnum.ACTIVATED, confirmationCode: null }
-              console.log(updateData)
-              this.userService.updateUser(
-                  { _id: user._id },
-                        updateData,
-                  (err: any, updateData: IUser)=>{
-                      if (err) return CommonService.mongoError(err, res);
-                      if(!updateData){
-                          logger.error({message: 'Account Activation'});
-                          return CommonService.failureResponse('Account Activation failed!', null, res)
-                      }
-                      return CommonService.successResponse( 'Your account has been confirmed, kindly proceed to login',
-                      updateData,
-                      res
-                      )
-                  }
-              )
-              });
+            const updateData = {
+              accountStatus: AccountStatusEnum.ACTIVATED,
+              confirmationCode: null,
+            };
+            console.log(updateData);
+            this.userService.updateUser(
+              { _id: user._id },
+              updateData,
+              (err: any, updateData: IUser) => {
+                if (err) return CommonService.mongoError(err, res);
+                if (!updateData) {
+                  logger.error({ message: 'Account Activation' });
+                  return CommonService.failureResponse('Account Activation failed!', null, res);
+                }
+                return CommonService.successResponse(
+                  'Your account has been confirmed, kindly login',
+                  updateData,
+                  res
+                );
+              }
+            );
+          });
         }
       });
     });
-
-
   }
 
   public loginUser(req: Request, res: Response, next: NextFunction) {
@@ -288,13 +320,10 @@ class AuthController {
         return next(err);
       }
       if (!user) {
-        return CommonService.unAuthorizedResponse('Wrong Credentials!', res);
+        return CommonService.unAuthorizedResponse('Kindly verify your OgNumber and password!', res);
       }
-    
 
-     
       if (user.accountStatus != 'activated') {
-
         return CommonService.unAuthorizedResponse(
           'Pending Account. Please Verify Your phone number!',
           res
@@ -304,13 +333,13 @@ class AuthController {
         if (err) {
           return next(err);
         }
-        
-        const accessToken = AuthMiddleWare.createToken(user)
+
+        const accessToken = AuthMiddleWare.createToken(user);
 
         user.populate('profilePhoto', (err: any, userData: any) => {
-          
-          console.error('Error during populate:', err)
+          // console.error('Error during populate:', err);
           if (err) return CommonService.mongoError(err, res);
+          console.log(userData.staffName.firstName)
           const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
           const { password, ...rest } = user;
           return CommonService.successResponse(
@@ -319,31 +348,30 @@ class AuthController {
             res
           );
         });
-            });
+      });
 
-            
-        // console.log(accessToken)
-        //   user.populate('profilePhoto', (err: any, userData: any) => {
-        //     if (err) return CommonService.mongoError(err, res);
-        //     const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
-        //     const { password, ...rest } = user._doc;
-        //     return CommonService.successResponse(
-        //       'Successful',
-        //       { user: { ...rest, profilePhoto }, accessToken },
-        //       res
-        //     );
-        //   });
-    //   });
+      // console.log(accessToken)
+      //   user.populate('profilePhoto', (err: any, userData: any) => {
+      //     if (err) return CommonService.mongoError(err, res);
+      //     const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
+      //     const { password, ...rest } = user._doc;
+      //     return CommonService.successResponse(
+      //       'Successful',
+      //       { user: { ...rest, profilePhoto }, accessToken },
+      //       res
+      //     );
+      //   });
+      //   });
     })(req, res, next);
   }
 
   public logoutUser(req: Request, res: Response) {
-           req.headers.authorization = null
+    req.headers.authorization = null;
     this.userService.filterUser({ _id: req?.user.id }, (err: any, userData: any) => {
       if (userData) {
         userData.lastVisited = new Date();
 
-        req.logOut(()=>{})
+        req.logOut(() => {});
         //   req.session.destroy((err) => {
         // res.clearCookie("tsc-cookie-session")
         // });
@@ -367,7 +395,6 @@ class AuthController {
     } else return CommonService.successResponse('Not logged in', { loggedIn: false }, res);
   }
 
-
   public resetPassword(req: Request, res: Response) {
     const { token, password } = req.body;
     if (!token || !password)
@@ -390,13 +417,12 @@ class AuthController {
         userData.password = hashedPassword;
         userData.resetPasswordToken = null;
         userData.resetPasswordExpires = null;
-        const updateData : IUser= {
+        const updateData: IUser = {
           password: userData.password,
-           resetPasswordToken: userData.resetPasswordToken  ,
-            resetPasswordExpires:  userData.resetPasswordExpires
-          
-        }
-        this.userService.updateUser(userData._id, updateData,(err: any) => {
+          resetPasswordToken: userData.resetPasswordToken,
+          resetPasswordExpires: userData.resetPasswordExpires,
+        };
+        this.userService.updateUser(userData._id, updateData, (err: any) => {
           if (err) {
             return CommonService.mongoError(err, res);
           } else {
@@ -413,7 +439,6 @@ class AuthController {
       }
     );
   }
-
 }
 
 export default AuthController;

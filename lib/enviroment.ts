@@ -1,4 +1,3 @@
-
 enum Enviroments {
   local_environment = 'local',
   dev_environment = 'dev',
@@ -7,7 +6,6 @@ enum Enviroments {
 }
 
 class Enviroment {
-  
   private enviroment: string;
 
   constructor(enviroment: string) {
