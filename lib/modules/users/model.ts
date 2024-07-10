@@ -12,20 +12,21 @@ import {
   StaffTypeEnum,
 } from '../../utils/enums';
 
-
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
   specialization: string;
-  year: Date;
+  startYear: Date;
+  endYear: Date;
   schoolName: string;
 }
 
 export const Qualifications = {
   degreeType: String,
   specialization: String,
-  year: Date,
+  startYear: Date,
+  endYear: Date,
   schoolName: String,
-}
+};
 
 export interface IUser {
   _id?: string;
@@ -44,10 +45,10 @@ export interface IUser {
   stateOfOrigin?: string;
   lgOfOrigin?: string;
   ward?: string;
-  qualifications?: Qualifications [];
-  subjectTaught?: string;
+  qualifications?: Qualifications[];
+  subjectsTaught?: string;
   dateOfPresentSchoolPosting?: Date;
-  cadre?: string; 
+  cadre?: string;
   dateOfFirstAppointment?: Date;
   dateOfLastPromotion?: Date;
   dateOfBirth?: Date;
@@ -61,12 +62,12 @@ export interface IUser {
   password?: string;
   confirmationCode?: string;
   profilePhoto?: string;
-  tetiaryCertificate?:string;
-  primarySchoolCertificate?:string;
-  secondarySchoolCert?:string;
-  firstAppointmentLetter?:string;
-  lastPromotionLetter?:string;
-  birthCertificate?:string;
+  tetiaryCertificate?: string;
+  primarySchoolCertificate?: string;
+  secondarySchoolCert?: string;
+  firstAppointmentLetter?: string;
+  lastPromotionLetter?: string;
+  birthCertificate?: string;
   isAdmin?: boolean;
   authLevel?: UserLevelEnum;
   resetPasswordToken?: string;
