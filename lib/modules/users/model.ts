@@ -11,6 +11,7 @@ import {
   ProfessionalStatusEnum,
   StaffTypeEnum,
 } from '../../utils/enums';
+import {ISchools} from '../schools/model'
 
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
@@ -39,9 +40,9 @@ export interface IUser {
   };
   gender?: GenderEnum;
   phoneNumber?: string;
-  confirmPhoneNumber?:string;
+  confirmPhoneNumber?: string;
   tscFileNumber?: string;
-  schoolOfPresentPosting?: string;
+  schoolOfPresentPosting?: ISchools;
   zone?: ZonesEnum;
   division?: DivisionsEnum;
   nationality?: string;
@@ -49,7 +50,7 @@ export interface IUser {
   lgOfOrigin?: string;
   ward?: string;
   qualifications?: Qualifications[];
-  subjectsTaught?: string [];
+  subjectsTaught?: string[];
   dateOfPresentSchoolPosting?: Date;
   cadre?: string;
   dateOfFirstAppointment?: Date;

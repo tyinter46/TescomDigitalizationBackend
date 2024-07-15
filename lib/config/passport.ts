@@ -39,7 +39,9 @@ passport.use(
             if (password == hashedPassword) {
               return done(null, user);
             } else {
-              return done(err, false, { message: 'Incorrect password' });
+              return done(err, false, {
+                message: 'Kindly verify the correctness of your OG-Number or Password',
+              });
             }
           } catch (decryptionError) {
             return done(decryptionError, false, { message: 'Error during password decryption' });

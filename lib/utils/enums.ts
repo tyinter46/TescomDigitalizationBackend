@@ -17,11 +17,13 @@ export enum AccountSourceEnum {
 }
 
 export enum UserLevelEnum {
-  DIT = '6',
-  DAS = '5',
-  DMS = '4',
-  DPRS = '3',
-  DFA = '2',
+  DIT = '8',
+  DAS = '7',
+  DMS = '6',
+  DPRS = '5',
+  DFA = '4',
+  ZONALSECREATARY = '3',
+  PRINCIPAL = '2',
   TSCSTAFF = '1',
 }
 

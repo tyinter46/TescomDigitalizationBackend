@@ -3,19 +3,23 @@ import jwt from 'jsonwebtoken';
 import { UserLevelEnum } from '../utils/enums';
 import CommonService from '../modules/common/service';
 import { IUser } from '../modules/users/model';
-
+import { ISchools } from '../modules/schools/model';
 class AuthMiddleWare {
-  public static createToken(user: IUser) {
+  public static createToken(user: IUser, school: ISchools) {
     const accessToken = jwt.sign(
       {
         id: user._id,
         ogNumber: user.ogNumber,
         name: user.staffName,
+        schoolId: school?._id,
+        schoolName: school?.nameOfSchool,
         isAdmin:
           user.authLevel === UserLevelEnum.DIT ||
           user.authLevel === UserLevelEnum.DPRS ||
           user.authLevel === UserLevelEnum.DMS ||
-          user.authLevel == UserLevelEnum.DAS,
+          user.authLevel == UserLevelEnum.DAS ||
+          user.authLevel === UserLevelEnum.ZONALSECREATARY ||
+          user.authLevel === UserLevelEnum.PRINCIPAL,
       },
       process.env.JWT_SEC,
       { expiresIn: process.env.TOKEN_VALIDATION_DURATION }
@@ -57,6 +61,19 @@ class AuthMiddleWare {
   public static verifyTokenAndAdmin(req: Request, res: Response, next: NextFunction) {
     AuthMiddleWare.verifyToken(req, res, () => {
       if (req.user?.isAdmin) {
+        next();
+      } else {
+        return CommonService.forbiddenResponse(
+          'You are not allowed to perform this operation!',
+          res
+        );
+      }
+    });
+  }
+
+  public static verifyPrincipalAndAdmin(req: Request, res: Response, next: NextFunction) {
+    AuthMiddleWare.verifyToken(req, res, () => {
+      if (req.user?.schoolOfPresentPosting?._id == req.school?._id && req.user?.isAdmin) {
         next();
       } else {
         return CommonService.forbiddenResponse(

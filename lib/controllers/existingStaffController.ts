@@ -10,7 +10,7 @@ export class ExistingStaffController {
   public getAllExistingStaff(req: any, res: Response) {
     const {
       pageNumber = 1,
-      pageSize = 20,
+      pageSize = 50,
       ogNumber = '',
       nameOfOfficer = '',
       gradeLevel = '',

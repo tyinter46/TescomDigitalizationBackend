@@ -155,6 +155,7 @@ const userValidatorSchema = {
     staffType: Joi.string().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),
+    authLevel: Joi.string(),
   }),
 };
 
