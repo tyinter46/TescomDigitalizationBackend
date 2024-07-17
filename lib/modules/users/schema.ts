@@ -12,9 +12,10 @@ import {
   StaffTypeEnum,
   UserLevelEnum,
   ZonesEnum,
+  PositionEnum,
 } from '../../utils/enums';
 import { Image } from '../upload/schema';
-import SchoolSchema  from '../schools/schema';
+import SchoolSchema from '../schools/schema';
 const UserSchema = new Schema(
   {
     staffName: {
@@ -55,6 +56,11 @@ const UserSchema = new Schema(
     zone: {
       type: String,
       enum: [...Object.values(ZonesEnum)],
+      default: ZonesEnum.NULL,
+    },
+    position: {
+      type: String,
+      enum: [...Object.values(PositionEnum)],
       default: ZonesEnum.NULL,
     },
     division: {

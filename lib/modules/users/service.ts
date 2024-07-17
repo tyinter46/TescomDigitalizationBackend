@@ -36,6 +36,9 @@ export default class UserService {
   //      callback
   //    );
   //  }
+  // public getUsersWithAparticularSchool(query: any, callback: any) {
+  //   UsersModel.find(query).populate('schools').exec();
+  // }
 
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(query, options, callback);

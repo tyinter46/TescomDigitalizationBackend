@@ -13,6 +13,7 @@ import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
 import { IExistingStaff } from 'modules/existingStaff/model';
 import SMSService from '../modules/sms/service';
+import SchoolsModel from '../modules/schools/schema'
 
 dotenv.config();
 
@@ -460,6 +461,8 @@ class UserController {
       });
     });
   }
+
+
 }
 
 export default UserController;

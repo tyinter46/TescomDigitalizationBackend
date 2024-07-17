@@ -1,12 +1,15 @@
 import { ModificationNote } from '../modules/common/model';
-import { Request, Response } from 'express';
+import { query, Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
 import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
+import UsersModel from '../modules/users/schema';
+import { InstanceRefreshLivePoolProgress } from 'aws-sdk/clients/autoscaling';
 
 export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
+
   public getAllSchools(req: any, res: Response) {
     const {
       pageNumber = 1,
@@ -122,6 +125,9 @@ export class SchoolsController {
       CommonService.insufficientParameters(res);
     }
   }
+
+  public createSchool(req: Request | any, res: Response) {}
+
   public updateSchool(req: Request | any, res: Response) {
     const { nameOfSchool, category, address, location, zone, division, latitude, longitude } =
       req.body;
@@ -147,7 +153,7 @@ export class SchoolsController {
           schoolData.modificationNotes.push({
             modifiedOn: new Date(Date.now()),
             modifiedBy: req.id,
-            modificationNote: 'User Profile Updated Successfully',
+            modificationNote: 'School details updated successfully',
           });
 
           const schoolParams: Partial<ISchools> = {
@@ -182,6 +188,37 @@ export class SchoolsController {
         } else {
           CommonService.failureResponse('invalid school', null, res);
         }
+      });
+    } else {
+      CommonService.insufficientParameters(res);
+    }
+  }
+  public deteleSchool(req: Request, res: Response) {
+    if (req.params.id) {
+      this.schoolsService.deleteSchool(req.params.id, (err: any, deleteDetails) => {
+        if (err) {
+          logger.error({ message: err, service: 'SchoolsService' });
+          CommonService.mongoError(err, res);
+        } else if (deleteDetails.deletedCount) {
+          CommonService.successResponse('School deleted successfully', null, res);
+        } else {
+          CommonService.failureResponse('Invalid school, Unable to delete', null, res);
+        }
+      });
+    } else {
+      CommonService.insufficientParameters(res);
+    }
+  }
+
+  public getUsersFromAParticularSchool(req: Request, res: Response) {
+    const schoolFilter = { _id: req.params.id };
+    if (req.params.id) {
+      this.schoolsService.findSchoolsWithUsers(schoolFilter, (err: any, schoolData: ISchools) => {
+        if (err) {
+          logger.error({ message: err, service: 'JobsService' });
+          CommonService.mongoError(err, res);
+        }
+        CommonService.successResponse('Teachers retrieved successfully', schoolData, res);
       });
     } else {
       CommonService.insufficientParameters(res);

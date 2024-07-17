@@ -24,7 +24,12 @@ export default class SchoolService {
     SchoolsModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
   }
 
-  public deleteSchool(query: FilterQuery<ISchools>, callback: any) {
+  public deleteSchool(_id: string, callback?: any) {
+    const query = { _id };
     SchoolsModel.deleteOne(query, callback);
+  }
+
+  public findSchoolsWithUsers(query: any, callback: any) {
+    SchoolsModel.find(query, callback).populate('listOfStaff').exec();
   }
 }

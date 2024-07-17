@@ -10,8 +10,9 @@ import {
   ServiceStatusEnum,
   ProfessionalStatusEnum,
   StaffTypeEnum,
+  PositionEnum,
 } from '../../utils/enums';
-import {ISchools} from '../schools/model'
+import { ISchools } from '../schools/model';
 
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
@@ -38,6 +39,7 @@ export interface IUser {
     latitude: string;
     longitude: string;
   };
+  position?: PositionEnum;
   gender?: GenderEnum;
   phoneNumber?: string;
   confirmPhoneNumber?: string;

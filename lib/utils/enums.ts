@@ -71,6 +71,25 @@ export enum StaffTypeEnum {
   NULL = 'null',
 }
 
+export enum PositionEnum {
+  CHAIRMAN = 'Chairman',
+  COMMISSIONER1 = 'Commissioner1',
+  COMMISSIONER2 = 'Commissioner2',
+  COMMISSIONER3 = 'Commissioner3',
+  COMMISSIONER4 = 'Commissioner4',
+  DDIT = 'DDIT',
+  DDPRS = 'DDPRS',
+  DAS = 'DAS',
+  DDAPD = 'DDAPD',
+  DDFA = 'DDFA',
+  DDMS = 'DDMS',
+  ZONALSECREATARY = 'Zonal-Secretary',
+  PRINCIPAL = 'Principal',
+  VICEPRINCIPALADMIN = 'Vice-Principal Admin',
+  VICEPRINCIPALACADEMICS = 'Vice-Principal Academics',
+  NULL = 'null',
+}
+
 export enum ProfessionalStatusEnum {
   PROFESSIONAL = 'Professional',
   NONPROFESSIONAL = 'Non-Professional',
