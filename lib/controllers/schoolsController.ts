@@ -2,12 +2,15 @@ import { ModificationNote } from '../modules/common/model';
 import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
+import UserService from '../modules/users/service';
 import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
 import UsersSchema from '../modules/schools/schema';
+import { IUser } from '../modules/users/model';
 
 export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
+  private userService: UserService = new UserService();
 
   public getAllSchools(req: any, res: Response) {
     const {
@@ -184,16 +187,144 @@ export class SchoolsController {
         logger.error({ message: err, service: 'SchoolsService' });
         CommonService.mongoError(err, res);
       }
+
+      if (principal) {
+        //search if its an existing principal and set the school hes coming from to null
+        this.schoolsService.filterSchool(
+          { principal: principal },
+          (err: any, schoolData: ISchools) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            if (schoolData.principal._id === principal) {
+              this.schoolsService.updateSchool(
+                { principal: schoolData.principal._id },
+                { principal: null },
+                (err: any, updatedSchool: ISchools) => {
+                  if (err) {
+                    logger.error({ message: err, service: 'SchoolsService' });
+                    CommonService.mongoError(err, res);
+                    console.log(updatedSchool.principal);
+                  }
+                  console.log('Principal set to null in the incoming school schema');
+                }
+              );
+            }
+          }
+        );
+        //update the user principal's schoolOfPresentPosting to reflect the new school
+        this.userService.updateUser(
+          { _id: principal },
+          { schoolOfPresentPosting: schoolData._id },
+          (err: any, principalData: IUser) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            console.log(principalData);
+          }
+        );
+      }
+      if (vicePrincipalAdmin) {
+        //search if its an existing vicePrincipalAdmin and set the school hes coming from to null
+        this.schoolsService.filterSchool(
+          { vicePrincipalAdmin: vicePrincipalAdmin },
+          (err: any, schoolData: ISchools) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            if (schoolData.vicePrincipalAdmin._id === vicePrincipalAdmin) {
+              this.schoolsService.updateSchool(
+                { vicePrincipalAdmin: schoolData.vicePrincipalAdmin._id },
+                { vicePrincipalAdmin: null },
+                (err: any, updatedSchool: ISchools) => {
+                  if (err) {
+                    logger.error({ message: err, service: 'SchoolsService' });
+                    CommonService.mongoError(err, res);
+                    console.log(updatedSchool.principal);
+                  }
+                  console.log('vicePrincipalAdmin set to null in the incoming school schema');
+                }
+              );
+            }
+          }
+        );
+        //update the user vicePrincipalAdmin's schoolOfPresentPosting to reflect the new school
+        this.userService.updateUser(
+          { _id: vicePrincipalAdmin },
+          { schoolOfPresentPosting: schoolData._id },
+          (err: any, vicePrincipalAdmin: IUser) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            console.log(vicePrincipalAdmin);
+          }
+        );
+      }
+
+      if (vicePrincipalAcademics) {
+        this.schoolsService.filterSchool(
+          { vicePrincipalAcademics: vicePrincipalAcademics },
+          (err: any, schoolData: ISchools) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            if (schoolData.vicePrincipalAcademics._id === vicePrincipalAcademics) {
+              this.schoolsService.updateSchool(
+                { vicePrincipalAcademics: schoolData.vicePrincipalAcademics._id },
+                { vicePrincipalAcademics: null },
+                (err: any, updatedSchool: ISchools) => {
+                  if (err) {
+                    logger.error({ message: err, service: 'SchoolsService' });
+                    CommonService.mongoError(err, res);
+                    console.log(updatedSchool.principal);
+                  }
+                  console.log('vicePrincipalAcademics set to null in the incoming school schema');
+                }
+              );
+            }
+          }
+        );
+
+        this.userService.updateUser(
+          { _id: vicePrincipalAcademics },
+          { schoolOfPresentPosting: schoolData._id },
+          (err: any, vicePrincipalAcademicsData: IUser) => {
+            if (err) {
+              logger.error({ message: err, service: 'SchoolsService' });
+              CommonService.mongoError(err, res);
+            }
+            console.log(vicePrincipalAcademicsData);
+          }
+        );
+      }
       return CommonService.successResponse('School Successfully Created!', schoolData, res);
     });
   }
 
   public updateSchool(req: Request | any, res: Response) {
-    const { nameOfSchool, category, address, location, zone, division, latitude, longitude } =
-      req.body;
+    const {
+      nameOfSchool,
+      category,
+      principal,
+      vicePrincipalAcademics,
+      vicePrincipalAdmin,
+      address,
+      location,
+      zone,
+      division,
+      latitude,
+      longitude,
+    } = req.body;
 
     if (
       nameOfSchool ||
+      vicePrincipalAcademics ||
+      vicePrincipalAdmin ||
       category ||
       address ||
       location ||
@@ -222,6 +353,14 @@ export class SchoolsController {
             nameOfSchool: nameOfSchool ? nameOfSchool : schoolData.nameOfSchool,
             category: category ? category : schoolData.category,
             address: address ? address : schoolData.address,
+            principal: principal ? principal : schoolData.principal,
+            vicePrincipalAcademics: vicePrincipalAcademics
+              ? vicePrincipalAcademics
+              : schoolData.vicePrincipalAcademics,
+            vicePrincipalAdmin: vicePrincipalAdmin
+              ? vicePrincipalAdmin
+              : schoolData.vicePrincipalAdmin,
+
             location: location ? location : schoolData.location,
             division: division ? division : schoolData.division,
             zone: zone ? zone : schoolData.zone,

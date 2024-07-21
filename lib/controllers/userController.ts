@@ -13,7 +13,7 @@ import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
 import { IExistingStaff } from 'modules/existingStaff/model';
 import SMSService from '../modules/sms/service';
-import SchoolsModel from '../modules/schools/schema'
+import SchoolsModel from '../modules/schools/schema';
 
 dotenv.config();
 
@@ -166,7 +166,9 @@ class UserController {
                 CommonService.mongoError(err, res);
               } else {
                 updatedUserData
+                  .populate('schoolOfPresentPosting')
                   .populate('profilePhoto')
+                  .exec()
                   .then((populatedUserData: any) => {
                     const profilePhoto = populatedUserData.profilePhoto
                       ? populatedUserData.profilePhoto?.imageUrl
@@ -461,8 +463,6 @@ class UserController {
       });
     });
   }
-
-
 }
 
 export default UserController;

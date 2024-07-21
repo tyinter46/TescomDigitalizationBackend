@@ -28,7 +28,7 @@ const SchoolSchema = new Schema({
     enum: [...Object.values(DivisionsEnum)],
     default: DivisionsEnum.NULL,
   },
-  listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
 
   principal: { type: Schema.Types.ObjectId, ref: 'Users' },
   vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'Users' },
