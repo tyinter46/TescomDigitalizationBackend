@@ -2,7 +2,6 @@ import { Schema, Document, model, PaginateModel } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ISchools } from './model';
 import { DivisionsEnum, ZonesEnum } from '../../utils/enums';
-import { IUser } from '../users/model';
 
 const SchoolSchema = new Schema({
   nameOfSchool: { type: String, required: true },
@@ -31,9 +30,9 @@ const SchoolSchema = new Schema({
   },
   listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 
-  principal: { type: Schema.Types.ObjectId, ref: 'User' },
-  vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'User' },
-  vicePrincipalAcademics: { type: Schema.Types.ObjectId, ref: 'User' },
+  principal: { type: Schema.Types.ObjectId, ref: 'Users' },
+  vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'Users' },
+  vicePrincipalAcademics: { type: Schema.Types.ObjectId, ref: 'Users' },
   latitude: {
     type: String,
     default: null,

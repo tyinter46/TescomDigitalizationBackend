@@ -8,10 +8,13 @@ export default class SchoolService {
   }
 
   public filterSchool(query: any, callback: any) {
-    SchoolsModel.findOne(query, callback);
+    SchoolsModel.findOne(query, callback)
+      .populate('principal')
+      .populate('vicePrincipalAdmin')
+      .populate('vicePrincipalAcademics');
   }
 
-  public createSchool(params: ISchools, callback: any) {
+  public createSchool(params: Partial<ISchools>, callback: any) {
     const newSchool = new SchoolsModel(params);
     newSchool.save(callback);
   }
@@ -29,7 +32,7 @@ export default class SchoolService {
     SchoolsModel.deleteOne(query, callback);
   }
 
-  public findSchoolsWithUsers(query: any, callback: any) {
+  public findUsersInASchool(query: any, callback: any) {
     SchoolsModel.find(query, callback).populate('listOfStaff').exec();
   }
 }

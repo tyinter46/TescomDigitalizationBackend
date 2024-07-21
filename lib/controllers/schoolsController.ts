@@ -1,11 +1,10 @@
 import { ModificationNote } from '../modules/common/model';
-import { query, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
 import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
-import UsersModel from '../modules/users/schema';
-import { InstanceRefreshLivePoolProgress } from 'aws-sdk/clients/autoscaling';
+import UsersSchema from '../modules/schools/schema';
 
 export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
@@ -29,7 +28,8 @@ export class SchoolsController {
       sort = '',
       id = '',
     } = req.query;
-
+    const page = parseInt(pageNumber as string, 10) || 1;
+    const limit = parseInt(pageSize as string, 10) || 50;
     const query: any = {};
     const orConditions: any[] = [];
 
@@ -94,13 +94,19 @@ export class SchoolsController {
     };
 
     const options = {
-      page: parseInt(pageNumber as string, 10),
-      limit: parseInt(pageSize as string, 10),
-      srt: sortQuery,
-      //  populate: [],
+      page: page,
+      limit: limit,
+      sort: sortQuery,
+      // populate: [
+      //   { path: 'listOfStaff', model: 'UsersModel' },
+      //   { path: 'principal', model: 'UsersModel' },
+      //   { path: 'vicePrincipalAdmin', model: 'UsersModel' },
+      //   { path: 'vicePrincipalAcademics', model: 'UsersModel' },
+      // ],
       customLabels,
     };
-
+    console.log('Query:', query);
+    console.log('Options:', options);
     this.schoolsService.getAllSchools(query, options, (err: any, schoolsData: ISchools) => {
       if (err) {
         logger.error({ message: err, service: 'SchoolsService' });
@@ -112,8 +118,8 @@ export class SchoolsController {
   }
 
   public getSchoolById(req: Request, res: Response) {
-    if (req.params.schoolId) {
-      const schoolFilter = { _id: req.params.existingStaffId };
+    if (req.params.id) {
+      const schoolFilter = { _id: req.params.id };
       this.schoolsService.filterSchool(schoolFilter, (err: any, schoolData: ISchools) => {
         if (err) {
           logger.error({ message: err, service: 'SchoolsService' });
@@ -126,7 +132,61 @@ export class SchoolsController {
     }
   }
 
-  public createSchool(req: Request | any, res: Response) {}
+  public createSchool(req: Request | any, res: Response) {
+    const {
+      nameOfSchool,
+      category,
+      address = null,
+      location,
+      zone,
+      principal,
+      vicePrincipalAdmin,
+      vicePrincipalAcademics,
+      division,
+      latitude,
+      longitude,
+    } = req.body;
+
+    if (!nameOfSchool || !category || !location || !zone || !division) {
+      return CommonService.insufficientParameters(res);
+    }
+    const query = { $and: [{ nameOfSchool }, { category }] };
+    this.schoolsService.filterSchool(query, (err: any, existingSchool: ISchools) => {
+      if (err) {
+        logger.error({ message: err, service: 'SchoolsService' });
+        CommonService.mongoError(err, res);
+      }
+      if (existingSchool) return CommonService.forbiddenResponse('Duplicate School', res);
+    });
+    const schoolParams: Partial<ISchools> = {
+      nameOfSchool,
+      category,
+      address,
+      location,
+      zone,
+      principal,
+      vicePrincipalAdmin,
+      vicePrincipalAcademics,
+      division,
+      latitude,
+      longitude,
+      modificationNotes: [
+        {
+          modifiedOn: new Date(Date.now()),
+          modifiedBy: `${req.user?.staffName?.firstName} ${req.user?.staffName?.lastName}`,
+          modificationNote: 'New School created',
+        },
+      ],
+    };
+
+    this.schoolsService.createSchool(schoolParams, (err: any, schoolData: Partial<ISchools>) => {
+      if (err) {
+        logger.error({ message: err, service: 'SchoolsService' });
+        CommonService.mongoError(err, res);
+      }
+      return CommonService.successResponse('School Successfully Created!', schoolData, res);
+    });
+  }
 
   public updateSchool(req: Request | any, res: Response) {
     const { nameOfSchool, category, address, location, zone, division, latitude, longitude } =
@@ -213,7 +273,7 @@ export class SchoolsController {
   public getUsersFromAParticularSchool(req: Request, res: Response) {
     const schoolFilter = { _id: req.params.id };
     if (req.params.id) {
-      this.schoolsService.findSchoolsWithUsers(schoolFilter, (err: any, schoolData: ISchools) => {
+      this.schoolsService.findUsersInASchool(schoolFilter, (err: any, schoolData: ISchools) => {
         if (err) {
           logger.error({ message: err, service: 'JobsService' });
           CommonService.mongoError(err, res);
