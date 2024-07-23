@@ -12,8 +12,10 @@ import {
   StaffTypeEnum,
   UserLevelEnum,
   ZonesEnum,
+  PositionEnum,
 } from '../../utils/enums';
 import { Image } from '../upload/schema';
+import SchoolSchema from '../schools/schema';
 const UserSchema = new Schema(
   {
     staffName: {
@@ -23,10 +25,10 @@ const UserSchema = new Schema(
         lastName: String,
       },
     },
-    coordinates:{
+    coordinates: {
       type: {
         latitude: String,
-        longitude: String
+        longitude: String,
       },
     },
     gender: {
@@ -44,19 +46,21 @@ const UserSchema = new Schema(
     confirmPhoneNumber: {
       type: String,
       required: [true, 'confirm phone number is required'],
-       default: null,
+      default: null,
     },
     tscFileNumber: {
       type: String,
-       default: null
-    },
-    schoolOfPresentPosting: {
-      type: String,
       default: null,
     },
+    schoolOfPresentPosting: { type: Schema.Types.ObjectId, ref: 'schools' },
     zone: {
       type: String,
       enum: [...Object.values(ZonesEnum)],
+      default: ZonesEnum.NULL,
+    },
+    position: {
+      type: String,
+      enum: [...Object.values(PositionEnum)],
       default: ZonesEnum.NULL,
     },
     division: {

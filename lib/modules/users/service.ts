@@ -9,8 +9,9 @@ export default class UserService {
   }
 
   public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
-    if (selectPassword) UsersModel.findOne(query, callback).select('+password');
-    else UsersModel.findOne(query, callback);
+    if (selectPassword)
+      UsersModel.findOne(query, callback).select('+password').populate('schoolOfPresentPosting');
+    else UsersModel.findOne(query, callback).populate('schoolOfPresentPosting');
   }
 
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
@@ -36,6 +37,9 @@ export default class UserService {
   //      callback
   //    );
   //  }
+  // public getUsersWithAparticularSchool(query: any, callback: any) {
+  //   UsersModel.find(query).populate('schools').exec();
+  // }
 
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(query, options, callback);

@@ -1,3 +1,5 @@
+import { ModificationNote } from '../common/model';
+
 export interface IExistingStaff {
   _id?: string;
   nameOfOfficer: string;
@@ -6,4 +8,5 @@ export interface IExistingStaff {
   dateOfBirth: Date;
   dateOfRetirement: Date;
   dateOfFirstAppointment: Date;
+  modificationNotes?: ModificationNote[];
 }

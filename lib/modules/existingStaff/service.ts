@@ -8,4 +8,9 @@ export default class ExistingStaffService {
   public filterStaff(query: any, callback: any) {
     ExistingStaff.findOne(query, callback);
   }
+
+  public async deleteOneExistingStaff(staffId: string) {
+    const query = { staffId };
+    return await ExistingStaff.deleteOne(query).exec();
+  }
 }

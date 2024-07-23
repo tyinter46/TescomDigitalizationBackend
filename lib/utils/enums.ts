@@ -17,11 +17,13 @@ export enum AccountSourceEnum {
 }
 
 export enum UserLevelEnum {
-  DIT = '6',
-  DAS = '5',
-  DMS = '4',
-  DPRS = '3',
-  DFA = '2',
+  DIT = '8',
+  DAS = '7',
+  DMS = '6',
+  DPRS = '5',
+  DFA = '4',
+  ZONALSECREATARY = '3',
+  PRINCIPAL = '2',
   TSCSTAFF = '1',
 }
 
@@ -66,6 +68,25 @@ export enum DivisionsEnum {
 export enum StaffTypeEnum {
   TEACHING = 'Teaching',
   NONTEACHING = 'Non-Teaching',
+  NULL = 'null',
+}
+
+export enum PositionEnum {
+  CHAIRMAN = 'Chairman',
+  COMMISSIONER1 = 'Commissioner1',
+  COMMISSIONER2 = 'Commissioner2',
+  COMMISSIONER3 = 'Commissioner3',
+  COMMISSIONER4 = 'Commissioner4',
+  DDIT = 'DDIT',
+  DDPRS = 'DDPRS',
+  DAS = 'DAS',
+  DDAPD = 'DDAPD',
+  DDFA = 'DDFA',
+  DDMS = 'DDMS',
+  ZONALSECREATARY = 'Zonal-Secretary',
+  PRINCIPAL = 'Principal',
+  VICEPRINCIPALADMIN = 'Vice-Principal Admin',
+  VICEPRINCIPALACADEMICS = 'Vice-Principal Academics',
   NULL = 'null',
 }
 

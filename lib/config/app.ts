@@ -11,7 +11,8 @@ import { CommonRoutes } from '../routes/commonRoutes';
 import { AuthRoutes } from '../routes/authRoutes';
 import { UserRoutes } from '../routes/userRoutes';
 import { UploadRoutes } from '../routes/uploadRoutes';
-// import { UploadRoutes } from '../routes/uploadRoutes';
+import { schoolRoutes } from '../routes/schoolRoutes';
+
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
 dotenv.config();
@@ -27,9 +28,9 @@ class App {
 
   private authRoutes: AuthRoutes = new AuthRoutes();
   private userRoutes: UserRoutes = new UserRoutes();
-  private uploadRoutes : UploadRoutes = new UploadRoutes();
+  private uploadRoutes: UploadRoutes = new UploadRoutes();
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
-
+  private schoolRoutes: schoolRoutes = new schoolRoutes();
 
   private commonRoutes: CommonRoutes = new CommonRoutes();
 
@@ -43,6 +44,7 @@ class App {
     this.userRoutes.route(this.app);
     this.uploadRoutes.route(this.app);
     this.existingStaffRoutes.route(this.app);
+    this.schoolRoutes.route(this.app);
     this.commonRoutes.route(this.app);
   }
   private config(): void {

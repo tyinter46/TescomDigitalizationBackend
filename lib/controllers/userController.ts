@@ -13,6 +13,7 @@ import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
 import { IExistingStaff } from 'modules/existingStaff/model';
 import SMSService from '../modules/sms/service';
+import SchoolsModel from '../modules/schools/schema';
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ class UserController {
       lastPromotionLetter = '',
       birthCertificate = '',
       staffType,
+      authLevel,
     } = req.body;
 
     if (
@@ -101,9 +103,12 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-         if (userData.tscFileNumber) {
-          return CommonService.UnprocessableResponse("Tsc File Number Already Exist, Kindly verify your file number", res)
-         }
+          if (userData.tscFileNumber) {
+            return CommonService.UnprocessableResponse(
+              'Tsc File Number Already Exist, Kindly verify your file number',
+              res
+            );
+          }
           const userParams: IUser = {
             // _id: req.params.id,
 
@@ -149,6 +154,7 @@ class UserController {
               : userData.lastPromotionLetter,
             birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
             staffType: staffType ? staffType : userData.staffType,
+            authLevel: authLevel ? authLevel : userData.authLevel,
           };
 
           this.userService.updateUser(
@@ -160,7 +166,9 @@ class UserController {
                 CommonService.mongoError(err, res);
               } else {
                 updatedUserData
+                  .populate('schoolOfPresentPosting')
                   .populate('profilePhoto')
+                  .exec()
                   .then((populatedUserData: any) => {
                     const profilePhoto = populatedUserData.profilePhoto
                       ? populatedUserData.profilePhoto?.imageUrl

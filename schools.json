@@ -1,0 +1,3219 @@
+[
+    {
+        "nameOfSchool": "Head Quarters",
+        "location": "OKEMOSAN, ABEOKUTA",
+        "category": "HEADQUARTERS",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Ado-Odo High School (Junior), Ado-Odo",
+        "location": "Ado-Odo",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Agbara Community Junior High School, Edu",
+        "location": "Agbara",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ajogbo Grammar School (Junior)",
+        "location": "OTA",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Alamuwa Grammar School (Junior), Ado Odo",
+        "location": "Ado Odo",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Anglican Grammar School (Junior), Ota",
+        "location": "Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ansar-Ud-Deen. Comprehensive College (Junior), Ota",
+        "location": "Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ansar-Ud-Deen. Comprehensive High School (Senior), Lafenwa, Ota.",
+        "location": "Lafenwa, Ota.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community High School Junior, Alapoti",
+        "location": "Alapoti",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community High School Junior, Iroko Ota.",
+        "location": "Iroko Ota.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Iganmode Grammar School (Junior), Ota",
+        "location": "Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Igbesa  High School(Junior), Igbesa.",
+        "location": "Igbesa.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Iju Ebiye High School (Senior), Iju, Ota",
+        "location": "Iju, Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Local Government Secondary Commercial School [Jnr] Atan.",
+        "location": "Atan.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Male Comprehensive High School(Junior), Igbesa.",
+        "location": "Igbesa.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Sango Ota High School, (Jnr)",
+        "location": "Sango Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "St. Stephen Comprehensive High School(Junior), Ado-Odo.",
+        "location": "Ado-Odo.",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Unity High School (Junior), Ijoko-Ota",
+        "location": "Ijoko-Ota",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Unity High School (Junior), Kajola Ibooro",
+        "location": "Kajola Ibooro",
+        "category": "JUNIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ado-Odo High School (Senior), Ado-Odo",
+        "location": "Ado-Odo",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Agbara Community Senior High School, Edu",
+        "location": "Agbara",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ajogbo Grammar School (Senior)",
+        "location": "OTA",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Alamuwa Grammar School (Senior), Ado Odo",
+        "location": "Ado Odo",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Anglican Grammar School (Senior), Ota",
+        "location": "Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ansar-Ud-Deen. Comprehensive College (Senior), Ota",
+        "location": "Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ansar-Ud-Deen. Comprehensive High School (Senior), Lafenwa, Ota.",
+        "location": "Lafenwa, Ota.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community High School Senior, Alapoti",
+        "location": "Alapoti",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community High School Snr, Iroko Ota.",
+        "location": "Iroko Ota.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Iganmode Grammar School (Senior), Ota",
+        "location": "Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Igbesa  High School(Senior), Igbesa.",
+        "location": "Igbesa.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Iju Ebiye High School (Senior), Iju, Ota",
+        "location": "Iju, Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Local Government Secondary Commercial School [Snr] Atan.",
+        "location": "Atan.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Male Comprehensive High School(Senior), Igbesa.",
+        "location": "Igbesa.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Sango Ota High School, (Snr)",
+        "location": "Sango Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "St. Stephen Comprehensive High School(Senior), Ado-Odo.",
+        "location": "Ado-Odo.",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Unity High School (Senior), Ijoko-Ota",
+        "location": "Ijoko-Ota",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Unity High School (Senior), Kajola Ibooro",
+        "location": "Kajola Ibooro",
+        "category": "SENIOR",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Adie Owe Comm High School",
+        "location": "ADIE-OWE",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "African Church Comm. H. School",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Agbara Grammar School, Agbara",
+        "location": "Agbara",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ansar-Ud Deen Compre College,Itele",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Araromi Community High School, Orita",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community High School,Igbala",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ejila Awori Community Secondary School, Ota.",
+        "location": "Ota.",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Ilogbo Asowo Community High Sch",
+        "location": "ILOGBO-ASOWO",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Iyesi-Ota High School,Iyesi  -Ota Situation Report On Public Sec. Schools.",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "St Michael'S High School,Ota",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Toyon High School, Ere",
+        "location": "ADO-ODO",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Community Sec Oko Baale",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Gbenopo Community Grammar School,Bandu",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Owode Ota Grammar School, Ijako.",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Oke-Ore Grammar School",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Yewa Community ",
+        "location": "OTA",
+        "category": "COMBINED",
+        "zone": "ADO-ODO OTA"
+    },
+    {
+        "nameOfSchool": "Abeokuta Girls Grammar School, Onikolobo",
+        "location": "Onikolobo",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Abeokuta Grammar School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Anglican High School, Quarry Road, Ibara",
+        "location": "Quarry Road, Ibara",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Asero High School, Asero",
+        "location": "Asero",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Baptist Boys' High, Saje",
+        "location": "Saje",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Baptist Girls' College School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Catholic Comprehensivve High School, Panseke, Ibara",
+        "location": "Panseke, Ibara",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Egba Comprehensive High School, Asero",
+        "location": "Asero",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Igbore High School, Igbore",
+        "location": "Igbore",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Ijemo-Titun High School, Housing Estate, Ibara",
+        "location": "Housing Estate, Ibara",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Lantoro High School, Lantoro",
+        "location": "Lantoro",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Lisabi Grammar School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Macjob Grammar School, Onikolobo",
+        "location": "Onikolobo",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Methodist High School, Ogbe",
+        "location": "Ogbe",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Nawair-Un-Deen High School, Isabo",
+        "location": "Isabo",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Reverend Kuti Memorial Grammar School, Isabo",
+        "location": "Isabo",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saje High School, Saje",
+        "location": "Saje",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saint John'S Anglican High School, Kuto",
+        "location": "Kuto",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saint Leo’S College, Onikoko",
+        "location": "Onikoko",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Abeokuta Girls Grammar School, Onikolobo",
+        "location": "Onikolobo",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Abeokuta Grammar School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Agunbiade Victory High School, Magbon",
+        "location": "Magbon",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Anglican High School, Quarry Road, Ibara",
+        "location": "Quarry Road, Ibara",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Asero High School, Asero",
+        "location": "Asero",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Baptist Boys' High, Saje",
+        "location": "Saje",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+        {
+        "nameOfSchool": "Baptist Girls' College School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Catholic Comprehensivve High School, Panseke, Ibara",
+        "location": "Panseke, Ibara",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Egba Comprehensive High School, Asero",
+        "location": "Asero",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Igbore High School, Igbore",
+        "location": "Igbore",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Ijemo-Titun High School, Housing Estate, Ibara",
+        "location": "Housing Estate, Ibara",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Lantoro High School, Lantoro",
+        "location": "Lantoro",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Lisabi Grammar School, Idi Aba",
+        "location": "Idi Aba",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Macjob Grammar School, Onikolobo",
+        "location": "Onikolobo",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Methodist High School, Ogbe",
+        "location": "Ogbe",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Nawair-Un-Deen High School, Isabo",
+        "location": "Isabo",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Reverend Kuti Memorial Grammar School, Isabo",
+        "location": "Isabo",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saje High School, Saje",
+        "location": "Saje",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saint John'S Anglican High School, Kuto",
+        "location": "Kuto",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "Saint Leo’S College, Onikoko",
+        "location": "Onikoko",
+        "category": "SENIOR",
+        "zone": "ABEOKUTA SOUTH"
+    },
+    {
+        "nameOfSchool": "African Church Grammar School (Jnr), Ita- Iyalode",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Armyday Secondary School, (Jnr), Alamala",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Ebenezer Grammar School, (Jnr), Iberekodo",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Gateway Secondary School, (Jnr), Ita - Eko",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Ilugun High School (Jnr), Elega",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Lafenwa High School (Jnr), Lafenwa",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+    {
+        "nameOfSchool": "Premier Grammar School (Jnr), Lafenwa",
+        "location": "ABEOKUTA",
+        "category": "JUNIOR",
+        "zone": "ABEOKUTA NORTH"
+    },
+  {
+    "nameOfSchool": "St. Peter'S College,(Jnr)",
+    "location": "Olamore ABEOKUTA",
+    "category": "JUNIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Unity High School,(Jnr)",
+    "location": "Ago- Ika ABEOKUTA",
+    "category": "JUNIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Arican Church Grammar School (Snr)",
+    "location": "Ita- Iyalode ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Armyday Secondary School, (Snr)",
+    "location": "Alamala ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ebenezer Grammar School, (Snr)",
+    "location": "Iberekodo ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Gateway Secondary School, (Snr)",
+    "location": "Ita - Eko ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ilugun High School (Snr)",
+    "location": "Elega ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Lafenwa High School (Snr)",
+    "location": "Lafenwa ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Premier Grammar School (Snr)",
+    "location": "Lafenwa ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "St. Peter's College,(Snr)",
+    "location": "Olamore ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Unity High School,(Snr)",
+    "location": "Ago- Ika ABEOKUTA",
+    "category": "SENIOR",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ajiboyede Comprhensive High School",
+    "location": "Ibara - Orile IBARA-ORILE",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud- Deen Grammar School",
+    "location": "Isaga Orile ISAGA ORILE",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Idi- Emi High School",
+    "location": "Idi Emi IDI EMI",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ikija High School",
+    "location": "Ikija ABEOKUTA",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Ilewo Community High School",
+    "location": "Ilewo ILEWO-ORILE",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Imala Community High School",
+    "location": "Imala IMALA",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Oke- Ona Grammar School",
+    "location": "Oke- Ona ABEOKUTA",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Olorunda Community High School",
+    "location": "Olorunda ABEOKUTA",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Olumo High School",
+    "location": "Sabo ABEOKUTA",
+    "category": "COMBINED",
+    "zone": "ABEOKUTA NORTH"
+  },
+  {
+    "nameOfSchool": "Army Day Junior Sec. Sch.,",
+    "location": "Owode OWODE-YEWA",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Jnr, Owode",
+    "location": "OWODE-YEWA",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Owode Sec. School Jnr., Owode",
+    "location": "OWODE-YEWA",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Iyewa High School Jnr. Ajilete",
+    "location": "AJILETE",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Muslim Prog. High Sch., Oke-Odan",
+    "location": "OKE-ODAN",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Emmanuel Comm. High Sch., Ilaro",
+    "location": "ILARO",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Oronna High School, Jnr, Ilaro",
+    "location": "ILARO",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Anglican Gramm, Sch. Ilaro",
+    "location": "ILARO",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Itolu Comm. H/S Junior, Ilaro",
+    "location": "ILARO",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Yewa College Junior, Ilaro",
+    "location": "ILARO",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Iwoye Area Comm. H/S, Iwoye.",
+    "location": "IWOYE-KETU",
+    "category": "JUNIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Army Day Senior Sec. Sch., Owode",
+    "location": "OWODE-YEWA",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Snr, Owode",
+    "location": "OWODE-YEWA",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Owode Sec. School Snr., Owode",
+    "location": "OWODE-YEWA",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Iyewa High School Snr. Ajilete",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Muslim Prog. High Sch., Oke-Odan",
+    "location": "OKE-ODAN",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Emmanuel Comm. High Sch., Ilaro",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Oronna High School, Snr, Ilaro",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Anglican Gramm, Sch. Ilaro",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Itolu Comm. H/S Senior, Ilaro",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Yewa College Senior, Ilaro",
+    "location": "ILARO",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Iwoye Area Comm. H/S, Iwoye.",
+    "location": "IWOYE-KETU",
+    "category": "SENIOR",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Olokuta",
+    "location": "OWODE-YEWA",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Baptist High School, Ilaro",
+    "location": "ILARO",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Ilobi/Erinja Comm.High Sch",
+    "location": "Ilobi ILARO",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Idogo/Ipaja Comm.High Sch",
+    "location": "Idgo ILARO",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Oke - Odan Gram. Sch",
+    "location": "Oke-Odan OKE-ODAN",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Owo Community High Sch",
+    "location": "Owo OWO",
+    "category": "COMBINED",
+    "zone": "YEWA SOUTH"
+  },
+  {
+    "nameOfSchool": "Ajoda High School (Junior)",
+    "location": "Ayetoro AYETORO",
+    "category": "JUNIOR",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Alaye High School (Junior)",
+    "location": "Ayetoro AYETORO",
+    "category": "JUNIOR",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Ayetoro Community Grammar School (Junior)",
+    "location": "Ayetoro AYETORO",
+    "category": "JUNIOR",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior)",
+    "location": "Ijoun IJOUN",
+    "category": "JUNIOR",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School (Junior)",
+    "location": "Ayetoro AYETORO",
+    "category": "JUNIOR",
+    "zone": "YEWA NORTH"
+  },
+  
+    {
+      "nameOfSchool": "Ketu College (Junior)",
+      "location": "IGAN-ALADE",
+      "category": "JUNIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Oluaso High School (Junior)",
+      "location": "IMASAYI",
+      "category": "JUNIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Orita Community High School (Junior)",
+      "location": "OJA-ODAN",
+      "category": "JUNIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Owode Ketu Commercial High School (Junior)",
+      "location": "OWODE-KETU",
+      "category": "JUNIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Yewa Secondary School (Junior)",
+      "location": "IGBOGILA",
+      "category": "JUNIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Ajoda High School",
+      "location": "AYETORO",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Alaye High School",
+      "location": "AYETORO",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Ayetoro Community Grammar School",
+      "location": "AYETORO",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Community High School",
+      "location": "IJOUN",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Comprehensive High School",
+      "location": "AYETORO",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Ketu College (Senior)",
+      "location": "IGAN-ALADE",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Oluaso High School (Senior)",
+      "location": "IMASAYI",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Orita Community High School (Senior)",
+      "location": "OJA-ODAN",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Owode Ketu Commercial High School (Senior)",
+      "location": "OWODE-KETU",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Yewa Secondary School (Senior)",
+      "location": "IGBOGILA",
+      "category": "SENIOR",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Adokun High School",
+      "location": "IGAN-OKOTO",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Area Community High School",
+      "location": "IBEKU",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Asakanran Grammar School",
+      "location": "IBESE",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Community High School",
+      "location": "EBUTE-IGBOORO",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Community High School",
+      "location": "AGBON-OJODU",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Community Comprehensive High School",
+      "location": "EGGUA",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Community High School Ohunbe",
+      "location": "OHUNBE",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "Eyinni Comp. High School",
+      "location": "IBOORO",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+    {
+      "nameOfSchool": "F.A.C.M(Una) High School",
+      "location": "IGBOGILA",
+      "category": "COMBINED",
+      "zone": "YEWA NORTH"
+    },
+  
+  {
+    "nameOfSchool": "Ketu Community High School",
+    "location": "Ijale Ketu IJALE-KETU",
+    "category": "COMBINED",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Muslim Community High School",
+    "location": "Oja Odan OJA-ODAN",
+    "category": "COMBINED",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Obalaju High School",
+    "location": "Joga Orile JOGA-ORILE",
+    "category": "COMBINED",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Sawonjo High School",
+    "location": "Sawonjo SAWONJO",
+    "category": "COMBINED",
+    "zone": "YEWA NORTH"
+  },
+  {
+    "nameOfSchool": "Ode Remo High School (Junior)",
+    "location": "Ode Remo ODE-REMO",
+    "category": "JUNIOR",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Ode Remo High School (Senior)",
+    "location": "Ode Remo ODE-REMO",
+    "category": "SENIOR",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Isara Secondary School",
+    "location": "Isara Remo ISARA-REMO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Iyankan High School",
+    "location": "Isara Remo ISARA-REMO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Orile Oko Community High School",
+    "location": "Isan ORILE-OKO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Saapade Grammar School",
+    "location": "Saapade SAAPADE-REMO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Ipara Community High School",
+    "location": "Ipara Remo IPARA-REMO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Ilara/Akaka Community Grammar School",
+    "location": "Ilara ILARA-REMO",
+    "category": "COMBINED",
+    "zone": "REMO NORTH"
+  },
+  {
+    "nameOfSchool": "Batoro Community High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Makun High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive College",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Muslim High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ogijo Community High School",
+    "location": "Ogijo OGIJO",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Remo Divisional High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Remo Secondary School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Sagamu High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Sonyindo Community High School",
+    "location": "Sagamu SAGAMU",
+    "category": "JUNIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Batoro Community High School",
+    "location": "Sagamu SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Makun High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive College, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Muslim High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ogijo Community High School, Ogijo",
+    "location": "OGIJO",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Remo Divisional High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Remo Secondary School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Sagamu High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Sonyindo Community High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Agbele Community High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "SENIOR",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Community Grammar School, Ode-Lemo",
+    "location": "ODE-LEMO",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Daniel Comprehensive High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ijagba Community High School, Sotubo",
+    "location": "SOTUBO",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Muleruwa Community High School, Gbaga Ogijo",
+    "location": "OGIJO",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ofin High School, Sagamu",
+    "location": "SAGAMU",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Olomimeji Community High School, Emuren",
+    "location": "EMUREN",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Simawa Community High School, Simawa",
+    "location": "SIMAWA",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "St. John'S Anglican Grammar School, Ode-Lemo",
+    "location": "ODE-LEMO",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ogo-Oluwa C Ommunity Model Secondary School, Ajegunle, Ogijo",
+    "location": "OGIJO",
+    "category": "COMBINED",
+    "zone": "SAGAMU"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya Comprehensive High School, Oni",
+    "location": "ONI",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Community High School, Ibiade",
+    "location": "IBIADE",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ilusin Grammar School, Ilusin",
+    "location": "ILUSIN",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "St. Kizito'S High School, Iwopin.",
+    "location": "IWOPIN",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ibiade Comprehensive High School, Ibiade",
+    "location": "IBIADE",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ayila High School, Ayila",
+    "location": "AYILA",
+    "category": "JUNIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Abigi  Community  Grammar  School, Abigi",
+    "location": "ABIGI",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ayede Comp. High  School, Ayede",
+    "location": "AYEDE",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Efire Community High School, Efire",
+    "location": "EFIRE",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ibu Community Grammar School, Ibu",
+    "location": "IBU",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Itebu Manuwa Comprehensive High School, Itebu Manuwa",
+    "location": "ITEBU MANUWA",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Lomiro High School, Lomiro",
+    "location": "LOMIRO",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Makun Omi Comprehensive High School, Makun Omi",
+    "location": "MAKUN-OMI",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ode Omi Community Grammar Sch, Ode Omi. Ogun Waterside",
+    "location": "ODE-OMI",
+    "category": "COMBINED",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya Comprehensive High School, Oni",
+    "location": "ONI",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Community High School, Ibiade",
+    "location": "IBIADE",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ilusin Grammar School, Ilusin",
+    "location": "ILUSIN",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "St. Kizito'S High School, Iwopin.",
+    "location": "IWOPIN",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ibiade Comprehensive High School, Ibiade",
+    "location": "IBIADE",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Ayila High School, Ayila",
+    "location": "AYILA",
+    "category": "SENIOR",
+    "zone": "OGUN WATERSIDE"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Ibafo",
+    "location": "IBAFO",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+  {
+    "nameOfSchool": "Ogunmakin High School (Junior), Sowunmi",
+    "location": "OGUNMAKIN",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+  {
+    "nameOfSchool": "Owode High School (Junior), Owode Egba",
+    "location": "OWODE-EGBA",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+  {
+    "nameOfSchool": "Ajebo Community High School (Junior), Ajebo",
+    "location": "AJEBO",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+  {
+    "nameOfSchool": "Egba Owode Grammar School (Junior), Owode",
+    "location": "OWODE",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+  {
+    "nameOfSchool": "Egba Obafemi Community High School (Junior), Obafemi",
+    "location": "OBAFEMI",
+    "category": "JUNIOR",
+    "zone": "OBAFEMI OWODE"
+  },
+ 
+ 
+
+ {
+  "nameOfSchool": "Egba Obafemi Community High School (Junior), Obafemi",
+  "location": "OBAFEMI",
+  "category": "JUNIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Ofada Community High School (Junior), Ofada",
+  "location": "OFADA",
+  "category": "JUNIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Community High School (Senior), Ibafo",
+  "location": "IBAFO",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Ogunmakin High School (Senior), Sowunmi",
+  "location": "OGUNMAKIN",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Owode High School (Senior), Owode Egba",
+  "location": "OWODE-EGBA",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Ajebo Community High School (Senior), Ajebo",
+  "location": "AJEBO",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Egba Owode Grammar School (Senior), Owode",
+  "location": "OWODE",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Egba Obafemi Community High School (Senior), Obafemi",
+  "location": "OBAFEMI",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Ofada Community High School (Senior), Ofada",
+  "location": "OFADA",
+  "category": "SENIOR",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Kobape Community High School (Combined), Kobape",
+  "location": "KOBAPE",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Oba Community High School (Combined), Oba OBAFEMI",
+  "location": "COMBINED",
+  "category": "OBAFEMI",
+  "zone": "OWODE"
+},
+{
+  "nameOfSchool": "Orile Igbore Grammar School (Combined), Ajura",
+  "location": "AJURA",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Adesanolu Community High School (Combined), Mowe",
+  "location": "MOWE",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Olorunkole Grammar School (Combined), Kajola KAJOLA-IBOORO",
+  "location": "COMBINED",
+  "category": "KAJOLA-IBOORO",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Community High School (Combined), Iro",
+  "location": "IRO",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Alapako-Oni Community High School (Combined), Alapako-Oni",
+  "location": "ALAPAKO-ONI",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Magboro Community High School (Combined), Magboro",
+  "location": "MAGBORO",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Community High School, Abaren",
+  "location": "ABAREN",
+  "category": "COMBINED",
+  "zone": "OBAFEMI OWODE"
+},
+{
+  "nameOfSchool": "Alagbe Community High School, Alagbe",
+  "location": "ALAGBE",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community Comprehensive College, Idofa",
+  "location": "IDOFA",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community Comprehensive High School, Atapele",
+  "location": "ATAPELE",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community Comprehensive High School, Oke-Agbede",
+  "location": "OKE-AGBEDE",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community High School, Afon",
+  "location": "AFON",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community High School, Moriwi",
+  "location": "MORIWI",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Muslim Grammar School, Imeko",
+  "location": "IMEKO",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Muslim High School, Ilara-Yewa",
+  "location": "ILARA-YEWA",
+  "category": "COMBINED",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Obada Grammar School, Obada OBADA IDI-EMI",
+  "location": "COMBINED",
+  "category": "OBADA IDI-EMI",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Alaketu High School, Imeko",
+  "location": "IMEKO",
+  "category": "SENIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community High School, Idi-Ayin.",
+  "location": "IDI-AYIN",
+  "category": "SENIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Iwoye-Ketu Community High School, Iwoye-Ketu.",
+  "location": "IWOYE-KETU",
+  "category": "SENIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community High School, Ilara-Yewa.",
+  "location": "ILARA-YEWA",
+  "category": "SENIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Nazareth High School, Imeko.",
+  "location": "IMEKO",
+  "category": "SENIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Alaketu High School, Imeko",
+  "location": "IMEKO",
+  "category": "JUNIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Community High School, Idi-Ayin.",
+  "location": "IDI-AYIN",
+  "category": "JUNIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Iwoye-Ketu Community High School, Iwoye-Ketu.",
+  "location": "IWOYE-KETU",
+  "category": "JUNIOR",
+  "zone": "IMEKO AFON"
+}, {
+  "nameOfSchool": "Community High School, Ilara-Yewa.",
+  "location": "ILARA-YEWA",
+  "category": "JUNIOR",
+  "zone": "IMEKO AFON"
+},
+{
+  "nameOfSchool": "Nazareth High School, Imeko.",
+  "location": "IMEKO",
+  "category": "JUNIOR",
+  "zone": "IMEKO AFON"
+},
+
+  {
+      "nameOfSchool": "Salawu Abiola Comprehensive High School (Jnr), Osiele",
+      "location": "OSIELE",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Salawu Abiola Comprehensive High School (Snr), Osiele",
+      "location": "OSIELE",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Nawair-Ud-Deen Grammar School (Jnr), Obantoko",
+      "location": "OBANTOKO",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Nawair-Ud-Deen Grammar School (Snr), Obantoko",
+      "location": "OBANTOKO",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Egba Odeda High School (Jnr), Odeda",
+      "location": "ODEDA",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Egba Odeda High School (Snr), Odeda",
+      "location": "ODEDA",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Ilugun Comprehensive High School(Jnr), Orile Ilugun",
+      "location": "ORILE-ILUGUN",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Ilugun Comprehensive High School(Snr), Orile Ilugun",
+      "location": "ORILE-ILUGUN",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Keesi Grammar School(Jnr), Olodo",
+      "location": "OLODO",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Keesi Grammar School(Snr), Olodo",
+      "location": "OLODO",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Kemta Comprehensive High School (Jnr), Olugbo",
+      "location": "OLUGBO",
+      "category": "JUNIOR",
+      "zone": "ODEDA"
+  },
+  {
+      "nameOfSchool": "Orile Kemta Comprehensive High School (Snr), Olugbo",
+      "location": "OLUGBO",
+      "category": "SENIOR",
+      "zone": "ODEDA"
+  }
+,
+
+ {
+  "nameOfSchool": "Muslim High School, Isolu",
+  "location": "ISOLU",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Alabata Community High School, Alabata",
+  "location": "ALABATA",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Olokemeji High School, Olokemeji",
+  "location": "OLOKEMEJI",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Alagbagba Community High School, Alagbagba",
+  "location": "ALAGBAGBA",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Orile Iporo Community High School, Orile Iporo",
+  "location": "ORILE IPORO",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Emulu Comprehensive High School, Orile Itesi",
+  "location": "ORILE ITESI",
+  "category": "COMBINED",
+  "zone": "ODEDA"
+},
+{
+  "nameOfSchool": "Methodist High School(Senior), Arigbajo.",
+  "location": "ARIGBAJO.",
+  "category": "SENIOR",
+  "zone": "EWEKORO"
+},
+{
+  "nameOfSchool": "Papalanto High School (Senior), Papalanto.",
+  "location": "PAPALANTO.",
+  "category": "SENIOR",
+  "zone": "EWEKORO"
+},
+  {
+    "nameOfSchool": "Itori Comprehensive High School (Senior), Itori.",
+    "location": "ITORI.",
+    "category": "SENIOR",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Methodist High School(Junior), Arigbajo.",
+    "location": "ARIGBAJO.",
+    "category": "JUNIOR",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Papalanto High School (Junior), Papalanto.",
+    "location": "PAPALANTO.",
+    "category": "JUNIOR",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Itori Comprehensive High School (Junior), Itori.",
+    "location": "ITORI.",
+    "category": "JUNIOR",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Ifedapo Community Comprehensive High School, Ajegunle-Abalabi.",
+    "location": "AJEGUNLE-ABALABI",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School, Owowo.",
+    "location": "OWOWO",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "United Comprehensive High School, Wasinmi.",
+    "location": "WASINMI",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Akin Ogunpola Model College, Akinale.",
+    "location": "AKINALE",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Olorunda Community Comprehensive High School, Olorunda.",
+    "location": "OLORUNDA",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Adeoye Lambo Memorial High School, Obada-Oko.",
+    "location": "OBADA-OKO",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Owu Community Comprehensive High School, Elere-Adubi.",
+    "location": "ELERE-ADUBI",
+    "category": "COMBINED",
+    "zone": "EWEKORO"
+  },
+  {
+    "nameOfSchool": "Christ Apostolic Grammar School (Junior),Iperu",
+    "location": "IPERU-REMO",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ikenne Community High School(Junior), Ikenne",
+    "location": "IKENNE",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ilisan High School (Junior),Ilishan",
+    "location": "ILISAN-REMO",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Isanbi Comprehensive High School (Junior),Ilishan",
+    "location": "ILISAN-REMO",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Mayflower School (Junior),Ikenne",
+    "location": "IKENNE",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ositelu Memorial College (Junior),Ogere",
+    "location": "OGERE-REMO",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "United High School (Junior),Ikenne",
+    "location": "IKENNE",
+    "category": "JUNIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Christ Apostolic Grammar School(Senior),Iperu",
+    "location": "IPERU-REMO",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ikenne Community High School(Senior), Ikenne",
+    "location": "IKENNE",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ilisan High School(Senior),Ilishan",
+    "location": "ILISAN-REMO",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Isanbi Comprehensive High School(Senior),Ilishan",
+    "location": "ILISAN-REMO",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Mayflower School (Senior),Ikenne",
+    "location": "IKENNE",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ositelu Memorial College (Senior),Ogere",
+    "location": "OGERE-REMO",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "United High School (Senior)L, Ikenne",
+    "location": "IKENNE",
+    "category": "SENIOR",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ajagbe High School,Iperu",
+    "location": "IPERU-REMO",
+    "category": "COMBINED",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Akesan Community Grammar School,Iperu",
+    "location": "IPERU-REMO",
+    "category": "COMBINED",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Irolu Community High School,Irolu",
+    "location": "IROLU-REMO",
+    "category": "COMBINED",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Ogere Community High School,Ogere",
+    "location": "OGERE-REMO",
+    "category": "COMBINED",
+    "zone": "IKENNE"
+  },
+  {
+    "nameOfSchool": "Abobi Comprehesive High School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Abusi Odumare Academy Junior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ago Iwoye Secondary School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya High School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Beje High School Junior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Fowoseje Comprehensive High School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Itamerin Comprehensive High School Junior Oru Ijebu",
+    "location": "ORU IJEBU",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Japara High School Junior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Kegbo Community Comprehensive High School Junior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive High School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Muslim High School Junior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Obanta Comprehensive High School Junior Awa Ijebu",
+    "location": "AWA IJEBU",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Shamsudeen Grammar School Junior Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Sopen Comprehensive High School Junior Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Molusi College Junior Ijebu Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ijebu Igbo Girls Grammar School Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Abobi Comprehensive High School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Abusi Odumare Academy Senior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ago Iwoye Secondary School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya High School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Beje High School Senior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Fowoseje Comprehensive High School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Itamerin Comprehensive High School Senior Oru Ijebu",
+    "location": "ORU IJEBU",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Japara High School Senior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Kegbo Community Comprehensive High School Senior Ijebu Igbo",
+    "location": "IJEBU IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive High School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Musilm High School Senior Ago Iwoye",
+    "location": "AGO IWOYE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Obanta Comprehensive High School Senior Awa Ijebu",
+    "location": "AWA IJEBU",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Shamsudeen Grammar School Senior Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Sopen Comprehensive High School Senior Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Molusi College Senior Ijebu Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ijebu Igbo Girls Grammar School Senior Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Ladugbo Community Comprehensive High School Ijebu Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Mamu Community Comprehensive High School Mamu Ijebu",
+    "location": "MAMU IJEBU",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Olokine Grammar School Ijebu-Igbo",
+    "location": "IJEBU-IGBO",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH"
+  },
+  {
+    "nameOfSchool": "Isoyin Grammar School, Junior.",
+    "location": "ISOYIN",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Ogbogbo Baptist Grammar School, Junior.",
+    "location": "OGBOGBO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Ilese Comprehensive High School, Junior",
+    "location": "ILESE",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Deyo-Tuwo Comprehensive High School, Junior",
+    "location": "ODODEYO",
+    "category": "JUNIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Isoyin Grammar School, Senior.",
+    "location": "ISOYIN",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Ogbogbo Baptist Grammar School, Senior.",
+    "location": "OGBOGBO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Ilese Comprehensive High School, Senior.",
+    "location": "ILESE",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Deyo-Tuwo Comprehensive High School, Senior.",
+    "location": "ODODEYO",
+    "category": "SENIOR",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Odopotu Community High School, Odopotu.",
+    "location": "ODOPOTU",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Alaro Community High School, Odosenlu.",
+    "location": "ODOSENLU-ALARO",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Raluwen High School, Atan.",
+    "location": "ATAN-IJEBU",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Idomila Comprehensive High School, Idomila.",
+    "location": "IDOMILA",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Ilugun Central Academy, Ibido/Odosenbora.",
+    "location": "IBIDO/ODOSENBORA",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+  {
+    "nameOfSchool": "Oke-Eri Comprehensive High School, Oke-Eri.",
+    "location": "OKE-ERI",
+    "category": "COMBINED",
+    "zone": "IJEBU NORTH EAST"
+  },
+    {
+      "nameOfSchool": "Adenrele High Schoo (Junior), Ifo",
+      "location": "IFO",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "N.U.D Grammar School (Junior), Solu",
+      "location": "SOLU",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Agbado District Comprehensive High School(Jnr) Oke-Aro",
+      "location": "AGBADO",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Ajuwon High School (Junior), Ajuwon",
+      "location": "IJU AJUWON",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Anglican Grammar School (Junior) Okenla",
+      "location": "OKENLA",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Comm. High Sch.(Junior) Ojodu-Abiodun",
+      "location": "OJODU-ABIODU",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Ifo High School (Junior), Ifo",
+      "location": "IFO",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Itoki Community High School(Junior), Itoki",
+      "location": "ITOKI",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Pakoto High School (Junior), Ayede",
+      "location": "IFO",
+      "category": "JUNIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Adenrele High Schoo (Senior), Ifo",
+      "location": "IFO",
+      "category": "SENIOR",
+      "zone": "ADO-ODO/OTA"
+    },
+    {
+      "nameOfSchool": "N.U.D Grammar School (Senior), Solu",
+      "location": "SOLU",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Agbado District Comprehensive High School(Snr) Oke-Aro",
+      "location": "AGBADO",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Ajuwon High School (Senior), Ajuwon",
+      "location": "IJU -AJUWON",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Anglican Grammar School Snr Okenla",
+      "location": "OKENLA -IFO",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Comm. High Sch.(Snr) Ojodu-Abiodun",
+      "location": "OJODU-ABIODU",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Ifo High School (Senior), Ifo",
+      "location": "IFO",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Itoki Community High  School(Senior), Itoki.",
+      "location": "ITOKI.",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Pakoto High School (Senior), Ayede",
+      "location": "IFO",
+      "category": "SENIOR",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Coker Area Comprehensive High School, Coker",
+      "location": "IFO",
+      "category": "COMBINED",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Community High School Akute",
+      "location": "AKUTE",
+      "category": "COMBINED",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Community High School, Moboluwaduro",
+      "location": "MOBOLUWADURO",
+      "category": "COMBINED",
+      "zone": "IFO"
+    },
+    {
+      "nameOfSchool": "Community High School, Odewale",
+      "location": "ODEWALE",
+      "category": "COMBINED",
+      "zone": "IFO"
+    }, 
+      {
+          "nameOfSchool": "Community High School,Okungbolu",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Community High School, Oluke",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ibogun Comprehensive High School,Egbeda",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Matogun Community High School",
+          "location": "MATOGUN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Okepata Community Community High School,Ifo",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Igbore Robiyan Community High School, Robiyan",
+          "location": "ROBIYAN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Olambe Community Comprehensive High School, Olambe",
+          "location": "OLAMBE",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ibogun Olaogun Community High School, Ibogun Olaogun",
+          "location": "IBOGUN OLAOGUN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Igbusi Comprehensive High School, Igbusi",
+          "location": "IGBUSI-IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Adenrele High School (Junior), Ifo",
+          "location": "IFO",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "N.U.D Grammar School (Junior),Solu",
+          "location": "SOLU",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Agbado District Comprehensive High School(Jnr) Oke-Aro",
+          "location": "AGBADO",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ajuwon High School (Junior),Ajuwon",
+          "location": "AJUWON",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Anglican Grammar School (Junior) Okenla",
+          "location": "OKENLA",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Comm. High Sch.(Junior) Ojodu-Abiodun",
+          "location": "OJODU-ABIODUN",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ifo High School (Junior),Ifo",
+          "location": "IFO",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Itoki Community High  School(Junior), Itoki.",
+          "location": "ITOKI.",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Pakoto High School (Junior), Ayede",
+          "location": "AYEDE",
+          "category": "JUNIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Adenrele High Schoo (Senior), Ifo",
+          "location": "IFO",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "N.U.D Grammar School (Senior),Solu",
+          "location": "SOLU",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Agbado District Comprehensive High School(Snr) Oke-Aro",
+          "location": "AGBADO",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ajuwon High School (Senior),Ajuwon",
+          "location": "AJUWON",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Anglican Grammar School Snr Okenla",
+          "location": "OKENLA",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Comm. High Sch.(Snr) Ojodu-Abiodun",
+          "location": "OJODU-ABIODUN",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ifo High School (Senior),Ifo ",
+          "location": "IFO",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Itoki Community High  School(Senior), Itoki.",
+          "location": "ITOKI.",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Pakoto High School (Senior), Ayede",
+          "location": "AYEDE",
+          "category": "SENIOR",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Coker Area Comprehensive High School,Coker",
+          "location": "COKER",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Community High School Akute",
+          "location": "AKUTE",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Community High School, Moboluwaduro",
+          "location": "MOBOLUWADURO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Community High School, Odewale",
+          "location": "ODEWALE",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+           {
+          "nameOfSchool": "Community High School, Oluke",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ibogun Comprehensive High School,Egbeda",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Matogun Community High School",
+          "location": "MATOGUN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Okepata Community Community High School,Ifo",
+          "location": "IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Igbore Robiyan Community High School, Robiyan",
+          "location": "ROBIYAN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Olambe Community Comprehensive High School, Olambe",
+          "location": "OLAMBE",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Ibogun Olaogun Community High School, Ibogun Olaogun",
+          "location": "IBOGUN OLAOGUN",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Igbusi Comprehensive High School, Igbusi",
+          "location": "IGBUSI-IFO",
+          "category": "COMBINED",
+          "zone": "IFO"
+      },
+      {
+          "nameOfSchool": "Community Commercial High School, Maun",
+          "location": "MAUN",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Community Junior Secondary School, Ipokia",
+          "location": "IPOKIA",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Iko Gateway Grammar School, Idiroko",
+          "location": "IDIROKO",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Ojumo Community Secondary School Ihunbo",
+          "location": "IHUNBO",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Community High School, Tube",
+          "location": "TUBE",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Agosasa Community Secondary, Agosasa",
+          "location": "AGOSASA",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Igiri High School,  Ijofin",
+          "location": "IJOFIN",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Alaari High School, Alaari",
+          "location": "ALAARI",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Imotu Community Commercial Academy, Ifonyintedo",
+          "location": "IFONYINTEDO",
+          "category": "JUNIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Community Commercial High School, Maun",
+          "location": "MAUN",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Community Secondary School, Ipokia",
+          "location": "IPOKIA",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Iko Gateway Grammar School, Idiroko",
+          "location": "IDIROKO",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Ojumo Community Secondary School Ihunbo",
+          "location": "IHUNBO",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Community High School, Tube",
+          "location": "TUBE",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Agosasa Community High School, Agosasa",
+          "location": "AGOSASA",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+      {
+          "nameOfSchool": "Igiri High School,  Ijofin",
+          "location": "IJOFIN",
+          "category": "SENIOR",
+          "zone": "IPOKIA"
+      },
+  {
+      "nameOfSchool": "Alaari High School, Alaari",
+      "location": "ALAARI",
+      "category": "SENIOR",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Imotu Community Commercial Academy, Ifonyintedo",
+      "location": "IFONYINTEDO",
+      "category": "SENIOR",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Agude Communiity High School, Oniro",
+      "location": "ONIRO",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "District High School, Ipokia",
+      "location": "IPOKIA",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Ogbe Community High School, Mede-Ajegunle",
+      "location": "MEDE-AJEGUNL",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Tayese Community Secondary School, Ibatefin",
+      "location": "IBATEFIN",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Community High School, Agada",
+      "location": "AGADA",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Mayigi Community Comprehensive High School, Ilase",
+      "location": "ILASE",
+      "category": "COMBINED",
+      "zone": "IPOKIA"
+  },
+  {
+      "nameOfSchool": "Comprehensive High School (Jnr) Ijebu Ife",
+      "location": "IJEBU IFE",
+      "category": "JUNIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Itele High School (Jnr) Itele Ijebu",
+      "location": "ITELE IJEBU",
+      "category": "JUNIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "St. Anthony'S Grammar School (Jnr) Esure Ijebu Imusin",
+      "location": "ESURE",
+      "category": "JUNIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "St. Brendan'S Grammar School (Jnr) Ogbere",
+      "location": "OGBERE",
+      "category": "JUNIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Comprehensive High School (Snr) Ijebu Ife",
+      "location": "IJEBU IFE",
+      "category": "SENIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Itele High School (Snr) Itele Ijebu",
+      "location": "ITELE",
+      "category": "SENIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "St. Anthony'S Grammar School (Snr) Esure Ijebu Imusin",
+      "location": "ESURE",
+      "category": "SENIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "St. Brendan'S Grammar School (Snr) Ogbere",
+      "location": "OGBERE",
+      "category": "SENIOR",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Plantation High School, Area J4",
+      "location": "AREA J4",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Comprehensive High School, Ijebu Imusin",
+      "location": "IJEBU IFE",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Ajebandele High School, Ajebandele J4",
+      "location": "AJEBANDELE",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Community Comprehensive High School, J4/J6 PLANTATION",
+      "location": "AREA J4/J6",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Community Grammar School, Owu/Ikija",
+      "location": "OWU/IKIJA",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Oke-Imobi Community Grammar School, Terelu-Imobi",
+      "location": "IMOBI",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Ehin-Osun Community High School, Egbeda-Ojelana",
+      "location": "EGBEDA",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Imobi Community High School, Oke-Igbaga",
+      "location": "OKE-IGBAGA",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Community Grammar School, Ijebu - Ife",
+      "location": "IJEBU - IFE",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+  {
+      "nameOfSchool": "Awotunde High School, Ehin-Osun",
+      "location": "EHIN-OSUN",
+      "category": "COMBINED",
+      "zone": "IJEBU EAST"
+  },
+ 
+  {
+    "nameOfSchool": "Anglican Comprehensive High School, Ikoto Snr",
+    "location": "IKOTO",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Multilateral Grammar School, Okun-Owa",
+    "location": "OKUN-OWA",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Ososa Comprehensive High School, Ososa",
+    "location": "OSOSA",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odogbolu Comprehensive High School,Odogbolu",
+    "location": "ODOGBOLU",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odogbolu Grammar School, Odogbolu",
+    "location": "ODOGBOLU",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Omu-Ajose Comprehensive High School, Odogbolu",
+    "location": "OMU",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Ibefun/Ilado Comprehensive High School, Ibefun",
+    "location": "IBEFUN",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odua Comprehensive High School, Imoru",
+    "location": "IMORU",
+    "category": "SENIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Anglican Comprehensive High School, Ikoto",
+    "location": "IKOTO",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Multilateral Grammar School, Okun-Owa",
+    "location": "OKUN-OWA",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Ososa Comprehensive High School, Ososa",
+    "location": "OSOSA",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odogbolu Comprehensive High School,Odogbolu",
+    "location": "ODOGBOLU",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odogbolu Grammar School, Odogbolu",
+    "location": "ODOGBOLU",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Omu-Ajose Comprehensive High School, Odogbolu",
+    "location": "OMU",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Ibefun/Ilado Comprehensive High School, Ibefun",
+    "location": "IBEFUN",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Odua Comprehensive High School, Imoru",
+    "location": "IMORU",
+    "category": "JUNIOR",
+    "zone": "ODOGBOLU"
+},
+{
+    "nameOfSchool": "Aiyepe Comprehensive High School, Aiyepe",
+    "location": "AIYEPE",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+}
+, {
+  "nameOfSchool": "Community High School, Olooji Area J4",
+  "location": "AREA J4",
+  "category": "COMBINED",
+  "zone": "IJEBU EAST"
+}, 
+  {
+    "nameOfSchool": "Community Grammar School, Aiyepe",
+    "location": "AIYEPE",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Idowa Comprehensive High School, Idowa",
+    "location": "IDOWA",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Igbile Community High School, Igbile",
+    "location": "IGBILE",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Ijebu Sounthern District Grammar School, Ala",
+    "location": "ALA",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Ogbo Community Comprehensive High School, Ogbo",
+    "location": "OGBO",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Ifesowapo Comprehensive High School",
+    "location": "IMODI/IMOSAN",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Ikangba Comprehensive High School, Ikangba",
+    "location": "IKANGBA",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Imodi-Ijasi Comprehensive High School, Imodi",
+    "location": "IMODI IJASI",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Moraika Comprehensive High School, Atiba",
+    "location": "ATIBA",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Imagbon/Imaka Comprehensive High School, Imagbo",
+    "location": "IMAGBON",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Titilayo Agbaje Memorial Comprehensive High School, Imosan",
+    "location": "IMODI/IMOSAN",
+    "category": "COMBINED",
+    "zone": "ODOGBOLU"
+  },
+  {
+    "nameOfSchool": "Adeola Odutola College",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Anglican Girls Grammar School",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen High School, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Christ Church High School, Sabo",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ijebu Muslim College, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ijebu-Ode Grammar School, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Luba Comprehensive School",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Molipa High School, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Moslem Comprehensive High School",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Muslim Girls High School, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Our Lady Of Apostles Secondary School",
+    "location": "IJEBU ODE",
+    "category": "SENIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Adeola Odutola College",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Anglican Girls Gram. Sch.",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen High. Sch. Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Christ Church High School",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ijebu Muslim College, Ijebu-Ode",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ijebu-Ode Gram. Sch.",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Luba Comp. High School",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Molipa High School",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Moslem Comp. High School",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Muslim Girls High Sch.",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Our Lady Of Apostles Secondary School",
+    "location": "IJEBU ODE",
+    "category": "JUNIOR",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen High School, Isinwo",
+    "location": "ISINWO",
+    "category": "COMBINED",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Itamapako High School, Iloti",
+    "location": "ILOTI",
+    "category": "COMBINED",
+    "zone": "IJEBU ODE"
+  },
+  {
+    "nameOfSchool": "Obafemi Awolowo Comp. High School, Odonoko",
+    "location": "ODONOKO",
+    "category": "COMBINED",
+    "zone": "IJEBU ODE"
+  }
+]
+
+
+
+  
+  
