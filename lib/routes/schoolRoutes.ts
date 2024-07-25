@@ -11,9 +11,16 @@ export class schoolRoutes {
     app
       .get(
         '/api/schools/:id',
-        // ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
+        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
         (req: Request, res: Response) => {
           this.SchoolsController.getSchoolById(req, res);
+        }
+      )
+      .delete(
+        '/api/schools/:id',
+        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
+        (req: Request, res: Response) => {
+          this.SchoolsController.deleteSchool(req, res);
         }
       )
       .patch(
@@ -36,8 +43,8 @@ export class schoolRoutes {
     );
 
     app.get(
-      '/api/schools/users',
-      AuthMiddleWare.verifyPrincipalAndAdmin,
+      '/api/schools/users/:id',
+      // AuthMiddleWare.verifyPrincipalAndAdmin,
       (req: Request, res: Response) => {
         this.SchoolsController.getUsersFromAParticularSchool(req, res);
       }

@@ -10,8 +10,10 @@ export default class UserService {
 
   public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
     if (selectPassword)
-      UsersModel.findOne(query, callback).select('+password').populate('schoolOfPresentPosting');
-    else UsersModel.findOne(query, callback).populate('schoolOfPresentPosting');
+      UsersModel.findOne(query, callback)
+        .select('+password')
+        .populate('schoolOfPresentPosting' || null);
+    else UsersModel.findOne(query, callback).populate('schoolOfPresentPosting' || null);
   }
 
   public deleteUser(query: FilterQuery<IUser>, callback: any) {

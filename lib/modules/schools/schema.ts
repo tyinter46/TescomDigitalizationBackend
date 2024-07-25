@@ -28,11 +28,11 @@ const SchoolSchema = new Schema({
     enum: [...Object.values(DivisionsEnum)],
     default: DivisionsEnum.NULL,
   },
-  listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+  listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users', default: null }],
 
-  principal: { type: Schema.Types.ObjectId, ref: 'Users' },
-  vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'Users' },
-  vicePrincipalAcademics: { type: Schema.Types.ObjectId, ref: 'Users' },
+  principal: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
+  vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
+  vicePrincipalAcademics: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
   latitude: {
     type: String,
     default: null,
