@@ -13,6 +13,7 @@ import {
   PositionEnum,
 } from '../../utils/enums';
 import { ISchools } from '../schools/model';
+import { UploadModel } from '../upload/model';
 
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
@@ -67,7 +68,7 @@ export interface IUser {
   ogNumber?: string;
   password?: string;
   confirmationCode?: string;
-  profilePhoto?: string;
+  profilePhoto?: UploadModel;
   tetiaryCertificate?: string;
   primarySchoolCertificate?: string;
   secondarySchoolCert?: string;

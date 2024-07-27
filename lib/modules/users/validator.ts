@@ -111,9 +111,7 @@ const userValidatorSchema = {
     zone: Joi.string().required().messages({
       'string.required': 'zone cannot be empty',
     }),
-    profilePhoto: Joi.string()
-      .required()
-      .messages({ 'string.required': 'Profile photo cannot be empty' }),
+    profilePhoto: Joi.string().optional(),
 
     nationality: Joi.string().required().messages({
       'string.required': 'Nationality cannot be empty',

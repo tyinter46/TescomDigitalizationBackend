@@ -15,7 +15,7 @@ import {
   PositionEnum,
 } from '../../utils/enums';
 import { Image } from '../upload/schema';
-import SchoolSchema from '../schools/schema';
+
 const UserSchema = new Schema(
   {
     staffName: {
@@ -144,7 +144,7 @@ const UserSchema = new Schema(
     confirmationCode: {
       type: String,
     },
-    profilePhoto: { type: Schema.Types.ObjectId, ref: Image },
+    profilePhoto: { type: Schema.Types.ObjectId, ref: 'Image' },
     isAdmin: {
       type: Boolean,
       default: false,

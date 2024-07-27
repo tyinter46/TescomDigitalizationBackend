@@ -63,4 +63,16 @@ export default class SchoolService {
       throw new Error(`Error finding users in a school: ${err.message}`);
     }
   }
+
+  public async filterSchools(query: any): Promise<ISchools[]> {
+    try {
+      return await SchoolsModel.find(query)
+        .populate('principal')
+        .populate('vicePrincipalAdmin')
+        .populate('vicePrincipalAcademics')
+        .exec();
+    } catch (err) {
+      throw new Error(`Error filtering schools: ${err.message}`);
+    }
+  }
 }
