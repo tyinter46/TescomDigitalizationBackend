@@ -30,9 +30,24 @@ const SchoolSchema = new Schema({
   },
   listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users', default: null }],
 
-  principal: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
-  vicePrincipalAdmin: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
-  vicePrincipalAcademics: { type: Schema.Types.ObjectId, ref: 'Users', default: null },
+  principal: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    default: null,
+    unique: [true, 'principal already exist'],
+  },
+  vicePrincipalAdmin: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    default: null,
+    unique: [true, 'vicePrincipalAdmin already exist'],
+  },
+  vicePrincipalAcademics: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    default: null,
+    unique: [true, 'vicePrincipalAcademics already exist'],
+  },
   latitude: {
     type: String,
     default: null,

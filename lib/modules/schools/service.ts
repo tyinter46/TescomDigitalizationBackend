@@ -75,4 +75,13 @@ export default class SchoolService {
       throw new Error(`Error filtering schools: ${err.message}`);
     }
   }
+
+  public async findSchoolsByRole(
+    role: 'principal' | 'vicePrincipalAdmin' | 'vicePrincipalAcademics' | string,
+    staffId: string
+  ): Promise<ISchools[]> {
+    const query: any = {};
+    query[role] = staffId;
+    return await SchoolsModel.find(query).exec(); // Adjust according to your model
+  }
 }

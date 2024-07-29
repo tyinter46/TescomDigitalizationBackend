@@ -107,9 +107,9 @@ export class SchoolsController {
       address = null,
       location,
       zone,
-      principal,
-      vicePrincipalAdmin,
-      vicePrincipalAcademics,
+      // principal,
+      // vicePrincipalAdmin,
+      // vicePrincipalAcademics,
       division,
       latitude,
       longitude,
@@ -128,22 +128,22 @@ export class SchoolsController {
       }
 
       // First, update existing principals and vice principals to null
-      if (principal) {
-        await this.updateExistingPrincipal(principal);
-      }
+      // if (principal) {
+      //   await this.updateExistingPrincipal(principal);
+      // }
 
-      if (vicePrincipalAdmin) {
-        await this.updateExistingVicePrincipalAdmin(vicePrincipalAdmin);
-      }
+      // if (vicePrincipalAdmin) {
+      //   await this.updateExistingVicePrincipalAdmin(vicePrincipalAdmin);
+      // }
 
-      if (vicePrincipalAcademics) {
-        await this.updateExistingVicePrincipalAcademics(vicePrincipalAcademics);
-      }
+      // if (vicePrincipalAcademics) {
+      //   await this.updateExistingVicePrincipalAcademics(vicePrincipalAcademics);
+      // }
 
       const staff = [];
-      if (principal) staff.push(principal);
-      if (vicePrincipalAcademics) staff.push(vicePrincipalAcademics);
-      if (vicePrincipalAdmin) staff.push(vicePrincipalAdmin);
+      // if (principal) staff.push(principal);
+      // if (vicePrincipalAcademics) staff.push(vicePrincipalAcademics);
+      // if (vicePrincipalAdmin) staff.push(vicePrincipalAdmin);
 
       // Then, create the new school
       const schoolParams: Partial<ISchools> = {
@@ -171,25 +171,25 @@ export class SchoolsController {
       const newSchoolData = await this.schoolsService.createSchool(schoolParams);
 
       // Update the new school and position of the new principal and vice principals
-      if (principal) {
-        await this.updatePrincipal(newSchoolData._id, principal, 'Principal');
-      }
+      // if (principal) {
+      //   await this.updatePrincipal(newSchoolData._id, principal, 'Principal');
+      // }
 
-      if (vicePrincipalAdmin) {
-        await this.updateVicePrincipalAdmin(
-          newSchoolData._id,
-          vicePrincipalAdmin,
-          'Vice-Principal Admin'
-        );
-      }
+      // if (vicePrincipalAdmin) {
+      //   await this.updateVicePrincipalAdmin(
+      //     newSchoolData._id,
+      //     vicePrincipalAdmin,
+      //     'Vice-Principal Admin'
+      //   );
+      // }
 
-      if (vicePrincipalAcademics) {
-        await this.updateVicePrincipalAcademics(
-          newSchoolData._id,
-          vicePrincipalAcademics,
-          'Vice-Principal Academics'
-        );
-      }
+      // if (vicePrincipalAcademics) {
+      //   await this.updateVicePrincipalAcademics(
+      //     newSchoolData._id,
+      //     vicePrincipalAcademics,
+      //     'Vice-Principal Academics'
+      //   );
+      // }
 
       const updatedSchool = await this.schoolsService.filterSchool({ _id: newSchoolData._id });
       CommonService.successResponse('School Successfully Created!', updatedSchool, res);
@@ -199,11 +199,156 @@ export class SchoolsController {
     }
   }
 
+  // ######################### UPDATE SCHOOL
+  public async updateSchool(req: Request, res: Response) {
+    const { id } = req.params;
+    const {
+      nameOfSchool,
+      category,
+      address = null,
+      location,
+      zone,
+      principal,
+      vicePrincipalAdmin,
+      vicePrincipalAcademics,
+      division,
+      latitude,
+      longitude,
+    } = req.body;
+
+    if (!id) {
+      return CommonService.insufficientParameters(res);
+    }
+
+    // Build the update query dynamically based on the provided fields
+    const updateData: Partial<ISchools> = {};
+    if (nameOfSchool) updateData.nameOfSchool = nameOfSchool;
+    if (category) updateData.category = category;
+    if (address !== undefined) updateData.address = address;
+    if (location) updateData.location = location;
+    if (zone) updateData.zone = zone;
+    if (principal) updateData.principal = principal;
+    if (vicePrincipalAdmin) updateData.vicePrincipalAdmin = vicePrincipalAdmin;
+    if (vicePrincipalAcademics) updateData.vicePrincipalAcademics = vicePrincipalAcademics;
+    if (division) updateData.division = division;
+    if (latitude) updateData.latitude = latitude;
+    if (longitude) updateData.longitude = longitude;
+
+    // Check if there is any data to update
+    if (Object.keys(updateData).length === 0) {
+      return CommonService.insufficientParameters(res);
+    }
+
+    try {
+      // Fetch the current school data
+      const query = { _id: id };
+      const currentSchoolToBeUpdated = await this.schoolsService.filterSchool(query);
+      if (!currentSchoolToBeUpdated) {
+        return CommonService.failureResponse('School not found', null, res);
+      }
+
+      const currentPrincipal = currentSchoolToBeUpdated.principal;
+      const currentVicePrincipalAcademics = currentSchoolToBeUpdated.vicePrincipalAcademics;
+      const currentVicePrincipalAdmin = currentSchoolToBeUpdated.vicePrincipalAdmin;
+      let currentStaffList = [...currentSchoolToBeUpdated.listOfStaff];
+      // console.log(currentStaffList);
+      if (principal) {
+        await this.updateExistingPrincipal(principal);
+        if (currentPrincipal === null) currentStaffList = currentStaffList;
+        else {
+          console.log(currentStaffList);
+          currentStaffList = currentStaffList.filter((staff) => {
+            // console.log(staff._id.toString());
+            // console.log(currentPrincipal);
+            staff._id.toString() !== currentPrincipal._id.toString();
+          });
+        }
+      }
+
+      if (vicePrincipalAdmin) {
+        await this.updateExistingVicePrincipalAdmin(vicePrincipalAdmin);
+        if (currentPrincipal === null) currentStaffList = currentStaffList;
+        else {
+          currentStaffList = currentStaffList.filter(
+            (staff) => staff._id.toString() !== currentVicePrincipalAdmin._id.toString()
+          );
+        }
+      }
+
+      if (vicePrincipalAcademics) {
+        await this.updateExistingVicePrincipalAcademics(vicePrincipalAcademics);
+        if (currentPrincipal === null) currentStaffList = currentStaffList;
+        else {
+          currentStaffList = currentStaffList.filter(
+            (staff) => staff._id.toString() !== currentVicePrincipalAcademics._id.toString()
+          );
+        }
+      }
+      const uniqueCurrentStaffList = [...new Set(currentStaffList)];
+      updateData.listOfStaff = [
+        ...uniqueCurrentStaffList,
+        ...(principal ? [principal] : []),
+        ...(vicePrincipalAdmin ? [vicePrincipalAdmin] : []),
+        ...(vicePrincipalAcademics ? [vicePrincipalAcademics] : []),
+      ];
+
+      const updatedSchool = await this.schoolsService.updateSchool(query, updateData);
+
+      if (principal) {
+        await this.updatePrincipal(updatedSchool._id, principal, 'Principal');
+      }
+
+      if (vicePrincipalAdmin) {
+        await this.updateVicePrincipalAdmin(
+          updatedSchool._id,
+          vicePrincipalAdmin,
+          'Vice-Principal Admin'
+        );
+      }
+
+      if (vicePrincipalAcademics) {
+        await this.updateVicePrincipalAcademics(
+          updatedSchool._id,
+          vicePrincipalAcademics,
+          'Vice-Principal Academics'
+        );
+      }
+
+      return CommonService.successResponse('School updated successfully', updatedSchool, res);
+    } catch (err) {
+      logger.error({ message: err.message, service: 'SchoolsService' });
+      CommonService.mongoError(err, res);
+    }
+  }
+
   public async updateExistingPrincipal(principal: string) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({ principal });
-      if (existingSchool && existingSchool.principal) {
-        await this.schoolsService.updateSchool({ _id: existingSchool._id }, { principal: null });
+      // console.log(existingSchool);
+      if (existingSchool) {
+        console.log(existingSchool.nameOfSchool);
+        const staffList = existingSchool.listOfStaff.filter(
+          (staff) => staff._id.toString() !== principal
+        );
+        if (existingSchool.principal._id.toString() === principal.toString()) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, principal: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAcademics._id.toString() === principal.toString()) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAcademics: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAdmin._id.toString() === principal.toString()) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAdmin: null }
+          );
+        }
+
         this.userService.updateUser(
           { _id: existingSchool.principal },
           { schoolOfPresentPosting: null, position: null },
@@ -221,11 +366,29 @@ export class SchoolsController {
   public async updateExistingVicePrincipalAcademics(vicePrincipalAcademics: string) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({ vicePrincipalAcademics });
-      if (existingSchool && existingSchool.vicePrincipalAcademics) {
-        await this.schoolsService.updateSchool(
-          { _id: existingSchool._id },
-          { vicePrincipalAcademics: null }
+      if (existingSchool) {
+        const staffList = existingSchool.listOfStaff.filter(
+          (staff) => staff !== vicePrincipalAcademics
         );
+        if (existingSchool.principal === vicePrincipalAcademics) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, principal: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAcademics === vicePrincipalAcademics) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAcademics: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAdmin === vicePrincipalAcademics) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAdmin: null }
+          );
+        }
+
         this.userService.updateUser(
           { _id: existingSchool.vicePrincipalAcademics },
           { schoolOfPresentPosting: null, position: null },
@@ -243,11 +406,30 @@ export class SchoolsController {
   public async updateExistingVicePrincipalAdmin(vicePrincipalAdmin: string) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({ vicePrincipalAdmin });
-      if (existingSchool && existingSchool.vicePrincipalAdmin) {
-        await this.schoolsService.updateSchool(
-          { _id: existingSchool._id },
-          { vicePrincipalAdmin: null }
+      if (existingSchool) {
+        // console.log(existingSchool.principal, vicePrincipalAdmin);
+        const staffList = existingSchool.listOfStaff.filter(
+          (staff) => staff !== vicePrincipalAdmin
         );
+        if (existingSchool.principal === vicePrincipalAdmin) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, principal: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAcademics === vicePrincipalAdmin) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAcademics: null }
+          );
+        }
+        if (existingSchool.vicePrincipalAdmin === vicePrincipalAdmin) {
+          await this.schoolsService.updateSchool(
+            { _id: existingSchool._id },
+            { listOfStaff: staffList, vicePrincipalAdmin: null }
+          );
+        }
+
         this.userService.updateUser(
           { _id: existingSchool.vicePrincipalAdmin },
           { schoolOfPresentPosting: null, position: null },
@@ -305,7 +487,7 @@ export class SchoolsController {
   ) {
     try {
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
-      await this.userService.updateUser(
+      this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         { schoolOfPresentPosting: schoolId, position: position },
         (err: any, userData: IUser) => {
@@ -353,117 +535,6 @@ export class SchoolsController {
       }
     } else {
       CommonService.insufficientParameters(res);
-    }
-  }
-
-  public async updateSchool(req: Request, res: Response) {
-    const { id } = req.params;
-    const {
-      nameOfSchool,
-      category,
-      address = null,
-      location,
-      zone,
-      principal,
-      vicePrincipalAdmin,
-      vicePrincipalAcademics,
-      division,
-      latitude,
-      longitude,
-    } = req.body;
-
-    if (!id) {
-      return CommonService.insufficientParameters(res);
-    }
-
-    // Build the update query dynamically based on the provided fields
-    const updateData: Partial<ISchools> = {};
-    if (nameOfSchool) updateData.nameOfSchool = nameOfSchool;
-    if (category) updateData.category = category;
-    if (address !== undefined) updateData.address = address;
-    if (location) updateData.location = location;
-    if (zone) updateData.zone = zone;
-    if (principal) updateData.principal = principal;
-    if (vicePrincipalAdmin) updateData.vicePrincipalAdmin = vicePrincipalAdmin;
-    if (vicePrincipalAcademics) updateData.vicePrincipalAcademics = vicePrincipalAcademics;
-    if (division) updateData.division = division;
-    if (latitude) updateData.latitude = latitude;
-    if (longitude) updateData.longitude = longitude;
-
-    // Check if there is any data to update
-    if (Object.keys(updateData).length === 0) {
-      return CommonService.insufficientParameters(res);
-    }
-
-    try {
-      // Fetch the current school data
-      const query = { _id: id };
-      const currentSchoolToBeUpdated = await this.schoolsService.filterSchool(query);
-      if (!currentSchoolToBeUpdated) {
-        return CommonService.failureResponse('School not found', null, res);
-      }
-
-      const currentPrincipal = currentSchoolToBeUpdated.principal;
-      const currentVicePrincipalAcademics = currentSchoolToBeUpdated.vicePrincipalAcademics;
-      const currentVicePrincipalAdmin = currentSchoolToBeUpdated.vicePrincipalAdmin;
-      let currentStaffList = [...currentSchoolToBeUpdated.listOfStaff];
-
-      if (principal) {
-        if (currentPrincipal !== principal) {
-          await this.updateExistingPrincipal(principal);
-        }
-        currentStaffList = currentStaffList.filter((staff) => staff !== currentPrincipal);
-      }
-
-      if (vicePrincipalAdmin) {
-        if (currentVicePrincipalAdmin !== vicePrincipalAdmin) {
-          await this.updateExistingVicePrincipalAdmin(vicePrincipalAdmin);
-        }
-        currentStaffList = currentStaffList.filter((staff) => staff !== currentVicePrincipalAdmin);
-      }
-
-      if (vicePrincipalAcademics) {
-        if (currentVicePrincipalAcademics !== vicePrincipalAcademics) {
-          await this.updateExistingVicePrincipalAcademics(vicePrincipalAcademics);
-        }
-        currentStaffList = currentStaffList.filter(
-          (staff) => staff !== currentVicePrincipalAcademics
-        );
-      }
-
-      updateData.listOfStaff = [
-        ...currentStaffList,
-        ...(principal ? [principal] : []),
-        ...(vicePrincipalAdmin ? [vicePrincipalAdmin] : []),
-        ...(vicePrincipalAcademics ? [vicePrincipalAcademics] : []),
-      ];
-
-      const updatedSchool = await this.schoolsService.updateSchool(query, updateData);
-
-      if (principal) {
-        await this.updatePrincipal(updatedSchool._id, principal, 'Principal');
-      }
-
-      if (vicePrincipalAdmin) {
-        await this.updateVicePrincipalAdmin(
-          updatedSchool._id,
-          vicePrincipalAdmin,
-          'Vice-Principal Admin'
-        );
-      }
-
-      if (vicePrincipalAcademics) {
-        await this.updateVicePrincipalAcademics(
-          updatedSchool._id,
-          vicePrincipalAcademics,
-          'Vice-Principal Academics'
-        );
-      }
-
-      CommonService.successResponse('School updated successfully', updatedSchool, res);
-    } catch (err) {
-      logger.error({ message: err.message, service: 'SchoolsService' });
-      CommonService.mongoError(err, res);
     }
   }
 }
