@@ -551,6 +551,14 @@ export class SchoolsController {
       try {
         const deleteDetails = await this.schoolsService.deleteSchool(req.params.id);
         if (deleteDetails.deletedCount) {
+          await this.userService.updateUsers(
+            { schoolOfPresentPosting: req.params.id },
+            { schoolOfPresentPosting: null }
+          );
+
+          console.log(
+            `School with ID ${req.params.id} has been deleted and associated users have been updated.`
+          );
           CommonService.successResponse('School deleted successfully', null, res);
         } else {
           CommonService.failureResponse('Invalid school, Unable to delete', null, res);

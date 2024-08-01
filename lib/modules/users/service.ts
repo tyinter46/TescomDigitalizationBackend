@@ -23,27 +23,13 @@ export default class UserService {
   public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
     UsersModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
   }
-  //  public updateUser(userParams: any, callback: any) {
-  //    let query = {};
-  //    if (userParams.query) {
-  //      query = userParams.query;
-  //      delete userParams.query;
-  //    } else query = { _id: userParams._id };
-
-  //    UsersModel.findOneAndUpdate(
-  //      query,
-  //      userParams,
-  //      {
-  //        new: true,
-  //      },
-  //      callback
-  //    );
-  //  }
-  // public getUsersWithAparticularSchool(query: any, callback: any) {
-  //   UsersModel.find(query).populate('schools').exec();
-  // }
 
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(query, options, callback);
+  }
+
+  public async updateUsers(query: object, update: object) {
+    UsersModel.updateMany(query, update);
+    console.log('Users updated successfully.');
   }
 }
