@@ -1,7 +1,7 @@
 import { Schema, Document, model, PaginateModel, Mongoose } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from '../common/model';
-import { IUser, Qualifications } from './model';
+import { IUser, Qualifications, INotifications } from './model';
 import {
   AccountSourceEnum,
   AccountStatusEnum,
@@ -101,6 +101,14 @@ const UserSchema = new Schema(
       type: Date,
       default: null,
     },
+    dateOfFirstAppointmentAtTescom: {
+      type: Date,
+      default: null,
+    },
+    dateOnGradeLevelEight: {
+      type: Date,
+      default: null,
+    },
     dateOfLastPromotion: {
       type: Date,
       default: null,
@@ -197,6 +205,9 @@ const UserSchema = new Schema(
         expiresIn: Number,
       },
     },
+    notifications: [
+      { message: { type: String, required: true }, date: { type: Date, default: Date.now } },
+    ],
     ModificationNotes: [ModificationNote],
   },
   { timestamps: true }

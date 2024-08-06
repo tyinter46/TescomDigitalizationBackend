@@ -43,7 +43,7 @@ class UserController {
       lgOfOrigin,
       ward,
       qualifications: { ...rest },
-      subjectsTaught,
+      subjectsTaught: { ...subjectsTaughtRest },
       dateOfPresentSchoolPosting,
       cadre,
       dateOfLastPromotion,
@@ -59,6 +59,10 @@ class UserController {
       birthCertificate = '',
       staffType,
       authLevel,
+      dateOfFirstAppointmentAtTescom,
+      dateOnGradeLevelEight,
+      remark,
+      notifications: { ...notificationsRest },
     } = req.body;
 
     if (
@@ -72,7 +76,7 @@ class UserController {
       lgOfOrigin ||
       ward ||
       rest ||
-      subjectsTaught ||
+      subjectsTaughtRest ||
       dateOfPresentSchoolPosting ||
       cadre ||
       dateOfLastPromotion ||
@@ -85,7 +89,10 @@ class UserController {
       firstAppointmentLetter ||
       lastPromotionLetter ||
       birthCertificate ||
-      staffType
+      staffType ||
+      dateOfFirstAppointmentAtTescom ||
+      dateOnGradeLevelEight ||
+      remark
     ) {
       const userFilter = { _id: req.params.id };
       this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
@@ -116,7 +123,7 @@ class UserController {
             lgOfOrigin: lgOfOrigin || userData.lgOfOrigin,
             ward: ward || userData.ward,
             qualifications: rest || userData.qualifications,
-            subjectsTaught: subjectsTaught || userData.subjectsTaught,
+            subjectsTaught: subjectsTaughtRest || userData.subjectsTaught,
             dateOfPresentSchoolPosting:
               dateOfPresentSchoolPosting || userData.dateOfPresentSchoolPosting,
             cadre: cadre || userData.cadre,
@@ -133,6 +140,11 @@ class UserController {
             birthCertificate: birthCertificate || userData.birthCertificate,
             staffType: staffType || userData.staffType,
             authLevel: authLevel || userData.authLevel,
+            dateOfFirstAppointmentAtTescom:
+              dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
+            dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
+            remark: remark || userData.remark,
+            notifications: notificationsRest || userData.notifications,
           };
 
           this.userService.updateUser(
@@ -354,7 +366,7 @@ class UserController {
       ogNumber = '',
       // // accountStatus = AccountStatusEnum.PENDING,
       pageNumber = 1,
-      pageSize = 10,
+      pageSize = 100,
       firstName = '',
       tscFileNumber = '',
       middleName = '',
@@ -363,6 +375,11 @@ class UserController {
       // dateOfBirth = '',
       // dateOfFirstAppointment = '',
       // dateOfRetirement = '',
+      schoolOfPresentPosting = '',
+      dateOfPresentSchoolPosting = '',
+      dateOfFirstAppointment = '',
+      dateOfRetirement = '',
+      subjectsTaught,
       sort = 'desc',
       id = '',
       isDeleted = false,
@@ -372,23 +389,25 @@ class UserController {
 
     const orConditions: any[] = [];
 
-    const query = {
-      ogNumber: { $regex: ogNumber, $options: 'i' },
-
+    const getAllUsersQuery = {
       $or: [
+        { ogNumber: { $regex: ogNumber, $options: 'i' } },
         { 'staffName.firstName': { $regex: firstName, $options: 'i' } },
-        { 'staffName.lastName': { $regex: firstName, $options: 'i' } },
-        { 'staffName.middleName': { $regex: firstName, $options: 'i' } },
+        { 'staffName.lastName': { $regex: middleName, $options: 'i' } },
+        { 'staffName.middleName': { $regex: lastName, $options: 'i' } },
         { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
         { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
-        // { dateOfBirth: { $regex: dateOfBirth, $options: 'i' } },
-        // { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
-        // { dateOfRetirement:{ $regex: dateOfRetirement, $options: 'i' } }
+        { ogNumber: { $regex: ogNumber, $options: 'i' } },
+        { schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' } },
+        { dateOfPresentSchoolPosting: { $regex: dateOfPresentSchoolPosting, $options: 'i' } },
+        { subjectsTaught: { $in: [subjectsTaught] } },
+        { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
+        { dateOfRetirement: { $regex: dateOfRetirement, $options: 'i' } },
       ],
     };
 
     if (id) {
-      query['_id'] = { $eq: id };
+      getAllUsersQuery['_id'] = { $eq: id };
     }
 
     const sortQuery = {
@@ -412,12 +431,12 @@ class UserController {
       customLabels,
     };
 
-    this.userService.getAllUser(query, options, (err: any, users: IUser) => {
+    this.userService.getAllUser(getAllUsersQuery, options, (err: any, users: IUser) => {
       if (err) {
         logger.error({ message: err, service: 'userService' });
         return CommonService.mongoError(err, res);
       } else {
-        CommonService.successResponse('Tescom staff retrieved successsfully', users, res);
+        CommonService.successResponse('Tescom staff retrieved successsfully', { users }, res);
       }
     });
   }

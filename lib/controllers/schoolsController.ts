@@ -5,7 +5,6 @@ import UserService from '../modules/users/service';
 import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
-import { any } from 'joi';
 
 export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
