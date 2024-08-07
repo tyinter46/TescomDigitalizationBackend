@@ -25,7 +25,7 @@ export class schoolRoutes {
       )
       .patch(
         '/api/schools/:id',
-        // AuthMiddleWare.verifyPrincipalAndAdmin,
+        AuthMiddleWare.verifyTokenAndAuthorization,
         // ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
         // ValidationMiddleware(schoolValidatorSchema.updateSchool, 'params'),
 
@@ -36,7 +36,7 @@ export class schoolRoutes {
 
     app.get(
       '/api/schools',
-      // AuthMiddleWare.verifyTokenAndAdmin,
+      // AuthMiddleWare.verifyPrincipalAndAdmin,
       (req: Request, res: Response) => {
         this.SchoolsController.getAllSchools(req, res);
       }
