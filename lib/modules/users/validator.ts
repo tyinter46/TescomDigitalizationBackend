@@ -111,9 +111,7 @@ const userValidatorSchema = {
     zone: Joi.string().required().messages({
       'string.required': 'zone cannot be empty',
     }),
-    profilePhoto: Joi.string()
-      .required()
-      .messages({ 'string.required': 'Profile photo cannot be empty' }),
+    profilePhoto: Joi.string().optional(),
 
     nationality: Joi.string().required().messages({
       'string.required': 'Nationality cannot be empty',
@@ -151,11 +149,15 @@ const userValidatorSchema = {
     professionalStatus: Joi.string().required().messages({
       'string.required': 'Professional Status cannot be empty',
     }),
+    dateOfFirstAppointmentAtTescom: Joi.string().optional(),
+    dateOnGradeLevelEight: Joi.string().optional(),
 
     staffType: Joi.string().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),
     authLevel: Joi.string(),
+    remark: Joi.string().optional(),
+    notifications: Joi.string().optional(),
   }),
 };
 

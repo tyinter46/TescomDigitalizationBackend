@@ -13,6 +13,7 @@ import {
   PositionEnum,
 } from '../../utils/enums';
 import { ISchools } from '../schools/model';
+import { UploadModel } from '../upload/model';
 
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
@@ -28,6 +29,10 @@ export const Qualifications = {
   schoolName: String,
 };
 
+export interface INotifications {
+  message: string;
+  date: Date;
+}
 export interface IUser {
   _id?: string;
   staffName?: {
@@ -56,6 +61,8 @@ export interface IUser {
   dateOfPresentSchoolPosting?: Date;
   cadre?: string;
   dateOfFirstAppointment?: Date;
+  dateOfFirstAppointmentAtTescom?: Date;
+  dateOnGradeLevelEight?: Date;
   dateOfLastPromotion?: Date;
   dateOfBirth?: Date;
   gradeLevel?: number;
@@ -67,7 +74,7 @@ export interface IUser {
   ogNumber?: string;
   password?: string;
   confirmationCode?: string;
-  profilePhoto?: string;
+  profilePhoto?: UploadModel;
   tetiaryCertificate?: string;
   primarySchoolCertificate?: string;
   secondarySchoolCert?: string;
@@ -85,6 +92,7 @@ export interface IUser {
   staffType?: StaffTypeEnum;
   remark?: string;
   lastVisited?: Date;
+  notifications?: INotifications[];
   // staffDetailsFromCaps? :
   modificationNotes?: ModificationNote[];
   authToken?: {

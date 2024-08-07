@@ -18,7 +18,7 @@ export class UserRoutes {
       )
       .patch(
         '/api/user/:id',
-        AuthMiddleWare.verifyToken,
+        // AuthMiddleWare.verifyToken,
         ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
         ValidationMiddleware(userValidatorSchema.updateUser, 'body'),
 

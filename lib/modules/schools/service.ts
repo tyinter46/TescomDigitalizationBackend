@@ -3,36 +3,85 @@ import { ISchools } from './model';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 
 export default class SchoolService {
-  public async getAllSchools(query: any, options: any, callback: any) {
-    SchoolsModel.paginate(query, options, callback);
+  public async getAllSchools(query: any, options: any): Promise<any> {
+    try {
+      return await SchoolsModel.paginate(query, options);
+    } catch (err) {
+      throw new Error(`Error getting all schools: ${err.message}`);
+    }
   }
 
-  public filterSchool(query: any, callback: any) {
-    SchoolsModel.findOne(query, callback)
-      .populate('principal')
-      .populate('vicePrincipalAdmin')
-      .populate('vicePrincipalAcademics');
+  public async filterSchool(query: any): Promise<ISchools | null> {
+    try {
+      return await SchoolsModel.findOne(query)
+        .populate('principal')
+        .populate('vicePrincipalAdmin')
+        .populate('vicePrincipalAcademics')
+        .exec();
+    } catch (err) {
+      throw new Error(`Error filtering school: ${err.message}`);
+    }
   }
 
-  public createSchool(params: Partial<ISchools>, callback: any) {
-    const newSchool = new SchoolsModel(params);
-    newSchool.save(callback);
+  public async createSchool(params: Partial<ISchools>): Promise<ISchools> {
+    try {
+      const newSchool = new SchoolsModel(params);
+      return await newSchool.save();
+    } catch (err) {
+      throw new Error(`Error creating school: ${err.message}`);
+    }
   }
 
-  public updateSchool(
+  public async updateSchool(
     query: FilterQuery<ISchools>,
-    updateQuery: UpdateQuery<ISchools>,
-    callback: any
-  ) {
-    SchoolsModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
+    updateQuery: UpdateQuery<ISchools>
+  ): Promise<ISchools | null> {
+    try {
+      const updatedSchool = await SchoolsModel.findOneAndUpdate(query, updateQuery, {
+        new: true,
+      }).exec();
+      // console.log('Update Result:', updatedSchool);
+      return updatedSchool;
+    } catch (err) {
+      throw new Error(`Error updating school: ${err.message}`);
+    }
   }
 
-  public deleteSchool(_id: string, callback?: any) {
-    const query = { _id };
-    SchoolsModel.deleteOne(query, callback);
+  public async deleteSchool(_id: string): Promise<any> {
+    try {
+      const query = { _id };
+      return await SchoolsModel.deleteOne(query).exec();
+    } catch (err) {
+      throw new Error(`Error deleting school: ${err.message}`);
+    }
   }
 
-  public findUsersInASchool(query: any, callback: any) {
-    SchoolsModel.find(query, callback).populate('listOfStaff').exec();
+  public async findUsersInASchool(query: any): Promise<ISchools[]> {
+    try {
+      return await SchoolsModel.find(query).populate('listOfStaff').exec();
+    } catch (err) {
+      throw new Error(`Error finding users in a school: ${err.message}`);
+    }
+  }
+
+  public async filterSchools(query: any): Promise<ISchools[]> {
+    try {
+      return await SchoolsModel.find(query)
+        .populate('principal')
+        .populate('vicePrincipalAdmin')
+        .populate('vicePrincipalAcademics')
+        .exec();
+    } catch (err) {
+      throw new Error(`Error filtering schools: ${err.message}`);
+    }
+  }
+
+  public async findSchoolsByRole(
+    role: 'principal' | 'vicePrincipalAdmin' | 'vicePrincipalAcademics' | string,
+    staffId: string
+  ): Promise<ISchools[]> {
+    const query: any = {};
+    query[role] = staffId;
+    return await SchoolsModel.find(query).exec(); // Adjust according to your model
   }
 }

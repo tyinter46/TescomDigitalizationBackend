@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --config nodemon.json lib/server.ts",
     "start ": "node ./dist/server.js",
+    "build": "tsc",
     "postinstall": "tsc",
     "lint": "eslint . --exit .ts",
     "format:check": "prettier --check .",
@@ -26,6 +27,8 @@
   "homepage": "https://github.com/tyinter46/TescomDigitalizationBackend#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.515.0",
+    "@types/json2csv": "^5.0.7",
+    "@types/pdfkit": "^0.13.4",
     "argon2": "^0.31.2",
     "aws-sdk": "^2.1557.0",
     "cloudinary": "^2.2.0",
@@ -37,6 +40,7 @@
     "express-session": "^1.17.3",
     "helmet": "^7.1.0",
     "joi": "^17.9.2",
+    "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.4.6",
     "mongoose-paginate-v2": "^1.7.1",
@@ -46,6 +50,7 @@
     "nodemailer-postmark-transport": "^5.2.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "pdfkit": "^0.15.0",
     "redis": "^4.6.6",
     "winston": "^3.8.2"
   },

@@ -1,19 +1,17 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import { AccountSourceEnum, AccountStatusEnum } from '../utils/enums';
 import CommonService from '../modules/common/service';
 import { RESET_PASSWORD } from '../utils/constants';
 import { IUser } from '../modules/users/model';
 import UserService from '../modules/users/service';
-import jwt from 'jsonwebtoken';
 import RedisCache from '../config/redisCache';
-import { IForgotPassword } from '../modules/mailer/model';
 import logger from '../config/logger';
 import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
-import { IExistingStaff } from 'modules/existingStaff/model';
+import UsersModel from '../modules/users/schema';
 import SMSService from '../modules/sms/service';
-import SchoolsModel from '../modules/schools/schema';
+import SchoolService from '../modules/schools/service';
+import { ISchools } from '../modules/schools/model';
 
 dotenv.config();
 
@@ -21,7 +19,7 @@ class UserController {
   private userService: UserService = new UserService();
   //private mailService: MailService = new MailService();
   private smsService: SMSService = new SMSService();
-
+  private schoolsService: SchoolService = new SchoolService();
   public getUser(req: Request, res: Response) {
     const { id } = req.params;
     if (!id) return CommonService.insufficientParameters(res);
@@ -33,8 +31,7 @@ class UserController {
       return CommonService.successResponse('User details fetched successfuly', { user }, res);
     });
   }
-
-  public updateUser(req: Request | any, res: Response) {
+  public async updateUser(req: Request | any, res: Response) {
     const {
       gender,
       phoneNumber,
@@ -46,7 +43,7 @@ class UserController {
       lgOfOrigin,
       ward,
       qualifications: { ...rest },
-      subjectsTaught,
+      subjectsTaught: { ...subjectsTaughtRest },
       dateOfPresentSchoolPosting,
       cadre,
       dateOfLastPromotion,
@@ -62,6 +59,10 @@ class UserController {
       birthCertificate = '',
       staffType,
       authLevel,
+      dateOfFirstAppointmentAtTescom,
+      dateOnGradeLevelEight,
+      remark,
+      notifications: { ...notificationsRest },
     } = req.body;
 
     if (
@@ -75,7 +76,7 @@ class UserController {
       lgOfOrigin ||
       ward ||
       rest ||
-      subjectsTaught ||
+      subjectsTaughtRest ||
       dateOfPresentSchoolPosting ||
       cadre ||
       dateOfLastPromotion ||
@@ -88,10 +89,13 @@ class UserController {
       firstAppointmentLetter ||
       lastPromotionLetter ||
       birthCertificate ||
-      staffType
+      staffType ||
+      dateOfFirstAppointmentAtTescom ||
+      dateOnGradeLevelEight ||
+      remark
     ) {
       const userFilter = { _id: req.params.id };
-      this.userService.filterUser(userFilter, (err: any, userData: IUser) => {
+      this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
         if (err) {
           CommonService.mongoError(err, res);
         } else if (userData) {
@@ -110,83 +114,81 @@ class UserController {
             );
           }
           const userParams: IUser = {
-            // _id: req.params.id,
-
-            gender: gender ? gender : userData.gender,
-            phoneNumber: phoneNumber ? phoneNumber : userData.phoneNumber,
-            schoolOfPresentPosting: schoolOfPresentPosting
-              ? schoolOfPresentPosting
-              : userData.schoolOfPresentPosting,
-            zone: zone ? zone : userData.zone,
-            nationality: nationality ? nationality : userData.nationality,
-            stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
-            lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
-            ward: ward ? ward : userData.ward,
-            qualifications: rest ? rest : userData.qualifications,
-            subjectsTaught: subjectsTaught ? subjectsTaught : userData.subjectsTaught,
-            dateOfPresentSchoolPosting: dateOfPresentSchoolPosting
-              ? dateOfPresentSchoolPosting
-              : userData.dateOfPresentSchoolPosting,
-            cadre: cadre ? cadre : userData.cadre,
-            dateOfLastPromotion: dateOfLastPromotion
-              ? dateOfLastPromotion
-              : userData.dateOfLastPromotion,
-            pfa: pfa ? pfa : userData.pfa,
-            pensionNumber: pensionNumber ? pensionNumber : userData.pensionNumber,
-            professionalStatus: professionalStatus
-              ? professionalStatus
-              : userData.professionalStatus,
-            profilePhoto: profilePhoto ? profilePhoto : userData.profilePhoto,
-            tetiaryCertificate: tetiaryCertificate
-              ? tetiaryCertificate
-              : userData.tetiaryCertificate,
-            primarySchoolCertificate: primarySchoolCertificate
-              ? primarySchoolCertificate
-              : userData.primarySchoolCertificate,
-            secondarySchoolCert: secondarySchoolCert
-              ? secondarySchoolCert
-              : userData.secondarySchoolCert,
-            firstAppointmentLetter: firstAppointmentLetter
-              ? firstAppointmentLetter
-              : userData.firstAppointmentLetter,
-            lastPromotionLetter: lastPromotionLetter
-              ? lastPromotionLetter
-              : userData.lastPromotionLetter,
-            birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
-            staffType: staffType ? staffType : userData.staffType,
-            authLevel: authLevel ? authLevel : userData.authLevel,
+            gender: gender || userData.gender,
+            phoneNumber: phoneNumber || userData.phoneNumber,
+            schoolOfPresentPosting: schoolOfPresentPosting || userData.schoolOfPresentPosting,
+            zone: zone || userData.zone,
+            nationality: nationality || userData.nationality,
+            stateOfOrigin: stateOfOrigin || userData.stateOfOrigin,
+            lgOfOrigin: lgOfOrigin || userData.lgOfOrigin,
+            ward: ward || userData.ward,
+            qualifications: rest || userData.qualifications,
+            subjectsTaught: subjectsTaughtRest || userData.subjectsTaught,
+            dateOfPresentSchoolPosting:
+              dateOfPresentSchoolPosting || userData.dateOfPresentSchoolPosting,
+            cadre: cadre || userData.cadre,
+            dateOfLastPromotion: dateOfLastPromotion || userData.dateOfLastPromotion,
+            pfa: pfa || userData.pfa,
+            pensionNumber: pensionNumber || userData.pensionNumber,
+            professionalStatus: professionalStatus || userData.professionalStatus,
+            profilePhoto: profilePhoto || userData.profilePhoto,
+            tetiaryCertificate: tetiaryCertificate || userData.tetiaryCertificate,
+            primarySchoolCertificate: primarySchoolCertificate || userData.primarySchoolCertificate,
+            secondarySchoolCert: secondarySchoolCert || userData.secondarySchoolCert,
+            firstAppointmentLetter: firstAppointmentLetter || userData.firstAppointmentLetter,
+            lastPromotionLetter: lastPromotionLetter || userData.lastPromotionLetter,
+            birthCertificate: birthCertificate || userData.birthCertificate,
+            staffType: staffType || userData.staffType,
+            authLevel: authLevel || userData.authLevel,
+            dateOfFirstAppointmentAtTescom:
+              dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
+            dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
+            remark: remark || userData.remark,
+            notifications: notificationsRest || userData.notifications,
           };
 
           this.userService.updateUser(
             { _id: userData._id },
             userParams,
-            (err: any, updatedUserData: IUser | any) => {
+            async (err: any, updatedUserData: IUser | any) => {
               if (err) {
                 logger.error({ message: err, service: 'UserService' });
                 CommonService.mongoError(err, res);
-              } else {
-                updatedUserData
-                  .populate('schoolOfPresentPosting')
-                  .populate('profilePhoto')
-                  .exec()
-                  .then((populatedUserData: any) => {
-                    const profilePhoto = populatedUserData.profilePhoto
-                      ? populatedUserData.profilePhoto?.imageUrl
-                      : '';
-                    return CommonService.successResponse(
-                      'user update successfull',
-                      { ...populatedUserData._doc, profilePhoto },
-                      res
+              } else if (updatedUserData) {
+                try {
+                  // Fetch the updated user and populate the necessary fields
+                  const populatedUserData = await UsersModel.findById(updatedUserData._id)
+                    .populate('schoolOfPresentPosting')
+                    .populate('profilePhoto')
+                    .exec();
+
+                  const profilePhoto = populatedUserData.profilePhoto
+                    ? populatedUserData.profilePhoto?.imageUrl
+                    : '';
+
+                  if (schoolOfPresentPosting) {
+                    await this.schoolsService.updateSchool(
+                      { _id: schoolOfPresentPosting },
+                      { $push: { listOfStaff: updatedUserData._id } }
                     );
-                  })
-                  .catch((err: any) => {
-                    return CommonService.mongoError(err, res);
-                  });
+                  }
+
+                  return CommonService.successResponse(
+                    'User update successful',
+                    { ...populatedUserData.toObject(), profilePhoto },
+                    res
+                  );
+                } catch (err) {
+                  logger.error({ message: err, service: 'UserService' });
+                  CommonService.mongoError(err, res);
+                }
+              } else {
+                CommonService.mongoError(new Error('User not found'), res);
               }
             }
           );
         } else {
-          CommonService.failureResponse('invalid user', null, res);
+          CommonService.failureResponse('Invalid user', null, res);
         }
       });
     } else {
@@ -194,12 +196,177 @@ class UserController {
     }
   }
 
+  // public updateUser(req: Request | any, res: Response) {
+  //   const {
+  //     gender,
+  //     phoneNumber,
+  //     tscFileNumber,
+  //     schoolOfPresentPosting,
+  //     zone,
+  //     nationality,
+  //     stateOfOrigin,
+  //     lgOfOrigin,
+  //     ward,
+  //     qualifications: { ...rest },
+  //     subjectsTaught,
+  //     dateOfPresentSchoolPosting,
+  //     cadre,
+  //     dateOfLastPromotion,
+  //     pfa,
+  //     pensionNumber,
+  //     professionalStatus,
+  //     profilePhoto = '',
+  //     tetiaryCertificate = '',
+  //     primarySchoolCertificate = '',
+  //     secondarySchoolCert = '',
+  //     firstAppointmentLetter = '',
+  //     lastPromotionLetter = '',
+  //     birthCertificate = '',
+  //     staffType,
+  //     authLevel,
+  //   } = req.body;
+
+  //   if (
+  //     gender ||
+  //     phoneNumber ||
+  //     tscFileNumber ||
+  //     schoolOfPresentPosting ||
+  //     zone ||
+  //     nationality ||
+  //     stateOfOrigin ||
+  //     lgOfOrigin ||
+  //     ward ||
+  //     rest ||
+  //     subjectsTaught ||
+  //     dateOfPresentSchoolPosting ||
+  //     cadre ||
+  //     dateOfLastPromotion ||
+  //     pfa ||
+  //     pensionNumber ||
+  //     professionalStatus ||
+  //     tetiaryCertificate ||
+  //     primarySchoolCertificate ||
+  //     secondarySchoolCert ||
+  //     firstAppointmentLetter ||
+  //     lastPromotionLetter ||
+  //     birthCertificate ||
+  //     staffType
+  //   ) {
+  //     const userFilter = { _id: req.params.id };
+  //     this.userService.filterUser(userFilter, (err: any, userData: IUser) => {
+  //       if (err) {
+  //         CommonService.mongoError(err, res);
+  //       } else if (userData) {
+  //         if (!userData.modificationNotes) {
+  //           userData.modificationNotes = [];
+  //         }
+  //         userData.modificationNotes.push({
+  //           modifiedOn: new Date(Date.now()),
+  //           modifiedBy: req.id,
+  //           modificationNote: 'User Profile Updated Successfully',
+  //         });
+  //         if (userData.tscFileNumber) {
+  //           return CommonService.UnprocessableResponse(
+  //             'Tsc File Number Already Exist, Kindly verify your file number',
+  //             res
+  //           );
+  //         }
+  //         const userParams: IUser = {
+  //           // _id: req.params.id,
+
+  //           gender: gender ? gender : userData.gender,
+  //           phoneNumber: phoneNumber ? phoneNumber : userData.phoneNumber,
+  //           schoolOfPresentPosting: schoolOfPresentPosting
+  //             ? schoolOfPresentPosting
+  //             : userData.schoolOfPresentPosting,
+  //           zone: zone ? zone : userData.zone,
+  //           nationality: nationality ? nationality : userData.nationality,
+  //           stateOfOrigin: stateOfOrigin ? stateOfOrigin : userData.stateOfOrigin,
+  //           lgOfOrigin: lgOfOrigin ? lgOfOrigin : userData.lgOfOrigin,
+  //           ward: ward ? ward : userData.ward,
+  //           qualifications: rest ? rest : userData.qualifications,
+  //           subjectsTaught: subjectsTaught ? subjectsTaught : userData.subjectsTaught,
+  //           dateOfPresentSchoolPosting: dateOfPresentSchoolPosting
+  //             ? dateOfPresentSchoolPosting
+  //             : userData.dateOfPresentSchoolPosting,
+  //           cadre: cadre ? cadre : userData.cadre,
+  //           dateOfLastPromotion: dateOfLastPromotion
+  //             ? dateOfLastPromotion
+  //             : userData.dateOfLastPromotion,
+  //           pfa: pfa ? pfa : userData.pfa,
+  //           pensionNumber: pensionNumber ? pensionNumber : userData.pensionNumber,
+  //           professionalStatus: professionalStatus
+  //             ? professionalStatus
+  //             : userData.professionalStatus,
+  //           profilePhoto: profilePhoto ? profilePhoto : userData.profilePhoto,
+  //           tetiaryCertificate: tetiaryCertificate
+  //             ? tetiaryCertificate
+  //             : userData.tetiaryCertificate,
+  //           primarySchoolCertificate: primarySchoolCertificate
+  //             ? primarySchoolCertificate
+  //             : userData.primarySchoolCertificate,
+  //           secondarySchoolCert: secondarySchoolCert
+  //             ? secondarySchoolCert
+  //             : userData.secondarySchoolCert,
+  //           firstAppointmentLetter: firstAppointmentLetter
+  //             ? firstAppointmentLetter
+  //             : userData.firstAppointmentLetter,
+  //           lastPromotionLetter: lastPromotionLetter
+  //             ? lastPromotionLetter
+  //             : userData.lastPromotionLetter,
+  //           birthCertificate: birthCertificate ? birthCertificate : userData.birthCertificate,
+  //           staffType: staffType ? staffType : userData.staffType,
+  //           authLevel: authLevel ? authLevel : userData.authLevel,
+  //         };
+
+  //         this.userService.updateUser(
+  //           { _id: userData._id },
+  //           userParams,
+  //           (err: any, updatedUserData: IUser | any) => {
+  //             if (err) {
+  //               logger.error({ message: err, service: 'UserService' });
+  //               CommonService.mongoError(err, res);
+  //             } else {
+  //               updatedUserData
+  //                 .populate('schoolOfPresentPosting')
+  //                 .exec()
+  //                 .populate('profilePhoto')
+  //                 .then(async (populatedUserData: any) => {
+  //                   const profilePhoto = populatedUserData.profilePhoto
+  //                     ? populatedUserData.profilePhoto?.imageUrl
+  //                     : '';
+  //                   if (schoolOfPresentPosting)
+  //                     await this.schoolsService.updateSchool(schoolOfPresentPosting, {
+  //                       $push: { listOfStaff: schoolOfPresentPosting },
+  //                     });
+  //                   return CommonService.successResponse(
+  //                     'user update successfull',
+  //                     { ...populatedUserData._doc, profilePhoto },
+  //                     res
+  //                   );
+  //                 })
+
+  //                 .catch((err: any) => {
+  //                   return CommonService.mongoError(err, res);
+  //                 });
+  //             }
+  //           }
+  //         );
+  //       } else {
+  //         CommonService.failureResponse('invalid user', null, res);
+  //       }
+  //     });
+  //   } else {
+  //     CommonService.insufficientParameters(res);
+  //   }
+  // }
+
   public getAllUsers(req: Request, res: Response) {
     const {
       ogNumber = '',
       // // accountStatus = AccountStatusEnum.PENDING,
       pageNumber = 1,
-      pageSize = 10,
+      pageSize = 100,
       firstName = '',
       tscFileNumber = '',
       middleName = '',
@@ -208,6 +375,11 @@ class UserController {
       // dateOfBirth = '',
       // dateOfFirstAppointment = '',
       // dateOfRetirement = '',
+      schoolOfPresentPosting = '',
+      dateOfPresentSchoolPosting = '',
+      dateOfFirstAppointment = '',
+      dateOfRetirement = '',
+      subjectsTaught,
       sort = 'desc',
       id = '',
       isDeleted = false,
@@ -217,23 +389,25 @@ class UserController {
 
     const orConditions: any[] = [];
 
-    const query = {
-      ogNumber: { $regex: ogNumber, $options: 'i' },
-
+    const getAllUsersQuery = {
       $or: [
+        { ogNumber: { $regex: ogNumber, $options: 'i' } },
         { 'staffName.firstName': { $regex: firstName, $options: 'i' } },
-        { 'staffName.lastName': { $regex: firstName, $options: 'i' } },
-        { 'staffName.middleName': { $regex: firstName, $options: 'i' } },
+        { 'staffName.lastName': { $regex: middleName, $options: 'i' } },
+        { 'staffName.middleName': { $regex: lastName, $options: 'i' } },
         { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
         { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
-        // { dateOfBirth: { $regex: dateOfBirth, $options: 'i' } },
-        // { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
-        // { dateOfRetirement:{ $regex: dateOfRetirement, $options: 'i' } }
+        { ogNumber: { $regex: ogNumber, $options: 'i' } },
+        { schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' } },
+        { dateOfPresentSchoolPosting: { $regex: dateOfPresentSchoolPosting, $options: 'i' } },
+        { subjectsTaught: { $in: [subjectsTaught] } },
+        { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
+        { dateOfRetirement: { $regex: dateOfRetirement, $options: 'i' } },
       ],
     };
 
     if (id) {
-      query['_id'] = { $eq: id };
+      getAllUsersQuery['_id'] = { $eq: id };
     }
 
     const sortQuery = {
@@ -257,12 +431,12 @@ class UserController {
       customLabels,
     };
 
-    this.userService.getAllUser(query, options, (err: any, users: IUser) => {
+    this.userService.getAllUser(getAllUsersQuery, options, (err: any, users: IUser) => {
       if (err) {
         logger.error({ message: err, service: 'userService' });
         return CommonService.mongoError(err, res);
       } else {
-        CommonService.successResponse('Tescom staff retrieved successsfully', users, res);
+        CommonService.successResponse('Tescom staff retrieved successsfully', { users }, res);
       }
     });
   }

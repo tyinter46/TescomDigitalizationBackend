@@ -11,16 +11,23 @@ export class schoolRoutes {
     app
       .get(
         '/api/schools/:id',
-        // ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
+        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
         (req: Request, res: Response) => {
           this.SchoolsController.getSchoolById(req, res);
         }
       )
+      .delete(
+        '/api/schools/:id',
+        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
+        (req: Request, res: Response) => {
+          this.SchoolsController.deleteSchool(req, res);
+        }
+      )
       .patch(
         '/api/schools/:id',
-        AuthMiddleWare.verifyPrincipalAndAdmin,
-        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
-        ValidationMiddleware(schoolValidatorSchema.updateSchool, 'params'),
+        AuthMiddleWare.verifyTokenAndAuthorization,
+        // ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
+        // ValidationMiddleware(schoolValidatorSchema.updateSchool, 'params'),
 
         (req: Request, res: Response) => {
           this.SchoolsController.updateSchool(req, res);
@@ -29,15 +36,15 @@ export class schoolRoutes {
 
     app.get(
       '/api/schools',
-      // AuthMiddleWare.verifyTokenAndAdmin,
+      // AuthMiddleWare.verifyPrincipalAndAdmin,
       (req: Request, res: Response) => {
         this.SchoolsController.getAllSchools(req, res);
       }
     );
 
     app.get(
-      '/api/schools/users',
-      AuthMiddleWare.verifyPrincipalAndAdmin,
+      '/api/schools/users/:id',
+      // AuthMiddleWare.verifyPrincipalAndAdmin,
       (req: Request, res: Response) => {
         this.SchoolsController.getUsersFromAParticularSchool(req, res);
       }
