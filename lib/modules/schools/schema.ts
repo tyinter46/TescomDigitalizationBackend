@@ -62,7 +62,14 @@ const SchoolSchema = new Schema(
   },
   { timestamps: true }
 );
-
+SchoolSchema.index({ nameOfSchool: 1 });
+SchoolSchema.index({ zone: 1 });
+SchoolSchema.index({ division: 1 });
+SchoolSchema.index({ location: 1 });
+SchoolSchema.index({ category: 1 });
+// SchoolSchema.index({ principal: 1 }, { unique: true });
+// SchoolSchema.index({ vicePrincipalAdmin: 1 }, { unique: true });
+// SchoolSchema.index({ vicePrincipalAcademics: 1 }, { unique: true });
 SchoolSchema.plugin(paginate);
 
 interface SchoolModel extends Document, Omit<ISchools, '_id'> {}

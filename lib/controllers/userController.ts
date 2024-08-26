@@ -364,17 +364,13 @@ class UserController {
   public getAllUsers(req: Request, res: Response) {
     const {
       ogNumber = '',
-      // // accountStatus = AccountStatusEnum.PENDING,
       pageNumber = 1,
-      pageSize = 100,
+      pageSize = 30000,
       firstName = '',
       tscFileNumber = '',
       middleName = '',
       lastName = '',
       gradeLevel = '',
-      // dateOfBirth = '',
-      // dateOfFirstAppointment = '',
-      // dateOfRetirement = '',
       schoolOfPresentPosting = '',
       dateOfPresentSchoolPosting = '',
       dateOfFirstAppointment = '',
@@ -385,26 +381,48 @@ class UserController {
       isDeleted = false,
     } = req.query;
 
-    /*Queries**/
-
     const orConditions: any[] = [];
 
-    const getAllUsersQuery = {
-      $or: [
-        { ogNumber: { $regex: ogNumber, $options: 'i' } },
-        { 'staffName.firstName': { $regex: firstName, $options: 'i' } },
-        { 'staffName.lastName': { $regex: middleName, $options: 'i' } },
-        { 'staffName.middleName': { $regex: lastName, $options: 'i' } },
-        { gradeLevel: { $regex: gradeLevel, $options: 'i' } },
-        { tscFileNumber: { $regex: tscFileNumber, $options: 'i' } },
-        { ogNumber: { $regex: ogNumber, $options: 'i' } },
-        { schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' } },
-        { dateOfPresentSchoolPosting: { $regex: dateOfPresentSchoolPosting, $options: 'i' } },
-        { subjectsTaught: { $in: [subjectsTaught] } },
-        { dateOfFirstAppointment: { $regex: dateOfFirstAppointment, $options: 'i' } },
-        { dateOfRetirement: { $regex: dateOfRetirement, $options: 'i' } },
-      ],
-    };
+    // Add conditions for string fields
+    if (ogNumber) {
+      orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
+    }
+    if (firstName) {
+      orConditions.push({ 'staffName.firstName': { $regex: firstName, $options: 'i' } });
+    }
+    if (middleName) {
+      orConditions.push({ 'staffName.middleName': { $regex: middleName, $options: 'i' } });
+    }
+    if (lastName) {
+      orConditions.push({ 'staffName.lastName': { $regex: lastName, $options: 'i' } });
+    }
+    if (gradeLevel) {
+      orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
+    }
+    if (tscFileNumber) {
+      orConditions.push({ tscFileNumber: { $regex: tscFileNumber, $options: 'i' } });
+    }
+    if (schoolOfPresentPosting) {
+      orConditions.push({
+        schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' },
+      });
+    }
+    if (subjectsTaught) {
+      orConditions.push({ subjectsTaught: { $in: [subjectsTaught] } });
+    }
+
+    // Handle exact matches or comparison queries for non-string fields
+    if (dateOfPresentSchoolPosting) {
+      orConditions.push({ dateOfPresentSchoolPosting });
+    }
+    if (dateOfFirstAppointment) {
+      orConditions.push({ dateOfFirstAppointment });
+    }
+    if (dateOfRetirement) {
+      orConditions.push({ dateOfRetirement });
+    }
+
+    const getAllUsersQuery = orConditions.length > 0 ? { $or: orConditions } : {};
 
     if (id) {
       getAllUsersQuery['_id'] = { $eq: id };
@@ -426,7 +444,7 @@ class UserController {
     const options = {
       page: parseInt(pageNumber as string, 10),
       limit: parseInt(pageSize as string, 10),
-      srt: sortQuery,
+      sort: sortQuery,
       populate: [],
       customLabels,
     };
@@ -436,7 +454,7 @@ class UserController {
         logger.error({ message: err, service: 'userService' });
         return CommonService.mongoError(err, res);
       } else {
-        CommonService.successResponse('Tescom staff retrieved successsfully', { users }, res);
+        CommonService.successResponse('Tescom staff retrieved successfully', { users }, res);
       }
     });
   }

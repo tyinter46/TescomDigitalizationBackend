@@ -12,6 +12,7 @@ import { AuthRoutes } from '../routes/authRoutes';
 import { UserRoutes } from '../routes/userRoutes';
 import { UploadRoutes } from '../routes/uploadRoutes';
 import { schoolRoutes } from '../routes/schoolRoutes';
+import { PostingsReportRoutes } from '../routes/postingReportRoutes';
 
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
@@ -31,6 +32,7 @@ class App {
   private uploadRoutes: UploadRoutes = new UploadRoutes();
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
   private schoolRoutes: schoolRoutes = new schoolRoutes();
+  private postingReportRoutes: PostingsReportRoutes = new PostingsReportRoutes();
 
   private commonRoutes: CommonRoutes = new CommonRoutes();
 
@@ -45,6 +47,7 @@ class App {
     this.uploadRoutes.route(this.app);
     this.existingStaffRoutes.route(this.app);
     this.schoolRoutes.route(this.app);
+    this.postingReportRoutes.route(this.app);
     this.commonRoutes.route(this.app);
   }
   private config(): void {

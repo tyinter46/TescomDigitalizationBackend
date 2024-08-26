@@ -91,6 +91,7 @@ export interface IUser {
   serviceStatus?: ServiceStatusEnum;
   staffType?: StaffTypeEnum;
   remark?: string;
+  residentialAdress?:string;
   lastVisited?: Date;
   notifications?: INotifications[];
   // staffDetailsFromCaps? :
