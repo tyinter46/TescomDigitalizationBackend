@@ -121,6 +121,10 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
+    residentialAdress: {
+      type: String,
+      default: null,
+    },
     pfa: {
       type: String,
       default: null,

@@ -87,7 +87,9 @@ const userValidatorSchema = {
       is: 'Teaching',
       then: Joi.string().required(),
     }),
-
+    residentialAddress: Joi.string().required().messages({
+      'string.required': 'Residential address cannot be empty',
+    }),
     primarySchoolCertificate: Joi.alternatives().conditional('staffType', {
       is: 'Teaching',
       then: Joi.string().required(),

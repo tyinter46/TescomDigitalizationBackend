@@ -5,12 +5,36 @@ import { FilterQuery, UpdateQuery } from 'mongoose';
 export default class SchoolService {
   public async getAllSchools(query: any, options: any): Promise<any> {
     try {
-      return await SchoolsModel.paginate(query, options);
+      return await SchoolsModel.paginate(query, {
+        ...options,
+        populate: [
+          {
+            path: 'principal',
+            select:
+              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'vicePrincipalAdmin',
+            select:
+              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+          },
+
+          {
+            path: 'vicePrincipalAcademics',
+            select:
+              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'listOfStaff',
+            select:
+              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
+          },
+        ],
+      });
     } catch (err) {
       throw new Error(`Error getting all schools: ${err.message}`);
     }
   }
-
   public async filterSchool(query: any): Promise<ISchools | null> {
     try {
       return await SchoolsModel.findOne(query)
