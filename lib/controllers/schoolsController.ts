@@ -4,6 +4,7 @@ import SchoolsService from '../modules/schools/service';
 import PostingReportService from '../modules/postingReports/service';
 import UserService from '../modules/users/service';
 import logger from '../config/logger';
+// import { TriggerPostGeneratePostingLetterAndTriggerDownload } from '../controllers/GeneratePostingLetterAndTriggerDownload';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
 import { IPostingReport } from '../modules/postingReports/model';
@@ -11,6 +12,8 @@ import { ModificationNote } from 'modules/common/model';
 
 export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
+  // private triggerPostingLetterDownloadService =
+  // new TriggerPostGeneratePostingLetterAndTriggerDownload();
   private userService: UserService = new UserService();
   private postingReportService: PostingReportService = new PostingReportService();
   public async getAllSchools(req: Request, res: Response) {
@@ -281,24 +284,24 @@ export class SchoolsController {
       const updatedSchool = await this.schoolsService.updateSchool(query, updateData);
 
       if (principal) {
-        // const principalDataBeforeUpdate: any = this.userService.filterUser(
-        //   principal,
-        //   (princiPalData: IUser, err) => {
-        //     if (err) {
-        //       return CommonService.mongoError(err.message, res);
-        //     }
-        //     CommonService.successResponse('Principal details retrieved', princiPalData, res);
-        //   }
-        // );
+        const principalDataBeforeUpdate: any = this.userService.filterUser(
+          principal,
+          (princiPalData: IUser, err) => {
+            if (err) {
+              return CommonService.mongoError(err.message, res);
+            }
+            CommonService.successResponse('Principal details retrieved', princiPalData, res);
+          }
+        );
         // console.log(principalDataBeforeUpdate?.schoolOfPresentPosting);
 
         // const postedPrincipal = {
         //   staffDetails: principal,
-        //   sourceSchool: principalDataBeforeUpdate?.schoolOfPresentPosting?._id,
+        //   sourceSchool: null,
         //   destinationSchool: currentSchoolToBeUpdated._id,
-        //   dateOfPreviousSchoolPosting: principalDataBeforeUpdate?.dateOfPresentSchoolPosting,
+        //   dateOfPreviousSchoolPosting: null,
         //   dateOfNewSchoolPosting: Date.now(),
-        //   previousPosition: principalDataBeforeUpdate?.position,
+        //   previousPosition: null,
         //   newPosition: updatedSchool?.principal.position,
         //   modificationNotes: {
         //     modificationNote: 'Posted successfuly',
@@ -309,6 +312,7 @@ export class SchoolsController {
 
         // await this.postingReportService.createPostingReport(postedPrincipal);
         await this.updatePrincipal(updatedSchool._id, principal, 'Principal');
+        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(principal, res);
       }
 
       if (vicePrincipalAdmin) {
@@ -349,6 +353,10 @@ export class SchoolsController {
           vicePrincipalAdmin,
           'Vice-Principal Admin'
         );
+        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(
+        //   vicePrincipalAdmin,
+        //   res
+        // );
       }
 
       if (vicePrincipalAcademics) {
@@ -388,6 +396,10 @@ export class SchoolsController {
           vicePrincipalAcademics,
           'Vice-Principal Academics'
         );
+        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(
+        //   vicePrincipalAcademics,
+        //   res
+        // );
       }
 
       return CommonService.successResponse('School updated successfully', updatedSchool, res);
@@ -447,7 +459,16 @@ export class SchoolsController {
             if (err) throw new Error(err);
             // console.log(userData);
           }
+          //update posting report record of existing principals cuurent school to show principal was posted
         );
+        // this.userService.filterUser({ _id: principal }, (err:any, principalData)=>{
+        //   const principalReportId : any = this.postingReportService.getPostingReportById({sourceSchool:principal})
+        //   this.postingReportService.updatePostingReport({principalReportId._id}, {
+        //     sourceSchool: principalData.schoolOfPresentPosting,
+        //     dateOfPreviousSchoolPosting: principalData.dateOfPresentPosting,
+        //      previousPosition: principalData.position,
+        //   });
+        // })
       }
     } catch (err) {
       logger.error({ message: err.message, service: 'updateExistingPrincipal SchoolsService' });

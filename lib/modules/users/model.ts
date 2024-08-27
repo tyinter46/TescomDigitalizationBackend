@@ -28,6 +28,23 @@ export const Qualifications = {
   year: Date,
   schoolName: String,
 };
+export const Letters = {
+  postingLetter: String,
+  promotionLetter: String,
+  confirmationLetter: String,
+  appointmentLetter: String,
+  offerOfAppointmentLetter: String,
+  otherLetter: String,
+};
+
+export interface Letters {
+  postingLetter?: string;
+  promotionLetter?: string;
+  confirmationLetter?: string;
+  appointmentLetter?: string;
+  offerOfAppointmentLetter?: string;
+  otherLetter?: string;
+}
 
 export interface INotifications {
   message: string;
@@ -44,6 +61,7 @@ export interface IUser {
     latitude: string;
     longitude: string;
   };
+  letters?: Letters[];
   position?: PositionEnum;
   gender?: GenderEnum;
   phoneNumber?: string;
@@ -91,7 +109,7 @@ export interface IUser {
   serviceStatus?: ServiceStatusEnum;
   staffType?: StaffTypeEnum;
   remark?: string;
-  residentialAdress?:string;
+  residentialAdress?: string;
   lastVisited?: Date;
   notifications?: INotifications[];
   // staffDetailsFromCaps? :

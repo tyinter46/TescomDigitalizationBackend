@@ -84,7 +84,7 @@ const UserSchema = new Schema(
       type: String,
     },
     qualifications: [],
-
+    letters: [],
     subjectsTaught: {
       type: [String],
       default: null,
