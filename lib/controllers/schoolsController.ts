@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
@@ -9,8 +10,10 @@ import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
 import { IPostingReport } from '../modules/postingReports/model';
 import { ModificationNote } from 'modules/common/model';
+dotenv.config();
 
 export class SchoolsController {
+  private BASE_URL = process.env.BASE_URL || 'http://localhost:8001';
   private schoolsService: SchoolsService = new SchoolsService();
   // private triggerPostingLetterDownloadService =
   // new TriggerPostGeneratePostingLetterAndTriggerDownload();
@@ -273,72 +276,69 @@ export class SchoolsController {
           );
         }
       }
-      const uniqueCurrentStaffList = [...new Set(currentStaffList)];
-      updateData.listOfStaff = [
-        ...uniqueCurrentStaffList,
+      const combinedStaffList = [
+        ...currentStaffList,
         ...(principal ? [principal] : []),
         ...(vicePrincipalAdmin ? [vicePrincipalAdmin] : []),
         ...(vicePrincipalAcademics ? [vicePrincipalAcademics] : []),
       ];
 
+      const uniqueStaffList = combinedStaffList.filter(
+        (staff, index, self) => index === self.findIndex((s) => s._id === staff._id)
+      );
+
+      updateData.listOfStaff = uniqueStaffList;
       const updatedSchool = await this.schoolsService.updateSchool(query, updateData);
 
       if (principal) {
-        const principalDataBeforeUpdate: any = this.userService.filterUser(
-          principal,
-          (princiPalData: IUser, err) => {
-            if (err) {
-              return CommonService.mongoError(err.message, res);
-            }
-            CommonService.successResponse('Principal details retrieved', princiPalData, res);
-          }
-        );
-        // console.log(principalDataBeforeUpdate?.schoolOfPresentPosting);
-
+        // this.userService.filterUser({ _id: principal }, async (princiPalData: IUser, err) => {
+        //   if (err) {
+        //     return CommonService.mongoError(err.message, res);
+        //   }
+        console.log(principal);
+        // console.log(principalDataBeforeUpdate);
+        // console.log(princiPalData?.schoolOfPresentPosting);
         // const postedPrincipal = {
-        //   staffDetails: principal,
-        //   sourceSchool: null,
-        //   destinationSchool: currentSchoolToBeUpdated._id,
+        //   staffDetails: princiPalData,
+        //   sourceSchool: id ?? 'not available',
+        //   destinationSchool: princiPalData?.schoolOfPresentPosting._id,
         //   dateOfPreviousSchoolPosting: null,
         //   dateOfNewSchoolPosting: Date.now(),
-        //   previousPosition: null,
-        //   newPosition: updatedSchool?.principal.position,
+        //   // previousPosition: princiPalData?.position,
+        //   newPosition: updatedSchool?.principal?.position,
         //   modificationNotes: {
         //     modificationNote: 'Posted successfuly',
         //     modifiedBy: `${req.user?.staffName?.firstName} `,
         //     modifiedOn: new Date(Date.now()),
         //   },
         // };
+        // try {
+        //   await this.postingReportService.createPostingReport(postedPrincipal);
+        // } catch (error) {
+        //   console.log(error);
+        //   CommonService.mongoError(error.message, res);
+        // }
+        // });
 
-        // await this.postingReportService.createPostingReport(postedPrincipal);
         await this.updatePrincipal(updatedSchool._id, principal, 'Principal');
-        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(principal, res);
       }
 
       if (vicePrincipalAdmin) {
-        // const vicePrincipalDataBeforeUpdate: any = this.userService.filterUser(
-        //   vicePrincipalAdmin,
-        //   (vicePrinciPalAdminData: IUser, err) => {
+        // this.userService.filterUser(
+        //   { _id: vicePrincipalAdmin },
+        //   async (vicePrinciPalAdminData: IUser, err) => {
         //     if (err) {
         //       return CommonService.mongoError(err.message, res);
         //     }
-        //     CommonService.successResponse(
-        //       'Principal details retrieved',
-        //       vicePrinciPalAdminData,
-        //       res
-        //     );
-        //   }
-        // );
-        // console.log(vicePrincipalDataBeforeUpdate);
 
         // const postedVicePrincipalAdmin = {
-        //   staffDetails: vicePrincipalAdmin,
-        //   sourceSchool: vicePrincipalDataBeforeUpdate?.schoolOfPresentPosting ?? 'not available',
-        //   destinationSchool: updatedSchool?.nameOfSchool,
+        //   staffDetails: vicePrinciPalAdminData,
+        //   sourceSchool: id ?? 'not available',
+        //   destinationSchool: vicePrinciPalAdminData?.schoolOfPresentPosting,
         //   dateOfPreviousSchoolPosting:
-        //     vicePrincipalDataBeforeUpdate?.dateOfPresentSchoolPosting ?? 'not available',
+        //     vicePrinciPalAdminData?.dateOfPresentSchoolPosting ?? 'not available',
         //   dateOfNewSchoolPosting: Date.now(),
-        //   previousPosition: vicePrincipalDataBeforeUpdate?.position,
+        //   // previousPosition: vicePrinciPalAdminData?.position,
         //   newPosition: updatedSchool?.vicePrincipalAdmin.position,
         //   modificationNotes: {
         //     modificationNote: 'Posted successfuly',
@@ -346,26 +346,58 @@ export class SchoolsController {
         //     modifiedOn: new Date(Date.now()),
         //   },
         // };
+        // try {
+        //   await this.postingReportService.createPostingReport(postedVicePrincipalAdmin);
+        // } catch (error) {
+        //   console.log(error);
+        //   CommonService.mongoError(error.message, res);
+        // }
+        // CommonService.successResponse(
+        //   'Principal details retrieved',
+        //   vicePrinciPalAdminData,
+        //   res
+        // );
+        //     console.log(vicePrinciPalAdminData);
+        //   }
+        // );
 
-        // await this.postingReportService.createPostingReport(postedVicePrincipalAdmin);
         await this.updateVicePrincipalAdmin(
           updatedSchool._id,
           vicePrincipalAdmin,
           'Vice-Principal Admin'
         );
-        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(
-        //   vicePrincipalAdmin,
-        //   res
-        // );
       }
 
       if (vicePrincipalAcademics) {
-        // const vicePrincipalDataBeforeUpdate: any = this.userService.filterUser(
-        //   vicePrincipalAcademics,
-        //   (vicePrincipalAcademicsData: IUser, err) => {
+        // this.userService.filterUser(
+        //   { _id: vicePrincipalAcademics },
+        //   async (vicePrincipalAcademicsData: IUser, err) => {
         //     if (err) {
         //       return CommonService.mongoError(err.message, res);
         //     }
+
+        // const postedvicePrincipalAcademics = {
+        //   staffDetails: vicePrincipalAcademics,
+        //   sourceSchool: vicePrincipalAcademicsData?.schoolOfPresentPosting ?? 'not available',
+        //   destinationSchool: updatedSchool?.nameOfSchool,
+        //   dateOfPreviousSchoolPosting:
+        //     vicePrincipalAcademicsData?.dateOfPresentSchoolPosting ?? 'not available',
+        //   dateOfNewSchoolPosting: Date.now(),
+        //   previousPosition: vicePrincipalAcademicsData?.position,
+        //   newPosition: updatedSchool?.vicePrincipalAcademics.position,
+        //   modificationNote: {
+        //     modificationNote: 'Posted successfully',
+        //     modifiedBy: `${req.user?.staffName.firstName}`,
+        //     modifiedOn: new Date(Date.now()),
+        //   },
+        // };
+        // try {
+        //   await this.postingReportService.createPostingReport(postedvicePrincipalAcademics);
+        // } catch (error) {
+        //   console.log(error);
+        //   CommonService.mongoError(error.message, res);
+        // }
+
         //     CommonService.successResponse(
         //       'Principal details retrieved',
         //       vicePrincipalAcademicsData,
@@ -374,32 +406,11 @@ export class SchoolsController {
         //   }
         // );
 
-        // const postedvicePrincipalAcademics = {
-        //   staffDetails: vicePrincipalAcademics,
-        //   sourceSchool: vicePrincipalDataBeforeUpdate?.schoolOfPresentPosting ?? 'not available',
-        //   destinationSchool: updatedSchool?.nameOfSchool,
-        //   dateOfPreviousSchoolPosting:
-        //     vicePrincipalDataBeforeUpdate?.dateOfPresentSchoolPosting ?? 'not available',
-        //   dateOfNewSchoolPosting: Date.now(),
-        //   previousPosition: vicePrincipalDataBeforeUpdate?.position,
-        //   newPosition: updatedSchool?.vicePrincipalAcademics.position,
-        //   modificationNote: {
-        //     modificationNote: 'Posted successfully',
-        //     modifiedBy: `${req.user?.staffName.firstName}`,
-        //     modifiedOn: new Date(Date.now()),
-        //   },
-        // };
-
-        // await this.postingReportService.createPostingReport(postedvicePrincipalAcademics);
         await this.updateVicePrincipalAcademics(
           updatedSchool._id,
           vicePrincipalAcademics,
           'Vice-Principal Academics'
         );
-        // this.triggerPostingLetterDownloadService.generateAndDownloadPostingLetter(
-        //   vicePrincipalAcademics,
-        //   res
-        // );
       }
 
       return CommonService.successResponse('School updated successfully', updatedSchool, res);
@@ -410,7 +421,7 @@ export class SchoolsController {
   }
 
   public async updateExistingPrincipal(principal: string | null, currentSchoolId: string) {
-    console.log(principal);
+    // console.log(principal);
     try {
       // Find the school where the principal is currently assigned
       const existingSchool = await this.schoolsService.filterSchool({
@@ -422,54 +433,47 @@ export class SchoolsController {
               { vicePrincipalAcademics: principal },
             ],
           },
-          { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
+          // { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
         ],
       });
 
       // Check if the school is found
-      if (existingSchool) {
-        console.log(`Existing School: ${existingSchool.nameOfSchool}`);
 
-        // Remove the principal from the staff list
-        const updatedStaffList = existingSchool.listOfStaff.filter(
-          (staffId) => staffId.toString() !== principal.toString()
-        );
+      console.log(`Existing School: ${existingSchool.nameOfSchool}`);
 
-        // Prepare an update object based on the principal's current position
-        const updateData: any = { listOfStaff: updatedStaffList };
+      // Remove the principal from the staff list
+      const updatedStaffList = existingSchool.listOfStaff.filter(
+        (staffId) => staffId.toString() !== principal.toString()
+      );
 
-        if (existingSchool.principal?._id?.toString() === principal.toString()) {
-          updateData.principal = null;
-        }
-        if (existingSchool.vicePrincipalAdmin?._id?.toString() === principal.toString()) {
-          updateData.vicePrincipalAdmin = null;
-        }
-        if (existingSchool.vicePrincipalAcademics?._id?.toString() === principal.toString()) {
-          updateData.vicePrincipalAcademics = null;
-        }
+      // Prepare an update object based on the principal's current position
+      const updateData: any = { listOfStaff: updatedStaffList };
 
-        // Update the school to remove the principal
-        await this.schoolsService.updateSchool({ _id: existingSchool._id }, updateData);
-
-        // Update the user's school and position to null
-        this.userService.updateUser(
-          { _id: principal },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
-            // console.log(userData);
-          }
-          //update posting report record of existing principals cuurent school to show principal was posted
-        );
-        // this.userService.filterUser({ _id: principal }, (err:any, principalData)=>{
-        //   const principalReportId : any = this.postingReportService.getPostingReportById({sourceSchool:principal})
-        //   this.postingReportService.updatePostingReport({principalReportId._id}, {
-        //     sourceSchool: principalData.schoolOfPresentPosting,
-        //     dateOfPreviousSchoolPosting: principalData.dateOfPresentPosting,
-        //      previousPosition: principalData.position,
-        //   });
-        // })
+      if (existingSchool.principal?._id?.toString() === principal.toString()) {
+        updateData.principal = null;
       }
+      if (existingSchool.vicePrincipalAdmin?._id?.toString() === principal.toString()) {
+        updateData.vicePrincipalAdmin = null;
+      }
+      if (existingSchool.vicePrincipalAcademics?._id?.toString() === principal.toString()) {
+        updateData.vicePrincipalAcademics = null;
+      }
+
+      // Update the school to remove the principal
+      await this.schoolsService.updateSchool({ _id: existingSchool._id }, updateData);
+
+      // Update the user's school and position to null
+      this.userService.updateUser(
+        { _id: principal },
+        { schoolOfPresentPosting: null, position: null },
+        (err: any, userData: IUser) => {
+          if (err) throw new Error(err);
+          // console.log(userData);
+        }
+      );
+      // } else if (existingSchool._id === currentSchoolId) {
+      //   console.log('existing school is the same with current school');
+      //   throw new Error('existing school is the same with current school');
     } catch (err) {
       logger.error({ message: err.message, service: 'updateExistingPrincipal SchoolsService' });
       throw err;
@@ -490,42 +494,42 @@ export class SchoolsController {
               { principal: vicePrincipalAcademics },
             ],
           },
-          { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
+          // { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
         ],
       });
-      if (existingSchool) {
-        const staffList = existingSchool.listOfStaff.filter(
-          (staff) => staff.toString() !== vicePrincipalAcademics
+      // if (existingSchool) {
+      const staffList = existingSchool.listOfStaff.filter(
+        (staff) => staff.toString() !== vicePrincipalAcademics
+      );
+      if (existingSchool.principal?._id?.toString() === vicePrincipalAcademics) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, principal: null }
         );
-        if (existingSchool.principal?._id?.toString() === vicePrincipalAcademics) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, principal: null }
-          );
-        }
-        if (existingSchool.vicePrincipalAcademics?._id?.toString() === vicePrincipalAcademics) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, vicePrincipalAcademics: null }
-          );
-        }
-        if (existingSchool.vicePrincipalAdmin?._id?.toString() === vicePrincipalAcademics) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, vicePrincipalAdmin: null }
-          );
-        }
-
-        this.userService.updateUser(
-          { _id: existingSchool.vicePrincipalAcademics },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
-          }
-        );
-      } else {
-        console.log('No existing school found for the provided principal academics ID.');
       }
+      if (existingSchool.vicePrincipalAcademics?._id?.toString() === vicePrincipalAcademics) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, vicePrincipalAcademics: null }
+        );
+      }
+      if (existingSchool.vicePrincipalAdmin?._id?.toString() === vicePrincipalAcademics) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, vicePrincipalAdmin: null }
+        );
+      }
+
+      this.userService.updateUser(
+        { _id: existingSchool.vicePrincipalAcademics },
+        { schoolOfPresentPosting: null, position: null },
+        (err: any, userData: IUser) => {
+          if (err) throw new Error(err);
+        }
+      );
+      // } else {
+      //   console.log('No existing school found for the provided principal academics ID.');
+      // }
     } catch (err) {
       logger.error({
         message: err.message,
@@ -549,43 +553,43 @@ export class SchoolsController {
               { vicePrincipalAcademics: vicePrincipalAdmin },
             ],
           },
-          { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
+          // { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
         ],
       });
-      if (existingSchool) {
-        // console.log(existingSchool.principal, vicePrincipalAdmin);
-        const staffList = existingSchool.listOfStaff.filter(
-          (staff) => staff.toString() !== vicePrincipalAdmin
+      // if (existingSchool) {
+      // console.log(existingSchool.principal, vicePrincipalAdmin);
+      const staffList = existingSchool.listOfStaff.filter(
+        (staff) => staff.toString() !== vicePrincipalAdmin
+      );
+      if (existingSchool.principal?._id?.toString() === vicePrincipalAdmin) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, principal: null }
         );
-        if (existingSchool.principal?._id?.toString() === vicePrincipalAdmin) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, principal: null }
-          );
-        }
-        if (existingSchool.vicePrincipalAcademics?._id?.toString() === vicePrincipalAdmin) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, vicePrincipalAcademics: null }
-          );
-        }
-        if (existingSchool.vicePrincipalAdmin?._id?.toString() === vicePrincipalAdmin) {
-          await this.schoolsService.updateSchool(
-            { _id: existingSchool._id },
-            { listOfStaff: staffList, vicePrincipalAdmin: null }
-          );
-        }
-
-        this.userService.updateUser(
-          { _id: existingSchool.vicePrincipalAdmin },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
-          }
-        );
-      } else {
-        console.log('No existing school found for the provided vice principal admin  ID.');
       }
+      if (existingSchool.vicePrincipalAcademics?._id?.toString() === vicePrincipalAdmin) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, vicePrincipalAcademics: null }
+        );
+      }
+      if (existingSchool.vicePrincipalAdmin?._id?.toString() === vicePrincipalAdmin) {
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: staffList, vicePrincipalAdmin: null }
+        );
+      }
+
+      this.userService.updateUser(
+        { _id: existingSchool.vicePrincipalAdmin },
+        { schoolOfPresentPosting: null, position: null },
+        (err: any, userData: IUser) => {
+          if (err) throw new Error(err);
+        }
+      );
+      // } else {
+      //   console.log('No existing school found for the provided vice principal admin  ID.');
+      // }
     } catch (err) {
       logger.error({
         message: err.message,
@@ -597,10 +601,16 @@ export class SchoolsController {
 
   public async updatePrincipal(schoolId: string, principal: string, position: string) {
     try {
+      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${principal}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
       await this.userService.updateUser(
         { _id: principal },
-        { schoolOfPresentPosting: schoolId, position: position },
+        {
+          schoolOfPresentPosting: schoolId,
+          position: position,
+          letters: { postingLetter: pdfDownloadLink.toString() },
+          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+        },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }
@@ -617,10 +627,16 @@ export class SchoolsController {
     position: string
   ) {
     try {
+      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${vicePrincipalAcademics}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
       await this.userService.updateUser(
         { _id: vicePrincipalAcademics },
-        { schoolOfPresentPosting: schoolId, position: position },
+        {
+          schoolOfPresentPosting: schoolId,
+          position: position,
+          letters: { postingLetter: pdfDownloadLink.toString() },
+          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+        },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }
@@ -640,10 +656,16 @@ export class SchoolsController {
     position: string
   ) {
     try {
+      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${vicePrincipalAdmin}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
-        { schoolOfPresentPosting: schoolId, position: position },
+        {
+          schoolOfPresentPosting: schoolId,
+          position: position,
+          letters: { postingLetter: pdfDownloadLink.toString() },
+          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+        },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }

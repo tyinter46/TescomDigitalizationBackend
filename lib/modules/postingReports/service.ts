@@ -11,7 +11,14 @@ export default class PostingReportService {
           {
             path: 'staffDetails',
             select:
-              'staffName gender position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+              'staffName gender schoolOfPresentPosting position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'destinationSchool',
+          },
+          {
+            path: 'sourceSchool',
+            select: 'nameOfSchool',
           },
         ],
       });

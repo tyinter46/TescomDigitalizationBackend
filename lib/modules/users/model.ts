@@ -61,7 +61,7 @@ export interface IUser {
     latitude: string;
     longitude: string;
   };
-  letters?: Letters[];
+  letters?: Letters;
   position?: PositionEnum;
   gender?: GenderEnum;
   phoneNumber?: string;

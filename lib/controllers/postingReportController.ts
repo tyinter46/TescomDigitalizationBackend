@@ -73,7 +73,7 @@ export class PostingsReportController {
 
     try {
       const postingsReport = await this.PostingReportService.getPostingReport(query, options);
-
+      
       CommonService.successResponse('Postings Report Retrieved Successfully', postingsReport, res);
     } catch (err) {
       logger.error({ message: err.message, service: 'PostingReportService' });
