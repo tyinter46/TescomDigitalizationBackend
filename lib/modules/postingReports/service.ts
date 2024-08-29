@@ -11,12 +11,31 @@ export default class PostingReportService {
           {
             path: 'staffDetails',
             select:
-              'staffName gender position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+              'staffName gender schoolOfPresentPosting position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'destinationSchool',
+          },
+          {
+            path: 'sourceSchool',
+            select: 'nameOfSchool',
           },
         ],
       });
     } catch (err) {
       throw new Error(`Error getting report: ${err.message}`);
+    }
+  }
+  public async getPostingReportById(query: FilterQuery<IPostingReport>): Promise<IPostingReport> {
+    try {
+      return await PostingReportModel.findById(query);
+      // .populate({
+      //   path: 'staffDetails',
+      //   select:
+      //     'staffName gender position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+      // });
+    } catch (err) {
+      throw new Error(`Error getting report by ID: ${err.message}`);
     }
   }
 
@@ -26,6 +45,16 @@ export default class PostingReportService {
       return await postingReport.save();
     } catch (err) {
       throw new Error(`Error creating posting report : ${err.message}`);
+    }
+  }
+  public async updatePostingReport(
+    id: string,
+    params: Partial<IPostingReport>
+  ): Promise<IPostingReport | null> {
+    try {
+      return await PostingReportModel.findByIdAndUpdate(id, params, { new: true });
+    } catch (err) {
+      throw new Error(`Error updating posting report: ${err.message}`);
     }
   }
 }

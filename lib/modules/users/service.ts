@@ -21,7 +21,9 @@ export default class UserService {
   }
 
   public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
-    UsersModel.findOneAndUpdate(query, updateQuery, { new: true }, callback);
+    UsersModel.findOneAndUpdate(query, updateQuery, { new: true }, callback).populate(
+      'schoolOfPresentPosting' || null
+    );
   }
 
   public getAllUser(query: any, options: any, callback: any) {

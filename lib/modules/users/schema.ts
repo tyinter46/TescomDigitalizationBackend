@@ -1,7 +1,7 @@
 import { Schema, Document, model, PaginateModel, Mongoose } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ModificationNote } from '../common/model';
-import { IUser, Qualifications, INotifications } from './model';
+import { IUser, Qualifications, INotifications, Letters } from './model';
 import {
   AccountSourceEnum,
   AccountStatusEnum,
@@ -84,7 +84,16 @@ const UserSchema = new Schema(
       type: String,
     },
     qualifications: [],
-
+    letters: 
+      {
+        postingLetter: { type: String, required: false }, // Optional
+        promotionLetter: { type: String, required: false }, // Optional
+        confirmationLetter: { type: String, required: false }, // Optional
+        appointmentLetter: { type: String, required: false }, // Optional
+        offerOfAppointmentLetter: { type: String, required: false }, // Optional
+        otherLetter: { type: String, required: false }, // Optional
+      },
+    
     subjectsTaught: {
       type: [String],
       default: null,
