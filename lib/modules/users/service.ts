@@ -27,7 +27,7 @@ export default class UserService {
   }
 
   public getAllUser(query: any, options: any, callback: any) {
-    UsersModel.paginate(query, options, callback);
+    UsersModel.paginate(query, options, callback)
   }
 
   public async updateUsers(query: object, update: object) {

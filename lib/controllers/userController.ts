@@ -445,7 +445,7 @@ class UserController {
       page: parseInt(pageNumber as string, 10),
       limit: parseInt(pageSize as string, 10),
       sort: sortQuery,
-      populate: [],
+      populate: ['schoolOfPresentPosting'],
       customLabels,
     };
 
