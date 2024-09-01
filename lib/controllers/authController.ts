@@ -383,7 +383,7 @@ class AuthController {
 
   public logoutUser(req: Request, res: Response) {
     req.headers.authorization = null;
-    this.userService.filterUser({ _id: req?.user.id }, (err: any, userData: any) => {
+    this.userService.filterUser({ _id: req?.user._id }, (err: any, userData: any) => {
       if (userData) {
         userData.lastVisited = new Date();
 

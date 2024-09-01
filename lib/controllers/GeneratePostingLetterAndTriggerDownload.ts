@@ -37,9 +37,22 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         const title = 'Posting Letter';
         const date = new Date();
 
-        const content = `${userData.staffName?.firstName} ${letterData.newSchool} ${
-          letterData.position
-        } ${date.toDateString()}This is  some example content in the PDF document.`;
+        const content = `
+        Dear ${userData.staffName?.firstName} ${userData.staffName?.lastName},
+        
+        We are pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
+        
+        Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
+        
+        Please report to the administration of ${letterData.newSchool} at your earliest convenience for your assumption of duty documentation and begin your new assignment.
+        
+        We wish you all the best in your new role and look forward to your continued success.
+        
+        Sincerely,
+        
+
+        Director, Department of Management Services
+        `;
         generateAndDownloadPDF(file, title, content, res);
         const pdfDownloadLink = `${BASE_URL}/downloadPdf/${userId}`;
         console.log(pdfDownloadLink);

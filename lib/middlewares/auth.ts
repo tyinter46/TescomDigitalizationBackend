@@ -47,7 +47,7 @@ class AuthMiddleWare {
 
   public static verifyTokenAndAuthorization(req: Request, res: Response, next: NextFunction) {
     AuthMiddleWare.verifyToken(req, res, () => {
-      if (req.user?.id === req.params.id || req.user?.isAdmin) {
+      if (req.user?._id === req.params.id || req.user?.isAdmin) {
         next();
       } else {
         return CommonService.forbiddenResponse(
