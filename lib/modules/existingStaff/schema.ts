@@ -1,6 +1,6 @@
 import { Schema, Document, model, PaginateModel } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
-import { IExistingStaff } from 'modules/existingStaff/model';
+import { IExistingStaff } from './model';
 
 const ExistingStaffSchema = new Schema({
   ogNum: {

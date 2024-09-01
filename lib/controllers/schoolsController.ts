@@ -5,12 +5,11 @@ import SchoolsService from '../modules/schools/service';
 import PostingReportService from '../modules/postingReports/service';
 import UserService from '../modules/users/service';
 import logger from '../config/logger';
-// import { TriggerPostGeneratePostingLetterAndTriggerDownload } from '../controllers/GeneratePostingLetterAndTriggerDownload';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
-import { IPostingReport } from '../modules/postingReports/model';
-import { ModificationNote } from 'modules/common/model';
-import { User } from 'aws-sdk/clients/budgets';
+// import { IPostingReport } from '../modules/postingReports/model';
+// import { ModificationNote } from 'modules/common/model';
+// import { User } from 'aws-sdk/clients/budgets';
 dotenv.config();
 
 export class SchoolsController {
@@ -19,8 +18,7 @@ export class SchoolsController {
   private principalDataSchool: any;
   private vicePrincipalAdminSchool: any;
   private vicePrincipalAcademicsSchool: any;
-  // private triggerPostingLetterDownloadService =
-  // new TriggerPostGeneratePostingLetterAndTriggerDownload();
+
   private userService: UserService = new UserService();
   private postingReportService: PostingReportService = new PostingReportService();
   public async getAllSchools(req: Request, res: Response) {
@@ -299,7 +297,7 @@ export class SchoolsController {
         await this.updateVicePrincipalAdmin(
           updatedSchool._id,
           vicePrincipalAdmin,
-          'Vice-Principal Admin'
+          'Vice-Principal'
         );
       }
 
@@ -307,7 +305,7 @@ export class SchoolsController {
         await this.updateVicePrincipalAcademics(
           updatedSchool._id,
           vicePrincipalAcademics,
-          'Vice-Principal Academics'
+          'Vice-Principal'
         );
       }
 
@@ -342,9 +340,6 @@ export class SchoolsController {
         const updatedStaffList = existingSchool.listOfStaff.filter(
           (staffId) => staffId.toString() !== principal.toString()
         );
-
-        // Prepare an update object based on the principal's current position
-        // const updateData: any = { listOfStaff: updatedStaffList };
 
         if (existingSchool.principal?._id?.toString() === principal.toString()) {
           await this.schoolsService.updateSchool(

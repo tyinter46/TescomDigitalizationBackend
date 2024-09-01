@@ -1,16 +1,10 @@
 import { Express } from 'express-serve-static-core';
+import {IUser} from '../../lib/modules/users/model'
 
-interface User {
-  id?: string;
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  isAdmin?: boolean;
-}
+
 
 declare module 'express-serve-static-core' {
   interface Request {
-    user?: User;
+    user?: IUser;
   }
 }
