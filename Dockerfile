@@ -24,7 +24,7 @@ WORKDIR /app
 
 # Copy only the necessary files from the build stage
 COPY --from=build /app/package.json ./
-COPY --from=build /app/package.lock.json ./
+COPY --from=build /app/package-lock.json ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
@@ -32,4 +32,4 @@ COPY --from=build /app/dist ./dist
 EXPOSE 8001
 
 # Start the application
-CMD ["node", "./dist/server.js"]
+CMD ["node", "dist/server.js"]
