@@ -2,7 +2,6 @@ import { Response, Request } from 'express';
 import CommonService from '../modules/common/service';
 import {UploadModel} from '../modules/upload/model';
 import UploadService from '../modules/upload/service';
-import aws from 'aws-sdk';
 import multer , { FileFilterCallback } from 'multer';
 import {v2 as cloudinary } from 'cloudinary'
 import {cloudinaryConfig} from '../utils/cloudinary'

@@ -105,7 +105,7 @@ class App {
       });
   }
 }
-export const PORT = process.env.PORT || enviroment.getPort();
+export const PORT = process.env.PORT || 5000
 export const ClientBaseUrl =
   process.env.NODE_ENV !== 'development'
     ? process.env.PROD_CLIENT_BASE_URL

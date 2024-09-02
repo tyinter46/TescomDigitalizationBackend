@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nodemon --config nodemon.json lib/server.ts",
     "start": "node ./dist/server.js",
-    "build": "tsc",
-    "postinstall": "tsc",
+    "build": "tsc -b",
     "lint": "eslint . --exit .ts",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
