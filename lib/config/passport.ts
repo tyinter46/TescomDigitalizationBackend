@@ -6,6 +6,7 @@ import UserService from '../modules/users/service';
 import { IUser } from '../modules/users/model';
 import { AccountStatusEnum } from '../utils/enums';
 import logger from './logger';
+import { validateAndFormat } from '../utils/ogNumberValidator';
 
 dotenv.config();
 const userService = new UserService();
@@ -13,15 +14,17 @@ passport.use(
   new LocalStrategy.Strategy(
     { usernameField: 'ogNumber', passwordField: 'password' },
     async function (ogNumber: string, password: string, done: any) {
+      const validatedOgNumber = validateAndFormat(ogNumber);
+
       userService.filterUser(
-        { ogNumber: ogNumber },
+        { ogNumber: validatedOgNumber },
         (err: any, user: IUser) => {
           if (err) {
             return done(err, false, { message: 'Error occurred while finding the user' });
           }
 
           if (!user) {
-            return done(null, false, { message: `User with ${ogNumber} does not exist` });
+            return done(null, false, { message: `User with ${validatedOgNumber} does not exist` });
           }
 
           if (!user.password) {

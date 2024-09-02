@@ -13,7 +13,7 @@ import redisCache from '../config/redisCache';
 import { AUTH_PREFIX } from '../utils/constants';
 import SMSService from '../modules/sms/service';
 import { MongooseError } from 'mongoose';
-
+import { validateAndFormat } from '../utils/ogNumberValidator';
 import ExistingStaffService from '../modules/existingStaff/service';
 import { IExistingStaff } from '../modules/existingStaff/model';
 
@@ -45,16 +45,31 @@ class AuthController {
   public signup(req: Request, res: Response) {
     const { phoneNumber, ogNumber, password, confirmPhoneNumber } = req.body;
     console.log(phoneNumber, ogNumber, password, confirmPhoneNumber);
+
+    const validatedOgNumber = validateAndFormat(ogNumber);
     if (!phoneNumber || !ogNumber || !password || !confirmPhoneNumber) {
       return CommonService.insufficientParameters(res);
     }
+
+    if (!validatedOgNumber) {
+      return CommonService.UnprocessableResponse('Input must start with two letters.', res);
+    }
+
     // if (phoneNumber != confirmPhoneNumber) {return CommonService.UnprocessableResponse("Phone numbers do not match",res)}
     this.existingStaffService.filterStaff(
-      { ogNum: ogNumber },
+      { ogNum: validatedOgNumber },
       (err: any, existingStaff: IExistingStaff | null) => {
         if (err) {
           return CommonService.mongoError(err, res);
         }
+        const validatedOgNumber = validateAndFormat(ogNumber);
+        if (!validatedOgNumber) {
+          return CommonService.UnprocessableResponse(
+            'Input must start with two capital letters.',
+            res
+          );
+        }
+
         if (!existingStaff.ogNum) {
           throw new Error(err.message);
           // return CommonService.notFoundResponse('An error occured!', res);
@@ -199,12 +214,16 @@ class AuthController {
 
   public resendConfirmAccountToken(req: Request, res: Response) {
     const { ogNumber } = req.body;
-    console.log(ogNumber);
+    const validatedOgNumber = validateAndFormat(ogNumber);
+    if (!validatedOgNumber) {
+      return CommonService.UnprocessableResponse('Input must start with two capital letters.', res);
+    }
+    console.log(validatedOgNumber);
     if (!ogNumber) {
       return CommonService.insufficientParameters(res);
     }
 
-    this.userService.filterUser({ ogNumber }, (err: any, userData: IUser) => {
+    this.userService.filterUser({ validatedOgNumber }, (err: any, userData: IUser) => {
       if (err || !userData) {
         console.log(ogNumber);
         console.log(userData);
@@ -275,7 +294,11 @@ class AuthController {
   public confirmAccount(req: Request, res: Response) {
     const { code, ogNumber } = req.body;
     if (!code || !ogNumber) return CommonService.insufficientParameters(res);
-    this.userService.filterUser({ ogNumber: ogNumber }, (err: any, user: IUser | any) => {
+    const validatedOgNumber = validateAndFormat(ogNumber);
+    if (!validatedOgNumber) {
+      return CommonService.UnprocessableResponse('Input must start with two capital letters.', res);
+    }
+    this.userService.filterUser({ ogNumber: validatedOgNumber }, (err: any, user: IUser | any) => {
       if (err) {
         logger.error({ message: err, service: 'Auth Service' });
         return CommonService.mongoError(err, res);
@@ -284,7 +307,7 @@ class AuthController {
         return CommonService.unAuthorizedResponse('You seem not to be authorized', res);
       }
 
-      redisCache.get(AUTH_PREFIX + ogNumber, (error: boolean, token: string | null) => {
+      redisCache.get(AUTH_PREFIX + validatedOgNumber, (error: boolean, token: string | null) => {
         if (error || !token) {
           return CommonService.failureResponse('Auth Code expired or does not exist', null, res);
         }
@@ -292,7 +315,7 @@ class AuthController {
         if (code !== token.toString()) {
           return CommonService.forbiddenResponse('Forbidden!', res);
         } else {
-          redisCache.del(AUTH_PREFIX + ogNumber, () => {
+          redisCache.del(AUTH_PREFIX + validatedOgNumber, () => {
             const updateData = {
               accountStatus: AccountStatusEnum.ACTIVATED,
               confirmationCode: null,

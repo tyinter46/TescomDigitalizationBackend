@@ -5,7 +5,7 @@ enum Enviroments {
   qa_environment = 'qa',
 }
 
-class Enviroment {
+export class Enviroment {
   private enviroment: string;
 
   constructor(enviroment: string) {

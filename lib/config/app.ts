@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import cors from 'cors';
+import { config } from './config';
 import enviroment from '../enviroment';
 import mongoose from 'mongoose';
-import expressSession from 'express-session';
 import passport from 'passport';
 import helmet from 'helmet';
 import logger from './logger';
@@ -13,7 +13,7 @@ import { UserRoutes } from '../routes/userRoutes';
 import { UploadRoutes } from '../routes/uploadRoutes';
 import { schoolRoutes } from '../routes/schoolRoutes';
 import { PostingsReportRoutes } from '../routes/postingReportRoutes';
-
+import { session } from './session';
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
 import './passport';
 dotenv.config();
@@ -33,7 +33,6 @@ class App {
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
   private schoolRoutes: schoolRoutes = new schoolRoutes();
   private postingReportRoutes: PostingsReportRoutes = new PostingsReportRoutes();
-
   private commonRoutes: CommonRoutes = new CommonRoutes();
 
   constructor() {
@@ -62,22 +61,13 @@ class App {
         credentials: true,
       })
     );
-    this.app.enable('trust proxy');
+    if (config.trustProxy) {
+      this.app.set('trust proxy', config.trustProxy);
+    }
     this.app.disable('etag');
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(
-      expressSession({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        name: 'tsc-cookie-session',
-        cookie:
-          process.env.NODE_ENV === 'development'
-            ? {}
-            : { secure: true, httpOnly: true, sameSite: 'strict', maxAge: 60 * 60 * 24 * 1000 },
-      })
-    );
+    this.app.use(session);
 
     this.app.use(passport.initialize());
     this.app.use(passport.session());
@@ -105,7 +95,7 @@ class App {
       });
   }
 }
-export const PORT = process.env.PORT || 5000
+export const PORT = process.env.PORT || enviroment.getPort();
 export const ClientBaseUrl =
   process.env.NODE_ENV !== 'development'
     ? process.env.PROD_CLIENT_BASE_URL
