@@ -2,12 +2,10 @@ import { Response, Request } from 'express';
 import CommonService from '../modules/common/service';
 import { UploadModel } from '../modules/upload/model';
 import UploadService from '../modules/upload/service';
-import multer, { FileFilterCallback } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
 import logger from '../config/logger';
-import datauriParser from 'datauri/parser';
-import path from 'path';
+
 
 export class UploadController {
   private cloudConf = cloudinaryConfig;
