@@ -33,7 +33,7 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
 
       try {
         // Generate and send the PDF
-        const file = `${userData.staffName?.firstName} Posting Letter`;
+        const file = `${userData.staffName?.firstName} POSTING LETTER`;
         const title = 'Posting Letter';
         const date = new Date();
 
@@ -51,7 +51,9 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         Sincerely,
         
 
-        Director, Department of Management Services
+        Mrs Afolabi Abiodun
+        Director, 
+        Department of Management Services.
         `;
         generateAndDownloadPDF(file, title, content, res);
         const pdfDownloadLink = `${BASE_URL}/downloadPdf/${userId}`;

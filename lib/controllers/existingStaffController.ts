@@ -132,6 +132,4 @@ export class ExistingStaffController {
       CommonService.insufficientParameters(res);
     }
   }
-
-  
 }
