@@ -18,6 +18,6 @@ jobs:
       - run: docker push teewhy/tescom
       - uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save do-lon1-k8s-1-30-4-do-0-lon1-1725067463420
       - run: kubectl rollout restart deployment tescom-backend-depl
