@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tescom-backend-depl
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tescom-backend
+  template:
+    metadata:
+      labels:
+        app: tescom-backend
+    spec:
+      containers:
+        - name: testcom-backend
+          image: tescom/prod:latest
+          env:
+            - name: PORT
+              value: "8001"
+            - name: MONGO_DB_URI
+              value: "mongodb+srv://teewhy:Bookface123@cluster0.woaenol.mongodb.net/?retryWrites=true&w=majority"
+            - name: JWT_SEC
+              value: "tescompromolistmanagementjwtsecret"
+            - name: JWT_RESET_PASS_SEC
+              value: "tescompromolistmanagementjwtresetpasswordsec"
+            - name: CRYPTO_JS_PASS_SEC
+              value: "tescompromolistmanagementcrytopass"
+            - name: SESSION_SECRET
+              value: "tescompromolistmanagementsessionsecret"
+            - name: TOKEN_VALIDATION_DURATION
+              value: "14d"
+            - name: TERMII_API_KEY
+              value: "TLQDv6WMRElf25ZLMDb3AxA0mEEbJTQPgAr6bSExLuAimco6GCMhNZGGToGpmN"
+            - name: REDIS_HOST
+              value: "redis-srv"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              value: ""
+            - name: CLOUDINARY_NAME 
+              value: "dhkhxaxca"
+            - name: CLOUDINARY_API_KEY 
+              value: "888957537846533"
+            - name: CLOUDINARY_SECRET 
+              value: "6E6MaBlSoVEemelJXvsOwszI_jI"
+            - name: PROD_CLIENT_BASE_URL 
+              value: "https://oguntescom.gov.ng"
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tescom-backend-srv
+  namespace: backend
+spec:
+  selector:
+    app: tescom-backend
+  ports:
+    - name: tescom-backend
+      protocol: TCP
+      port: 80
+      targetPort: 8001
