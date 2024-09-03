@@ -543,7 +543,7 @@ export class SchoolsController {
 
   public async updatePrincipal(schoolId: string, principal: string, position: string) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${principal}`;
+      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${principal}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
       this.userService.updateUser(
         { _id: principal },
@@ -569,7 +569,7 @@ export class SchoolsController {
     position: string
   ) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${vicePrincipalAcademics}`;
+      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAcademics}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
       this.userService.updateUser(
         { _id: vicePrincipalAcademics },
@@ -598,7 +598,7 @@ export class SchoolsController {
     position: string
   ) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${vicePrincipalAdmin}`;
+      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAdmin}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },

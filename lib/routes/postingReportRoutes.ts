@@ -17,7 +17,7 @@ export class PostingsReportRoutes {
       }
     );
 
-    app.get('/downloadPdf/:userId', (req: Request, res: Response) => {
+    app.get('api/downloadPdf/:userId', (req: Request, res: Response) => {
       this.TriggerPostGeneratePostingLetterAndTriggerDownload.generateAndDownloadPostingLetter(
         req,
         res

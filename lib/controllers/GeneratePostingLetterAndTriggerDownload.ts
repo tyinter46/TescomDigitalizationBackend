@@ -57,7 +57,7 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         For: Permanent Secretary.
         `;
         generateAndDownloadPDF(file, title, content, res);
-        const pdfDownloadLink = `${BASE_URL}/downloadPdf/${userId}`;
+        const pdfDownloadLink = `${BASE_URL}/api/downloadPdf/${userId}`;
         console.log(pdfDownloadLink);
       } catch (error) {
         logger.error({
