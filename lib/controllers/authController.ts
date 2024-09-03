@@ -46,7 +46,7 @@ class AuthController {
     const { phoneNumber, ogNumber, password, confirmPhoneNumber } = req.body;
     console.log(phoneNumber, ogNumber, password, confirmPhoneNumber);
 
-    const validatedOgNumber = validateAndFormat(ogNumber);
+    const validatedOgNumber = validateAndFormat(ogNumber, res);
     if (!phoneNumber || !ogNumber || !password || !confirmPhoneNumber) {
       return CommonService.insufficientParameters(res);
     }
@@ -62,7 +62,7 @@ class AuthController {
         if (err) {
           return CommonService.mongoError(err, res);
         }
-        const validatedOgNumber = validateAndFormat(ogNumber);
+        const validatedOgNumber = validateAndFormat(ogNumber, res);
         if (!validatedOgNumber) {
           return CommonService.UnprocessableResponse(
             'Input must start with two capital letters.',
@@ -214,7 +214,7 @@ class AuthController {
 
   public resendConfirmAccountToken(req: Request, res: Response) {
     const { ogNumber } = req.body;
-    const validatedOgNumber = validateAndFormat(ogNumber);
+    const validatedOgNumber = validateAndFormat(ogNumber, res);
     if (!validatedOgNumber) {
       return CommonService.UnprocessableResponse('Input must start with two capital letters.', res);
     }
@@ -294,7 +294,7 @@ class AuthController {
   public confirmAccount(req: Request, res: Response) {
     const { code, ogNumber } = req.body;
     if (!code || !ogNumber) return CommonService.insufficientParameters(res);
-    const validatedOgNumber = validateAndFormat(ogNumber);
+    const validatedOgNumber = validateAndFormat(ogNumber, res);
     if (!validatedOgNumber) {
       return CommonService.UnprocessableResponse('Input must start with two capital letters.', res);
     }
