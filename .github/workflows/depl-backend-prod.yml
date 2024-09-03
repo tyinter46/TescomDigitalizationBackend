@@ -20,4 +20,4 @@ jobs:
         with:
           token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save k8s-1-30-4-do-0-lon1-1725067463420
-      - run: kubectl rollout restart deployment tescom-backend-depl
+      - run: kubectl rollout restart deployment tescom-backend-depl -n backend
