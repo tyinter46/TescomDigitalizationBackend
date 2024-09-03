@@ -40,7 +40,7 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         const content = `
         Dear ${userData.staffName?.firstName} ${userData.staffName?.lastName},
         
-        We are pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
+        I am pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
         
         Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
         
@@ -54,6 +54,7 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         Mrs Afolabi Abiodun
         Director, 
         Department of Management Services.
+        For: Permanent Secretary.
         `;
         generateAndDownloadPDF(file, title, content, res);
         const pdfDownloadLink = `${BASE_URL}/downloadPdf/${userId}`;
