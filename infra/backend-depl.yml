@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: testcom-backend
-          image: tescom/prod:latest
+          image: teewhy/tescom:latest
           env:
             - name: PORT
               value: "8001"
