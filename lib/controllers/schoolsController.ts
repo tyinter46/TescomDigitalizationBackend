@@ -374,14 +374,17 @@ export class SchoolsController {
         );
       } else {
         // const updatePrincipalWithNoSchoolData: Partial<ISchools> = {};
-        // if (principal) updatePrincipalWithNoSchoolData.principal._id = principal;
-        await this.schoolsService.updateSchool(
-          { _id: currentSchoolId },
-          {
-            pincipal: principal,
-          }
-        );
-        console.log('posted');
+        if (principal) {
+          await this.schoolsService.updateSchool(
+            { _id: currentSchoolId },
+            {
+              pincipal: principal,
+            }
+          );
+
+          this.updatePrincipal(currentSchoolId, principal, 'Principal');
+          console.log('posted');
+        }
       }
     } catch (err) {
       logger.error({ message: err.message, service: 'updateExistingPrincipal SchoolsService' });
@@ -449,6 +452,12 @@ export class SchoolsController {
               vicePrincipalAcademics: vicePrincipalAcademics,
             }
           );
+        this.updateVicePrincipalAcademics(
+          currentSchoolId,
+          vicePrincipalAcademics,
+          'Vice-Principal'
+        );
+
         console.log('pincipal posted');
       }
     } catch (err) {
@@ -520,6 +529,7 @@ export class SchoolsController {
               vicePrincipalAdmin,
             }
           );
+        this.updateVicePrincipalAdmin(currentSchoolId, vicePrincipalAdmin, 'Vice-Principal');
         console.log('vicePrincipalAdmin posted');
       }
     } catch (err) {
@@ -535,12 +545,12 @@ export class SchoolsController {
     try {
       const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${principal}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
-      await this.userService.updateUser(
+      this.userService.updateUser(
         { _id: principal },
         {
           schoolOfPresentPosting: schoolId,
           position: position,
-          letters: { postingLetter: pdfDownloadLink },
+          letters: { postingLetter: pdfDownloadLink }, // Pushes a new postingLetter into the letters array
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
         },
         (err: any, userData: IUser) => {
@@ -561,7 +571,7 @@ export class SchoolsController {
     try {
       const pdfDownloadLink = `${this.BASE_URL}/downloadPdf/${vicePrincipalAcademics}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
-      await this.userService.updateUser(
+      this.userService.updateUser(
         { _id: vicePrincipalAcademics },
         {
           schoolOfPresentPosting: schoolId,

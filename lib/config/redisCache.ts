@@ -3,22 +3,17 @@ import logger from './logger';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
 class RedisCache {
   private client: RedisClientType;
   private ttl: number;
   private isClientReady: boolean;
-  private redisClientOptions =
-    process.env.NODE_ENV === 'development'
-      ? {}
-      : {
-          socket: {
-            host: process.env.REDIS_HOST,
-            port: parseInt(process.env.REDIS_PORT),
-          },
-          password: process.env.REDIS_PASSWORD,
-        };
-
+  private redisClientOptions = {
+    socket: {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT),
+    },
+    password: process.env.REDIS_PASSWORD,
+  };
   constructor(ttl: number) {
     (async () => {
       this.client = createClient(this.redisClientOptions);
@@ -29,6 +24,7 @@ class RedisCache {
       });
       this.client.on('ready', () => (this.isClientReady = true));
       await this.client.connect();
+      logger.info('connected');
     })();
   }
 
@@ -69,7 +65,7 @@ class RedisCache {
       await this.client.flushAll();
       return callback(false);
     }
-    return callback(false);
+    return callback(true);
   }
 }
 

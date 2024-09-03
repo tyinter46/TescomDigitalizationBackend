@@ -7,7 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 ToJsonFile
 #dot env
-.env 
+
 
 csvToJson
 

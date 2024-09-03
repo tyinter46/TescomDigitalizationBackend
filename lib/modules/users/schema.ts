@@ -84,16 +84,15 @@ const UserSchema = new Schema(
       type: String,
     },
     qualifications: [],
-    letters: 
-      {
-        postingLetter: { type: String, required: false }, // Optional
-        promotionLetter: { type: String, required: false }, // Optional
-        confirmationLetter: { type: String, required: false }, // Optional
-        appointmentLetter: { type: String, required: false }, // Optional
-        offerOfAppointmentLetter: { type: String, required: false }, // Optional
-        otherLetter: { type: String, required: false }, // Optional
-      },
-    
+    letters: {
+      postingLetter: { type: String, required: false }, // Optional
+      promotionLetter: { type: String, required: false }, // Optional
+      confirmationLetter: { type: String, required: false }, // Optional
+      appointmentLetter: { type: String, required: false }, // Optional
+      offerOfAppointmentLetter: { type: String, required: false }, // Optional
+      otherLetter: { type: String, required: false }, // Optional
+    },
+
     subjectsTaught: {
       type: [String],
       default: null,
