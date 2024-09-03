@@ -33,14 +33,14 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
 
       try {
         // Generate and send the PDF
-        const file = `${userData.staffName?.firstName} Posting Letter`;
+        const file = `${userData.staffName?.firstName} POSTING LETTER`;
         const title = 'Posting Letter';
         const date = new Date();
 
         const content = `
         Dear ${userData.staffName?.firstName} ${userData.staffName?.lastName},
         
-        We are pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
+        I am pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
         
         Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
         
@@ -51,10 +51,13 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         Sincerely,
         
 
-        Director, Department of Management Services
+        Mrs Afolabi Abiodun
+        Director, 
+        Department of Management Services.
+        For: Permanent Secretary.
         `;
         generateAndDownloadPDF(file, title, content, res);
-        const pdfDownloadLink = `${BASE_URL}/downloadPdf/${userId}`;
+        const pdfDownloadLink = `${BASE_URL}/api/downloadPdf/${userId}`;
         console.log(pdfDownloadLink);
       } catch (error) {
         logger.error({

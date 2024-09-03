@@ -22,8 +22,8 @@ export const generateAndDownloadPDF = (
   // Set headers
   res.setHeader('Content-disposition', 'attachment; filename=postingLetter.pdf');
   res.setHeader('Content-type', 'application/pdf');
-  const watermarkPath = path.join(__dirname, 'OGLOGOBG.png');; // Replace with your image path
-console.log(watermarkPath)
+  const watermarkPath = path.join(__dirname, 'OGLOGOBG.png'); // Replace with your image path
+  console.log(watermarkPath);
   // Pipe the document to the response
   doc.pipe(res); // Pipe the PDF to a writable stream
 
