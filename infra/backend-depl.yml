@@ -47,6 +47,8 @@ spec:
               value: "6E6MaBlSoVEemelJXvsOwszI_jI"
             - name: PROD_CLIENT_BASE_URL 
               value: "https://oguntescom.gov.ng"
+      imagePullSecrets:
+      - name: my-registry-secret
             
 ---
 apiVersion: v1
