@@ -25,5 +25,5 @@ jobs:
       - name: Apply or create deployment and ingress
         run: |
           kubectl apply -f backend-depl.yml -n backend
-          kubectl apply -f resis-depl.yml -n backend
+          kubectl apply -f redis-depl.yml -n backend
       - run: kubectl rollout restart deployment tescom-backend-depl -n backend
