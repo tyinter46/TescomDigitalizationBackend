@@ -52,7 +52,12 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
+    staleOrNew: {
+      type: String,
+      default: null,
+    },
     schoolOfPresentPosting: { type: Schema.Types.ObjectId, ref: 'schools' },
+    schoolOfPreviousPosting: { type: Schema.Types.ObjectId, ref: 'schools' },
     zone: {
       type: String,
       enum: [...Object.values(ZonesEnum)],

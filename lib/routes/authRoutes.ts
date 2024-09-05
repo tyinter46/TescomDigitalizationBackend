@@ -18,7 +18,6 @@ export class AuthRoutes {
 
     app.post(
       '/api/auth/local/signin',
-
       ValidationMiddleware(userValidatorSchema.login, 'body'),
       (req: Request, res: Response, next: NextFunction) => {
         this.authController.loginUser(req, res, next);
