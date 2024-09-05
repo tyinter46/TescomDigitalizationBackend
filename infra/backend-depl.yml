@@ -46,7 +46,7 @@ spec:
             - name: CLOUDINARY_SECRET 
               value: "6E6MaBlSoVEemelJXvsOwszI_jI"
             - name: PROD_CLIENT_BASE_URL 
-              value: "http://oguntescom.com"
+              value: "http://oguntescom.com/"
       imagePullSecrets:
       - name: my-registry-secret
             
