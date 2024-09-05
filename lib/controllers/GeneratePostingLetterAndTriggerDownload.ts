@@ -29,20 +29,22 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
         name: userData.staffName?.firstName || 'Unknown',
         newSchool: userData?.schoolOfPresentPosting?.nameOfSchool || 'Unknown',
         position: userData.position || 'Unknown',
+        previousSchool: userData.schoolOfPreviousPosting,
       };
 
       try {
         // Generate and send the PDF
         const file = `${userData.staffName?.firstName} POSTING LETTER`;
-        const title = 'Posting Letter';
+        const title =
+          userData.position === 'Principal'
+            ? `APPOINTMENT AS PRINCIPAL`
+            : `APPOINTMENT AS VICE-PRINCIPAL`;
         const date = new Date();
 
         const content = `
-        Dear ${userData.staffName?.firstName} ${userData.staffName?.lastName},
-        
-        I am pleased to inform you that you have been posted to ${letterData.newSchool} as a ${letterData.position}.
-        
-        Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
+               
+        I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position}  to ${letterData.newSchool} with effect
+        from 30th July, 2024 Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
         
         Please report to the administration of ${letterData.newSchool} at your earliest convenience for your assumption of duty documentation and begin your new assignment.
         

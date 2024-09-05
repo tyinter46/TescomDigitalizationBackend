@@ -223,7 +223,7 @@ class AuthController {
       return CommonService.insufficientParameters(res);
     }
 
-    this.userService.filterUser({ validatedOgNumber }, (err: any, userData: IUser) => {
+    this.userService.filterUser({ ogNumber: validatedOgNumber }, (err: any, userData: IUser) => {
       if (err || !userData) {
         console.log(ogNumber);
         console.log(userData);
