@@ -6,6 +6,7 @@ export class CommonRoutes {
      * Mismatch URL
      */
     app.all('*', (req: Request, res: Response) => {
+      console.log(req.path)
       res.status(404).send({
         STATUS: 'FAILURE',
         MESSAGE: 'Invalid URL. Check your URL and try again.',
