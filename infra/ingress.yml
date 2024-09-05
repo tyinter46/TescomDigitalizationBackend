@@ -10,13 +10,6 @@ spec:
     - host: "oguntescom.com"
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: tescom-frontend-srv
-                port:
-                  number: 3000
           - path: /api/
             pathType: Prefix
             backend:
@@ -24,4 +17,11 @@ spec:
                 name: tescom-backend-srv
                 port:
                   number: 8001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tescom-frontend-srv
+                port:
+                  number: 3000
   ingressClassName: nginx
