@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
 import PostingReportService from '../modules/postingReports/service';
@@ -199,6 +199,7 @@ export class SchoolsController {
   public async updateSchool(req: Request, res: Response) {
     const { id } = req.params;
     const {
+      nameOfPreviousSchool,
       nameOfSchool,
       category,
       address = null,
@@ -210,6 +211,7 @@ export class SchoolsController {
       division,
       latitude,
       longitude,
+      staleOrNew,
     } = req.body;
 
     if (!id) {
@@ -290,14 +292,22 @@ export class SchoolsController {
       const updatedSchool = await this.schoolsService.updateSchool(query, updateData);
 
       if (principal) {
-        await this.updatePrincipal(updatedSchool._id, principal, 'Principal');
+        await this.updatePrincipal(
+          updatedSchool._id,
+          principal,
+          'Principal',
+          nameOfPreviousSchool,
+          staleOrNew
+        );
       }
 
       if (vicePrincipalAdmin) {
         await this.updateVicePrincipalAdmin(
           updatedSchool._id,
           vicePrincipalAdmin,
-          'Vice-Principal'
+          'Vice-Principal',
+          nameOfPreviousSchool,
+          staleOrNew
         );
       }
 
@@ -305,7 +315,9 @@ export class SchoolsController {
         await this.updateVicePrincipalAcademics(
           updatedSchool._id,
           vicePrincipalAcademics,
-          'Vice-Principal'
+          'Vice-Principal',
+          nameOfPreviousSchool,
+          staleOrNew
         );
       }
 
@@ -315,7 +327,12 @@ export class SchoolsController {
     }
   }
 
-  public async updateExistingPrincipal(principal: string | null, currentSchoolId: string) {
+  public async updateExistingPrincipal(
+    principal: string | null,
+    currentSchoolId: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
+  ) {
     // console.log(principal);
     try {
       // Find the school where the principal is currently assigned
@@ -382,7 +399,13 @@ export class SchoolsController {
             }
           );
 
-          this.updatePrincipal(currentSchoolId, principal, 'Principal');
+          this.updatePrincipal(
+            currentSchoolId,
+            principal,
+            'Principal',
+            nameOfPreviousSchool,
+            staleOrNew
+          );
           console.log('posted');
         }
       }
@@ -394,7 +417,9 @@ export class SchoolsController {
 
   public async updateExistingVicePrincipalAcademics(
     vicePrincipalAcademics: string | null,
-    currentSchoolId: string
+    currentSchoolId: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
   ) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({
@@ -455,7 +480,9 @@ export class SchoolsController {
         this.updateVicePrincipalAcademics(
           currentSchoolId,
           vicePrincipalAcademics,
-          'Vice-Principal'
+          'Vice-Principal',
+          nameOfPreviousSchool,
+          staleOrNew
         );
 
         console.log('pincipal posted');
@@ -471,7 +498,9 @@ export class SchoolsController {
 
   public async updateExistingVicePrincipalAdmin(
     vicePrincipalAdmin: string | null,
-    currentSchoolId: string
+    currentSchoolId: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
   ) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({
@@ -529,7 +558,13 @@ export class SchoolsController {
               vicePrincipalAdmin,
             }
           );
-        this.updateVicePrincipalAdmin(currentSchoolId, vicePrincipalAdmin, 'Vice-Principal');
+        this.updateVicePrincipalAdmin(
+          currentSchoolId,
+          vicePrincipalAdmin,
+          'Vice-Principal',
+          nameOfPreviousSchool,
+          staleOrNew
+        );
         console.log('vicePrincipalAdmin posted');
       }
     } catch (err) {
@@ -541,13 +576,21 @@ export class SchoolsController {
     }
   }
 
-  public async updatePrincipal(schoolId: string, principal: string, position: string) {
+  public async updatePrincipal(
+    schoolId: string,
+    principal: string,
+    position: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
+  ) {
     try {
       const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${principal}`;
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
       this.userService.updateUser(
         { _id: principal },
         {
+          schoolOfPreviousPosting: nameOfPreviousSchool,
+          staleOrNew,
           schoolOfPresentPosting: schoolId,
           position: position,
           letters: { postingLetter: pdfDownloadLink }, // Pushes a new postingLetter into the letters array
@@ -555,6 +598,7 @@ export class SchoolsController {
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
+          CommonService.failureResponse('unable to update principal record', userData, response);
         }
       );
     } catch (err) {
@@ -566,7 +610,9 @@ export class SchoolsController {
   public async updateVicePrincipalAcademics(
     schoolId: string,
     vicePrincipalAcademics: string,
-    position: string
+    position: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
   ) {
     try {
       const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAcademics}`;
@@ -575,6 +621,8 @@ export class SchoolsController {
         { _id: vicePrincipalAcademics },
         {
           schoolOfPresentPosting: schoolId,
+          staleOrNew,
+          schoolOfPreviousPosting: nameOfPreviousSchool,
           position: position,
           letters: { postingLetter: pdfDownloadLink },
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
@@ -595,7 +643,9 @@ export class SchoolsController {
   public async updateVicePrincipalAdmin(
     schoolId: string,
     vicePrincipalAdmin: string,
-    position: string
+    position: string,
+    nameOfPreviousSchool: string,
+    staleOrNew: string
   ) {
     try {
       const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAdmin}`;
@@ -603,7 +653,9 @@ export class SchoolsController {
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         {
+          schoolOfPreviousPosting: nameOfPreviousSchool,
           schoolOfPresentPosting: schoolId,
+          staleOrNew: staleOrNew,
           position: position,
           letters: { postingLetter: pdfDownloadLink },
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },

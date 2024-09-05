@@ -61,6 +61,8 @@ export interface IUser {
     latitude: string;
     longitude: string;
   };
+  staleOrNew?: string;
+  schoolOfPreviousPosting?: ISchools;
   letters?: Letters[];
   position?: PositionEnum;
   gender?: GenderEnum;
