@@ -13,7 +13,7 @@ import { IUser } from '../modules/users/model';
 dotenv.config();
 
 export class SchoolsController {
-  private BASE_URL = process.env.BASE_URL || 'http://localhost:8001';
+  private BASE_URL = process.env.PROD_CLIENT_BASE_URL
   private schoolsService: SchoolsService = new SchoolsService();
   private principalDataSchool: any;
   private vicePrincipalAdminSchool: any;
