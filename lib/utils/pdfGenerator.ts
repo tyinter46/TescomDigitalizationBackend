@@ -67,7 +67,7 @@ export const generateAndDownloadPDF = (
   res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
   res.setHeader('Content-type', 'application/pdf');
 
-  const logoPath = path.join(__dirname, 'logo.png'); // Path to the logo image
+  const logoPath = path.join(__dirname, 'OGLOGO.png'); // Path to the logo image
   const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
   const watermarkPath = path.join(__dirname, 'OGLOGOBG.png'); // Path to the watermark
 
