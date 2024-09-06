@@ -16,6 +16,7 @@ import { MongooseError } from 'mongoose';
 import { validateAndFormat } from '../utils/ogNumberValidator';
 import ExistingStaffService from '../modules/existingStaff/service';
 import { IExistingStaff } from '../modules/existingStaff/model';
+import { stringify } from 'querystring';
 
 dotenv.config();
 
@@ -346,13 +347,14 @@ class AuthController {
   public loginUser(req: Request, res: Response, next: NextFunction) {
     passport.authenticate(
       'local',
-      function (err: any, user: IUser | any, school: ISchools | any, info: any) {
+      async function (err: any, user: IUser | any, school: ISchools | any, info: any) {
         if (info && Object.keys(info).length > 0) {
           return CommonService.failureResponse(info?.message, null, res);
         }
         if (err) {
           return next(err);
         }
+        console.log(user);
         if (!user) {
           return CommonService.unAuthorizedResponse(
             'Kindly verify your OgNumber and password!',
@@ -366,6 +368,7 @@ class AuthController {
             res
           );
         }
+
         req.logIn(user, function (err) {
           if (err) {
             return next(err);
@@ -373,13 +376,16 @@ class AuthController {
 
           const accessToken = AuthMiddleWare.createToken(user, school);
 
+          // Populate additional user data and remove password before sending
           user.populate('profilePhoto', (err: any, userData: any) => {
-            // console.error('Error during populate:', err);
             if (err) return CommonService.mongoError(err, res);
-            console.log(userData.staffName.firstName);
+
+            // Remove password before sending the response
             const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
-            const { password, ...rest } = user;
+            const { password, ...rest } = user; // .toObject() to get a plain JS object
             const { ...schoolRest } = school;
+
+            // Send the cleaned user object and token
             return CommonService.successResponse(
               'Successful',
               { user: { ...rest, profilePhoto }, school: { ...schoolRest }, accessToken },
@@ -387,19 +393,6 @@ class AuthController {
             );
           });
         });
-
-        // console.log(accessToken)
-        //   user.populate('profilePhoto', (err: any, userData: any) => {
-        //     if (err) return CommonService.mongoError(err, res);
-        //     const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
-        //     const { password, ...rest } = user._doc;
-        //     return CommonService.successResponse(
-        //       'Successful',
-        //       { user: { ...rest, profilePhoto }, accessToken },
-        //       res
-        //     );
-        //   });
-        //   });
       }
     )(req, res, next);
   }
