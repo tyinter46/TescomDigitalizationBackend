@@ -12,7 +12,8 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
   private userService: UserService = new UserService();
 
   public generateAndDownloadPostingLetter(req: Request, res: Response) {
-    const BASE_URL = process.env.BASE_URL || 'http://localhost:8001';
+    const BASE_URL = process.env.PROD_CLIENT_BASE_URL;
+    console.log(BASE_URL);
     const { userId } = req.params;
     console.log(userId);
     // Fetch user data using callback
