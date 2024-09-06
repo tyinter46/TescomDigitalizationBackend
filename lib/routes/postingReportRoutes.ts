@@ -9,15 +9,11 @@ export class PostingsReportRoutes {
     new TriggerPostGeneratePostingLetterAndTriggerDownload();
 
   public route(app: Application) {
-    app.get(
-      '/api/postingReport',
-      //   AuthMiddleWare.verifyTokenAndAdmin,
-      (req: Request, res: Response) => {
-        this.PostingsReportController.getPostingReport(req, res);
-      }
-    );
+    app.get('/api/postingReport', AuthMiddleWare.verifyToken, (req: Request, res: Response) => {
+      this.PostingsReportController.getPostingReport(req, res);
+    });
 
-    app.get('api/downloadPdf/:userId', (req: Request, res: Response) => {
+    app.get('/api/downloadPdf/:userId', (req: Request, res: Response) => {
       this.TriggerPostGeneratePostingLetterAndTriggerDownload.generateAndDownloadPostingLetter(
         req,
         res

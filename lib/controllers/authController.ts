@@ -71,8 +71,8 @@ class AuthController {
         }
 
         if (!existingStaff.ogNum) {
-          throw new Error(err.message);
-          // return CommonService.notFoundResponse('An error occured!', res);
+          //  throw new Error(err.message);
+          return CommonService.notFoundResponse('An error occured!', res);
         }
 
         this.userService.filterUser(
