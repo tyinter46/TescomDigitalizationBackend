@@ -199,7 +199,7 @@ export class SchoolsController {
   public async updateSchool(req: Request, res: Response) {
     const { id } = req.params;
     const {
-      nameOfPreviousSchool,
+      previousSchoolId,
       nameOfSchool,
       category,
       address = null,
@@ -296,7 +296,7 @@ export class SchoolsController {
           updatedSchool._id,
           principal,
           'Principal',
-          nameOfPreviousSchool,
+          previousSchoolId,
           staleOrNew
         );
       }
@@ -306,7 +306,7 @@ export class SchoolsController {
           updatedSchool._id,
           vicePrincipalAdmin,
           'Vice-Principal',
-          nameOfPreviousSchool,
+          previousSchoolId,
           staleOrNew
         );
       }
@@ -316,7 +316,7 @@ export class SchoolsController {
           updatedSchool._id,
           vicePrincipalAcademics,
           'Vice-Principal',
-          nameOfPreviousSchool,
+          previousSchoolId,
           staleOrNew
         );
       }
@@ -330,7 +330,7 @@ export class SchoolsController {
   public async updateExistingPrincipal(
     principal: string | null,
     currentSchoolId: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     // console.log(principal);
@@ -403,7 +403,7 @@ export class SchoolsController {
             currentSchoolId,
             principal,
             'Principal',
-            nameOfPreviousSchool,
+            previousSchoolId,
             staleOrNew
           );
           console.log('posted');
@@ -418,7 +418,7 @@ export class SchoolsController {
   public async updateExistingVicePrincipalAcademics(
     vicePrincipalAcademics: string | null,
     currentSchoolId: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     try {
@@ -481,7 +481,7 @@ export class SchoolsController {
           currentSchoolId,
           vicePrincipalAcademics,
           'Vice-Principal',
-          nameOfPreviousSchool,
+          previousSchoolId,
           staleOrNew
         );
 
@@ -499,7 +499,7 @@ export class SchoolsController {
   public async updateExistingVicePrincipalAdmin(
     vicePrincipalAdmin: string | null,
     currentSchoolId: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     try {
@@ -562,7 +562,7 @@ export class SchoolsController {
           currentSchoolId,
           vicePrincipalAdmin,
           'Vice-Principal',
-          nameOfPreviousSchool,
+          previousSchoolId,
           staleOrNew
         );
         console.log('vicePrincipalAdmin posted');
@@ -580,7 +580,7 @@ export class SchoolsController {
     schoolId: string,
     principal: string,
     position: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     try {
@@ -589,7 +589,7 @@ export class SchoolsController {
       this.userService.updateUser(
         { _id: principal },
         {
-          schoolOfPreviousPosting: nameOfPreviousSchool,
+          schoolOfPreviousPosting: previousSchoolId,
           staleOrNew,
           schoolOfPresentPosting: schoolId,
           position: position,
@@ -611,7 +611,7 @@ export class SchoolsController {
     schoolId: string,
     vicePrincipalAcademics: string,
     position: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     try {
@@ -622,7 +622,7 @@ export class SchoolsController {
         {
           schoolOfPresentPosting: schoolId,
           staleOrNew,
-          schoolOfPreviousPosting: nameOfPreviousSchool,
+          schoolOfPreviousPosting: previousSchoolId,
           position: position,
           letters: { postingLetter: pdfDownloadLink },
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
@@ -644,7 +644,7 @@ export class SchoolsController {
     schoolId: string,
     vicePrincipalAdmin: string,
     position: string,
-    nameOfPreviousSchool: string,
+    previousSchoolId: string,
     staleOrNew: string
   ) {
     try {
@@ -653,7 +653,7 @@ export class SchoolsController {
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         {
-          schoolOfPreviousPosting: nameOfPreviousSchool,
+          schoolOfPreviousPosting: previousSchoolId,
           schoolOfPresentPosting: schoolId,
           staleOrNew: staleOrNew,
           position: position,
