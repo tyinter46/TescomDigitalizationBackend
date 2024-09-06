@@ -1,71 +1,64 @@
-import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import { v2 as cloudinary } from 'cloudinary';
+import { generateAndDownloadPDF } from '../utils/pdfGenerator'; // Ensure this function returns a buffer
+import logger from '../config/logger';
 import CommonService from '../modules/common/service';
 import UserService from '../modules/users/service';
-import PDFDocument from 'pdfkit';
-import logger from '../config/logger';
 import { IUser } from '../modules/users/model';
-import { generateAndDownloadPDF } from '../utils/pdfGenerator';
-dotenv.config();
 
-export class TriggerPostGeneratePostingLetterAndTriggerDownload {
+export class PDFController {
   private userService: UserService = new UserService();
 
-  public generateAndDownloadPostingLetter(req: Request, res: Response) {
-    const BASE_URL = process.env.PROD_CLIENT_BASE_URL;
-    console.log(BASE_URL);
+  public async generateAndUploadPostingLetter(req: Request, res: Response) {
     const { userId } = req.params;
-    console.log(userId);
-    // Fetch user data using callback
-    this.userService.filterUser({ _id: userId }, (err: any, userData: IUser) => {
-      if (err) {
-        return CommonService.mongoError(err.message, res);
-      }
+    const BASE_URL = process.env.PROD_CLIENT_BASE_URL;
+    const fileName = `posting_letter_${userId}.pdf`;
 
-      if (!userData) {
-        return CommonService.notFoundResponse('User not found', res);
-      }
-      console.log(userData);
-      const letterData = {
-        name: userData.staffName?.firstName || 'Unknown',
-        newSchool: userData?.schoolOfPresentPosting?.nameOfSchool || 'Unknown',
-        position: userData.position || 'Unknown',
-        previousSchool: userData.schoolOfPreviousPosting,
-      };
+    try {
+      // Fetch user data
+      this.userService.filterUser({ _id: userId }, async (err: any, userData: IUser) => {
+        if (err) return CommonService.mongoError(err.message, res);
+        if (!userData) return CommonService.notFoundResponse('User not found', res);
 
-      try {
-        // Generate and send the PDF
-        const file = `${userData.staffName?.firstName} POSTING LETTER`;
-        const title =
-          userData.position === 'Principal'
-            ? `APPOINTMENT AS PRINCIPAL`
-            : `APPOINTMENT AS VICE-PRINCIPAL`;
-        const date = new Date();
+        // Generate PDF in memory
+        const letterContent = `PDF content here for ${userData.staffName?.firstName}...`;
+        const pdfBuffer = await generateAndDownloadPDF(
+          fileName,
+          'Letter Title',
+          letterContent,
+          res
+        );
 
-        const content = `
-               
-                I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position}  to ${letterData.newSchool} with effect
-        from 30th July, 2024.
+        // Upload the PDF buffer to Cloudinary
+        cloudinary.uploader
+          .upload_stream(
+            { resource_type: 'raw', public_id: fileName }, // Set public_id to use the filename
+            (error, result) => {
+              if (error) {
+                logger.error({
+                  message: error.message || 'Cloudinary upload failed',
+                  service: 'PDFController',
+                });
+                return CommonService.failureResponse('PDF Upload failed', error, res);
+              }
 
-        2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-
-        3.      Congratulations on this well-deserved elevation.
-
-                                                                
-        
-        
-                                                                       Mrs Afolabi Abiodun
-                                                                     For: Permanent Secretary.
-        `;
-        generateAndDownloadPDF(file, title, content, res);
-        const pdfDownloadLink = `${BASE_URL}/api/downloadPdf/${userId}`;
-        console.log(pdfDownloadLink);
-      } catch (error) {
-        logger.error({
-          message: error.message || 'Unknown error',
-          service: 'Generate and download posting letter Service',
-        });
-      }
-    });
+              // Provide the download link
+              const downloadLink = result?.secure_url;
+              return CommonService.successResponse(
+                'PDF Uploaded Successfully!',
+                { pdfUrl: downloadLink },
+                res
+              );
+            }
+          )
+          .end(pdfBuffer); // Upload the PDF buffer
+      });
+    } catch (error) {
+      logger.error({
+        message: error.message || 'Unknown error',
+        service: 'PDF Generation and Upload',
+      });
+      return CommonService.mongoError(error.message, res);
+    }
   }
 }
