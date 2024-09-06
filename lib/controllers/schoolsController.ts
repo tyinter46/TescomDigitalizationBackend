@@ -598,7 +598,7 @@ export class SchoolsController {
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
-          CommonService.failureResponse('unable to update principal record', userData, response);
+          throw new Error('unable to update principal record');
         }
       );
     } catch (err) {
