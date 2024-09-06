@@ -43,20 +43,18 @@ export class TriggerPostGeneratePostingLetterAndTriggerDownload {
 
         const content = `
                
-        I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position}  to ${letterData.newSchool} with effect
-        from 30th July, 2024 Your dedication and commitment to excellence have not gone unnoticed, and we believe that your new role will provide you with fresh challenges and opportunities for growth.
-        
-        Please report to the administration of ${letterData.newSchool} at your earliest convenience for your assumption of duty documentation and begin your new assignment.
-        
-        We wish you all the best in your new role and look forward to your continued success.
-        
-        Sincerely,
-        
+                I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position}  to ${letterData.newSchool} with effect
+        from 30th July, 2024.
 
-        Mrs Afolabi Abiodun
-        Director, 
-        Department of Management Services.
-        For: Permanent Secretary.
+        2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
+
+        3.      Congratulations on this well-deserved elevation.
+
+                                                                
+        
+        
+                                                                       Mrs Afolabi Abiodun
+                                                                     For: Permanent Secretary.
         `;
         generateAndDownloadPDF(file, title, content, res);
         const pdfDownloadLink = `${BASE_URL}/api/downloadPdf/${userId}`;
