@@ -585,23 +585,22 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
-      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
-      await this.userService.updateUser(
+      this.userService.updateUser(
         { _id: principal },
         {
-          schoolOfPreviousPosting: previousSchoolId,
+          ward: previousSchoolId,
           staleOrNew,
           schoolOfPresentPosting: schoolId,
           position: position,
-          letters: { postingLetter: pdfDownloadLink }, // Pushes a new postingLetter into the letters array
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }
       );
+      const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
+      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({ message: err.message, service: 'updatePrincipal SchoolsService' });
       throw err;
@@ -616,23 +615,22 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
-      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
       this.userService.updateUser(
         { _id: vicePrincipalAcademics },
         {
           schoolOfPresentPosting: schoolId,
           staleOrNew,
-          schoolOfPreviousPosting: previousSchoolId,
+          ward: previousSchoolId,
           position: position,
-          letters: { postingLetter: pdfDownloadLink },
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }
       );
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
+      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({
         message: err.message,
@@ -650,23 +648,22 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
-      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         {
-          schoolOfPreviousPosting: previousSchoolId,
+          ward: previousSchoolId,
           schoolOfPresentPosting: schoolId,
           staleOrNew: staleOrNew,
           position: position,
-          letters: { postingLetter: pdfDownloadLink },
           $set: { dateOfPresentSchoolPosting: Date.now().toString() },
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
         }
       );
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
+      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({ message: err.message, service: 'updateVicePrincipalAdmin SchoolsService' });
       throw err;

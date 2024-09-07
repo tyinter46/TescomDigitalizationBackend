@@ -85,9 +85,7 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
-    ward: {
-      type: String,
-    },
+    ward: { type: Schema.Types.ObjectId, ref: 'schools' },
     qualifications: [],
     letters: {
       postingLetter: { type: String, required: false }, // Optional

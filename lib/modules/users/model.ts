@@ -75,7 +75,7 @@ export interface IUser {
   nationality?: string;
   stateOfOrigin?: string;
   lgOfOrigin?: string;
-  ward?: string;
+  ward?: ISchools;
   qualifications?: Qualifications[];
   subjectsTaught?: string[];
   dateOfPresentSchoolPosting?: Date;
