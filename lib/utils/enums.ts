@@ -87,6 +87,7 @@ export enum PositionEnum {
   PRINCIPAL = 'Principal',
   VICEPRINCIPALADMIN = 'Vice-Principal Admin',
   VICEPRINCIPALACADEMICS = 'Vice-Principal Academics',
+  VICEPRINCIPAL = 'Vice-Principal',
   NULL = 'null',
 }
 

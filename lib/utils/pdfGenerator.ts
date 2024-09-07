@@ -1,21 +1,21 @@
 import PDFDocument from 'pdfkit';
-import { Response } from 'express';
 import { PassThrough } from 'stream';
 import path from 'path';
 import logger from '../config/logger';
-import CommonService from '../modules/common/service';
 import UserService from '../modules/users/service';
 import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
 
 /**
  * Generates a PDF file and returns it as a buffer.
+ * @param {IUser} user - The user object containing relevant data for the PDF.
  * @param {string} fileName - The name of the file.
  * @param {string} title - The title of the document.
  * @param {string} content - The content of the document.
  * @returns {Promise<Buffer>} - The PDF file as a buffer.
  */
 export const generateAndDownloadPDF = (
+  user: IUser,
   fileName: string,
   title: string,
   content: string
@@ -26,9 +26,15 @@ export const generateAndDownloadPDF = (
 
     // Create a PassThrough stream to capture the PDF output
     const passThroughStream = new PassThrough();
+    const arialnarrow_bolditalicPath = path.join(__dirname, 'arialnarrow_bolditalic.ttf');
+    const arialnarrow = path.join(__dirname, 'arialnarrow.ttf');
+    const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
 
     // Pipe the document to the PassThrough stream
     doc.pipe(passThroughStream);
+    doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
+    doc.registerFont('arialnarrow', arialnarrow);
+    doc.registerFont('arialnarrow_bold', arialnarrow_bold);
 
     // Collect chunks of data from the PassThrough stream
     passThroughStream.on('data', (chunk) => buffers.push(chunk));
@@ -36,51 +42,103 @@ export const generateAndDownloadPDF = (
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
-    const logoPath = path.resolve(__dirname, 'OGLOGO.png'); // Path to the logo image
-    const signaturePath = path.resolve(__dirname, 'signature.png'); // Path to the signature image
+    const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
+    const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+    // Get the page dimensions
+    const pageWidth = doc.page.width;
+    const pageHeight = doc.page.height;
+
+    // Set the desired logo dimensions
+    const logoWidth = 60;
+    const logoHeight = 60;
+
+    // Calculate the position for top center
+    const x = (pageWidth - logoWidth) / 2;
+    const y = 20; // Adjust this value to move the logo up or down
 
     // Add logo at the top header
     if (logoPath) {
-      doc.image(logoPath, 50, 10, {
+      doc.image(logoPath, x, y, {
         fit: [50, 50], // Adjust the size of the logo as needed
-        align: 'center', // Center the logo horizontally (optional)
+        align: 'right', // Center the logo horizontally (optional)
+        valign: 'center',
       });
     }
 
-    // Move down a bit after the logo
-    doc.moveDown(4);
+    // Add header and other details
+    doc.moveDown();
+    doc
+      .fillAndStroke('green', 'yellow')
+      .font('arialnarrow_bold')
+      .fontSize(25)
+      .text('TEACHING SERVICE COMMISSION', { align: 'center' });
+    doc.moveDown();
+    doc
+      .fillColor('purple')
+      .fontSize(15)
+      .text('P.M.B 2081. ABEOKUTA, OGUN STATE OF NIGERIA', { align: 'center' });
+    doc.moveDown(1);
+    doc
+      .fillColor('black')
+      .font('arialnarrow_bolditalic')
+      .fontSize(14)
+      .text('All Communications should be addressed', { align: 'left' });
+    doc.moveDown().text('to the Permanent Secretary', { align: 'left' });
 
-    // Add two lines of heading text with different colors
-    doc.fillColor('green').fontSize(25).text(title, { align: 'center' });
-    doc.moveDown(0.5);
-    doc.fillColor('purple').fontSize(20).text('Second Line of Heading', { align: 'center' });
+    doc.moveDown(1);
+    doc
+      .fillColor('black')
+      .font('arialnarrow')
+      .fontSize(13)
+      .text('TSC/29/Vol.IV/', { align: 'left' });
+    doc.text('9th September, 2024', { align: 'right' });
 
-    doc.moveDown(); // Add space before the main content
+    // Insert user-specific content
+    doc.moveDown(1);
+    doc
+      .fillColor('black')
+      .font('arialnarrow_bold')
+      .fontSize(12)
+      .text(`${user?.staffName?.firstName}`, { align: 'left' });
+    doc.moveDown();
+
+    doc
+      .fillColor('black')
+      .font('arialnarrow')
+      .fontSize(12)
+      .text(`${user?.ward}`, { align: 'left' });
+    doc.moveDown(2);
+
+    doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
 
     // Add content to the PDF
-    doc.fillColor('black').fontSize(14).text(content, { align: 'left' });
-
-    // Move down to where you want to place the signature within the content
-    doc.moveDown(2); // Adjust the spacing to fit your layout needs
-
-    // Insert the signature image in the content
+    doc.moveDown();
+    doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'center' });
+    // Add signature
+    doc.moveDown(3);
     if (signaturePath) {
       doc.image(signaturePath, {
         fit: [100, 50], // Adjust the size of the signature image as needed
-        align: 'center', // Adjust alignment if needed
+        align: 'right', // Adjust alignment if needed
       });
     }
+    doc.moveDown();
 
     // Finalize the PDF and end the stream
     doc.end();
   });
 };
+
+/**
+ * Generates and uploads a posting letter for a specific user.
+ * @param {string} userId - The ID of the user.
+ * @returns {Promise<string | null>} - The URL of the uploaded PDF, or null if the user is not found.
+ */
 export const generateAndUploadPostingLetter = (userId: string): Promise<string | null> => {
-  // const fileName = `posting_letter_${userId}.pdf`;
   const userService = new UserService();
 
   return new Promise((resolve, reject) => {
-    // First, find the user
+    // Find the user
     userService.filterUser({ _id: userId }, (err: any, user: IUser) => {
       if (err) {
         logger.error({
@@ -91,47 +149,119 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
       }
 
       if (!user) {
-        logger.error({
-          message: 'User not found',
-          service: 'PDF Generation and Upload',
-        });
+        logger.error({ message: 'User not found', service: 'PDF Generation and Upload' });
         return resolve(null); // Resolve with null if no user is found
       }
 
-      // Generate PDF content
+      // Prepare PDF content
+      const fileName = `${user.staffName?.firstName} POSTING LETTER`;
+
+      let title: string;
+      if (user.position === 'Principal' && user.staleOrNew === 'New') {
+        title = `APPOINTMENT AS PRINCIPAL`;
+      }
+      if (user.position === 'Vice-Principal' && user.staleOrNew === 'New') {
+        title = `APPOINTMENT AS VICE-PRINCIPAL`;
+      }
+      if (user.position === 'Principal' && user.staleOrNew === 'Stale') {
+        title = `REDEPLOYMENT OF PRINCIPAL`;
+      }
+      if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
+        title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
+      }
+      // let letterContent: string;
       const letterData = {
         name: user.staffName?.firstName ?? 'Unknown ',
         newSchool:
-          user.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown Please contact headquarters',
-        position: user?.position ?? 'Unknown Unknown Please contact headquarters',
-        previousSchool: user?.schoolOfPreviousPosting,
+          user.schoolOfPresentPosting?.nameOfSchool ??
+          'Unknown Please contact headquarters you will get your letter',
+        position:
+          user?.position ??
+          'Unknown Unknown Please contact headquarters headquarters you will get your letter',
+        previousSchool: user?.ward,
       };
+      // if (
+      //   (user.position === 'Principal' || user.position === 'Vice-Principal') &&
+      //   user.staleOrNew === 'New'
+      // ) {
+      //   letterContent = `I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${
+      //     letterData.position
+      //   }  to ${letterData.newSchool} with effect
+      // from ${user.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'}.
 
-      const fileName = `${user.staffName?.firstName} POSTING LETTER`;
-      const title =
-        user.position === 'Principal'
-          ? `APPOINTMENT AS PRINCIPAL`
-          : `APPOINTMENT AS VICE-PRINCIPAL`;
-      const date = new Date();
+      // 2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
 
-      const letterContent = `
-             
-              I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position}  to ${letterData.newSchool} with effect
-      from 30th July, 2024.
+      // 3.      Congratulations on this well-deserved elevation.
 
-      2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
+      //                                                                                      Mrs Afolabi Abiodun
+      //                                                                                    For: Permanent Secretary.
 
-      3.      Congratulations on this well-deserved elevation.
+      // `;
+      // }
 
-                                                              
-      
-      
-                                                                     Mrs Afolabi Abiodun
-                                                                   For: Permanent Secretary.
-      `;
+      // if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
+      //   letterContent = `I am directed to inform you that the Teaching Service Commissiion has approved your redeployment
+      //   from ${user.schoolOfPreviousPosting} to ${user.schoolOfPresentPosting} with immidiate effect.
 
-      // Call generateAndDownloadPDF and chain Promises
-      generateAndDownloadPDF(fileName, title, letterContent)
+      //   2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession
+      //   to your principal immediately.
+
+      //   3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the
+      //   assumption at the new office.
+
+      //   4.    Thank you.
+
+      //                                                                                               Afolabi Abiodun
+
+      //   `;
+      // }
+
+      const generateLetterContent = (user: IUser): string => {
+        const letterData = {
+          name: user.staffName?.firstName ?? 'Unknown',
+          newSchool: user.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+          position: user?.position ?? 'Unknown',
+          previousSchool: user?.ward,
+        };
+
+        if (
+          (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
+          user.staleOrNew === 'New'
+        ) {
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
+            letterData.position
+          } to ${letterData.newSchool} with effect from ${
+            user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+          }.
+    
+          2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
+    
+          3.      Congratulations on this well-deserved elevation.`;
+        }
+
+        if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
+          return `I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.ward?.nameOfSchool} to ${letterData.newSchool} with immediate effect.
+    
+          2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
+    
+          3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the assumption at the new office.
+    
+          4.    Thank you.`;
+        }
+
+        if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.ward} to ${user?.schoolOfPresentPosting} with immediate effect.
+    
+          2.    Kindly ensure proper handing over before leaving.
+    
+          3.    Many thanks`;
+        }
+
+        return '';
+      };
+      let letterContent = generateLetterContent(user);
+      // Generate and upload the PDF
+      generateAndDownloadPDF(user, fileName, title, letterContent)
         .then((pdfBuffer) => {
           // Upload the PDF buffer to Cloudinary
           return new Promise<any>((resolve, reject) => {
@@ -153,22 +283,20 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           if (!downloadLink) {
             throw new Error('Failed to generate download link.');
           }
+
+          // Update the user's posting letter in the database
           userService.updateUser(
             { _id: userId },
             { letters: { postingLetter: downloadLink } },
             (err, updatedUser) => {
               if (err) {
-                return reject(err); // Reject if there's an error updating user
+                return reject(err); // Reject if there's an error updating the user
               }
-              resolve(downloadLink); // Resolve with download link
+              resolve(downloadLink); // Resolve with the download link
             }
           );
-          // Return the download link after updating the user
-          logger.info('PDF uploaded and user updated successfully.');
-          resolve(downloadLink); // Resolve with the download link
         })
         .catch((error) => {
-          // Handle errors
           logger.error({
             message: error.message || 'Unknown error during PDF generation or upload',
             service: 'PDF Generation and Upload',
