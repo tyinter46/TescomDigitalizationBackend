@@ -7,13 +7,14 @@ import UserService from '../modules/users/service';
 import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
+import { generateAndUploadPostingLetter } from '../utils/pdfGenerator';
 // import { IPostingReport } from '../modules/postingReports/model';
 // import { ModificationNote } from 'modules/common/model';
 // import { User } from 'aws-sdk/clients/budgets';
 dotenv.config();
 
 export class SchoolsController {
-  private BASE_URL = process.env.PROD_CLIENT_BASE_URL
+  private BASE_URL = process.env.PROD_CLIENT_BASE_URL;
   private schoolsService: SchoolsService = new SchoolsService();
   private principalDataSchool: any;
   private vicePrincipalAdminSchool: any;
@@ -584,9 +585,10 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${principal}`;
+      const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
+      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
-      this.userService.updateUser(
+      await this.userService.updateUser(
         { _id: principal },
         {
           schoolOfPreviousPosting: previousSchoolId,
@@ -598,7 +600,6 @@ export class SchoolsController {
         },
         (err: any, userData: IUser) => {
           if (err) throw new Error(err);
-          throw new Error('unable to update principal record');
         }
       );
     } catch (err) {
@@ -615,7 +616,8 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAcademics}`;
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
+      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
       this.userService.updateUser(
         { _id: vicePrincipalAcademics },
@@ -648,7 +650,8 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      const pdfDownloadLink = `${this.BASE_URL}/api/downloadPdf/${vicePrincipalAdmin}`;
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
+      console.log(pdfDownloadLink);
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
