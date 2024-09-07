@@ -36,8 +36,8 @@ export const generateAndDownloadPDF = (
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
-    const logoPath = path.join(__dirname, 'OGLOGO.png'); // Path to the logo image
-    const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+    const logoPath = path.resolve(__dirname, 'OGLOGO.png'); // Path to the logo image
+    const signaturePath = path.resolve(__dirname, 'signature.png'); // Path to the signature image
 
     // Add logo at the top header
     if (logoPath) {
