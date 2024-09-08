@@ -93,7 +93,7 @@ export const generateAndDownloadPDF = (
       .fontSize(14)
       .text('to the Permanent Secretary', { align: 'left' });
 
-    doc.moveDown(1);
+    doc.moveDown(3);
     doc
       .fillColor('black')
       .font('arialnarrow')
@@ -129,13 +129,12 @@ export const generateAndDownloadPDF = (
         align: 'right', // Adjust alignment if needed
       });
     }
-    doc.moveDown();
+    doc.moveDown(2);
     doc
       .fillColor('black')
       .font('arialnarrow_bold')
       .fontSize(12)
       .text('Afolabi Abiodun F. (Mrs.)', { align: 'right' })
-      .moveDown()
       .fillColor('black')
       .font('arialnarrow_italic')
       .fontSize(12)
@@ -209,7 +208,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
           user.staleOrNew === 'New'
         ) {
-          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
+          return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
             letterData.position
           } to ${user?.schoolOfPresentPosting?.nameOfSchool} with effect from ${
             user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
