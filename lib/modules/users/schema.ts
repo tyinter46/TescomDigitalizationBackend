@@ -85,7 +85,10 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
-    ward: { type: Schema.Types.ObjectId, ref: 'schools' },
+    ward: {
+      type: String,
+      default: null,
+    },
     qualifications: [],
     letters: {
       postingLetter: { type: String, required: false }, // Optional
@@ -225,7 +228,7 @@ const UserSchema = new Schema(
     ],
     ModificationNotes: [ModificationNote],
   },
-  { timestamps: true }
+  { timestamps: true, strict: false }
 );
 
 UserSchema.plugin(paginate);

@@ -30,7 +30,7 @@ export enum UserLevelEnum {
 export enum GenderEnum {
   MALE = 'Male',
   FEMALE = 'Female',
-  NULL = 'null',
+  NULL = null,
 }
 
 export enum ZonesEnum {

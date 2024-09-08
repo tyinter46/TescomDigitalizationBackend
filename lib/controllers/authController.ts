@@ -308,6 +308,14 @@ class AuthController {
         return CommonService.unAuthorizedResponse('You seem not to be authorized', res);
       }
 
+      if (user.accountStatus === AccountStatusEnum.ACTIVATED) {
+        return CommonService.failureResponse(
+          'You previously activated your account, kindly login',
+          null,
+          res
+        );
+      }
+
       redisCache.get(AUTH_PREFIX + validatedOgNumber, (error: boolean, token: string | null) => {
         if (error || !token) {
           return CommonService.failureResponse('Auth Code expired or does not exist', null, res);

@@ -8,6 +8,7 @@ import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
 import { generateAndUploadPostingLetter } from '../utils/pdfGenerator';
+import UsersModel from '../modules/users/schema';
 // import { IPostingReport } from '../modules/postingReports/model';
 // import { ModificationNote } from 'modules/common/model';
 // import { User } from 'aws-sdk/clients/budgets';
@@ -198,6 +199,14 @@ export class SchoolsController {
 
   //UPDATE SCHOOL ######################### UPDATE SCHOOL
   public async updateSchool(req: Request, res: Response) {
+    // this.userService.updateUsers(
+    //   { schoolOfPreviousPosting: { $exists: false } },
+    //   { $set: { schoolOfPreviousPosting: null } }
+    // );
+    // db.users.updateMany(
+    //   { schoolOfPreviousPosting: { $exists: false } },
+    //   { $set: { schoolOfPreviousPosting: null } }
+    // )
     const { id } = req.params;
     const {
       previousSchoolId,
@@ -486,7 +495,7 @@ export class SchoolsController {
           staleOrNew
         );
 
-        console.log('pincipal posted');
+        console.log('vice pincipal acad posted');
       }
     } catch (err) {
       logger.error({
@@ -586,21 +595,23 @@ export class SchoolsController {
   ) {
     try {
       await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
+
       this.userService.updateUser(
         { _id: principal },
+
         {
-          ward: previousSchoolId,
+          schoolOfPreviousPosting: previousSchoolId,
           staleOrNew,
           schoolOfPresentPosting: schoolId,
           position: position,
-          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+          dateOfPresentSchoolPosting: Date.now().toString(),
         },
-        (err: any, userData: IUser) => {
-          if (err) throw new Error(err);
+        async (err: any, userData: IUser) => {
+          if (err) console.log(err);
+          const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
+          console.log(pdfDownloadLink);
         }
       );
-      const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
-      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({ message: err.message, service: 'updatePrincipal SchoolsService' });
       throw err;
@@ -619,18 +630,21 @@ export class SchoolsController {
       this.userService.updateUser(
         { _id: vicePrincipalAcademics },
         {
-          schoolOfPresentPosting: schoolId,
-          staleOrNew,
-          ward: previousSchoolId,
-          position: position,
-          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+          $set: {
+            schoolOfPreviousPosting: previousSchoolId,
+            schoolOfPresentPosting: schoolId,
+            position: position,
+            dateOfPresentSchoolPosting: Date.now().toString(),
+            staleOrNew,
+          },
         },
-        (err: any, userData: IUser) => {
+        async (err: any, userData: IUser) => {
           if (err) throw new Error(err);
+          console.log(userData.schoolOfPreviousPosting.nameOfSchool);
+          const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
+          console.log(pdfDownloadLink);
         }
       );
-      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
-      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({
         message: err.message,
@@ -652,18 +666,18 @@ export class SchoolsController {
       this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         {
-          ward: previousSchoolId,
+          $set: { schoolOfPreviousPosting: previousSchoolId },
           schoolOfPresentPosting: schoolId,
           staleOrNew: staleOrNew,
           position: position,
-          $set: { dateOfPresentSchoolPosting: Date.now().toString() },
+          dateOfPresentSchoolPosting: Date.now().toString(),
         },
-        (err: any, userData: IUser) => {
-          if (err) throw new Error(err);
+        async (err: any, userData: IUser) => {
+          if (err) console.log(err);
+          const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
+          console.log(pdfDownloadLink);
         }
       );
-      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
-      console.log(pdfDownloadLink);
     } catch (err) {
       logger.error({ message: err.message, service: 'updateVicePrincipalAdmin SchoolsService' });
       throw err;

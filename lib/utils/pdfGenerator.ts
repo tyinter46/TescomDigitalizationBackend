@@ -5,6 +5,8 @@ import logger from '../config/logger';
 import UserService from '../modules/users/service';
 import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
+import CommonService from '../modules/common/service';
+import { response } from 'express';
 
 /**
  * Generates a PDF file and returns it as a buffer.
@@ -29,13 +31,14 @@ export const generateAndDownloadPDF = (
     const arialnarrow_bolditalicPath = path.join(__dirname, 'arialnarrow_bolditalic.ttf');
     const arialnarrow = path.join(__dirname, 'arialnarrow.ttf');
     const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
+    const arialnarrow_italic = path.join(__dirname, 'arialnarrow_italic.ttf');
 
     // Pipe the document to the PassThrough stream
     doc.pipe(passThroughStream);
     doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
     doc.registerFont('arialnarrow', arialnarrow);
     doc.registerFont('arialnarrow_bold', arialnarrow_bold);
-
+    doc.registerFont('arialnarrow_italic', arialnarrow_italic);
     // Collect chunks of data from the PassThrough stream
     passThroughStream.on('data', (chunk) => buffers.push(chunk));
     passThroughStream.on('end', () => resolve(Buffer.concat(buffers)));
@@ -51,10 +54,12 @@ export const generateAndDownloadPDF = (
     // Set the desired logo dimensions
     const logoWidth = 60;
     const logoHeight = 60;
+    const signatureWidth = 180;
 
     // Calculate the position for top center
     const x = (pageWidth - logoWidth) / 2;
-    const y = 20; // Adjust this value to move the logo up or down
+    const y = 10; // Adjust this value to move the logo up or down
+    const z = 400;
 
     // Add logo at the top header
     if (logoPath) {
@@ -72,7 +77,6 @@ export const generateAndDownloadPDF = (
       .font('arialnarrow_bold')
       .fontSize(25)
       .text('TEACHING SERVICE COMMISSION', { align: 'center' });
-    doc.moveDown();
     doc
       .fillColor('purple')
       .fontSize(15)
@@ -83,7 +87,11 @@ export const generateAndDownloadPDF = (
       .font('arialnarrow_bolditalic')
       .fontSize(14)
       .text('All Communications should be addressed', { align: 'left' });
-    doc.moveDown().text('to the Permanent Secretary', { align: 'left' });
+    doc
+      .fillColor('black')
+      .font('arialnarrow_bolditalic')
+      .fontSize(14)
+      .text('to the Permanent Secretary', { align: 'left' });
 
     doc.moveDown(1);
     doc
@@ -100,30 +108,38 @@ export const generateAndDownloadPDF = (
       .font('arialnarrow_bold')
       .fontSize(12)
       .text(`${user?.staffName?.firstName}`, { align: 'left' });
-    doc.moveDown();
-
     doc
       .fillColor('black')
       .font('arialnarrow')
       .fontSize(12)
-      .text(`${user?.ward}`, { align: 'left' });
+      .text(`${user?.schoolOfPreviousPosting?.nameOfSchool}`, { align: 'left' });
     doc.moveDown(2);
 
     doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
 
     // Add content to the PDF
     doc.moveDown();
-    doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'center' });
+    doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
     // Add signature
     doc.moveDown(3);
     if (signaturePath) {
-      doc.image(signaturePath, {
+      const a = 500;
+      doc.image(signaturePath, z, a, {
         fit: [100, 50], // Adjust the size of the signature image as needed
         align: 'right', // Adjust alignment if needed
       });
     }
     doc.moveDown();
-
+    doc
+      .fillColor('black')
+      .font('arialnarrow_bold')
+      .fontSize(12)
+      .text('Afolabi Abiodun F. (Mrs.)', { align: 'right' })
+      .moveDown()
+      .fillColor('black')
+      .font('arialnarrow_italic')
+      .fontSize(12)
+      .text('for: Permanent Secretary', { align: 'right' });
     // Finalize the PDF and end the stream
     doc.end();
   });
@@ -150,11 +166,12 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
 
       if (!user) {
         logger.error({ message: 'User not found', service: 'PDF Generation and Upload' });
+        CommonService.mongoError('User not found', response);
         return resolve(null); // Resolve with null if no user is found
       }
 
       // Prepare PDF content
-      const fileName = `${user.staffName?.firstName} POSTING LETTER`;
+      const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
 
       let title: string;
       if (user.position === 'Principal' && user.staleOrNew === 'New') {
@@ -169,68 +186,32 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
       if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
         title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
       }
-      // let letterContent: string;
       const letterData = {
-        name: user.staffName?.firstName ?? 'Unknown ',
-        newSchool:
-          user.schoolOfPresentPosting?.nameOfSchool ??
-          'Unknown Please contact headquarters you will get your letter',
-        position:
-          user?.position ??
-          'Unknown Unknown Please contact headquarters headquarters you will get your letter',
-        previousSchool: user?.ward,
+        name: user?.staffName?.firstName ?? 'Unknown',
+        newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+        position: user?.position ?? 'Unknown',
+        previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
       };
-      // if (
-      //   (user.position === 'Principal' || user.position === 'Vice-Principal') &&
-      //   user.staleOrNew === 'New'
-      // ) {
-      //   letterContent = `I am directed to inform you that you that the Ogun State Teaching Service Commission has approved your appointment as the ${
-      //     letterData.position
-      //   }  to ${letterData.newSchool} with effect
-      // from ${user.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'}.
-
-      // 2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-
-      // 3.      Congratulations on this well-deserved elevation.
-
-      //                                                                                      Mrs Afolabi Abiodun
-      //                                                                                    For: Permanent Secretary.
-
-      // `;
-      // }
-
-      // if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
-      //   letterContent = `I am directed to inform you that the Teaching Service Commissiion has approved your redeployment
-      //   from ${user.schoolOfPreviousPosting} to ${user.schoolOfPresentPosting} with immidiate effect.
-
-      //   2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession
-      //   to your principal immediately.
-
-      //   3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the
-      //   assumption at the new office.
-
-      //   4.    Thank you.
-
-      //                                                                                               Afolabi Abiodun
-
-      //   `;
-      // }
-
+      console.log(letterData);
+      // let letterContent: string;
+      // const letterData = {
+      //   name: user.staffName?.firstName ?? 'Unknown ',
+      //   newSchool:
+      //     user.schoolOfPresentPosting?.nameOfSchool ??
+      //     'Unknown Please contact headquarters you will get your letter',
+      //   position:
+      //     user?.position ??
+      //     'Unknown Unknown Please contact headquarters headquarters you will get your letter',
+      //   previousSchool: user?.ward,
+      // };
       const generateLetterContent = (user: IUser): string => {
-        const letterData = {
-          name: user.staffName?.firstName ?? 'Unknown',
-          newSchool: user.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
-          position: user?.position ?? 'Unknown',
-          previousSchool: user?.ward,
-        };
-
         if (
           (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
           user.staleOrNew === 'New'
         ) {
           return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
             letterData.position
-          } to ${letterData.newSchool} with effect from ${
+          } to ${user?.schoolOfPresentPosting?.nameOfSchool} with effect from ${
             user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
           }.
     
@@ -240,7 +221,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
-          return `I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.ward?.nameOfSchool} to ${letterData.newSchool} with immediate effect.
+          return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${letterData.newSchool} with immediate effect.
     
           2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
     
@@ -250,7 +231,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.ward} to ${user?.schoolOfPresentPosting} with immediate effect.
+          return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${user?.schoolOfPresentPosting?.nameOfSchool} with immediate effect.
     
           2.    Kindly ensure proper handing over before leaving.
     
