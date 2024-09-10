@@ -365,7 +365,7 @@ class UserController {
     const {
       ogNumber = '',
       pageNumber = 1,
-      pageSize = 30000,
+      pageSize = 15000,
       firstName = '',
       tscFileNumber = '',
       middleName = '',
@@ -445,7 +445,7 @@ class UserController {
       page: parseInt(pageNumber as string, 10),
       limit: parseInt(pageSize as string, 10),
       sort: sortQuery,
-      populate: ['schoolOfPresentPosting', 'schoolOfPreviousPosting', 'ward'],
+      populate: ['schoolOfPresentPosting', 'schoolOfPreviousPosting'],
       customLabels,
     };
 

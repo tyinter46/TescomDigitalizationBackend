@@ -15,11 +15,7 @@ import UsersModel from '../modules/users/schema';
 dotenv.config();
 
 export class SchoolsController {
-  private BASE_URL = process.env.PROD_CLIENT_BASE_URL;
   private schoolsService: SchoolsService = new SchoolsService();
-  private principalDataSchool: any;
-  private vicePrincipalAdminSchool: any;
-  private vicePrincipalAcademicsSchool: any;
 
   private userService: UserService = new UserService();
   private postingReportService: PostingReportService = new PostingReportService();
@@ -43,8 +39,8 @@ export class SchoolsController {
       id = '',
     } = req.query;
 
-    const page = parseInt(pageNumber as string, 10) || 1;
-    const limit = parseInt(pageSize as string, 10) || 50;
+    const page = parseInt(pageNumber as string, 10);
+    const limit = parseInt(pageSize as string, 10);
 
     const query: any = {};
     const orConditions: any[] = [];
@@ -86,22 +82,22 @@ export class SchoolsController {
         {
           path: 'principal',
           select:
-            'staffName gender position phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
+            'staffName position ogNumber phoneNumber  dateOfPresentPosting gradeLevel dateOfRetirement',
         },
         {
           path: 'listOfStaff',
           select:
-            'staffName gender position phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
+            'staffName gender position phoneNumber ogNumber   dateOfPresentPosting gradeLevel dateOfRetirement',
         },
         {
           path: 'vicePrincipalAdmin',
           select:
-            'staffName gender position phoneNumber ogNumber tscFileNumber dateOfFirstAppointment  dateOfPresentPosting  dateOfBirth gradeLevel dateOfRetirement',
+            'staffName gender position phoneNumber ogNumber   dateOfPresentPosting  gradeLevel dateOfRetirement',
         },
         {
           path: 'vicePrincipalAcademics',
           select:
-            'staffName gender position phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
+            'staffName gender position phoneNumber ogNumber dateOfPresentPosting gradeLevel dateOfRetirement',
         },
       ],
       customLabels,
