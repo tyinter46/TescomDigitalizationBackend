@@ -98,19 +98,19 @@ class AuthController {
             const codeExpiration = 60 * 60;
             // const authToken = { code, expiresIn: Date.now() };
 
-            if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
-              return CommonService.failureResponse(
-                'An Account Already Exist with this details kindly verify your account',
-                null,
-                res
-              );
-            } else if (userResult && userResult.accountStatus === AccountStatusEnum.ACTIVATED) {
-              return CommonService.failureResponse(
-                'You previously created an account, kindly login or Reset your password',
-                null,
-                res
-              );
-            }
+            // if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
+            //   return CommonService.failureResponse(
+            //     'An Account Already Exist with this details kindly verify your account',
+            //     null,
+            //     res
+            //   );
+            // } else if (userResult && userResult.accountStatus === AccountStatusEnum.ACTIVATED) {
+            //   return CommonService.failureResponse(
+            //     'You previously created an account, kindly login or Reset your password',
+            //     null,
+            //     res
+            //   );
+            // }
             if (!userResult) {
               const hashedPassword = cryptoJs.AES.encrypt(
                 password,
@@ -162,48 +162,48 @@ class AuthController {
                     res
                   );
 
-                  try {
-                    redisCache.set(
-                      AUTH_PREFIX + newUser.ogNumber,
-                      code,
-                      codeExpiration,
-                      (err: boolean) => {
-                        if (err) {
-                          return CommonService.failureResponse(
-                            'An Error Occured Try Again',
-                            null,
-                            res
-                          );
-                        }
+                  // try {
+                  //   redisCache.set(
+                  //     AUTH_PREFIX + newUser.ogNumber,
+                  //     code,
+                  //     codeExpiration,
+                  //     (err: boolean) => {
+                  //       if (err) {
+                  //         return CommonService.failureResponse(
+                  //           'An Error Occured Try Again',
+                  //           null,
+                  //           res
+                  //         );
+                  //       }
 
-                        const phoneNumber = newUser.phoneNumber;
-                        const newToken = code;
-                        this.smsService
-                          .sendCode({ phoneNumber, code })
-                          .then(() => {
-                            const { _id, phoneNumber } = newUser;
+                  //       const phoneNumber = newUser.phoneNumber;
+                  //       const newToken = code;
+                  //       this.smsService
+                  //         .sendCode({ phoneNumber, code })
+                  //         .then(() => {
+                  //           const { _id, phoneNumber } = newUser;
 
-                            CommonService.successResponse(
-                              `2Factor Code sent to ${phoneNumber} `,
-                              { _id, phoneNumber },
-                              res
-                            );
-                          })
-                          .catch((err: any) => {
-                            logger.error({ message: err, service: 'SmSService' });
-                            this.userService.deleteUser({ _id: newUser._id }, () => {
-                              CommonService.failureResponse(
-                                'Failed to send Two-factor code to phone number, please sign up again',
-                                null,
-                                res
-                              );
-                            });
-                          });
-                      }
-                    );
-                  } catch (error) {
-                    throw new error();
-                  }
+                  //           CommonService.successResponse(
+                  //             `2Factor Code sent to ${phoneNumber} `,
+                  //             { _id, phoneNumber },
+                  //             res
+                  //           );
+                  //         })
+                  //         .catch((err: any) => {
+                  //           logger.error({ message: err, service: 'SmSService' });
+                  //           this.userService.deleteUser({ _id: newUser._id }, () => {
+                  //             CommonService.failureResponse(
+                  //               'Failed to send Two-factor code to phone number, please sign up again',
+                  //               null,
+                  //               res
+                  //             );
+                  //           });
+                  //         });
+                  //     }
+                  //   );
+                  // } catch (error) {
+                  //   throw new error();
+                  // }
                 }
               });
             }
@@ -370,12 +370,12 @@ class AuthController {
           );
         }
 
-        if (user.accountStatus != 'activated') {
-          return CommonService.unAuthorizedResponse(
-            'Pending Account. Please Verify Your phone number!',
-            res
-          );
-        }
+        // if (user.accountStatus != 'activated') {
+        //   return CommonService.unAuthorizedResponse(
+        //     'Pending Account. Please Verify Your phone number!',
+        //     res
+        //   );
+        // }
 
         req.logIn(user, function (err) {
           if (err) {
