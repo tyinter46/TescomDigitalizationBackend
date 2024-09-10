@@ -210,7 +210,11 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         ) {
           return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
             letterData.position
-          } to ${user?.schoolOfPresentPosting?.nameOfSchool} with effect from ${
+          } to ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${
+            user?.schoolOfPreviousPosting?.category
+          } to ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
+            user?.schoolOfPresentPosting?.location
+          } with effect from ${
             user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
           }.
     
@@ -220,7 +224,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
-          return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${letterData.newSchool} with immediate effect.
+          return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category} to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location}  with immediate effect.
     
           2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
     
@@ -230,7 +234,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-          return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${user?.schoolOfPresentPosting?.nameOfSchool} with immediate effect.
+          return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category} to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
     
           2.    Kindly ensure proper handing over before leaving.
     
