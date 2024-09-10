@@ -45,14 +45,14 @@ export default class UserService {
           {
             path: 'schoolOfPresentPosting',
             select:
-              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
-            strictPopulate: false, // Add this line to disable strict population for this path
+              'staffName gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
+            strictPopulate: false,
           },
           {
             path: 'schoolOfPreviousPosting',
             select:
-              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
-            strictPopulate: false, // Add this line to disable strict population for this path
+              'staffName gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
+            strictPopulate: false,
           },
         ],
       },
@@ -63,7 +63,7 @@ export default class UserService {
   public async updateUsers(query: object, update: object) {
     UsersModel.updateMany(query, update).populate({
       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
-      strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+      strictPopulate: false,
     });
     console.log('Users updated successfully.');
   }
