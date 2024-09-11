@@ -224,7 +224,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
-          return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category} to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location}  with immediate effect.
+          return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category} to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},   ${user?.schoolOfPresentPosting?.location}  with immediate effect.
     
           2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
     
@@ -234,7 +234,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         }
 
         if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-          return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool} to ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category} to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
+          return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
     
           2.    Kindly ensure proper handing over before leaving.
     
