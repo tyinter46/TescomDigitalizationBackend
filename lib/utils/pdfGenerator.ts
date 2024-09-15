@@ -210,9 +210,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         ) {
           return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
             letterData.position
-          } from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${
-            user?.schoolOfPreviousPosting?.category
-          } to ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
+          } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
             user?.schoolOfPresentPosting?.location
           } with effect from ${
             user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'

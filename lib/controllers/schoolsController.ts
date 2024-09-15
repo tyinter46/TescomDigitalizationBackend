@@ -195,14 +195,6 @@ export class SchoolsController {
 
   //UPDATE SCHOOL ######################### UPDATE SCHOOL
   public async updateSchool(req: Request, res: Response) {
-    // this.userService.updateUsers(
-    //   { schoolOfPreviousPosting: { $exists: false } },
-    //   { $set: { schoolOfPreviousPosting: null } }
-    // );
-    // db.users.updateMany(
-    //   { schoolOfPreviousPosting: { $exists: false } },
-    //   { $set: { schoolOfPreviousPosting: null } }
-    // )
     const { id } = req.params;
     const {
       previousSchoolId,
@@ -636,7 +628,7 @@ export class SchoolsController {
         },
         async (err: any, userData: IUser) => {
           if (err) throw new Error(err);
-          console.log(userData.schoolOfPreviousPosting.nameOfSchool);
+
           const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
           console.log(pdfDownloadLink);
         }
