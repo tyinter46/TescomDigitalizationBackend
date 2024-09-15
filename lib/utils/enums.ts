@@ -37,7 +37,7 @@ export enum ZonesEnum {
   EWEKORO = 'Ewekoro',
   ABEOKUTASOUTH = 'Abeokuta South',
   ODOGBOLU = 'Odogbolu',
-  SAGAMU = ' Sagamu',
+  SAGAMU = 'Sagamu',
   ADOODOOTA = 'Ado-Odo Ota',
   ABEOKUTANORTH = 'Abeokuta North',
   IJEBUODE = 'Ijebu Ode',
