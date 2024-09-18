@@ -79,6 +79,14 @@ class AuthController {
         this.userService.filterUser(
           { phoneNumber: phoneNumber, ogNumber: existingStaff.ogNum },
           (err: any, userResult: IUser | null) => {
+            if (userResult) {
+              return CommonService.failureResponse(
+                'You previously created an account, kindly login',
+                null,
+                res
+              );
+            }
+
             console.log(existingStaff.nameOfOfficer);
 
             const firstName = existingStaff.nameOfOfficer.split(' ')[1];
