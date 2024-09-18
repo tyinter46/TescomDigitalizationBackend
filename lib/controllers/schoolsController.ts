@@ -595,7 +595,8 @@ export class SchoolsController {
           dateOfPresentSchoolPosting: Date.now().toString(),
         },
         async (err: any, userData: IUser) => {
-          if (err) console.log(err);
+          // if (err) console.log(err);
+          if (err) return CommonService.insufficientParameters(response as Response);
           const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
           console.log(pdfDownloadLink);
         }
@@ -627,7 +628,8 @@ export class SchoolsController {
           },
         },
         async (err: any, userData: IUser) => {
-          if (err) throw new Error(err);
+          // if (err) throw new Error(err);
+          if (err) return CommonService.insufficientParameters(response as Response);
 
           const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
           console.log(pdfDownloadLink);
@@ -661,7 +663,8 @@ export class SchoolsController {
           dateOfPresentSchoolPosting: Date.now().toString(),
         },
         async (err: any, userData: IUser) => {
-          if (err) console.log(err);
+          // if (err) console.log(err);
+          if (err) return CommonService.insufficientParameters(response as Response);
           const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
           console.log(pdfDownloadLink);
         }
