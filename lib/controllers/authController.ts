@@ -55,170 +55,174 @@ class AuthController {
     if (!validatedOgNumber) {
       return CommonService.UnprocessableResponse('Input must start with two letters.', res);
     }
+    try {
+      // if (phoneNumber != confirmPhoneNumber) {return CommonService.UnprocessableResponse("Phone numbers do not match",res)}
+      this.existingStaffService.filterStaff(
+        { ogNum: validatedOgNumber },
+        (err: any, existingStaff: IExistingStaff | null) => {
+          if (err) {
+            return CommonService.mongoError(err, res);
+          }
+          const validatedOgNumber = validateAndFormat(ogNumber, res);
+          if (!validatedOgNumber) {
+            return CommonService.UnprocessableResponse(
+              'Input must start with two capital letters.',
+              res
+            );
+          }
 
-    // if (phoneNumber != confirmPhoneNumber) {return CommonService.UnprocessableResponse("Phone numbers do not match",res)}
-    this.existingStaffService.filterStaff(
-      { ogNum: validatedOgNumber },
-      (err: any, existingStaff: IExistingStaff | null) => {
-        if (err) {
-          return CommonService.mongoError(err, res);
-        }
-        const validatedOgNumber = validateAndFormat(ogNumber, res);
-        if (!validatedOgNumber) {
-          return CommonService.UnprocessableResponse(
-            'Input must start with two capital letters.',
-            res
-          );
-        }
+          if (!existingStaff?.ogNum) {
+            //  throw new Error(err.message);
+            return CommonService.notFoundResponse('An error occured!', res);
+          }
 
-        if (!existingStaff.ogNum) {
-          //  throw new Error(err.message);
-          return CommonService.notFoundResponse('An error occured!', res);
-        }
+          this.userService.filterUser(
+            { phoneNumber: phoneNumber, ogNumber: existingStaff?.ogNum },
+            (err: any, userResult: IUser | null) => {
+              if (userResult) {
+                return CommonService.failureResponse(
+                  'You previously created an account, kindly login',
+                  null,
+                  res
+                );
+              }
 
-        this.userService.filterUser(
-          { phoneNumber: phoneNumber, ogNumber: existingStaff.ogNum },
-          (err: any, userResult: IUser | null) => {
-            if (userResult) {
-              return CommonService.failureResponse(
-                'You previously created an account, kindly login',
-                null,
-                res
-              );
-            }
+              console.log(existingStaff?.nameOfOfficer);
 
-            console.log(existingStaff.nameOfOfficer);
+              const firstName = existingStaff?.nameOfOfficer.split(' ')[1];
+              const middleName =
+                existingStaff?.nameOfOfficer.split(' ')[2] +
+                existingStaff?.nameOfOfficer.split(' ')[3];
+              const lastName =
+                existingStaff?.nameOfOfficer.split(' ')[4] +
+                  ' ' +
+                  existingStaff?.nameOfOfficer.split(' ')[5] ==
+                undefined
+                  ? ''
+                  : existingStaff.nameOfOfficer.split(' ')[5];
 
-            const firstName = existingStaff.nameOfOfficer.split(' ')[1];
-            const middleName =
-              existingStaff.nameOfOfficer.split(' ')[2] + existingStaff.nameOfOfficer.split(' ')[3];
-            const lastName =
-              existingStaff.nameOfOfficer.split(' ')[4] +
-                ' ' +
-                existingStaff.nameOfOfficer.split(' ')[5] ==
-              undefined
-                ? ''
-                : existingStaff.nameOfOfficer.split(' ')[5];
+              console.log(firstName, middleName, lastName);
+              if (err) return CommonService.mongoError(err, res);
+              const code = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
+              const codeExpiration = 60 * 60;
+              // const authToken = { code, expiresIn: Date.now() };
 
-            console.log(firstName, middleName, lastName);
-            if (err) return CommonService.mongoError(err, res);
-            const code = Math.floor(Math.random() * (999999 - 100000) + 100000).toString();
-            const codeExpiration = 60 * 60;
-            // const authToken = { code, expiresIn: Date.now() };
+              // if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
+              //   return CommonService.failureResponse(
+              //     'An Account Already Exist with this details kindly verify your account',
+              //     null,
+              //     res
+              //   );
+              // } else if (userResult && userResult.accountStatus === AccountStatusEnum.ACTIVATED) {
+              //   return CommonService.failureResponse(
+              //     'You previously created an account, kindly login or Reset your password',
+              //     null,
+              //     res
+              //   );
+              // }
+              if (!userResult) {
+                const hashedPassword = cryptoJs.AES.encrypt(
+                  password,
+                  process.env.CRYPTO_JS_PASS_SEC
+                ).toString();
 
-            // if (userResult && userResult.accountStatus === AccountStatusEnum.PENDING) {
-            //   return CommonService.failureResponse(
-            //     'An Account Already Exist with this details kindly verify your account',
-            //     null,
-            //     res
-            //   );
-            // } else if (userResult && userResult.accountStatus === AccountStatusEnum.ACTIVATED) {
-            //   return CommonService.failureResponse(
-            //     'You previously created an account, kindly login or Reset your password',
-            //     null,
-            //     res
-            //   );
-            // }
-            if (!userResult) {
-              const hashedPassword = cryptoJs.AES.encrypt(
-                password,
-                process.env.CRYPTO_JS_PASS_SEC
-              ).toString();
-
-              const iUserParams: IUser = {
-                //to use names from existing officer in staffName
-                staffName: {
-                  firstName: existingStaff.nameOfOfficer,
-                  middleName: middleName,
-                  lastName: lastName,
-                },
-                email: null,
-                phoneNumber: phoneNumber,
-                confirmPhoneNumber: confirmPhoneNumber,
-                ogNumber: existingStaff.ogNum,
-                password: hashedPassword,
-                confirmationCode: code,
-                dateOfBirth: existingStaff.dateOfBirth,
-                dateOfFirstAppointment: existingStaff.dateOfFirstAppointment,
-                dateOfRetirement: existingStaff.dateOfRetirement,
-                authToken: { code: null, expiresIn: null },
-                modificationNotes: [
-                  {
-                    modifiedOn: new Date(Date.now()),
-                    modifiedBy: null,
-                    modificationNote: 'new User Created!',
+                const iUserParams: IUser = {
+                  //to use names from existing officer in staffName
+                  staffName: {
+                    firstName: existingStaff.nameOfOfficer,
+                    middleName: middleName,
+                    lastName: lastName,
                   },
-                ],
-              };
+                  email: null,
+                  phoneNumber: phoneNumber,
+                  confirmPhoneNumber: confirmPhoneNumber,
+                  ogNumber: existingStaff.ogNum,
+                  password: hashedPassword,
+                  confirmationCode: code,
+                  dateOfBirth: existingStaff.dateOfBirth,
+                  dateOfFirstAppointment: existingStaff.dateOfFirstAppointment,
+                  dateOfRetirement: existingStaff.dateOfRetirement,
+                  authToken: { code: null, expiresIn: null },
+                  modificationNotes: [
+                    {
+                      modifiedOn: new Date(Date.now()),
+                      modifiedBy: null,
+                      modificationNote: 'new User Created!',
+                    },
+                  ],
+                };
 
-              this.userService.createUser(iUserParams, (err: any, newUser: IUser) => {
-                if (err) {
-                  if (err?.keyValue && err?.keyValue?.ogNumber) {
-                    CommonService.failureResponse(
-                      `User already exist`,
-                      { ogNumber: err?.keyValue?.ogNumber },
+                this.userService.createUser(iUserParams, (err: any, newUser: IUser) => {
+                  if (err) {
+                    if (err?.keyValue && err?.keyValue?.ogNumber) {
+                      CommonService.failureResponse(
+                        `User already exist`,
+                        { ogNumber: err?.keyValue?.ogNumber },
+                        res
+                      );
+                    } else {
+                      console.log(err.message);
+                      return CommonService.mongoError(err, res);
+                    }
+                  } else {
+                    CommonService.successResponse(
+                      'Account Created Successfully!',
+                      { _id: newUser._id, user: newUser },
                       res
                     );
-                  } else {
-                    console.log(err.message);
-                    return CommonService.mongoError(err, res);
+
+                    // try {
+                    //   redisCache.set(
+                    //     AUTH_PREFIX + newUser.ogNumber,
+                    //     code,
+                    //     codeExpiration,
+                    //     (err: boolean) => {
+                    //       if (err) {
+                    //         return CommonService.failureResponse(
+                    //           'An Error Occured Try Again',
+                    //           null,
+                    //           res
+                    //         );
+                    //       }
+
+                    //       const phoneNumber = newUser.phoneNumber;
+                    //       const newToken = code;
+                    //       this.smsService
+                    //         .sendCode({ phoneNumber, code })
+                    //         .then(() => {
+                    //           const { _id, phoneNumber } = newUser;
+
+                    //           CommonService.successResponse(
+                    //             `2Factor Code sent to ${phoneNumber} `,
+                    //             { _id, phoneNumber },
+                    //             res
+                    //           );
+                    //         })
+                    //         .catch((err: any) => {
+                    //           logger.error({ message: err, service: 'SmSService' });
+                    //           this.userService.deleteUser({ _id: newUser._id }, () => {
+                    //             CommonService.failureResponse(
+                    //               'Failed to send Two-factor code to phone number, please sign up again',
+                    //               null,
+                    //               res
+                    //             );
+                    //           });
+                    //         });
+                    //     }
+                    //   );
+                    // } catch (error) {
+                    //   throw new error();
+                    // }
                   }
-                } else {
-                  CommonService.successResponse(
-                    'Account Created Successfully!',
-                    { _id: newUser._id, user: newUser },
-                    res
-                  );
-
-                  // try {
-                  //   redisCache.set(
-                  //     AUTH_PREFIX + newUser.ogNumber,
-                  //     code,
-                  //     codeExpiration,
-                  //     (err: boolean) => {
-                  //       if (err) {
-                  //         return CommonService.failureResponse(
-                  //           'An Error Occured Try Again',
-                  //           null,
-                  //           res
-                  //         );
-                  //       }
-
-                  //       const phoneNumber = newUser.phoneNumber;
-                  //       const newToken = code;
-                  //       this.smsService
-                  //         .sendCode({ phoneNumber, code })
-                  //         .then(() => {
-                  //           const { _id, phoneNumber } = newUser;
-
-                  //           CommonService.successResponse(
-                  //             `2Factor Code sent to ${phoneNumber} `,
-                  //             { _id, phoneNumber },
-                  //             res
-                  //           );
-                  //         })
-                  //         .catch((err: any) => {
-                  //           logger.error({ message: err, service: 'SmSService' });
-                  //           this.userService.deleteUser({ _id: newUser._id }, () => {
-                  //             CommonService.failureResponse(
-                  //               'Failed to send Two-factor code to phone number, please sign up again',
-                  //               null,
-                  //               res
-                  //             );
-                  //           });
-                  //         });
-                  //     }
-                  //   );
-                  // } catch (error) {
-                  //   throw new error();
-                  // }
-                }
-              });
+                });
+              }
             }
-          }
-        );
-      }
-    );
+          );
+        }
+      );
+    } catch (error) {
+      logger.error(error);
+    }
   }
 
   public resendConfirmAccountToken(req: Request, res: Response) {
