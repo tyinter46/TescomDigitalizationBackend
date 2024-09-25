@@ -448,33 +448,27 @@ class AuthController {
   }
 
   public resetPassword(req: Request, res: Response) {
-    const { token, password } = req.body;
-    if (!token || !password)
-      return CommonService.failureResponse('No token or password provided', null, res);
+    const { phoneNumber, password } = req.body;
+    if (!phoneNumber || !password)
+      return CommonService.failureResponse('No phoneNumber or password provided', null, res);
     this.userService.filterUser(
       {
-        resetPasswordToken: token,
-        resetPasswordExpires: {
-          $gte: Date.now(),
-        },
+        phoneNumber,
       },
-      async (err: any, userData: any) => {
+      (err: any, userData: IUser) => {
         if (err || !userData) {
-          return CommonService.failureResponse('Token is invalid or has expired. ', err, res);
+          return CommonService.failureResponse('Something went wrong!', err, res);
         }
         const hashedPassword = cryptoJs.AES.encrypt(
           password,
           process.env.CRYPTO_JS_PASS_SEC
         ).toString();
         userData.password = hashedPassword;
-        userData.resetPasswordToken = null;
-        userData.resetPasswordExpires = null;
         const updateData: IUser = {
           password: userData.password,
-          resetPasswordToken: userData.resetPasswordToken,
-          resetPasswordExpires: userData.resetPasswordExpires,
         };
-        this.userService.updateUser(userData._id, updateData, (err: any) => {
+
+        this.userService.updateUser({ _id: userData._id }, updateData, (err: any) => {
           if (err) {
             return CommonService.mongoError(err, res);
           } else {
@@ -482,7 +476,7 @@ class AuthController {
               'Password reset successful',
               {
                 id: userData._id,
-                email: userData.email,
+                ogNumber: userData.ogNumber,
               },
               res
             );
@@ -490,6 +484,46 @@ class AuthController {
         });
       }
     );
+
+    // this.userService.filterUser(
+    //   {
+    //     resetPasswordToken: token,
+    //     resetPasswordExpires: {
+    //       $gte: Date.now(),
+    //     },
+    //   },
+    //   async (err: any, userData: any) => {
+    //     if (err || !userData) {
+    //       return CommonService.failureResponse('Token is invalid or has expired. ', err, res);
+    //     }
+    //     const hashedPassword = cryptoJs.AES.encrypt(
+    //       password,
+    //       process.env.CRYPTO_JS_PASS_SEC
+    //     ).toString();
+    //     userData.password = hashedPassword;
+    //     userData.resetPasswordToken = null;
+    //     userData.resetPasswordExpires = null;
+    //     const updateData: IUser = {
+    //       password: userData.password,
+    //       resetPasswordToken: userData.resetPasswordToken,
+    //       resetPasswordExpires: userData.resetPasswordExpires,
+    //     };
+    //     this.userService.updateUser(userData._id, updateData, (err: any) => {
+    //       if (err) {
+    //         return CommonService.mongoError(err, res);
+    //       } else {
+    //         return CommonService.successResponse(
+    //           'Password reset successful',
+    //           {
+    //             id: userData._id,
+    //             email: userData.email,
+    //           },
+    //           res
+    //         );
+    //       }
+    //     });
+    //   }
+    // );
   }
 }
 

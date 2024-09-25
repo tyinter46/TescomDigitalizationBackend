@@ -25,7 +25,7 @@ export class schoolRoutes {
       )
       .patch(
         '/api/schools/:id',
-        // AuthMiddleWare.verifyToken,
+        // AuthMiddleWare.verifyTokenAndAdmin,
         ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
         // ValidationMiddleware(schoolValidatorSchema.updateSchool, 'params'),
 

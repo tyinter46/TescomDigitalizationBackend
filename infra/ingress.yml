@@ -22,4 +22,21 @@ spec:
                 name: tescom-frontend-srv
                 port:
                   number: 3000
+    - host: "oguntescom.gov.ng"  # Add your new domain here
+      http:
+        paths:
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: tescom-backend-srv
+                port:
+                  number: 8001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tescom-frontend-srv
+                port:
+                  number: 3000
   ingressClassName: nginx
