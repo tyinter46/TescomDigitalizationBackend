@@ -218,7 +218,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
             }.
     
           2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-    z
+    
           3.      Congratulations on this well-deserved elevation.`;
           }
 
