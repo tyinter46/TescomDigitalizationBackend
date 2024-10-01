@@ -448,16 +448,25 @@ class AuthController {
   }
 
   public resetPassword(req: Request, res: Response) {
-    const { phoneNumber, password } = req.body;
-    if (!phoneNumber || !password)
-      return CommonService.failureResponse('No phoneNumber or password provided', null, res);
+    const { phoneNumber, ogNumber, password } = req.body;
+    if (!phoneNumber || !password || !ogNumber)
+      return CommonService.failureResponse(
+        'No phoneNumber or password or ogNumber provided',
+        null,
+        res
+      );
     this.userService.filterUser(
       {
         phoneNumber,
+        ogNumber,
       },
       (err: any, userData: IUser) => {
         if (err || !userData) {
-          return CommonService.failureResponse('Something went wrong!', err, res);
+          return CommonService.failureResponse(
+            'Something went wrong! or Check your credentials',
+            err,
+            res
+          );
         }
         const hashedPassword = cryptoJs.AES.encrypt(
           password,
@@ -477,6 +486,7 @@ class AuthController {
               {
                 id: userData._id,
                 ogNumber: userData.ogNumber,
+                name: userData.staffName.firstName,
               },
               res
             );
