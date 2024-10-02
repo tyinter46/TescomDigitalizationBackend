@@ -447,53 +447,59 @@ class AuthController {
     } else return CommonService.successResponse('Not logged in', { loggedIn: false }, res);
   }
 
-  public resetPassword(req: Request, res: Response) {
-    const { phoneNumber, ogNumber, password } = req.body;
-    if (!phoneNumber || !password || !ogNumber)
-      return CommonService.failureResponse(
-        'No phoneNumber or password or ogNumber provided',
-        null,
-        res
-      );
-    this.userService.filterUser(
-      {
-        phoneNumber,
-        ogNumber,
-      },
-      (err: any, userData: IUser) => {
-        if (err || !userData) {
-          return CommonService.failureResponse(
-            'Something went wrong! or Check your credentials',
-            err,
-            res
-          );
-        }
-        const hashedPassword = cryptoJs.AES.encrypt(
-          password,
-          process.env.CRYPTO_JS_PASS_SEC
-        ).toString();
-        userData.password = hashedPassword;
-        const updateData: IUser = {
-          password: userData.password,
-        };
+  // public resetPassword(req: Request, res: Response) {
+  //   const { phoneNumber, ogNumber, password } = req.body;
+  //   const validatedOgNumber = validateAndFormat(ogNumber, res);
+  //   if (!phoneNumber || !password || !ogNumber)
+  //     return CommonService.failureResponse(
+  //       'No phoneNumber or password or ogNumber provided',
+  //       null,
+  //       res
+  //     );
+  //   this.userService.filterUser(
+  //     {
+  //       ogNumber: validatedOgNumber,
+  //     },
+  //     (err: any, userData: IUser) => {
+  //       if (err || !userData) {
+  //         return CommonService.failureResponse(
+  //           'Something went wrong! or Check your credentials',
+  //           err,
+  //           res
+  //         );
+  //       }
+  //       if (userData.phoneNumber !== phoneNumber)
+  //         return CommonService.failureResponse(
+  //           'Something went wrong! or Check your credentials',
+  //           err,
+  //           res
+  //         );
+  //       const hashedPassword = cryptoJs.AES.encrypt(
+  //         password,
+  //         process.env.CRYPTO_JS_PASS_SEC
+  //       ).toString();
+  //       userData.password = hashedPassword;
+  //       const updateData: IUser = {
+  //         password: userData.password,
+  //       };
 
-        this.userService.updateUser({ _id: userData._id }, updateData, (err: any) => {
-          if (err) {
-            return CommonService.mongoError(err, res);
-          } else {
-            return CommonService.successResponse(
-              'Password reset successful',
-              {
-                id: userData._id,
-                ogNumber: userData.ogNumber,
-                name: userData.staffName.firstName,
-              },
-              res
-            );
-          }
-        });
-      }
-    );
+  //       this.userService.updateUser({ _id: userData._id }, updateData, (err: any) => {
+  //         if (err) {
+  //           return CommonService.mongoError(err, res);
+  //         } else {
+  //           return CommonService.successResponse(
+  //             'Password reset successful',
+  //             {
+  //               id: userData._id,
+  //               ogNumber: userData.ogNumber,
+  //               name: userData.staffName.firstName,
+  //             },
+  //             res
+  //           );
+  //         }
+  //       });
+  //     }
+  //   );
 
     // this.userService.filterUser(
     //   {
@@ -534,7 +540,7 @@ class AuthController {
     //     });
     //   }
     // );
-  }
+  
 }
 
 export default AuthController;
