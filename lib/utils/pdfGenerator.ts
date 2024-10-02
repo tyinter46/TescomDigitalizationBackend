@@ -248,16 +248,14 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           .then((pdfBuffer) => {
             // Upload the PDF buffer to Cloudinary
             return new Promise<any>((resolve, reject) => {
-              const uploadStream = cloudinary.uploader.upload_stream(
-                { resource_type: 'raw', public_id: fileName },
-                (error, result) => {
+              cloudinary.uploader
+                .upload_stream({ resource_type: 'raw', public_id: fileName }, (error, result) => {
                   if (error) {
                     return reject(error); // Reject on upload error
                   }
                   resolve(result); // Resolve with upload result
-                }
-              );
-              uploadStream.end(pdfBuffer);
+                })
+                .end(pdfBuffer);
             });
           })
           .then((uploadResult) => {

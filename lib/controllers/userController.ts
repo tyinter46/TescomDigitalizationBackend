@@ -11,6 +11,7 @@ import redisCache from '../config/redisCache';
 import UsersModel from '../modules/users/schema';
 import SMSService from '../modules/sms/service';
 import SchoolService from '../modules/schools/service';
+import { validateAndFormat } from '../utils/ogNumberValidator';
 import { ISchools } from '../modules/schools/model';
 
 dotenv.config();
@@ -459,47 +460,103 @@ class UserController {
     });
   }
 
+  
   public resetPassword(req: Request, res: Response) {
-    // const { id } = req.params;
-    const { password, token, ogNumber } = req.body;
-    if (!token || !ogNumber || !password) return CommonService.insufficientParameters(res);
-    redisCache.get(RESET_PASSWORD + ogNumber, (err: boolean, validToken: string | null) => {
-      if (err || !validToken) {
-        return CommonService.failureResponse('Password Link expired try Again!', null, res);
-      }
-      this.userService.filterUser(
-        { ogNumber },
-        (err: any, userData: any) => {
-          if (err) return CommonService.mongoError(err, res);
-          else if (!userData) {
-            return CommonService.failureResponse('Not Authorized', null, res);
-          }
-          const hashedPassword = cryptoJs.AES.encrypt(
-            password,
-            process.env.CRYPTO_JS_PASS_SEC
-          ).toString();
-          userData.password = hashedPassword;
-
-          userData.ModificationNotes.push({
-            modificationNote: 'Password Updated',
-            modifiedBy: `${userData.staffName.firstName} - ${userData.staffName.lastName}`,
-            modifiedOn: new Date(Date.now()),
-          });
-          userData.save((err: any, updatedUser: IUser) => {
-            if (err) return CommonService.mongoError(err, res);
-            redisCache.del(RESET_PASSWORD + ogNumber, () => {
-              return CommonService.successResponse(
-                'User Password updated Successfully',
-                { id: updatedUser._id },
-                res
-              );
-            });
-          });
-        },
-        true
+    const { phoneNumber, ogNumber, password } = req.body;
+    const validatedOgNumber = validateAndFormat(ogNumber, res);
+    if (!phoneNumber || !password || !ogNumber)
+      return CommonService.failureResponse(
+        'No phoneNumber or password or ogNumber provided',
+        null,
+        res
       );
-    });
+    this.userService.filterUser(
+      {
+        ogNumber: validatedOgNumber,
+      },
+      (err: any, userData: IUser) => {
+        if (err || !userData) {
+          return CommonService.failureResponse(
+            'Something went wrong! or Check your credentials',
+            err,
+            res
+          );
+        }
+        if (userData.phoneNumber !== phoneNumber)
+          return CommonService.failureResponse(
+            'Something went wrong! or Check your credentials',
+            err,
+            res
+          );
+        const hashedPassword = cryptoJs.AES.encrypt(
+          password,
+          process.env.CRYPTO_JS_PASS_SEC
+        ).toString();
+        userData.password = hashedPassword;
+        const updateData: IUser = {
+          password: userData.password,
+        };
+
+        this.userService.updateUser({ _id: userData._id }, updateData, (err: any) => {
+          if (err) {
+            return CommonService.mongoError(err, res);
+          } else {
+            return CommonService.successResponse(
+              'Password reset successful',
+              {
+                id: userData._id,
+                ogNumber: userData.ogNumber,
+                name: userData.staffName.firstName,
+              },
+              res
+            );
+          }
+        });
+      }
+    );
   }
+
+  // public resetPassword(req: Request, res: Response) {
+  //   // const { id } = req.params;
+  //   const { password, token, ogNumber } = req.body;
+  //   if (!token || !ogNumber || !password) return CommonService.insufficientParameters(res);
+  //   redisCache.get(RESET_PASSWORD + ogNumber, (err: boolean, validToken: string | null) => {
+  //     if (err || !validToken) {
+  //       return CommonService.failureResponse('Password Link expired try Again!', null, res);
+  //     }
+  //     this.userService.filterUser(
+  //       { ogNumber },
+  //       (err: any, userData: any) => {
+  //         if (err) return CommonService.mongoError(err, res);
+  //         else if (!userData) {
+  //           return CommonService.failureResponse('Not Authorized', null, res);
+  //         }
+  //         const hashedPassword = cryptoJs.AES.encrypt(
+  //           password,
+  //           process.env.CRYPTO_JS_PASS_SEC
+  //         ).toString();
+  //         userData.password = hashedPassword;
+
+  //         userData.ModificationNotes.push({
+  //           modificationNote: 'Password Updated',
+  //           modifiedBy: `${userData.staffName.firstName} - ${userData.staffName.lastName}`,
+  //           modifiedOn: new Date(Date.now()),
+  //         });
+  //         userData.save((err: any, updatedUser: IUser) => {
+  //           if (err) return CommonService.mongoError(err, res);
+  //           redisCache.del(RESET_PASSWORD + ogNumber, () => {
+  //             return CommonService.successResponse(
+  //               'User Password updated Successfully',
+  //               { id: updatedUser._id },
+  //               res
+  //             );
+  //           });
+  //         });
+  //       },
+  //       true
+  //     );
+  //   });
+  // }
 
   // public confirmForgotPasswordToken(req: Request, res: Response) {
   //   const { token } = req.params;

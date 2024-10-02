@@ -32,9 +32,7 @@ const userValidatorSchema = {
       'object.regex': 'Must have at least 8 characters',
       'string.pattern.base': stringPassswordError,
     }),
-    token: Joi.string().required().messages({
-      'string.required': 'Token is required',
-    }),
+    phoneNumber: Joi.string().min(14).required(),
     ogNumber: Joi.string().required(),
   }),
 
