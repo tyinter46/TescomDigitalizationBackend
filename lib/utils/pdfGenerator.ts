@@ -7,6 +7,7 @@ import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
+import streamifier from 'streamifier';
 
 /**
  * Generates a PDF file and returns it as a buffer.
@@ -112,7 +113,10 @@ export const generateAndDownloadPDF = (
       .fillColor('black')
       .font('arialnarrow')
       .fontSize(12)
-      .text(`${user?.schoolOfPreviousPosting?.nameOfSchool}`, { align: 'left' });
+      .text(
+        `${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.location}`,
+        { align: 'left' }
+      );
     doc.moveDown(2);
 
     doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
@@ -255,6 +259,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
                   }
                   resolve(result); // Resolve with upload result
                 })
+                // streamifier.createReadStream(pdfBuffer).pipe(cld_upload_stream);
                 .end(pdfBuffer);
             });
           })

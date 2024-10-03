@@ -460,7 +460,6 @@ class UserController {
     });
   }
 
-  
   public resetPassword(req: Request, res: Response) {
     const { phoneNumber, ogNumber, password } = req.body;
     const validatedOgNumber = validateAndFormat(ogNumber, res);

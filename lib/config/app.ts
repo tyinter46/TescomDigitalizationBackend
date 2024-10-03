@@ -91,7 +91,7 @@ class App {
         logger.info('Mongo Server Connected Successfully');
       })
       .catch((err) => {
-        logger.error(err);
+        logger.error(err, 'there is an error connecting', err.message);
       });
   }
 }
