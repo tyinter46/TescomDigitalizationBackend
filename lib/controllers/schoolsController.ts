@@ -22,7 +22,7 @@ export class SchoolsController {
   public async getAllSchools(req: Request, res: Response) {
     const {
       pageNumber = 1,
-      pageSize = 15000,
+      pageSize = 600,
       nameOfSchool = '',
       category = '',
       address = '',
