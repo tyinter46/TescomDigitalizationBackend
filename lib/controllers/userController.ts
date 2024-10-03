@@ -366,7 +366,7 @@ class UserController {
     const {
       ogNumber = '',
       pageNumber = 1,
-      pageSize = 15000,
+      pageSize = 3000,
       firstName = '',
       tscFileNumber = '',
       middleName = '',
