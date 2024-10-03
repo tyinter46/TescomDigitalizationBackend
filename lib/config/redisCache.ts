@@ -24,7 +24,7 @@ class RedisCache {
       });
       this.client.on('ready', () => (this.isClientReady = true));
       await this.client.connect();
-      logger.info('connected');
+      logger.info('redis cache connected');
     })();
   }
 
