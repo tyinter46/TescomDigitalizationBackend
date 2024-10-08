@@ -596,7 +596,7 @@ export class SchoolsController {
         },
         async (err: any, userData: IUser) => {
           // if (err) console.log(err);
-          if (err) return CommonService.insufficientParameters(response as Response);
+          if (err) throw new Error(err);
           const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
           console.log(pdfDownloadLink);
         }
@@ -629,7 +629,7 @@ export class SchoolsController {
         },
         async (err: any, userData: IUser) => {
           // if (err) throw new Error(err);
-          if (err) return CommonService.insufficientParameters(response as Response);
+          if (err) throw new Error(err);
 
           const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
           console.log(pdfDownloadLink);
@@ -664,7 +664,7 @@ export class SchoolsController {
         },
         async (err: any, userData: IUser) => {
           // if (err) console.log(err);
-          if (err) return CommonService.insufficientParameters(response as Response);
+          if (err) throw new Error(err);
           const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
           console.log(pdfDownloadLink);
         }
