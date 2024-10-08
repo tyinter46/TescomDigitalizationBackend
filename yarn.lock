@@ -1667,10 +1667,10 @@
   "resolved" "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz"
   "version" "2.1.2"
 
-"cloudinary@^2.2.0":
-  "integrity" "sha512-5HA9VffeaR3MKiHpRo9A5SWgZFPxzlEDep0O4KzL3TIDi1hmQC9gjA4dHpVmdeFC0ZD1Xr5fGsWRKVDK9Ay9PQ=="
-  "resolved" "https://registry.npmjs.org/cloudinary/-/cloudinary-2.4.0.tgz"
-  "version" "2.4.0"
+"cloudinary@^2.5.1":
+  "integrity" "sha512-CNg6uU53Hl4FEVynkTGpt5bQEAQWDHi3H+Sm62FzKf5uQHipSN2v7qVqS8GRVqeb0T1WNV+22+75DOJeRXYeSQ=="
+  "resolved" "https://registry.npmjs.org/cloudinary/-/cloudinary-2.5.1.tgz"
+  "version" "2.5.1"
   dependencies:
     "lodash" "^4.17.21"
     "q" "^1.5.1"
