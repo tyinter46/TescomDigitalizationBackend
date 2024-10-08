@@ -290,13 +290,12 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
               message: error.message || 'Unknown error during PDF generation or upload',
               service: 'PDF Generation and Upload',
             });
-            reject(CommonService.insufficientParameters(response as Response));
-            // reject(error); // Reject if any error occurs
+
+            reject(error); // Reject if any error occurs
           });
       });
     } catch (error) {
-      reject(error);
-      return CommonService.insufficientParameters(response as Response);
+      return reject(error);
     }
   });
 };
