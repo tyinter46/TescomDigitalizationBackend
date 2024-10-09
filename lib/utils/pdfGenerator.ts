@@ -248,12 +248,18 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
         };
         let letterContent = generateLetterContent(user);
         // Generate and upload the PDF
+        //
         generateAndDownloadPDF(user, fileName, title, letterContent)
           .then((pdfBuffer) => {
-            // Upload the PDF buffer to Cloudinary
+            // Upload the PDF buffer to Cloudinary using the .upload function
             return new Promise<any>((resolve, reject) => {
-              const uploadStream = cloudinary.uploader.upload_stream(
-                { resource_type: 'raw', public_id: fileName },
+              // Convert the buffer to a base64 encoded string
+              const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
+
+              // Upload the base64 string using the .upload function
+              cloudinary.uploader.upload(
+                base64String,
+                { resource_type: 'raw', public_id: fileName, invalidate: true },
                 (error, result) => {
                   if (error) {
                     return reject(error); // Reject on upload error
@@ -261,9 +267,6 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
                   resolve(result); // Resolve with upload result
                 }
               );
-              streamifier.createReadStream(pdfBuffer).pipe(uploadStream);
-              // streamifier.createReadStream(pdfBuffer).pipe(cld_upload_stream);
-              // .end(pdfBuffer);
             });
           })
           .then((uploadResult) => {

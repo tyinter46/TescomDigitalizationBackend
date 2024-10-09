@@ -350,7 +350,6 @@ export class SchoolsController {
       // Check if the school is found
       if (existingSchool) {
         // console.log(`Existing School: ${existingSchool.nameOfSchool}`);
-
         // Remove the principal from the staff list
         const updatedStaffList = existingSchool.listOfStaff.filter(
           (staffId) => staffId.toString() !== principal.toString()
