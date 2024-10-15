@@ -259,7 +259,11 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
               // Upload the base64 string using the .upload function
               cloudinary.uploader.upload(
                 base64String,
-                { resource_type: 'raw', public_id: fileName, invalidate: true },
+                {
+                  resource_type: 'raw',
+                  public_id: fileName,
+                  invalidate: true,
+                },
                 (error, result) => {
                   if (error) {
                     return reject(error); // Reject on upload error
@@ -267,6 +271,17 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
                   resolve(result); // Resolve with upload result
                 }
               );
+              //     cloudinary.uploader.unsigned_upload(
+              //       base64String,
+              //       'ml_default',
+
+              //       (error, result) => {
+              //         if (error) {
+              //           return reject(error); // Reject on upload error
+              //         }
+              //         resolve(result); // Resolve with upload result
+              //       }
+              //     );
             });
           })
           .then((uploadResult) => {
