@@ -18,14 +18,16 @@ import { UploadModel } from '../upload/model';
 export interface Qualifications {
   degreeType: QualificationsTypeEnum;
   specialization: string;
-  year: Date;
+  startYear: string;
+  endYear: Date;
   schoolName: string;
 }
 
 export const Qualifications = {
   degreeType: String,
   specialization: String,
-  year: Date,
+  startYear: String,
+  endYear: String,
   schoolName: String,
 };
 export const Letters = {

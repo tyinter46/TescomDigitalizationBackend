@@ -45,15 +45,15 @@ export default class UserService {
           {
             path: 'schoolOfPresentPosting',
             select:
-              'staffName gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
+              'staffName listOfStaff gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
             strictPopulate: false,
           },
-          {
-            path: 'schoolOfPreviousPosting',
-            select:
-              'staffName gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
-            strictPopulate: false,
-          },
+          // {
+          //   path: 'schoolOfPreviousPosting',
+          //   select:
+          //     'staffName listOfStaff gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
+          //   strictPopulate: false,
+          // },
         ],
       },
       callback

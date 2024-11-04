@@ -38,6 +38,7 @@ class UserController {
       phoneNumber,
       tscFileNumber,
       schoolOfPresentPosting,
+      schoolOfPreviousPosting,
       zone,
       nationality,
       stateOfOrigin,
@@ -50,6 +51,7 @@ class UserController {
       dateOfLastPromotion,
       pfa,
       pensionNumber,
+      staffType,
       professionalStatus,
       profilePhoto = '',
       tetiaryCertificate = '',
@@ -58,7 +60,7 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-      staffType,
+   
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
@@ -71,6 +73,7 @@ class UserController {
       phoneNumber ||
       tscFileNumber ||
       schoolOfPresentPosting ||
+      schoolOfPreviousPosting ||
       zone ||
       nationality ||
       stateOfOrigin ||
@@ -118,6 +121,7 @@ class UserController {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,
             schoolOfPresentPosting: schoolOfPresentPosting || userData.schoolOfPresentPosting,
+            schoolOfPreviousPosting: schoolOfPreviousPosting || userData.schoolOfPreviousPosting,
             zone: zone || userData.zone,
             nationality: nationality || userData.nationality,
             stateOfOrigin: stateOfOrigin || userData.stateOfOrigin,
