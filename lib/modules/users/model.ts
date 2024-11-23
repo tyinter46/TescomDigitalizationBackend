@@ -103,6 +103,9 @@ export interface IUser {
   firstAppointmentLetter?: string;
   lastPromotionLetter?: string;
   birthCertificate?: string;
+  nameOfNextOfKin?: string;
+  nextOfKinAddress?: string;
+  nextOfKinPhoneNumber?: string;
   isAdmin?: boolean;
   authLevel?: UserLevelEnum;
   resetPasswordToken?: string;

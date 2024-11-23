@@ -60,7 +60,9 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-   
+      nextOfKinAddress,
+      nextOfKinPhoneNumber,
+      nameOfNextOfKin,
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
@@ -96,7 +98,10 @@ class UserController {
       staffType ||
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
-      remark
+      remark ||
+      nextOfKinAddress ||
+      nextOfKinPhoneNumber ||
+      nameOfNextOfKin
     ) {
       const userFilter = { _id: req.params.id };
       this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
@@ -150,6 +155,9 @@ class UserController {
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
             remark: remark || userData.remark,
             notifications: notificationsRest || userData.notifications,
+            nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
+            nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
+            nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
           };
 
           this.userService.updateUser(

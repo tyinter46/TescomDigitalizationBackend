@@ -219,7 +219,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
               user?.schoolOfPresentPosting?.location
             } with effect from ${
               user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
-            }.
+            }
     
           2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
     
@@ -237,7 +237,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           }
 
           if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-            return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
+            return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with from effect January 20th, 2025.
     
           2.    Kindly ensure proper handing over before leaving.
     

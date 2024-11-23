@@ -75,36 +75,33 @@ const userValidatorSchema = {
 
   updateUser: Joi.object().keys({
     gender: Joi.string().required(),
-    phoneNumber: Joi.string().required().messages({
-      'string.required': 'Phone number cannot be empty',
-    }),
     tscFileNumber: Joi.string().required().messages({
       'string.required': 'tscFileNumber number cannot be empty',
     }),
-    tetiaryCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
+    // tetiaryCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
     residentialAddress: Joi.string().required().messages({
       'string.required': 'Residential address cannot be empty',
     }),
-    primarySchoolCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    secondarySchoolCert: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    firstAppointmentLetter: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    lastPromotionLetter: Joi.string(),
-    birthCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
+    // primarySchoolCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // secondarySchoolCert: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // firstAppointmentLetter: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // lastPromotionLetter: Joi.string(),
+    // birthCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
     schoolOfPresentPosting: Joi.string().required().messages({
       'string.required': 'School of present posting cannot be empty',
     }),
