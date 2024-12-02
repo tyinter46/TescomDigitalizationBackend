@@ -75,43 +75,47 @@ const userValidatorSchema = {
 
   updateUser: Joi.object().keys({
     gender: Joi.string().required(),
-    phoneNumber: Joi.string().required().messages({
-      'string.required': 'Phone number cannot be empty',
-    }),
+    // phoneNumber: Joi.string().required().messages({
+    //   'string.required': 'Phone number cannot be empty',
+    // }),
+    division: Joi.string().required(),
     tscFileNumber: Joi.string().required().messages({
       'string.required': 'tscFileNumber number cannot be empty',
     }),
-    tetiaryCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
+    // tetiaryCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
     residentialAddress: Joi.string().required().messages({
       'string.required': 'Residential address cannot be empty',
     }),
-    primarySchoolCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    secondarySchoolCert: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    firstAppointmentLetter: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
-    lastPromotionLetter: Joi.string(),
-    birthCertificate: Joi.alternatives().conditional('staffType', {
-      is: 'Teaching',
-      then: Joi.string().required(),
-    }),
+    // primarySchoolCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // secondarySchoolCert: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // firstAppointmentLetter: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
+    // lastPromotionLetter: Joi.string(),
+    // birthCertificate: Joi.alternatives().conditional('staffType', {
+    //   is: 'Teaching',
+    //   then: Joi.string().required(),
+    // }),
     schoolOfPresentPosting: Joi.string().required().messages({
       'string.required': 'School of present posting cannot be empty',
+    }),
+    schoolOfPreviousPosting: Joi.string().required().messages({
+      'string.required': 'School of previous posting cannot be empty',
     }),
     zone: Joi.string().required().messages({
       'string.required': 'zone cannot be empty',
     }),
-    profilePhoto: Joi.string().optional(),
+    // profilePhoto: Joi.string().optional(),
 
     nationality: Joi.string().required().messages({
       'string.required': 'Nationality cannot be empty',
@@ -146,12 +150,16 @@ const userValidatorSchema = {
     pensionNumber: Joi.number().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),
-    professionalStatus: Joi.string().required().messages({
-      'string.required': 'Professional Status cannot be empty',
-    }),
+    // professionalStatus: Joi.string().required().messages({
+    //   'string.required': 'Professional Status cannot be empty',
+    // }),
     dateOfFirstAppointmentAtTescom: Joi.string().optional(),
     dateOnGradeLevelEight: Joi.string().optional(),
-
+    gradeLevel: Joi.string().required(),
+    nameOfNextOfKin:Joi.string().required(),
+    nextOfKinAddress:Joi.string().required(),
+    nextOfKinPhoneNumber:Joi.string().required(),
+    email: Joi.string().optional(),
     staffType: Joi.string().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),
