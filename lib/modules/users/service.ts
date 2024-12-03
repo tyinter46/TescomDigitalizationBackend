@@ -61,10 +61,12 @@ export default class UserService {
   }
 
   public async updateUsers(query: object, update: object) {
-    UsersModel.updateMany(query, update).populate({
+    const result = await  UsersModel.updateMany(query, update).populate({
       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
       strictPopulate: false,
     });
+
     console.log('Users updated successfully.');
+    console.log(`Matched ${result.matchedCount} documents and modified ${result.modifiedCount} documents`);
   }
 }
