@@ -44,8 +44,8 @@ class UserController {
       stateOfOrigin,
       lgOfOrigin,
       ward,
-      qualifications: { ...rest },
-      subjectsTaught: { ...subjectsTaughtRest },
+      qualifications: [ ...rest ],
+      subjectsTaught: [ ...subjectsTaughtRest ],
       dateOfPresentSchoolPosting,
       cadre,
       dateOfLastPromotion,
@@ -60,12 +60,14 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-   
+      gradeLevel,
+      email,
+      residentialAddress,
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
       remark,
-      notifications: { ...notificationsRest },
+      // notifications: [ ...notificationsRest ],
     } = req.body;
 
     if (
@@ -85,6 +87,9 @@ class UserController {
       cadre ||
       dateOfLastPromotion ||
       pfa ||
+      gradeLevel ||
+      email ||
+      residentialAddress ||
       pensionNumber ||
       professionalStatus ||
       tetiaryCertificate ||
@@ -97,8 +102,12 @@ class UserController {
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
       remark
-    ) {
+    ) 
+    {
+ 
+    
       const userFilter = { _id: req.params.id };
+            
       this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
         if (err) {
           CommonService.mongoError(err, res);
@@ -149,7 +158,10 @@ class UserController {
               dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
             remark: remark || userData.remark,
-            notifications: notificationsRest || userData.notifications,
+            gradeLevel: gradeLevel || userData.gradeLevel,
+            email: email || userData.email,
+            residentialAdress: email || userData.residentialAdress
+            // notifications: notificationsRest || userData.notifications,
           };
 
           this.userService.updateUser(

@@ -101,7 +101,7 @@ const UserSchema = new Schema(
 
     subjectsTaught: {
       type: [String],
-      default: null,
+      default: [],
     },
     dateOfPresentSchoolPosting: {
       type: Date,
