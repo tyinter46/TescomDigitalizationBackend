@@ -5,7 +5,6 @@ import { IUser, Qualifications, INotifications, Letters } from './model';
 import {
   AccountSourceEnum,
   AccountStatusEnum,
-  DivisionsEnum,
   GenderEnum,
   ProfessionalStatusEnum,
   ServiceStatusEnum,
@@ -70,8 +69,8 @@ const UserSchema = new Schema(
     },
     division: {
       type: String,
-      enum: [...Object.values(DivisionsEnum)],
-      default: DivisionsEnum.NULL,
+     
+      default: null,
     },
     nationality: {
       type: String,

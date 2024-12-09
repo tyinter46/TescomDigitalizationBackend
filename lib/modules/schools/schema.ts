@@ -1,7 +1,7 @@
 import { Schema, Document, model, PaginateModel } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { ISchools } from './model';
-import { DivisionsEnum, ZonesEnum } from '../../utils/enums';
+import {  ZonesEnum } from '../../utils/enums';
 import { ModificationNote } from '../common/model';
 
 const SchoolSchema = new Schema(
@@ -27,8 +27,8 @@ const SchoolSchema = new Schema(
     },
     division: {
       type: String,
-      enum: [...Object.values(DivisionsEnum)],
-      default: DivisionsEnum.NULL,
+      default: null,
+    
     },
     listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users', default: null }],
 

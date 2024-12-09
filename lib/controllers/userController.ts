@@ -40,6 +40,7 @@ class UserController {
       schoolOfPresentPosting,
       schoolOfPreviousPosting,
       zone,
+      division,
       nationality,
       stateOfOrigin,
       lgOfOrigin,
@@ -77,6 +78,7 @@ class UserController {
       schoolOfPresentPosting ||
       schoolOfPreviousPosting ||
       zone ||
+      division ||
       nationality ||
       stateOfOrigin ||
       lgOfOrigin ||
@@ -132,6 +134,7 @@ class UserController {
             schoolOfPresentPosting: schoolOfPresentPosting || userData.schoolOfPresentPosting,
             schoolOfPreviousPosting: schoolOfPreviousPosting || userData.schoolOfPreviousPosting,
             zone: zone || userData.zone,
+            division: division || userData.division,
             nationality: nationality || userData.nationality,
             stateOfOrigin: stateOfOrigin || userData.stateOfOrigin,
             lgOfOrigin: lgOfOrigin || userData.lgOfOrigin,

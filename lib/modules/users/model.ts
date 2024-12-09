@@ -5,7 +5,6 @@ import {
   ZonesEnum,
   AccountStatusEnum,
   GenderEnum,
-  DivisionsEnum,
   QualificationsTypeEnum,
   ServiceStatusEnum,
   ProfessionalStatusEnum,
@@ -73,7 +72,7 @@ export interface IUser {
   tscFileNumber?: string;
   schoolOfPresentPosting?: ISchools;
   zone?: ZonesEnum;
-  division?: DivisionsEnum;
+  division?: string;
   nationality?: string;
   stateOfOrigin?: string;
   lgOfOrigin?: string;
