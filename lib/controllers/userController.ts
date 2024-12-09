@@ -180,7 +180,7 @@ class UserController {
                     .exec();
 
                   const profilePhoto = populatedUserData.profilePhoto
-                    ? populatedUserData.profilePhoto?.imageUrl
+                    ? populatedUserData.profilePhoto
                     : '';
 
                   if (schoolOfPresentPosting) {

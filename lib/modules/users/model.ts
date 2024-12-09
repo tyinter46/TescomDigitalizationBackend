@@ -96,7 +96,7 @@ export interface IUser {
   ogNumber?: string;
   password?: string;
   confirmationCode?: string;
-  profilePhoto?: UploadModel;
+  profilePhoto?: string;
   tetiaryCertificate?: string;
   primarySchoolCertificate?: string;
   secondarySchoolCert?: string;

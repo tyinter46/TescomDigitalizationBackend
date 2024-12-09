@@ -205,6 +205,7 @@ import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import { UploadModel } from '../modules/upload/model';
 import UploadService from '../modules/upload/service';
+import UserService from '../modules/users/service';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
 import logger from '../config/logger';
@@ -212,6 +213,7 @@ import logger from '../config/logger';
 export class UploadController {
   private cloudConf = cloudinaryConfig;
   private uploadService: UploadService = new UploadService();
+  private userService: UserService = new UserService()
 
   // Upload PDF File
   public uploadPDF(req: any, res: Response, result: any) {
@@ -331,15 +333,25 @@ export class UploadController {
         if (!uploadedImage) {
           return CommonService.failureResponse('Unable to Upload Image', null, res);
         }
-        return CommonService.successResponse(
-          'Image Uploaded Successfully!',
-          {
-            imageId: uploadedImage?._id,
-            publicId: uploadedImage?.publicId,
-            imageUrl: uploadedImage?.imageUrl,
-          },
-          res
-        );
+        const userFilter = { _id: req.params.id };
+
+        this.userService.updateUser(userFilter, {profilePhoto: imageParams.imageUrl}, (err, userData)=>{
+          if (err) {
+            logger.error({ message: err, service: 'UserService' });
+            CommonService.mongoError(err, res);
+          } else if (userData) {
+            return CommonService.successResponse(
+              'Image Uploaded Successfully!',
+              {
+                imageId: uploadedImage?._id,
+                publicId: uploadedImage?.publicId,
+                imageUrl: uploadedImage?.imageUrl,
+              },
+              res
+            );
+          }
+        } )
+       
       });
     } else {
       CommonService.insufficientParameters(res);

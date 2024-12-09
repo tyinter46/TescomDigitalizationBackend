@@ -170,7 +170,7 @@ const UserSchema = new Schema(
     confirmationCode: {
       type: String,
     },
-    profilePhoto: { type: Schema.Types.ObjectId, ref: 'Image' },
+    profilePhoto: { type: String },
     isAdmin: {
       type: Boolean,
       default: false,
