@@ -153,13 +153,12 @@ export const generateAndDownloadPDF = (
  * @param {string} userId - The ID of the user.
  * @returns {Promise<string | null>} - The URL of the uploaded PDF, or null if the user is not found.
  */
-
-export const generateAndUploadPostingLetter = (userId: string): Promise<string | null> => {
+export const generateAndUploadStaffPostingLetter = (userId: string): Promise<string | null> => {
   const userService = new UserService();
 
   return new Promise((resolve, reject) => {
-    // Find the user
     try {
+      // Find the user
       userService.filterUser({ _id: userId }, (err: any, user: IUser) => {
         if (err) {
           logger.error({
@@ -171,93 +170,49 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
 
         if (!user) {
           logger.error({ message: 'User not found', service: 'PDF Generation and Upload' });
-          resolve(null); // Resolve with null if no user is found
+          return resolve(null); // Resolve with null if no user is found
         }
 
         // Prepare PDF content
         const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
+        const title = 'POSTING INSTRUCTION';
 
-        let title: string;
-        if (user.position === 'Principal' && user.staleOrNew === 'New') {
-          title = `APPOINTMENT AS PRINCIPAL`;
-        }
-        if (user.position === 'Vice-Principal' && user.staleOrNew === 'New') {
-          title = `APPOINTMENT AS VICE-PRINCIPAL`;
-        }
-        if (user.position === 'Principal' && user.staleOrNew === 'Stale') {
-          title = `REDEPLOYMENT OF PRINCIPAL`;
-        }
-        if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
-          title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
-        }
         const letterData = {
           name: user?.staffName?.firstName ?? 'Unknown',
           newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
-          position: user?.position ?? 'Unknown',
+          cadre: user?.cadre ?? 'Unknown',
           previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
         };
-        console.log(letterData);
-        // let letterContent: string;
-        // const letterData = {
-        //   name: user.staffName?.firstName ?? 'Unknown ',
-        //   newSchool:
-        //     user.schoolOfPresentPosting?.nameOfSchool ??
-        //     'Unknown Please contact headquarters you will get your letter',
-        //   position:
-        //     user?.position ??
-        //     'Unknown Unknown Please contact headquarters headquarters you will get your letter',
-        //   previousSchool: user?.ward,
-        // };
+
         const generateLetterContent = (user: IUser): string => {
-          if (!user) return void CommonService.insufficientParameters(response as Response);
-          if (
-            (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
-            user.staleOrNew === 'New'
-          ) {
-            return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
-              letterData.position
-            } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
-              user?.schoolOfPresentPosting?.location
-            } with effect from ${
-              user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
-            }.
-    
-          2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-    
-          3.      Congratulations on this well-deserved elevation.`;
+          if (!user) {
+            CommonService.insufficientParameters(response as Response);
+            return ''; // Return an empty string if insufficient parameters
           }
 
-          if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
-            return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}  to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},   ${user?.schoolOfPresentPosting?.location}  with immediate effect.
-    
-          2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
-    
-          3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the assumption at the new office.
-    
-          4.    Thank you.`;
-          }
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
+            letterData.cadre
+          } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category}, ${
+            user?.schoolOfPresentPosting?.location
+          } with effect from ${
+            user?.cadre === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+          }.
 
-          if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-            return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
-    
-          2.    Kindly ensure proper handing over before leaving.
-    
-          3.    Many thanks`;
-          }
+          2. Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
 
-          return '';
+          3. Congratulations on this well-deserved elevation.`;
         };
-        let letterContent = generateLetterContent(user);
+
+        const letterContent = generateLetterContent(user);
+       
         // Generate and upload the PDF
-        //
         generateAndDownloadPDF(user, fileName, title, letterContent)
           .then((pdfBuffer) => {
-            // Upload the PDF buffer to Cloudinary using the .upload function
-            return new Promise<any>((resolve, reject) => {
-              // Convert the buffer to a base64 encoded string
-              const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
+            // Convert the buffer to a base64 encoded string
+            const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
 
-              // Upload the base64 string using the .upload function
+            // Upload the base64 string using the .upload function
+            return new Promise<any>((resolve, reject) => {
               cloudinary.uploader.upload(
                 base64String,
                 {
@@ -272,23 +227,11 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
                   resolve(result); // Resolve with upload result
                 }
               );
-              //     cloudinary.uploader.unsigned_upload(
-              //       base64String,
-              //       'ml_default',
-
-              //       (error, result) => {
-              //         if (error) {
-              //           return reject(error); // Reject on upload error
-              //         }
-              //         resolve(result); // Resolve with upload result
-              //       }
-              //     );
             });
           })
           .then((uploadResult) => {
             const downloadLink = uploadResult.secure_url;
-
-            if (!downloadLink) {
+                    if (!downloadLink) {
               throw new Error('Failed to generate download link.');
             }
 
@@ -298,7 +241,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
               { letters: { postingLetter: downloadLink } },
               (err, updatedUser) => {
                 if (err) {
-                  reject(err); // Reject if there's an error updating the user
+                  return reject(err); // Reject if there's an error updating the user
                 }
                 resolve(downloadLink); // Resolve with the download link
               }
@@ -309,7 +252,6 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
               message: error.message || 'Unknown error during PDF generation or upload',
               service: 'PDF Generation and Upload',
             });
-
             reject(error); // Reject if any error occurs
           });
       });
