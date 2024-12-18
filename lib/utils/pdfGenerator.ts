@@ -100,7 +100,7 @@ export const generateAndDownloadPDF = (
       .font('arialnarrow')
       .fontSize(13)
       .text('TSC/29/Vol.IV/', { align: 'left' });
-    doc.text('9th September, 2024', { align: 'right' });
+    doc.text('16th December, 2024', { align: 'right' });
 
     // Insert user-specific content
     doc.moveDown(1);
@@ -219,7 +219,8 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
             } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
               user?.schoolOfPresentPosting?.location
             } with effect from ${
-              user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+              '21st February, 2025'
+              // user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
             }.
     
           2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.

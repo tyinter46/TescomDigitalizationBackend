@@ -100,6 +100,7 @@ export class StaffPostingController {
          
       );
     }
+
     // updateData.listOfStaff = currentStaffList
     //  updatedSchool = await this.schoolsService.updateSchool(query, updateData);
 
@@ -186,8 +187,12 @@ export class StaffPostingController {
         return id && !seen.has(id) && seen.add(id);
       });
     };
+
+
+    if (!result.listOfStaff.includes(staff)){
     
    result.listOfStaff.push(staff)
+    }
    makeStaffListUnique(result.listOfStaff)
      console.log(result.listOfStaff)
      await this.schoolsService.updateSchool({_id:schoolId}, {listOfStaff:  result.listOfStaff} )
@@ -197,8 +202,8 @@ export class StaffPostingController {
         { _id: staff },
 
         {
-          schoolOfPreviousPosting: previousSchoolId,
-          schoolOfPresentPosting: schoolId,
+          schoolOfPreviousPosting: previousSchoolId ?? null,
+          schoolOfPresentPosting: schoolId ,
           cadre: cadre,
           dateOfPresentSchoolPosting: Date.now().toString(),
         },
