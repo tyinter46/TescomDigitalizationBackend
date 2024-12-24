@@ -75,6 +75,13 @@ const userValidatorSchema = {
 
   updateUser: Joi.object().keys({
     gender: Joi.string().required(),
+<<<<<<< HEAD
+=======
+    // phoneNumber: Joi.string().required().messages({
+    //   'string.required': 'Phone number cannot be empty',
+    // }),
+    division: Joi.string().required(),
+>>>>>>> 6327008c5065334aaee84b5db48cffdb01f1813d
     tscFileNumber: Joi.string().required().messages({
       'string.required': 'tscFileNumber number cannot be empty',
     }),
@@ -105,10 +112,13 @@ const userValidatorSchema = {
     schoolOfPresentPosting: Joi.string().required().messages({
       'string.required': 'School of present posting cannot be empty',
     }),
+    schoolOfPreviousPosting: Joi.string().required().messages({
+      'string.required': 'School of previous posting cannot be empty',
+    }),
     zone: Joi.string().required().messages({
       'string.required': 'zone cannot be empty',
     }),
-    profilePhoto: Joi.string().optional(),
+    // profilePhoto: Joi.string().optional(),
 
     nationality: Joi.string().required().messages({
       'string.required': 'Nationality cannot be empty',
@@ -143,12 +153,16 @@ const userValidatorSchema = {
     pensionNumber: Joi.number().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),
-    professionalStatus: Joi.string().required().messages({
-      'string.required': 'Professional Status cannot be empty',
-    }),
+    // professionalStatus: Joi.string().required().messages({
+    //   'string.required': 'Professional Status cannot be empty',
+    // }),
     dateOfFirstAppointmentAtTescom: Joi.string().optional(),
     dateOnGradeLevelEight: Joi.string().optional(),
-
+    gradeLevel: Joi.string().required(),
+    nameOfNextOfKin:Joi.string().required(),
+    nextOfKinAddress:Joi.string().required(),
+    nextOfKinPhoneNumber:Joi.string().required(),
+    email: Joi.string().optional(),
     staffType: Joi.string().required().messages({
       'string.required': 'Pension Number cannot be empty',
     }),

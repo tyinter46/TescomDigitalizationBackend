@@ -3,6 +3,7 @@ export interface UploadModel {
   imageUrl?: string;
   publicId?: string;
 }
+
 export interface UploadModel {
   _id?: string; // Optional: MongoDB document ID
   fileUrl?: string; // URL where the PDF is stored

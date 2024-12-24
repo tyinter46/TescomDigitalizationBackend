@@ -4,6 +4,7 @@ import ValidatorMiddleware from '../middlewares/validator';
 import uploadValidatorSchema from '../modules/upload/validator';
 import AuthMiddleWare from '../middlewares/auth';
 import CommonService from '../modules/common/service';
+import UserService from '../modules/users/service';
 import multer, { FileFilterCallback } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
@@ -12,14 +13,14 @@ import datauriParser from 'datauri/parser';
 
 export class UploadRoutes {
   private uploadController: UploadController = new UploadController();
+  private userService: UserService = new UserService()
   private maxFileSize: number = 700 * 1024;
   private storage = multer.memoryStorage();
   private cloudConf = cloudinaryConfig;
   public route(app: Application) {
     app.post(
       '/api/upload/upload-image',
-      AuthMiddleWare.verifyTokenAndAdmin,
-      multer({
+        multer({
         limits: { fileSize: this.maxFileSize },
         storage: this.storage,
       }).single('image'),
@@ -42,6 +43,7 @@ export class UploadRoutes {
 
           cloudinary.uploader.upload(file).then((result) => {
             this.uploadController.uploadImage(req, res, result);
+          
             console.log(result);
           });
         } catch (err) {
