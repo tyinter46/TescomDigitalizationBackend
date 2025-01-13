@@ -35,6 +35,9 @@ class UserController {
   public async updateUser(req: Request | any, res: Response) {
     const {
       gender,
+      gradeLevel,
+      email,
+      residentialAddress,
       phoneNumber,
       tscFileNumber,
       schoolOfPresentPosting,
@@ -61,14 +64,14 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-      gradeLevel,
-      email,
-      residentialAddress,
+      nextOfKinAddress,
+      nextOfKinPhoneNumber,
+      nameOfNextOfKin,
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
       remark,
-      // notifications: [ ...notificationsRest ],
+       notifications: [ ...notificationsRest ],
     } = req.body;
 
     if (
@@ -103,11 +106,11 @@ class UserController {
       staffType ||
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
-      remark 
-    ) 
-    {
- 
-    
+      remark ||
+      nextOfKinAddress ||
+      nextOfKinPhoneNumber ||
+      nameOfNextOfKin
+    ) {
       const userFilter = { _id: req.params.id };
             
       this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
@@ -165,11 +168,10 @@ class UserController {
               dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
             remark: remark || userData.remark,
-            gradeLevel: gradeLevel || userData.gradeLevel,
-            email: email || userData.email,
-            residentialAdress: email || userData.residentialAdress,
-            tscFileNumber: tscFileNumber || userData.tscFileNumber
-            // notifications: notificationsRest || userData.notifications,
+            notifications: notificationsRest || userData.notifications,
+            nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
+            nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
+            nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
           };
 
           this.userService.updateUser(

@@ -134,6 +134,20 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
+    nameOfNextOfKin: {
+      type:String,
+      default: null
+    },
+
+    nextOfKinAddress:{   
+      type: String,
+      default: null}, 
+      
+    nextOfKinPhoneNumber:{
+      type: String,
+      default: null
+    },
+
     residentialAdress: {
       type: String,
       default: null,
