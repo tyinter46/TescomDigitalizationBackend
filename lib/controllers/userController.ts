@@ -103,7 +103,7 @@ class UserController {
       staffType ||
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
-      remark
+      remark 
     ) 
     {
  
@@ -122,12 +122,16 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-          if (userData.tscFileNumber) {
-            return CommonService.UnprocessableResponse(
-              'Tsc File Number Already Exist, Kindly verify your file number',
-              res
-            );
-          }
+      this.userService.filterUser({tscFileNumber}, async(err: any , tscFileData: IUser)=>{
+    // if (tscFileData){ 
+    //   {
+    //     return CommonService.UnprocessableResponse(
+    //       'Tsc File Number Already Exist, Kindly verify your file number',
+    //       res
+    //     );
+    //   }
+    // } 
+        }) 
           const userParams: IUser = {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,
@@ -139,8 +143,8 @@ class UserController {
             stateOfOrigin: stateOfOrigin || userData.stateOfOrigin,
             lgOfOrigin: lgOfOrigin || userData.lgOfOrigin,
             ward: ward || userData.ward,
-            qualifications: rest || userData.qualifications,
-            subjectsTaught: subjectsTaughtRest || userData.subjectsTaught,
+            qualifications: rest ?? userData?.qualifications,
+            subjectsTaught: subjectsTaughtRest ?? userData?.subjectsTaught,
             dateOfPresentSchoolPosting:
               dateOfPresentSchoolPosting || userData.dateOfPresentSchoolPosting,
             cadre: cadre || userData.cadre,
@@ -163,7 +167,8 @@ class UserController {
             remark: remark || userData.remark,
             gradeLevel: gradeLevel || userData.gradeLevel,
             email: email || userData.email,
-            residentialAdress: email || userData.residentialAdress
+            residentialAdress: email || userData.residentialAdress,
+            tscFileNumber: tscFileNumber || userData.tscFileNumber
             // notifications: notificationsRest || userData.notifications,
           };
 
