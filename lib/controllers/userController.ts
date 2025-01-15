@@ -125,16 +125,16 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-      this.userService.filterUser({tscFileNumber}, async(err: any , tscFileData: IUser)=>{
-    // if (tscFileData){ 
-    //   {
-    //     return CommonService.UnprocessableResponse(
-    //       'Tsc File Number Already Exist, Kindly verify your file number',
-    //       res
-    //     );
-    //   }
-    // } 
-        }) 
+    //   this.userService.filterUser({tscFileNumber}, async(err: any , tscFileData: IUser)=>{
+    // // if (tscFileData){ 
+    // //   {
+    // //     return CommonService.UnprocessableResponse(
+    // //       'Tsc File Number Already Exist, Kindly verify your file number',
+    // //       res
+    // //     );
+    // //   }
+    // // } 
+    //     }) 
           const userParams: IUser = {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,
@@ -172,6 +172,7 @@ class UserController {
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
+            tscFileNumber: tscFileNumber || userData.tscFileNumber
           };
 
           this.userService.updateUser(
