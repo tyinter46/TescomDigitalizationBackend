@@ -71,7 +71,7 @@ class UserController {
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
       remark,
-       notifications: [ ...notificationsRest ],
+      //  notifications: [ ...notificationsRest ],
     } = req.body;
 
     if (
@@ -168,7 +168,7 @@ class UserController {
               dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
             remark: remark || userData.remark,
-            notifications: notificationsRest || userData.notifications,
+            // notifications: notificationsRest || userData.notifications,
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,

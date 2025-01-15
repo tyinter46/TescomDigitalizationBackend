@@ -10,19 +10,32 @@ export default class UserService {
     newUser.save(callback);
   }
 
+  // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
+  //   if (selectPassword) {
+  //     UsersModel.findOne(query, callback).select('+password').populate({
+  //       path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto', // You can combine the two paths here
+  //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+  //     });
+  //   }
+    
+  //   else UsersModel.findOne(query, callback).populate({
+  //       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
+  //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+  //     }).lean();
+  // }
   public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
-    if (selectPassword)
-      UsersModel.findOne(query, callback).select('+password').populate({
-        path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
-        strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
-      });
-    else
-      UsersModel.findOne(query, callback).populate({
-        path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
-        strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
-      });
+    const queryBuilder = UsersModel.findOne(query, callback).populate({
+      path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
+      strictPopulate: false,
+    });
+  
+    if (selectPassword) {
+      queryBuilder.select('+password');
+    }
+  
+    return queryBuilder.lean(); // Ensure we return a plain object
   }
-
+  
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
     UsersModel.deleteOne(query, callback);
   }

@@ -75,13 +75,10 @@ const userValidatorSchema = {
 
   updateUser: Joi.object().keys({
     gender: Joi.string().required(),
-<<<<<<< HEAD
-=======
     // phoneNumber: Joi.string().required().messages({
     //   'string.required': 'Phone number cannot be empty',
     // }),
     division: Joi.string().required(),
->>>>>>> 6327008c5065334aaee84b5db48cffdb01f1813d
     tscFileNumber: Joi.string().required().messages({
       'string.required': 'tscFileNumber number cannot be empty',
     }),
