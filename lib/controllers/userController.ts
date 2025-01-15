@@ -172,7 +172,8 @@ class UserController {
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
-            tscFileNumber: tscFileNumber || userData.tscFileNumber
+            tscFileNumber: tscFileNumber || userData.tscFileNumber,
+            residentialAdress: residentialAddress || userData.residentialAdress
           };
 
           this.userService.updateUser(
