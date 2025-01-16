@@ -109,7 +109,8 @@ class UserController {
       remark ||
       nextOfKinAddress ||
       nextOfKinPhoneNumber ||
-      nameOfNextOfKin
+      nameOfNextOfKin || 
+      residentialAddress
     ) {
       const userFilter = { _id: req.params.id };
             
@@ -173,7 +174,7 @@ class UserController {
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
             tscFileNumber: tscFileNumber || userData.tscFileNumber,
-            residentialAdress: residentialAddress || userData.residentialAdress
+            residentialAddress: residentialAddress || userData.residentialAddress
           };
 
           this.userService.updateUser(

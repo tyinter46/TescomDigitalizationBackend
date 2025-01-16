@@ -148,7 +148,7 @@ const UserSchema = new Schema(
       default: null
     },
 
-    residentialAdress: {
+    residentialAddress: {
       type: String,
       default: null,
     },
