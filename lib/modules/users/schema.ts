@@ -5,7 +5,6 @@ import { IUser, Qualifications, INotifications, Letters } from './model';
 import {
   AccountSourceEnum,
   AccountStatusEnum,
-  DivisionsEnum,
   GenderEnum,
   ProfessionalStatusEnum,
   ServiceStatusEnum,
@@ -70,8 +69,8 @@ const UserSchema = new Schema(
     },
     division: {
       type: String,
-      enum: [...Object.values(DivisionsEnum)],
-      default: DivisionsEnum.NULL,
+     
+      default: null,
     },
     nationality: {
       type: String,
@@ -135,7 +134,21 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
-    residentialAdress: {
+    nameOfNextOfKin: {
+      type:String,
+      default: null
+    },
+
+    nextOfKinAddress:{   
+      type: String,
+      default: null}, 
+      
+    nextOfKinPhoneNumber:{
+      type: String,
+      default: null
+    },
+
+    residentialAddress: {
       type: String,
       default: null,
     },
@@ -170,7 +183,7 @@ const UserSchema = new Schema(
     confirmationCode: {
       type: String,
     },
-    profilePhoto: { type: Schema.Types.ObjectId, ref: 'Image' },
+    profilePhoto: { type: String },
     isAdmin: {
       type: Boolean,
       default: false,

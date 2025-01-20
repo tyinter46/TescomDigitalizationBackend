@@ -57,13 +57,13 @@ export enum ZonesEnum {
   NULL = 'null',
 }
 
-export enum DivisionsEnum {
-  EGBA = 'Egba',
-  REMO = 'Remo',
-  IJEBU = 'Ijebu',
-  YEWA = 'Yewa',
-  NULL = 'null',
-}
+// export enum DivisionsEnum {
+//   EGBA = 'EGBA',
+//   REMO = 'REMO',
+//   IJEBU = 'IJEBU',
+//   YEWA = 'YEWA',
+//   NULL = 'null',
+// }
 
 export enum StaffTypeEnum {
   TEACHING = 'Teaching',
