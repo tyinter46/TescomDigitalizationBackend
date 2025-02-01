@@ -174,7 +174,9 @@ class UserController {
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
             tscFileNumber: tscFileNumber || userData.tscFileNumber,
-            residentialAddress: residentialAddress || userData.residentialAddress
+            residentialAddress: residentialAddress || userData.residentialAddress,
+            gradeLevel: gradeLevel || userData.gradeLevel,
+            email: email || userData.email
           };
 
           this.userService.updateUser(
