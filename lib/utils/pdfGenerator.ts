@@ -219,8 +219,8 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
             } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
               user?.schoolOfPresentPosting?.location
             } with effect from ${
-              '21st February, 2025'
-              // user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+              '20th February, 2025'
+              //  user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
             }.
     
           2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
