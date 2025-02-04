@@ -68,7 +68,6 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(session);
-
     this.app.use(passport.initialize());
     this.app.use(passport.session());
     this.app.use(function (req, res, next) {

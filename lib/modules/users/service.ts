@@ -2,40 +2,25 @@ import { IUser } from './model';
 import UsersModel from './schema';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 
-
-
 export default class UserService {
   public createUser(params: IUser, callback: any) {
     const newUser = new UsersModel(params);
     newUser.save(callback);
   }
 
-  // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
-  //   if (selectPassword) {
-  //     UsersModel.findOne(query, callback).select('+password').populate({
-  //       path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto', // You can combine the two paths here
-  //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
-  //     });
-  //   }
-    
-  //   else UsersModel.findOne(query, callback).populate({
-  //       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
-  //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
-  //     }).lean();
-  // }
   public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
-    const queryBuilder = UsersModel.findOne(query, callback).populate({
-      path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
-      strictPopulate: false,
-    });
-  
-    if (selectPassword) {
-      queryBuilder.select('+password');
-    }
-  
-    return queryBuilder.lean(); // Ensure we return a plain object
+    if (selectPassword)
+      UsersModel.findOne(query, callback).select('+password').populate({
+        path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
+        strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+      });
+    else
+      UsersModel.findOne(query, callback).populate({
+        path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
+        strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+      });
   }
-  
+
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
     UsersModel.deleteOne(query, callback);
   }
@@ -50,18 +35,6 @@ export default class UserService {
       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
     });
   }
-  public getAllUsersWithoutPopulation(query: any, options: any, callback: any) {
-    UsersModel.paginate(
-      query,
-      {
-        ...options,
-         select: '_id staffName'
-       
-      },
-      callback
-    );
-}
-
 
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(
@@ -93,6 +66,7 @@ export default class UserService {
       strictPopulate: false,
     });
 
-   
+    console.log('Users updated successfully.');
+    console.log(`Matched ${result.matchedCount} documents and modified ${result.modifiedCount} documents`);
   }
 }
