@@ -1,7 +1,7 @@
 import { Schema, Document, model, PaginateModel } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 import { IPostingReport } from './model';
-import {  ZonesEnum, PositionEnum } from '../../utils/enums';
+import { DivisionsEnum, ZonesEnum, PositionEnum } from '../../utils/enums';
 import { ModificationNote } from '../common/model';
 
 const PostingReportSchema = new Schema(

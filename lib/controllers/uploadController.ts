@@ -205,7 +205,6 @@ import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import { UploadModel } from '../modules/upload/model';
 import UploadService from '../modules/upload/service';
-import UserService from '../modules/users/service';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
 import logger from '../config/logger';
@@ -214,7 +213,6 @@ import { IUser } from 'modules/users/model';
 export class UploadController {
   private cloudConf = cloudinaryConfig;
   private uploadService: UploadService = new UploadService();
-  private userService: UserService = new UserService()
 
   // Upload PDF File
   public uploadPDF(req: any, res: Response, result: any) {

@@ -35,15 +35,11 @@ class UserController {
   public async updateUser(req: Request | any, res: Response) {
     const {
       gender,
-      gradeLevel,
-      email,
-      residentialAddress,
       phoneNumber,
       tscFileNumber,
       schoolOfPresentPosting,
       schoolOfPreviousPosting,
       zone,
-      division,
       nationality,
       stateOfOrigin,
       lgOfOrigin,
@@ -64,14 +60,14 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-      nextOfKinAddress,
-      nextOfKinPhoneNumber,
-      nameOfNextOfKin,
+      gradeLevel,
+      email,
+      residentialAddress,
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
       remark,
-      //  notifications: [ ...notificationsRest ],
+      // notifications: [ ...notificationsRest ],
     } = req.body;
 
     if (
@@ -81,7 +77,6 @@ class UserController {
       schoolOfPresentPosting ||
       schoolOfPreviousPosting ||
       zone ||
-      division ||
       nationality ||
       stateOfOrigin ||
       lgOfOrigin ||
@@ -106,12 +101,11 @@ class UserController {
       staffType ||
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
-      remark ||
-      nextOfKinAddress ||
-      nextOfKinPhoneNumber ||
-      nameOfNextOfKin || 
-      residentialAddress
-    ) {
+      remark
+    ) 
+    {
+ 
+    
       const userFilter = { _id: req.params.id };
             
       this.userService.filterUser(userFilter, async (err: any, userData: IUser) => {
@@ -126,29 +120,24 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-    //   this.userService.filterUser({tscFileNumber}, async(err: any , tscFileData: IUser)=>{
-    // // if (tscFileData){ 
-    // //   {
-    // //     return CommonService.UnprocessableResponse(
-    // //       'Tsc File Number Already Exist, Kindly verify your file number',
-    // //       res
-    // //     );
-    // //   }
-    // // } 
-    //     }) 
+          if (userData.tscFileNumber) {
+            return CommonService.UnprocessableResponse(
+              'Tsc File Number Already Exist, Kindly verify your file number',
+              res
+            );
+          }
           const userParams: IUser = {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,
             schoolOfPresentPosting: schoolOfPresentPosting || userData.schoolOfPresentPosting,
             schoolOfPreviousPosting: schoolOfPreviousPosting || userData.schoolOfPreviousPosting,
             zone: zone || userData.zone,
-            division: division || userData.division,
             nationality: nationality || userData.nationality,
             stateOfOrigin: stateOfOrigin || userData.stateOfOrigin,
             lgOfOrigin: lgOfOrigin || userData.lgOfOrigin,
             ward: ward || userData.ward,
-            qualifications: rest ?? userData?.qualifications,
-            subjectsTaught: subjectsTaughtRest ?? userData?.subjectsTaught,
+            qualifications: rest || userData.qualifications,
+            subjectsTaught: subjectsTaughtRest || userData.subjectsTaught,
             dateOfPresentSchoolPosting:
               dateOfPresentSchoolPosting || userData.dateOfPresentSchoolPosting,
             cadre: cadre || userData.cadre,
@@ -169,6 +158,9 @@ class UserController {
               dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
             remark: remark || userData.remark,
+            gradeLevel: gradeLevel || userData.gradeLevel,
+            email: email || userData.email,
+            residentialAdress: email || userData.residentialAdress
             // notifications: notificationsRest || userData.notifications,
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
@@ -195,7 +187,7 @@ class UserController {
                     .exec();
 
                   const profilePhoto = populatedUserData.profilePhoto
-                    ? populatedUserData.profilePhoto
+                    ? populatedUserData.profilePhoto?.imageUrl
                     : '';
 
                     const makeStaffListUnique = (staffList) => {
@@ -408,117 +400,6 @@ class UserController {
   //     CommonService.insufficientParameters(res);
   //   }
   // }
-
-
-  
-  public async getAllUsersWithoutPopulation(req: Request, res: Response) {
-    try {
-      // Define sort options (default: descending by creation date)
-      const {
-        ogNumber = '',
-        // pageNumber = 1,
-        pageSize = 15000,
-        firstName = '',
-        tscFileNumber = '',
-        middleName = '',
-        lastName = '',
-        gradeLevel = '',
-        schoolOfPresentPosting = '',
-        dateOfPresentSchoolPosting = '',
-        dateOfFirstAppointment = '',
-        dateOfRetirement = '',
-        subjectsTaught,
-        sort = 'desc',
-        id = '',
-        isDeleted = false,
-      } = req.query;
-  
-      const orConditions: any[] = [];
-  
-      // Add conditions for string fields
-      if (ogNumber) {
-        orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
-      }
-      if (firstName) {
-        orConditions.push({ 'staffName.firstName': { $regex: firstName, $options: 'i' } });
-      }
-      if (middleName) {
-        orConditions.push({ 'staffName.middleName': { $regex: middleName, $options: 'i' } });
-      }
-      if (lastName) {
-        orConditions.push({ 'staffName.lastName': { $regex: lastName, $options: 'i' } });
-      }
-      if (gradeLevel) {
-        orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
-      }
-      if (tscFileNumber) {
-        orConditions.push({ tscFileNumber: { $regex: tscFileNumber, $options: 'i' } });
-      }
-      if (schoolOfPresentPosting) {
-        orConditions.push({
-          schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' },
-        });
-      }
-      if (subjectsTaught) {
-        orConditions.push({ subjectsTaught: { $in: [subjectsTaught] } });
-      }
-  
-      // Handle exact matches or comparison queries for non-string fields
-      if (dateOfPresentSchoolPosting) {
-        orConditions.push({ dateOfPresentSchoolPosting });
-      }
-      if (dateOfFirstAppointment) {
-        orConditions.push({ dateOfFirstAppointment });
-      }
-      if (dateOfRetirement) {
-        orConditions.push({ dateOfRetirement });
-      }
-  
-      const getAllUsersQuery = orConditions.length > 0 ? { $or: orConditions } : {};
-  
-      if (id) {
-        getAllUsersQuery['_id'] = { $eq: id };
-      }
-  
-      const sortQuery = {
-        createdAt: sort === 'desc' ? -1 : 1,
-      };
-  
-      const customLabels = {
-        totalDocs: 'itemsCount',
-        docs: 'users',
-        limit: 'pageSize',
-        nextPage: 'next',
-        prevPage: 'prev',
-        totalPages: 'pageCount',
-      };
-  
-      const options = {
-        // page: parseInt(pageNumber as string, 10),
-        limit: parseInt(pageSize as string, 10),
-        sort: sortQuery,
-
-        customLabels,
-      };
-  
-      this.userService.getAllUsersWithoutPopulation(getAllUsersQuery, options, (err: any, users: IUser) => {
-        if (err) {
-          logger.error({ message: err, service: 'userService' });
-          return CommonService.mongoError(err, res);
-        } else {
-          CommonService.successResponse('Tescom staff retrieved successfully', { users }, res);
-        }
-      });
-  
-      // Respond with the retrieved users
-        //  return CommonService.successResponse('All users retrieved successfully',  users , res);
-    } catch (error) {
-      // Log and handle errors
-      logger.error({ message: error.message, service: 'userService' });
-      return CommonService.mongoError(error, res);
-    }
-  }
-  
 
   public getAllUsers(req: Request, res: Response) {
     const {
