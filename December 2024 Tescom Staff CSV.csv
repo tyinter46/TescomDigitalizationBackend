@@ -1,37 +1,4 @@
-function convertDataToJSON(data) {
-  const lines = data.split('\n');
-  const officers = lines.map((line) => {
-    // Regular expression to match the fields properly, even with commas inside quotes
-    const matches = line
-      .match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
-      .map((field) => field.replace(/(^"|"$)/g, ''));
-
-    // Assigning the matches to the appropriate keys
-    const [
-      ogNum,
-      nameOfOfficer,
-      gradeLevel,
-      dateOfFirstAppointment,
-      dateOfBirth,
-     
-      dateOfRetirement,
-    ] = matches;
-
-    return {
-      ogNum,
-      nameOfOfficer,
-      gradeLevel,
-      dateOfFirstAppointment,
-      dateOfBirth,
-     
-      dateOfRetirement,
-    };
-  });
-
-  return officers;
-}
-
-const data = `ogNum,staffName,gradeLevel,dateOfFirstAppointment,dateOfBirth, dateOfRetirement
+ogNum,staffName,gradeLevel,dateOfFirstAppointment,dateOfBirth,dateOfRetirement
 OG51153,"AARE, Oluwafunke Esther.",9/03,24-May-19,25-Apr-80,25-Apr-40
 OG37789,"AASA, Bolajoko oluwatoyin",13/05,27-Mar-08,21-Sep-77,21-Sep-37
 OG32042,"ABAH, Oliver nnamani",7/10,11-Dec-06,4-Apr-78,4-Apr-38
@@ -11941,8 +11908,3 @@ OG50862,"ZINDOZIN, Qazeem Sedowhe.",8/03,24-May-19,6-Jun-89,6-Jun-49
 OG32130,"ZINSU, Francis ahisu",4/15,1-Jul-07,8-Jan-78,8-Jan-38
 OG50855,"ZINSU, Olusegun Noah.",9/03,24-May-19,4-Sep-79,4-Sep-39
 OG32129,"ZINVOEDO, Gbetoho olusegun",4/15,1-Jul-07,6-Jun-76,6-Jun-36
-
-`;
-
-const jsonData = convertDataToJSON(data.trim());
-console.log(JSON.stringify(jsonData, null, 2));

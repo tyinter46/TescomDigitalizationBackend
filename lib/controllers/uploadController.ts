@@ -209,6 +209,7 @@ import UserService from '../modules/users/service';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
 import logger from '../config/logger';
+import { IUser } from 'modules/users/model';
 
 export class UploadController {
   private cloudConf = cloudinaryConfig;
@@ -320,10 +321,10 @@ export class UploadController {
   }
 
   public uploadImage(req: any, res: Response, result: any) {
-    if (result.secure_url && result.public_id) {
+    if (result?.secure_url && result?.public_id) {
       const imageParams = {
-        imageUrl: result.secure_url,
-        publicId: result.public_id,
+        imageUrl: result?.secure_url,
+        publicId: result?.public_id,
       };
       this.uploadService.uploadPhoto(imageParams, (err: any, uploadedImage: UploadModel) => {
         if (err) {
@@ -335,11 +336,12 @@ export class UploadController {
         }
         const userFilter = { _id: req.params.id };
 
-        this.userService.updateUser(userFilter, {profilePhoto: imageParams.imageUrl}, (err, userData)=>{
+        this.userService.updateUser(userFilter, {profilePhoto: imageParams.imageUrl}, (err: any, userData: IUser)=>{
           if (err) {
             logger.error({ message: err, service: 'UserService' });
             CommonService.mongoError(err, res);
           } else if (userData) {
+            console.log('updated profile photo field')
             return CommonService.successResponse(
               'Image Uploaded Successfully!',
               {
