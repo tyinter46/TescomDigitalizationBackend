@@ -1,5 +1,4 @@
 import { SchoolsController } from '../controllers/schoolsController';
-import { StaffPostingController } from '../controllers/nonTeachingStaffController';
 import { Application, Request, Response } from 'express';
 import ValidationMiddleware from '../middlewares/validator';
 import schoolValidatorSchema from '../modules/schools/validator';
@@ -7,7 +6,6 @@ import AuthMiddleWare from '../middlewares/auth';
 
 export class schoolRoutes {
   private SchoolsController: SchoolsController = new SchoolsController();
-  private StaffPostingController: StaffPostingController = new StaffPostingController()
 
   public route(app: Application) {
     app
@@ -34,14 +32,7 @@ export class schoolRoutes {
         (req: Request, res: Response) => {
           this.SchoolsController.updateSchool(req, res);
         }
-      ).patch( '/api/staffPosting/schools/:id',
-        ValidationMiddleware(schoolValidatorSchema.verifyParamsId, 'params'),
-        (req: Request, res: Response) => {
-          this.StaffPostingController.updateStaffSchool(req, res);
-        }
-      )
-      
-      ;
+      );
 
     app.get(
       '/api/schools',

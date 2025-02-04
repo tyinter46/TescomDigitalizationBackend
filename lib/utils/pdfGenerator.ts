@@ -100,7 +100,7 @@ export const generateAndDownloadPDF = (
       .font('arialnarrow')
       .fontSize(13)
       .text('TSC/29/Vol.IV/', { align: 'left' });
-    doc.text('16th December, 2024', { align: 'right' });
+    doc.text('9th September, 2024', { align: 'right' });
 
     // Insert user-specific content
     doc.moveDown(1);
@@ -153,7 +153,6 @@ export const generateAndDownloadPDF = (
  * @param {string} userId - The ID of the user.
  * @returns {Promise<string | null>} - The URL of the uploaded PDF, or null if the user is not found.
  */
-
 export const generateAndUploadPostingLetter = (userId: string): Promise<string | null> => {
   const userService = new UserService();
 

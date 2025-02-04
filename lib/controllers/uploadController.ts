@@ -209,7 +209,7 @@ import UserService from '../modules/users/service';
 import { v2 as cloudinary } from 'cloudinary';
 import { cloudinaryConfig } from '../utils/cloudinary';
 import logger from '../config/logger';
-import { IUser } from 'modules/users/model';
+import { IUser } from '../modules/users/model';
 
 export class UploadController {
   private cloudConf = cloudinaryConfig;
