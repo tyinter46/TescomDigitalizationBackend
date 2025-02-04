@@ -29,13 +29,7 @@
 // //     },
 // // });
 
-// const transporter = createTransport(
-//   postmarkTransport({
-//     auth: {
-//       apiKey: process.env.POSTMARK_KEY,
-//     },
-//   })
-// );
+
 
 // //   const mail = {
 // //     from: 'john.doe@example.org',

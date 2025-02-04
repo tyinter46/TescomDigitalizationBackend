@@ -22,7 +22,6 @@ class AuthMiddleWare {
           user.authLevel === UserLevelEnum.PRINCIPAL,
       },
       process.env.JWT_SEC,
-       ()=>process.env.TOKEN_VALIDATION_DURATION 
     );
     return accessToken;
   }
