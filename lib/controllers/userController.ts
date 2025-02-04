@@ -198,11 +198,27 @@ class UserController {
                     ? populatedUserData.profilePhoto
                     : '';
 
+                    const makeStaffListUnique = (staffList) => {
+                      const seen = new Set();
+                      return staffList.filter((staff) => {
+                        const id = staff?._id?.toString();
+                        return id && !seen.has(id) && seen.add(id);
+                      });
+                    };
                   if (schoolOfPresentPosting) {
+                     const staffList = await this.schoolsService.filterSchool({ _id: schoolOfPresentPosting }) 
+                    console.log(makeStaffListUnique(staffList.listOfStaff))
+                   await this.schoolsService.updateSchool(  { _id: schoolOfPresentPosting },{listOfStaff:makeStaffListUnique(staffList.listOfStaff)})
+
+                     if (!staffList.listOfStaff.includes(updatedUserData._id)){
+                   const uniqueStaffList =  makeStaffListUnique(staffList.listOfStaff)
+                   console.log(uniqueStaffList)
+                   await this.schoolsService.updateSchool(  { _id: schoolOfPresentPosting },{listOfStaff:uniqueStaffList})
                     await this.schoolsService.updateSchool(
                       { _id: schoolOfPresentPosting },
                       { $push: { listOfStaff: updatedUserData._id } }
                     );
+                  }
                   }
 
                   return CommonService.successResponse(
