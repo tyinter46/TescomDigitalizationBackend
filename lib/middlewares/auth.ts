@@ -22,7 +22,7 @@ class AuthMiddleWare {
           user.authLevel === UserLevelEnum.PRINCIPAL,
       },
       process.env.JWT_SEC,
-      { expiresIn: process.env.TOKEN_VALIDATION_DURATION }
+       ()=>process.env.TOKEN_VALIDATION_DURATION 
     );
     return accessToken;
   }
