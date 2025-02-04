@@ -66,6 +66,9 @@ class UserController {
       authLevel,
       dateOfFirstAppointmentAtTescom,
       dateOnGradeLevelEight,
+      nameOfNextOfKin,
+      nextOfKinAddress,
+      nextOfKinPhoneNumber,
       remark,
       // notifications: [ ...notificationsRest ],
     } = req.body;
@@ -101,6 +104,9 @@ class UserController {
       staffType ||
       dateOfFirstAppointmentAtTescom ||
       dateOnGradeLevelEight ||
+      nameOfNextOfKin ||
+      nextOfKinPhoneNumber ||
+      nextOfKinAddress ||
       remark
     ) 
     {
@@ -160,15 +166,13 @@ class UserController {
             remark: remark || userData.remark,
             gradeLevel: gradeLevel || userData.gradeLevel,
             email: email || userData.email,
-            residentialAdress: email || userData.residentialAdress
-            // notifications: notificationsRest || userData.notifications,
+                   // notifications: notificationsRest || userData.notifications,
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
             tscFileNumber: tscFileNumber || userData.tscFileNumber,
             residentialAddress: residentialAddress || userData.residentialAddress,
-            gradeLevel: gradeLevel || userData.gradeLevel,
-            email: email || userData.email
+      
           };
 
           this.userService.updateUser(
@@ -190,11 +194,27 @@ class UserController {
                     ? populatedUserData.profilePhoto?.imageUrl
                     : '';
 
+                    const makeStaffListUnique = (staffList) => {
+                      const seen = new Set();
+                      return staffList.filter((staff) => {
+                        const id = staff?._id?.toString();
+                        return id && !seen.has(id) && seen.add(id);
+                      });
+                    };
                   if (schoolOfPresentPosting) {
+                     const staffList = await this.schoolsService.filterSchool({ _id: schoolOfPresentPosting }) 
+                    console.log(makeStaffListUnique(staffList.listOfStaff))
+                   await this.schoolsService.updateSchool(  { _id: schoolOfPresentPosting },{listOfStaff:makeStaffListUnique(staffList.listOfStaff)})
+
+                     if (!staffList.listOfStaff.includes(updatedUserData._id)){
+                   const uniqueStaffList =  makeStaffListUnique(staffList.listOfStaff)
+                   console.log(uniqueStaffList)
+                   await this.schoolsService.updateSchool(  { _id: schoolOfPresentPosting },{listOfStaff:uniqueStaffList})
                     await this.schoolsService.updateSchool(
                       { _id: schoolOfPresentPosting },
                       { $push: { listOfStaff: updatedUserData._id } }
                     );
+                  }
                   }
 
                   return CommonService.successResponse(

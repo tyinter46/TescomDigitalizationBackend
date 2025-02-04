@@ -116,6 +116,8 @@ export interface IUser {
   residentialAddress?: string;
   lastVisited?: Date;
   nextOfKinAddress?: string;
+  nextOfKinPhoneNumber?: string;
+  nameOfNextOfKin?: string;
   notifications?: INotifications[];
   // staffDetailsFromCaps? :
   modificationNotes?: ModificationNote[];
