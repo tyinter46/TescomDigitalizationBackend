@@ -4,7 +4,9 @@ import UserService from '../modules/users/service';
 import SchoolService from '../modules/schools/service';
 import UserController from './userController';
 import logger from '../config/logger';
-
+import { ISchools } from '../modules/schools/model';
+import { IUser } from '../modules/users/model';
+import { generateCsv } from '../utils/csvGenerator';
 
 export class PostingController {
   private schoolService: SchoolService = new SchoolService();

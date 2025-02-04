@@ -374,36 +374,50 @@ class AuthController {
         if (err) {
           return next(err);
         }
+        console.log(user);
         if (!user) {
           return CommonService.unAuthorizedResponse(
             'Kindly verify your OgNumber and password!',
             res
           );
         }
-  
+
+        // if (user.accountStatus != 'activated') {
+        //   return CommonService.unAuthorizedResponse(
+        //     'Pending Account. Please Verify Your phone number!',
+        //     res
+        //   );
+        // }
+
         req.logIn(user, function (err) {
           if (err) {
             return next(err);
           }
-  
+
           const accessToken = AuthMiddleWare.createToken(user, school);
-  
-          // Directly access the populated profilePhoto field
-          const profilePhoto = user.profilePhoto ? user.profilePhoto.imageUrl : '';
-          const { password, ...rest } = user; // Exclude password
-          const { ...schoolRest } = school;
-  
-          // Send the cleaned user object and token
-          return CommonService.successResponse(
-            'Successful',
-            { user: { ...rest, profilePhoto }, school: { ...schoolRest }, accessToken },
-            res
-          );
+
+          // Populate additional user data and remove password before sending
+          user.populate('profilePhoto', (err: any, userData: any) => {
+            if (err) return CommonService.mongoError(err, res);
+
+            // Remove password before sending the response
+            const profilePhoto = userData.profilePhoto ? userData.profilePhoto?.imageUrl : '';
+            const { password, ...rest } = user; // .toObject() to get a plain JS object
+            const { ...schoolRest } = school;
+
+            // Send the cleaned user object and token
+            return CommonService.successResponse(
+              'Successful',
+              { user: { ...rest, profilePhoto }, school: { ...schoolRest }, accessToken },
+              res
+            );
+          });
         });
       }
     )(req, res, next);
   }
-    public logoutUser(req: Request, res: Response) {
+
+  public logoutUser(req: Request, res: Response) {
     req.headers.authorization = null;
     this.userService.filterUser({ _id: req?.user._id }, (err: any, userData: any) => {
       if (userData) {
