@@ -8,7 +8,7 @@
     "target": "es6",
     "outDir": "./dist",
     "baseUrl": "lib/",
-
+    "skipLibCheck": true
   },
   "include": ["lib/**/*.ts", "index.d.ts"],
   "exclude": ["node_modules"],
