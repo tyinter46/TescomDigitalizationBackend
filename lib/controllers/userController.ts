@@ -60,8 +60,6 @@ class UserController {
       firstAppointmentLetter = '',
       lastPromotionLetter = '',
       birthCertificate = '',
-      gradeLevel,
-      email,
       residentialAddress,
       authLevel,
       dateOfFirstAppointmentAtTescom,
@@ -70,6 +68,8 @@ class UserController {
       nextOfKinAddress,
       nextOfKinPhoneNumber,
       remark,
+      email,
+      gradeLevel
       // notifications: [ ...notificationsRest ],
     } = req.body;
 
@@ -118,7 +118,7 @@ class UserController {
         if (err) {
           CommonService.mongoError(err, res);
         } else if (userData) {
-          if (!userData.modificationNotes) {
+          if (!userData?.modificationNotes) {
             userData.modificationNotes = [];
           }
           userData.modificationNotes.push({
@@ -126,12 +126,12 @@ class UserController {
             modifiedBy: req.id,
             modificationNote: 'User Profile Updated Successfully',
           });
-          if (userData.tscFileNumber) {
-            return CommonService.UnprocessableResponse(
-              'Tsc File Number Already Exist, Kindly verify your file number',
-              res
-            );
-          }
+          // if (userData.tscFileNumber) {
+          //   return CommonService.UnprocessableResponse(
+          //     'Tsc File Number Already Exist, Kindly verify your file number',
+          //     res
+          //   );
+          // }
           const userParams: IUser = {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,
@@ -163,9 +163,9 @@ class UserController {
             dateOfFirstAppointmentAtTescom:
               dateOfFirstAppointmentAtTescom || userData.dateOfFirstAppointmentAtTescom,
             dateOnGradeLevelEight: dateOnGradeLevelEight || userData.dateOfFirstAppointmentAtTescom,
-            remark: remark || userData.remark,
-            gradeLevel: gradeLevel || userData.gradeLevel,
-            email: email || userData.email,
+            remark: remark || userData?.remark,
+            gradeLevel: gradeLevel || userData?.gradeLevel,
+            email: email || userData?.email,
                    // notifications: notificationsRest || userData.notifications,
             nextOfKinAddress: nextOfKinAddress || userData.nextOfKinAddress,
             nextOfKinPhoneNumber: nextOfKinPhoneNumber || userData.nextOfKinPhoneNumber,
