@@ -23,6 +23,7 @@ class AuthMiddleWare {
       },
       process.env.JWT_SEC,
     );
+    console.log(accessToken)
     return accessToken;
   }
 
