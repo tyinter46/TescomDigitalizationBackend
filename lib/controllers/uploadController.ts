@@ -232,6 +232,9 @@ export class UploadController {
         if (!uploadedFile) {
           return CommonService.failureResponse('Unable to Upload PDF', null, res);
         }
+
+        // const user = req.user
+        // console.log(user)
         return CommonService.successResponse(
           'PDF Uploaded Successfully!',
           {

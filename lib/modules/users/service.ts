@@ -39,6 +39,9 @@ export default class UserService {
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
     UsersModel.deleteOne(query, callback);
   }
+
+
+
   public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
     UsersModel.findOneAndUpdate(
       query,

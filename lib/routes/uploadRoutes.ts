@@ -18,7 +18,7 @@ export class UploadRoutes {
   public route(app: Application) {
     app.post(
       '/api/upload/upload-image',
-      AuthMiddleWare.verifyTokenAndAdmin,
+      // AuthMiddleWare.verifyTokenAndAdmin,
       multer({
         limits: { fileSize: this.maxFileSize },
         storage: this.storage,
