@@ -27,6 +27,11 @@ export class UserRoutes {
         }
       );
 
+
+      app.get('/api/getUsers/basic', (req: Request, res: Response) => {
+        this.UserController.getAllUsersWithoutPopulation(req, res);
+      })
+
     app.get('/api/users', (req: Request, res: Response) => {
       this.UserController.getAllUsers(req, res);
     });
