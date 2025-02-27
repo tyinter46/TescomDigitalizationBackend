@@ -22,7 +22,7 @@ export class SchoolsController {
   public async getAllSchools(req: Request, res: Response) {
     const {
       pageNumber = 1,
-      pageSize = 600,
+      pageSize = 1000,
       nameOfSchool = '',
       category = '',
       address = '',
@@ -112,6 +112,87 @@ export class SchoolsController {
       CommonService.mongoError(err, res);
     }
   }
+
+
+
+
+
+
+  public async getAllBasicSchools(req: Request, res: Response) {
+    const {
+      pageNumber = 1,
+      pageSize = 1000,
+      nameOfSchool = '',
+      category = '',
+      address = '',
+      location = '',
+      zone = '',
+      division = '',
+      listOfStaff = '',
+      principal = '',
+      vicePrincipalAdmin = '',
+      vicePrincipalAcademics = '',
+      latitude = '',
+      longitude = '',
+      sort = '',
+      id = '',
+    } = req.query;
+
+    const page = parseInt(pageNumber as string, 10);
+    const limit = parseInt(pageSize as string, 10);
+
+    const query: any = {};
+    const orConditions: any[] = [];
+
+    if (nameOfSchool) orConditions.push({ nameOfSchool: { $regex: nameOfSchool, $options: 'i' } });
+    if (category) orConditions.push({ category: { $regex: category, $options: 'i' } });
+    if (address) orConditions.push({ address: { $regex: address, $options: 'i' } });
+    if (location) orConditions.push({ location: { $regex: location, $options: 'i' } });
+    if (zone) orConditions.push({ zone: { $regex: zone, $options: 'i' } });
+    if (listOfStaff) orConditions.push({ listOfStaff: { $regex: listOfStaff, $options: 'i' } });
+    if (principal) orConditions.push({ principal: { $regex: principal, $options: 'i' } });
+    if (division) orConditions.push({ zone: { $regex: division, $options: 'i' } });
+    if (vicePrincipalAdmin)
+      orConditions.push({ zone: { $regex: vicePrincipalAdmin, $options: 'i' } });
+    if (vicePrincipalAcademics)
+      orConditions.push({ zone: { $regex: vicePrincipalAcademics, $options: 'i' } });
+
+    if (id) query._id = { $eq: id };
+    if (orConditions.length > 0) query.$or = orConditions;
+
+    const sortQuery = {
+      nameOfSchool: sort === 'desc' ? -1 : 1,
+    };
+
+    const customLabels = {
+      totalDocs: 'itemsCount',
+      docs: 'programs',
+      limit: 'pageSize',
+      nextPage: 'next',
+      prevPage: 'prev',
+      totalPages: 'pageCount',
+    };
+
+    const options = {
+      page,
+      limit,
+      sort: sortQuery,
+      customLabels,
+    };
+
+    try {
+       await this.schoolsService.getAllschoolsWithoutPopulation(query, options, (err: any, basicSchoolsData: ISchools)=>{
+       if (err) return CommonService.failureResponse("unable to retrieve schools, kindly reload", basicSchoolsData, res)
+       CommonService.successResponse("Basic schools retrieved successfully", basicSchoolsData, res )
+      });
+
+      // CommonService.successResponse("Basic schools retrieved successfully", schoolsData, res);
+    } catch (err) {
+      logger.error({ message: err.message, service: 'Get All SchoolsService' });
+      CommonService.mongoError(err, res);
+    }
+  }
+
 
   public async getSchoolById(req: Request, res: Response) {
     if (req.params.id) {
