@@ -35,6 +35,20 @@ export default class SchoolService {
       throw new Error(`Error getting all schools: ${err.message}`);
     }
   }
+
+  public getAllschoolsWithoutPopulation(query: any, options: any, callback: any) {
+    SchoolsModel.paginate(
+      query,
+      {
+        ...options,
+         select: '_id nameOfSchool category location'
+       
+      },
+      callback
+    );
+}
+
+
   public async filterSchool(query: any): Promise<ISchools | null> {
     try {
       return await SchoolsModel.findOne(query)
