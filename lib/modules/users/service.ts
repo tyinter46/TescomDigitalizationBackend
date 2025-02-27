@@ -65,7 +65,16 @@ export default class UserService {
     );
 }
 
-
+public getUsersWithUpdatedProfiles (query: any, options: any, callback: any){
+  UsersModel.paginate(query,
+    {
+      ...options,
+       select: '_id staffName'
+     
+    },
+    callback
+  )
+}
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(
       query,

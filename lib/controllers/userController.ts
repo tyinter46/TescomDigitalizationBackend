@@ -178,7 +178,8 @@ class UserController {
       nextOfKinPhoneNumber,
       remark,
       email,
-      gradeLevel
+      gradeLevel,
+      division
       // notifications: [ ...notificationsRest ],
     } = req.body;
 
@@ -216,7 +217,8 @@ class UserController {
       nameOfNextOfKin ||
       nextOfKinPhoneNumber ||
       nextOfKinAddress ||
-      remark
+      remark ||
+       division
     ) 
     {
  
@@ -281,6 +283,7 @@ class UserController {
             nameOfNextOfKin: nameOfNextOfKin || userData.nameOfNextOfKin,
             tscFileNumber: tscFileNumber || userData.tscFileNumber,
             residentialAddress: residentialAddress || userData.residentialAddress,
+            division: division || userData.division
          
           };
 
