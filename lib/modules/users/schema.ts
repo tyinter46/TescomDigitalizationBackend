@@ -50,6 +50,7 @@ const UserSchema = new Schema(
     },
     tscFileNumber: {
       type: String,
+      required: [true, 'TSC File Number is Required'],
       default: null,
     },
     staleOrNew: {
