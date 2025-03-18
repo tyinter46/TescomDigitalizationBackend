@@ -243,6 +243,8 @@ class UserController {
           //     res
           //   );
           // }
+
+          
           const userParams: IUser = {
             gender: gender || userData.gender,
             phoneNumber: phoneNumber || userData.phoneNumber,

@@ -22,12 +22,12 @@ export default class SchoolService {
           {
             path: 'vicePrincipalAcademics',
             select:
-              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
+              'staffName gender position phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',
           },
           {
             path: 'listOfStaff',
             select:
-              'staffName gender position residentialAddress phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
+              'staffName gender position subjectsTaught phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfPresentPosting dateOfBirth gradeLevel dateOfRetirement',
           },
         ],
       });
