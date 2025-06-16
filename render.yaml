@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: tescom-backend
+    env: docker
+    repo: https://github.com/your-username/your-backend-repo
+    branch: main
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - fromGroup: tescom-backend-env

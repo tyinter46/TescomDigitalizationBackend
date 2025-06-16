@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Request, response, Response } from 'express';
+import { Request,  Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
 import PostingReportService from '../modules/postingReports/service';
@@ -8,6 +8,8 @@ import logger from '../config/logger';
 import { ISchools } from '../modules/schools/model';
 import { IUser } from '../modules/users/model';
 import { generateAndUploadPostingLetter } from '../utils/pdfGenerator';
+import cryptoJs from 'crypto-js';
+import redisCache from '../config/redisCache';
 import UsersModel from '../modules/users/schema';
 // import { IPostingReport } from '../modules/postingReports/model';
 // import { ModificationNote } from 'modules/common/model';
@@ -38,6 +40,12 @@ export class SchoolsController {
       sort = '',
       id = '',
     } = req.query;
+
+ // Step 1: Generate cache key
+    const cacheKeyRaw = JSON.stringify(req.query);
+    const cacheKey = `getAllSchools:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
+
+    
 
     const page = parseInt(pageNumber as string, 10);
     const limit = parseInt(pageSize as string, 10);
@@ -104,6 +112,7 @@ export class SchoolsController {
     };
 
     try {
+      
       const schoolsData = await this.schoolsService.getAllSchools(query, options);
 
       CommonService.successResponse('All Schools Retrieved Successfully', schoolsData, res);
@@ -183,7 +192,8 @@ export class SchoolsController {
     try {
        await this.schoolsService.getAllschoolsWithoutPopulation(query, options, (err: any, basicSchoolsData: ISchools)=>{
        if (err) return CommonService.failureResponse("unable to retrieve schools, kindly reload", basicSchoolsData, res)
-       CommonService.successResponse("Basic schools retrieved successfully", basicSchoolsData, res )
+      console.log(basicSchoolsData)
+        CommonService.successResponse("Basic schools retrieved successfully", basicSchoolsData, res )
       });
 
       // CommonService.successResponse("Basic schools retrieved successfully", schoolsData, res);
