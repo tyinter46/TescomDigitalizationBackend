@@ -7,4 +7,33 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     envVars:
-      - fromGroup: tescom-backend-env
+      - key: PORT
+        value: "8001"
+      - key: MONGO_DB_URI
+        value: mongodb+srv://teewhy:Bookface123@cluster0.woaenol.mongodb.net/?retryWrites=true&w=majority
+      - key: JWT_SEC
+        value: tescompromolistmanagementjwtsecret
+      - key: JWT_RESET_PASS_SEC
+        value: tescompromolistmanagementjwtresetpasswordsec
+      - key: CRYPTO_JS_PASS_SEC
+        value: tescompromolistmanagementcrytopass
+      - key: SESSION_SECRET
+        value: tescompromolistmanagementsessionsecret
+      - key: TOKEN_VALIDATION_DURATION
+        value: "14d"
+      - key: TERMII_API_KEY
+        value: TLQDv6WMRElf25ZLMDb3AxA0mEEbJTQPgAr6bSExLuAimco6GCMhNZGGToGpmN
+      - key: REDIS_HOST
+        value: redis-srv
+      - key: REDIS_PORT
+        value: "6379"
+      - key: REDIS_PASSWORD
+        value: ""
+      - key: CLOUDINARY_NAME
+        value: dhkhxaxca
+      - key: CLOUDINARY_API_KEY
+        value: "888957537846533"
+      - key: CLOUDINARY_SECRET
+        value: 6E6MaBlSoVEemelJXvsOwszI_jI
+      - key: PROD_CLIENT_BASE_URL
+        value: https://oguntescom.com

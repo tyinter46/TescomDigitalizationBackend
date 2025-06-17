@@ -95,9 +95,9 @@ class App {
   }
 }
 // port working with Digital Ocean
-// export const PORT = process.env.PORT || enviroment.getPort();
+export const PORT = process.env.PORT || enviroment.getPort();
 
-export const PORT = process.env.PORT || 8001;
+// export const PORT = process.env.PORT || 8001;
 
 export const ClientBaseUrl =
   process.env.NODE_ENV !== 'development'
