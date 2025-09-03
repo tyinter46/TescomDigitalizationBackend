@@ -11,9 +11,9 @@ import { generateAndUploadPostingLetter } from '../utils/pdfGenerator';
 import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
 import UsersModel from '../modules/users/schema';
-// import { IPostingReport } from '../modules/postingReports/model';
+ import { IPostingReport } from '../modules/postingReports/model';
 // import { ModificationNote } from 'modules/common/model';
-// import { User } from 'aws-sdk/clients/budgets';
+
 dotenv.config();
 
 export class SchoolsController {
@@ -44,9 +44,6 @@ export class SchoolsController {
  // Step 1: Generate cache key
     const cacheKeyRaw = JSON.stringify(req.query);
     const cacheKey = `getAllSchools:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
-
-    
-
     const page = parseInt(pageNumber as string, 10);
     const limit = parseInt(pageSize as string, 10);
 
@@ -66,10 +63,10 @@ export class SchoolsController {
     if (vicePrincipalAcademics)
       orConditions.push({ zone: { $regex: vicePrincipalAcademics, $options: 'i' } });
 
-    if (id) query._id = { $eq: id };
+    if (id) query._id =  { $eq: id };
     if (orConditions.length > 0) query.$or = orConditions;
 
-    const sortQuery = {
+    const sortQuery = { 
       nameOfSchool: sort === 'desc' ? -1 : 1,
     };
 
@@ -672,7 +669,7 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
-      await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
+      const newSchool = await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
 
       this.userService.updateUser(
         { _id: principal },
@@ -691,6 +688,21 @@ export class SchoolsController {
           console.log(pdfDownloadLink);
         }
       );
+     
+    //   this.userService.filterUser({_id: principal}, (err: any, userData: IUser) => {
+    //     if (err) throw new Error(err);
+    //     this.postingReportService.createPostingReport({
+    //         staffDetails: principal,
+    //         sourceSchool: userData?.schoolOfPresentPosting,
+    //         destinationSchool: schoolId,
+    //         dateOfPreviousSchoolPosting: userData?.dateOfPresentSchoolPosting,
+    //         dateOfNewSchoolPosting: Date.now(),
+    //         previousPosition: userData?.position,
+    //         newPosition: position
+    //   })
+    //   console.log(`${principal} was posted from ${userData?.schoolOfPresentPosting} to ${newSchool.nameOfSchool} on ${Date.now()}`)
+    // });
+
     } catch (err) {
       logger.error({ message: err.message, service: 'updatePrincipal SchoolsService' });
       throw err;
@@ -750,7 +762,7 @@ export class SchoolsController {
           schoolOfPresentPosting: schoolId,
           staleOrNew: staleOrNew,
           position: position,
-          dateOfPresentSchoolPosting: Date.now().toString(),
+          dateOfPresentSchoolPosting: Date.now().toLocaleString(),
         },
         async (err: any, userData: IUser) => {
           // if (err) console.log(err);

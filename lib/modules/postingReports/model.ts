@@ -4,13 +4,13 @@ import { ModificationNote } from '../common/model';
 
 export interface IPostingReport {
   _id?: string;
-  staffDetails: IUser | null;
-  sourceSchool: ISchools | null;
-  destinationSchool: ISchools | null;
+  staffDetails: string | null;
+  sourceSchool: string | null;
+  destinationSchool: string | null;
   dateOfPreviousSchoolPosting: Date;
   dateOfNewSchoolPosting: Date;
-  previousPosition: string;
-  newPosition: string;
+  previousPosition: string | null;
+  newPosition: string | null;
 
   modificationNotes?: ModificationNote[];
 }

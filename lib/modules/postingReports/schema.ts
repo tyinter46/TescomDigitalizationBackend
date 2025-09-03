@@ -7,18 +7,16 @@ import { ModificationNote } from '../common/model';
 const PostingReportSchema = new Schema(
   {
     staffDetails: {
-      type: Schema.Types.ObjectId,
-      ref: 'Users',
+      type: String,
       default: null,
     },
     sourceSchool: {
-      type: Schema.Types.ObjectId,
-      ref: 'schools',
+      type: String,
+    
       default: null,
     },
     destinationSchool: {
-      type: Schema.Types.ObjectId,
-      ref: 'schools',
+      type: String,
       default: null,
     },
     dateOfPreviousSchoolPosting: {
@@ -31,13 +29,12 @@ const PostingReportSchema = new Schema(
     },
     previousPosition: {
       type: String,
-      enum: [...Object.values(PositionEnum)],
-      default: PositionEnum.NULL,
+      // enum: [...Object.values(PositionEnum)],
+      default: null,
     },
     newPosition: {
       type: String,
-      enum: [...Object.values(PositionEnum)],
-      default: PositionEnum.NULL,
+      default: null,
     },
 
     ModificationNotes: [ModificationNote],
