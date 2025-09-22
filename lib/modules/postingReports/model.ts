@@ -11,6 +11,7 @@ export interface IPostingReport {
   dateOfNewSchoolPosting: Date;
   previousPosition: string | null;
   newPosition: string | null;
+  staleOrNew:  string | null;
 
   modificationNotes?: ModificationNote[];
 }

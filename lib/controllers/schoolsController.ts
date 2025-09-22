@@ -20,7 +20,7 @@ export class SchoolsController {
   private schoolsService: SchoolsService = new SchoolsService();
 
   private userService: UserService = new UserService();
-  private postingReportService: PostingReportService = new PostingReportService();
+  // private postingReportService: PostingReportService = new PostingReportService();
   public async getAllSchools(req: Request, res: Response) {
     const {
       pageNumber = 1,
@@ -600,7 +600,7 @@ export class SchoolsController {
           // { _id: { $ne: currentSchoolId } }, // Exclude the current school from the results
         ],
       });
-      console.log(existingSchool);
+      // console.log(existingSchool);
       if (existingSchool) {
         // console.log(existingSchool.principal, vicePrincipalAdmin);
         const staffList = existingSchool?.listOfStaff?.filter(
@@ -637,7 +637,7 @@ export class SchoolsController {
         // const updatevicePrincipalAdminWithNoSchoolData: Partial<ISchools> = {};
         if (vicePrincipalAdmin)
           // updatevicePrincipalAdminWithNoSchoolData.vicePrincipalAdmin._id = vicePrincipalAdmin;
-          await this.schoolsService.updateSchool(
+          await this.schoolsService?.updateSchool(
             { _id: currentSchoolId },
             {
               vicePrincipalAdmin,
@@ -762,7 +762,7 @@ export class SchoolsController {
           schoolOfPresentPosting: schoolId,
           staleOrNew: staleOrNew,
           position: position,
-          dateOfPresentSchoolPosting: Date.now().toLocaleString(),
+          dateOfPresentSchoolPosting:  Date().toString(),
         },
         async (err: any, userData: IUser) => {
           // if (err) console.log(err);

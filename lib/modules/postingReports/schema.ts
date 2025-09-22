@@ -36,6 +36,10 @@ const PostingReportSchema = new Schema(
       type: String,
       default: null,
     },
+    staleOrNew: {
+      type: String,
+      default: null,
+    },
 
     ModificationNotes: [ModificationNote],
   },

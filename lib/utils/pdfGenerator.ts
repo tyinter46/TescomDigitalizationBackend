@@ -220,6 +220,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           dateOfNewSchoolPosting:  new Date().toLocaleDateString(),
           previousPosition: user?.position ?? 'Unknown',
           newPosition: user?.position ?? 'Unknown',
+          staleOrNew: user?.staleOrNew ?? 'Unknown',
         });
         // let letterContent: string;
         // const letterData = {

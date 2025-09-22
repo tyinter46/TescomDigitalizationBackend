@@ -13,6 +13,7 @@ class RedisCache {
       port: parseInt(process.env.REDIS_PORT),
     },
     password: process.env.REDIS_PASSWORD,
+    db: 0,
   };
   constructor(ttl: number) {
     (async () => {

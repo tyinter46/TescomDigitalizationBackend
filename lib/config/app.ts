@@ -12,6 +12,7 @@ import { AuthRoutes } from '../routes/authRoutes';
 import { UserRoutes } from '../routes/userRoutes';
 import { UploadRoutes } from '../routes/uploadRoutes';
 import { schoolRoutes } from '../routes/schoolRoutes';
+import { CsvUploadRoute } from '../routes/csvUploadRoute';
 import { PostingsReportRoutes } from '../routes/postingReportRoutes';
 import { session } from './session';
 import { ExistingStaffRoutes } from '../routes/existingStaffRoutes';
@@ -28,6 +29,7 @@ class App {
   //   : process.env.MONGO_DB_URI;
 
   private authRoutes: AuthRoutes = new AuthRoutes();
+  private csvUploadRoute: CsvUploadRoute = new CsvUploadRoute();
   private userRoutes: UserRoutes = new UserRoutes();
   private uploadRoutes: UploadRoutes = new UploadRoutes();
   private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
@@ -47,7 +49,9 @@ class App {
     this.existingStaffRoutes.route(this.app);
     this.schoolRoutes.route(this.app);
     this.postingReportRoutes.route(this.app);
+    this.csvUploadRoute.staffToPostCsvRoutes(this.app);
     this.commonRoutes.route(this.app);
+
   }
   private config(): void {
     this.app.use(helmet.hsts());
