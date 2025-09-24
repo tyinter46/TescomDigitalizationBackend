@@ -5,6 +5,7 @@
   "main": "/dist/server.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json lib/server.ts",
+    "worker": "ts-node lib/workers/userWorker.ts",
     "start": "node ./dist/server.js",
     "build": "tsc -b",
     "lint": "eslint . --exit .ts",
@@ -49,7 +50,6 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pdfkit": "^0.15.0",
-    "punycode": "^2.3.1",
     "redis": "^4.6.6",
     "streamifier": "^0.1.1",
     "winston": "^3.14.2"
