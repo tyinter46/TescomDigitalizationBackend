@@ -87,14 +87,46 @@ class App {
   }
 
   private mongoSetup(): void {
-    mongoose
-      .set('strictQuery', false)
-      .connect(this.mongoUrl)
+    if (!this.mongoUrl || this.mongoUrl.trim().length === 0) {
+      logger.error('MONGO_DB_URI is not set. Aborting startup.');
+      // Fail fast so we do not start serving requests without a DB
+      process.exit(1);
+      return;
+    }
+
+    mongoose.set('strictQuery', false);
+    mongoose.set('bufferCommands', false);
+
+    const connectionOptions = {
+      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 0,
+      heartbeatFrequencyMS: 10000,
+      family: 4,
+    } as any;
+
+    // Connection event listeners for better diagnostics
+    mongoose.connection.on('connected', () => {
+      logger.info('MongoDB connection established');
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      logger.warn('MongoDB connection disconnected');
+    });
+
+    mongoose.connection.on('error', (err) => {
+      logger.error(`MongoDB connection error: ${err.message}`);
+    });
+
+    (mongoose as any)
+      .connect(this.mongoUrl, connectionOptions)
       .then(() => {
         logger.info('Mongo Server Connected Successfully');
       })
-      .catch((err) => {
-        logger.error(err, 'there is an error connecting', err.message);
+      .catch((err: any) => {
+        logger.error(`There is an error connecting: ${err.message}`);
       });
   }
 }

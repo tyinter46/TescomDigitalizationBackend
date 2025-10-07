@@ -5,10 +5,10 @@ import { redisClient } from '../config/ioRedis';
 const connection = redisClient
 export const usersQueue = new Queue('usersQueue', { connection });
 
-(async () => {
-  await usersQueue.add('check-users', {
-    ogNumbers: ['48720', '12345']
-  });
-  console.log('Test job added');
-  process.exit(0);
-})();
+// (async () => {
+//   await usersQueue.add('check-users', {
+//     ogNumbers: ['48720', '12345']
+//   });
+//   console.log('Test job added');
+
+// })();
