@@ -9,7 +9,13 @@ export default class UserService {
     const newUser = new UsersModel(params);
     newUser.save(callback);
   }
-
+  // public async updateUser(query: FilterQuery<IUser>, update: UpdateQuery<IUser>) {
+  //   return await UsersModel.findOneAndUpdate(query, update, { new: true }).populate({
+  //     path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
+  //     strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
+  //   }).lean();
+  // }
+  
   // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
   //   if (selectPassword) {
   //     UsersModel.findOne(query, callback).select('+password').populate({
@@ -23,18 +29,43 @@ export default class UserService {
   //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
   //     }).lean();
   // }
-  public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
-    const queryBuilder = UsersModel.findOne(query, callback).populate({
-      path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
-      strictPopulate: false,
-    });
+
+  public async filterUser(
+    query: FilterQuery<IUser>,
+    callback?: (err: any, user?: IUser | null) => void,
+    selectPassword?: boolean
+  ): Promise<IUser | null> {
+    try {
+      const queryBuilder = UsersModel.findOne(query).populate({
+        path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
+        strictPopulate: false,
+      });
   
-    if (selectPassword) {
-      queryBuilder.select('+password');
+      if (selectPassword) queryBuilder.select('+password');
+  
+      const result = await queryBuilder.lean<IUser>().exec();
+  
+      if (callback) callback(null, result);
+      return result;
+    } catch (err) {
+      if (callback) callback(err);
+      throw err;
     }
-  
-    return queryBuilder.lean(); // Ensure we return a plain object
   }
+  
+  
+  // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
+  //   const queryBuilder = UsersModel.findOne(query, callback).populate({
+  //     path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
+  //     strictPopulate: false,
+  //   });
+  
+  //   if (selectPassword) {
+  //     queryBuilder.select('+password');
+  //   }
+  
+  //   return queryBuilder.lean(); // Ensure we return a plain object
+  // }
   
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
     UsersModel.deleteOne(query, callback);

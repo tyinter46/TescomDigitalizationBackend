@@ -12,6 +12,7 @@ import cryptoJs from 'crypto-js';
 import redisCache from '../config/redisCache';
 import UsersModel from '../modules/users/schema';
  import { IPostingReport } from '../modules/postingReports/model';
+import { error } from 'console';
 // import { ModificationNote } from 'modules/common/model';
 
 dotenv.config();
@@ -118,9 +119,6 @@ export class SchoolsController {
       CommonService.mongoError(err, res);
     }
   }
-
-
-
 
 
 
@@ -468,12 +466,10 @@ export class SchoolsController {
         // Update the user's school and position to null
         this.userService.updateUser(
           { _id: principal },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
-            // console.log(userData);
+          { schoolOfPresentPosting: null, position: null }, (err: any)=>{
+            if (err) return CommonService.failureResponse
           }
-        );
+        )
       } else {
         // const updatePrincipalWithNoSchoolData: Partial<ISchools> = {};
         if (principal) {
@@ -544,9 +540,8 @@ export class SchoolsController {
 
         this.userService.updateUser(
           { _id: existingSchool?.vicePrincipalAcademics },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
+          { schoolOfPresentPosting: null, position: null }, (err)=>{
+            if (err) CommonService.UnprocessableResponse
           }
         );
       } else {
@@ -627,10 +622,7 @@ export class SchoolsController {
 
         this.userService.updateUser(
           { _id: existingSchool?.vicePrincipalAdmin },
-          { schoolOfPresentPosting: null, position: null },
-          (err: any, userData: IUser) => {
-            if (err) throw new Error(err);
-          }
+          { schoolOfPresentPosting: null, position: null }, (err) => {   if (err) CommonService.UnprocessableResponse }
         );
       } else {
         console.log('No existing school found for the provided vice principal admin  ID.');
@@ -669,46 +661,34 @@ export class SchoolsController {
     staleOrNew: string
   ) {
     try {
+      // Update school with principal reference
       const newSchool = await this.schoolsService.updateSchool({ _id: schoolId }, { principal });
-
-      this.userService.updateUser(
+  
+      // Update user with new posting info
+      const updatedUser = await this.userService.updateUser(
         { _id: principal },
-
         {
           schoolOfPreviousPosting: previousSchoolId,
           staleOrNew,
           schoolOfPresentPosting: schoolId,
-          position: position,
-          dateOfPresentSchoolPosting: Date.now().toString(),
-        },
-        async (err: any, userData: IUser) => {
-          // if (err) console.log(err);
-          if (err) throw new Error(err);
-          const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
-          console.log(pdfDownloadLink);
-        }
+          position,
+          dateOfPresentSchoolPosting: new Date().toISOString(),
+        }, (err) => {   if (err) CommonService.UnprocessableResponse }
       );
-     
-    //   this.userService.filterUser({_id: principal}, (err: any, userData: IUser) => {
-    //     if (err) throw new Error(err);
-    //     this.postingReportService.createPostingReport({
-    //         staffDetails: principal,
-    //         sourceSchool: userData?.schoolOfPresentPosting,
-    //         destinationSchool: schoolId,
-    //         dateOfPreviousSchoolPosting: userData?.dateOfPresentSchoolPosting,
-    //         dateOfNewSchoolPosting: Date.now(),
-    //         previousPosition: userData?.position,
-    //         newPosition: position
-    //   })
-    //   console.log(`${principal} was posted from ${userData?.schoolOfPresentPosting} to ${newSchool.nameOfSchool} on ${Date.now()}`)
-    // });
-
-    } catch (err) {
+  
+      // Generate posting letter PDF and upload
+      const pdfDownloadLink = await generateAndUploadPostingLetter(principal);
+      console.log('📄 Principal Posting Letter:', pdfDownloadLink);
+  
+      // Optionally log or record posting report
+      // await this.postingReportService.createPostingReport(...);
+  
+      return pdfDownloadLink;
+    } catch (err: any) {
       logger.error({ message: err.message, service: 'updatePrincipal SchoolsService' });
       throw err;
     }
   }
-
   public async updateVicePrincipalAcademics(
     schoolId: string,
     vicePrincipalAcademics: string,
@@ -718,34 +698,28 @@ export class SchoolsController {
   ) {
     try {
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAcademics });
-      this.userService.updateUser(
+  
+      await this.userService.updateUser(
         { _id: vicePrincipalAcademics },
         {
-          $set: {
-            schoolOfPreviousPosting: previousSchoolId,
-            schoolOfPresentPosting: schoolId,
-            position: position,
-            dateOfPresentSchoolPosting: Date.now().toString(),
-            staleOrNew,
-          },
-        },
-        async (err: any, userData: IUser) => {
-          // if (err) throw new Error(err);
-          if (err) throw new Error(err);
-
-          const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
-          console.log(pdfDownloadLink);
-        }
+          schoolOfPreviousPosting: previousSchoolId,
+          schoolOfPresentPosting: schoolId,
+          position,
+          dateOfPresentSchoolPosting: new Date().toISOString(),
+          staleOrNew,
+        }, (err) => {   if (err) CommonService.UnprocessableResponse }
       );
-    } catch (err) {
-      logger.error({
-        message: err.message,
-        service: 'updateVicePrincipalAcademics SchoolsService',
-      });
+  
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAcademics);
+      console.log('📄 VP Academics Posting Letter:', pdfDownloadLink);
+  
+      return pdfDownloadLink;
+    } catch (err: any) {
+      logger.error({ message: err.message, service: 'updateVicePrincipalAcademics SchoolsService' });
       throw err;
     }
   }
-
+  
   public async updateVicePrincipalAdmin(
     schoolId: string,
     vicePrincipalAdmin: string,
@@ -755,28 +729,28 @@ export class SchoolsController {
   ) {
     try {
       await this.schoolsService.updateSchool({ _id: schoolId }, { vicePrincipalAdmin });
-      this.userService.updateUser(
+  
+      await this.userService.updateUser(
         { _id: vicePrincipalAdmin },
         {
-          $set: { schoolOfPreviousPosting: previousSchoolId },
+          schoolOfPreviousPosting: previousSchoolId,
           schoolOfPresentPosting: schoolId,
-          staleOrNew: staleOrNew,
-          position: position,
-          dateOfPresentSchoolPosting:  Date().toString(),
-        },
-        async (err: any, userData: IUser) => {
-          // if (err) console.log(err);
-          if (err) throw new Error(err);
-          const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
-          console.log(pdfDownloadLink);
-        }
+          position,
+          dateOfPresentSchoolPosting: new Date().toISOString(),
+          staleOrNew,
+        }, (err) => {   if (err) CommonService.UnprocessableResponse }
       );
-    } catch (err) {
+  
+      const pdfDownloadLink = await generateAndUploadPostingLetter(vicePrincipalAdmin);
+      console.log('📄 VP Admin Posting Letter:', pdfDownloadLink);
+  
+      return pdfDownloadLink;
+    } catch (err: any) {
       logger.error({ message: err.message, service: 'updateVicePrincipalAdmin SchoolsService' });
       throw err;
     }
   }
-
+  
   public async deleteSchool(req: Request, res: Response) {
     if (req.params.id) {
       try {

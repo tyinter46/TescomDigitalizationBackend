@@ -1,13 +1,17 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { Worker } from 'bullmq';
 import { redisClient } from '../config/ioRedis';
-import UserService from '../modules/users/service';
-import { IUser } from '../modules/users/model';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-// Ensure the 'schools' model is registered in this worker process
-import '../modules/schools/schema';
 
-dotenv.config();
+
+// Import your modules
+import {SchoolsController} from '../controllers/schoolsController'; // adjust path
+import '../modules/schools/schema';
+import UserService from '../modules/users/service';
+
+
 
 mongoose.set('strictQuery', false);
 mongoose.set('bufferCommands', false);
@@ -18,7 +22,8 @@ if (!mongoUri || mongoUri.trim().length === 0) {
   process.exit(1);
 }
 
-const mongoConnectPromise = (mongoose as any).connect(mongoUri, {
+// connect to mongo
+const mongoConnectPromise = mongoose.connect(mongoUri, {
   serverSelectionTimeoutMS: 10000,
   connectTimeoutMS: 10000,
   socketTimeoutMS: 45000,
@@ -34,44 +39,134 @@ mongoose.connection.on('error', (err) => {
   console.error(`Worker: MongoDB connection error: ${err.message}`);
 });
 
-export const userWorker = new Worker(
-  'usersQueue',
+// ------------------- Worker ----------------------
+export const schoolUpdateWorker = new Worker(
+  'schoolUpdatesQueue',
   async (job) => {
-    // Ensure DB is ready before any model queries
     await mongoConnectPromise;
 
-    // Instantiate after connection to avoid buffering timeouts
+    const schoolsController = new SchoolsController();
     const userService = new UserService();
 
-    const { ogNumbers } = job.data as { ogNumbers: string[] };
-    console.log('Worker received job with OG numbers:', ogNumbers);
+    const { updates } = job.data as {
+      updates: {
+        schoolId: string;
+        previousSchoolId?: string;
+        principal?: string;
+        vicePrincipalAdmin?: string;
+        vicePrincipalAcademics?: string;
+        staleOrNew?: string;
+      }[];
+    };
 
-    if (!Array.isArray(ogNumbers) || ogNumbers.length === 0) {
-      throw new Error('Invalid job data: ogNumbers must be a non-empty array');
+    if (!Array.isArray(updates) || updates.length === 0) {
+      throw new Error('Invalid job data: "updates" must be a non-empty array');
     }
 
-    for (const ogNumber of ogNumbers) {
+    console.log(`Worker received batch with ${updates.length} school updates`);
+
+    const results = [];
+
+    for (const update of updates) {
+      const {
+        schoolId,
+        previousSchoolId,
+        principal,
+        vicePrincipalAdmin,
+        vicePrincipalAcademics,
+        staleOrNew,
+      } = update;
+
+
       try {
-        const query = userService.filterUser({  ogNumber } as any, undefined);
-        const userData = (await (query as any).exec()) as IUser | null;
-        console.log('User Data from Worker:', userData?.staffName?.firstName || 'UNKNOWN');
+        console.log(`Processing school: ${schoolId}`);
 
-        const displayName = userData?.staffName?.firstName ?? 'Unknown';
-        console.log(`Processing user: ${displayName}`);
-      } catch (error) {
-        console.error(`Error processing user with OG number ${ogNumber}:`, error);
+        if (principal) {
+          await schoolsController.updateExistingPrincipal(principal, schoolId, previousSchoolId || '', staleOrNew);
+          const principalPdf = await schoolsController.updatePrincipal(schoolId, principal, 'Principal', previousSchoolId || '', staleOrNew);
+          results.push({ schoolId, principalPdf, status: 'success' });
+        }
+
+        if (vicePrincipalAdmin) {
+          await schoolsController.updateExistingVicePrincipalAdmin(vicePrincipalAdmin, schoolId, previousSchoolId || '', staleOrNew);
+          const vpAdminPdf = await schoolsController.updateVicePrincipalAdmin(schoolId, vicePrincipalAdmin, 'Vice-Principal Admin', previousSchoolId || '', staleOrNew);
+          results.push({ schoolId, vpAdminPdf, status: 'success' });
+        }
+
+        if (vicePrincipalAcademics) {
+          await schoolsController.updateExistingVicePrincipalAcademics(vicePrincipalAcademics, schoolId, previousSchoolId || '', staleOrNew);
+          const vpAcadPdf = await schoolsController.updateVicePrincipalAcademics(schoolId, vicePrincipalAcademics, 'Vice-Principal Academics', previousSchoolId || '', staleOrNew);
+          results.push({ schoolId, vpAcadPdf, status: 'success' });
+        }
+      } catch (error: any) {
+        console.error(`❌ Error processing school ${schoolId}:`, error.message);
+        results.push({ schoolId, status: 'failed', error: error.message });
       }
+
+  //     try {
+  //       console.log(`Processing school: ${schoolId}`);
+
+  //       // Perform each staff update if applicable
+  //       if (principal) {
+  //         await schoolsController.updateExistingPrincipal(
+  //           principal,
+  //           schoolId,
+  //           previousSchoolId || '',
+  //           staleOrNew 
+  //         );
+
+  //  await schoolsController.updatePrincipal(schoolId, principal,'Principal',  previousSchoolId, staleOrNew)
+   
+  //     results.push({ schoolId,  status: 'success' });
+  //       }
+
+  //       if (vicePrincipalAdmin) {
+  //         await schoolsController.updateExistingVicePrincipalAdmin(
+  //           vicePrincipalAdmin,
+  //           schoolId,
+  //           previousSchoolId || '',
+  //           staleOrNew 
+  //         );
+        
+  //   const vicePrincipalAdminPdfUrl =    await schoolsController.updateVicePrincipalAdmin(schoolId, vicePrincipalAdmin,'Vice-Principal Admin',  previousSchoolId, staleOrNew)
+  //   console.log(vicePrincipalAdminPdfUrl)
+  //   results.push({ schoolId,  vicePrincipalAdminPdfUrl, status: 'success' });
+  //       }
+
+  //       if (vicePrincipalAcademics) {
+  //         await schoolsController.updateExistingVicePrincipalAcademics(
+  //           vicePrincipalAcademics,
+  //           schoolId,
+  //           previousSchoolId || '',
+  //           staleOrNew
+  //         );
+  //       }
+  //     await schoolsController.updateVicePrincipalAcademics(schoolId, vicePrincipalAcademics,'Vice-Principal Academics',  previousSchoolId, staleOrNew)
+      
+
+  //       results.push({ schoolId,  status: 'success' });
+  //     } catch (error) {
+  //       console.error(`Error processing school ${schoolId}:`, error);
+  //       results.push({
+
+  //         schoolId,
+  //         status: 'failed',
+  //         error: (error as Error).message || 'Unknown error',
+  //       });
+  //     }
     }
 
-    return { processed: ogNumbers.length };
+    console.log(`Batch completed. Processed ${results.length} schools.`);
+    return results;
   },
   { connection: redisClient, concurrency: 3 }
 );
 
-userWorker.on('completed', (job) => {
-  console.log(`Job ${job.id} completed with result:`, job.returnvalue);
+// Event listeners
+schoolUpdateWorker.on('completed', (job) => {
+  console.log(`✅ Job ${job.id} completed with result:`, job.returnvalue);
 });
 
-userWorker.on('failed', (job, err) => {
-  console.error(`Job ${job?.id} failed:`, err);
+schoolUpdateWorker.on('failed', (job, err) => {
+  console.error(`❌ Job ${job?.id} failed:`, err);
 });
