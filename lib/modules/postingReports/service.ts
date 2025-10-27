@@ -1,6 +1,7 @@
 import PostingReportModel from './schema';
 import { IPostingReport } from './model';
 import { FilterQuery, UpdateQuery } from 'mongoose';
+import { ISchools } from 'modules/schools/model';
 
 export default class PostingReportService {
   public async getPostingReport(query: any, options: any): Promise<any> {
@@ -15,6 +16,7 @@ export default class PostingReportService {
           },
           {
             path: 'destinationSchool',
+            select: 'nameOfSchool',
           },
           {
             path: 'sourceSchool',
@@ -41,10 +43,31 @@ export default class PostingReportService {
 
   public async createPostingReport(params: any): Promise<IPostingReport> {
     try {
-      const postingReport = new PostingReportModel(params);
-      return await postingReport.save();
+     // Step 1: Create and save the document
+const createdReport = await PostingReportModel.create(params);
+
+// Step 2: Fetch it back populated
+const populatedReport = await PostingReportModel.findById(createdReport._id)
+  .populate({
+    path: 'staffDetails',
+    select:
+      'staffName  dateOfRetirement',
+  })
+  .populate({
+    path: 'sourceSchool',
+    select: 'nameOfSchool',
+  }).
+  populate({
+    path: 'destinationSchool',
+    select: 'nameOfSchool',
+  });
+// console.log(populatedReport)
+return populatedReport;
+
     } catch (err) {
+      console.log(err.message)
       throw new Error(`Error creating posting report : ${err.message}`);
+      
     }
   }
   public async updatePostingReport(

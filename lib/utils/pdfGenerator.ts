@@ -8,6 +8,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
 import streamifier from 'streamifier';
+import PostingReportService from '../modules/postingReports/service';
 
 /**
  * Generates a PDF file and returns it as a buffer.
@@ -34,6 +35,8 @@ export const generateAndDownloadPDF = (
     const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
     const arialnarrow_italic = path.join(__dirname, 'arialnarrow_italic.ttf');
 
+
+
     // Pipe the document to the PassThrough stream
     doc.pipe(passThroughStream);
     doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
@@ -41,8 +44,19 @@ export const generateAndDownloadPDF = (
     doc.registerFont('arialnarrow_bold', arialnarrow_bold);
     doc.registerFont('arialnarrow_italic', arialnarrow_italic);
     // Collect chunks of data from the PassThrough stream
-    passThroughStream.on('data', (chunk) => buffers.push(chunk));
-    passThroughStream.on('end', () => resolve(Buffer.concat(buffers)));
+passThroughStream.on('data', (chunk: Buffer) => {
+  buffers.push((chunk));
+});
+   passThroughStream.on('end', () => {
+  const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const buf of buffers) {
+    result.set(buf, offset);
+    offset += buf.length;
+  }
+  resolve(Buffer.from(result));
+});
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
@@ -196,6 +210,18 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
         };
         console.log(letterData);
+        const postingReport = new PostingReportService();
+
+        postingReport.createPostingReport({
+          staffDetails: user?.staffName?.firstName ?? 'Unknown',
+          sourceSchool: user?.schoolOfPreviousPosting?.nameOfSchool ?? 'Unknown',
+          destinationSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+          dateOfPreviousSchoolPosting: user?.dateOfPresentSchoolPosting ?? new Date(),
+          dateOfNewSchoolPosting:  new Date().toLocaleDateString(),
+          previousPosition: user?.position ?? 'Unknown',
+          newPosition: user?.position ?? 'Unknown',
+          staleOrNew: user?.staleOrNew ?? 'Unknown',
+        });
         // let letterContent: string;
         // const letterData = {
         //   name: user.staffName?.firstName ?? 'Unknown ',

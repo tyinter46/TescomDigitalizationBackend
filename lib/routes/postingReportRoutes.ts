@@ -8,8 +8,8 @@ export class PostingsReportRoutes {
 
   // private PDFController = new PDFController();
   public route(app: Application) {
-    app.get('/api/postingReport', AuthMiddleWare.verifyToken, (req: Request, res: Response) => {
-      // this.PDFController.generateAndUploadPostingLetter(req, res);
+    app.get('/api/postingReports',  (req: Request, res: Response) => {
+      this.PostingsReportController.getPostingReport(req, res);
     });
 
     app.get('/api/downloadPdf/:userId', (req: Request, res: Response) => {
