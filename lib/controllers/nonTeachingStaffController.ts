@@ -14,7 +14,7 @@ import UsersModel from '../modules/users/schema';
 dotenv.config();
 
 export class StaffPostingController {
-  private schoolsService: SchoolsService = new SchoolsService();
+  public schoolsService: SchoolsService = new SchoolsService();
 
   private userService: UserService = new UserService();
   private postingReportService: PostingReportService = new PostingReportService();
@@ -101,29 +101,7 @@ export class StaffPostingController {
       );
     }
 
-    // updateData.listOfStaff = currentStaffList
-    //  updatedSchool = await this.schoolsService.updateSchool(query, updateData);
-
-      // if (vicePrincipalAdmin) {
-      //   await this.updateVicePrincipalAdmin(
-      //     updatedSchool._id,
-      //     vicePrincipalAdmin,
-      //     'Vice-Principal',
-      //     previousSchoolId,
-      //     staleOrNew
-      //   );
-      // }
-
-      // if (vicePrincipalAcademics) {
-      //   await this.updateVicePrincipalAcademics(
-      //     updatedSchool._id,
-      //     vicePrincipalAcademics,
-      //     'Vice-Principal',
-      //     previousSchoolId,
-      //     staleOrNew
-      //   );
-      // }
-
+  
       return CommonService.successResponse('School updated successfully', updatedSchool, res);
     } catch (error) {
       return CommonService.mongoError(error.message, res);
@@ -149,7 +127,7 @@ export class StaffPostingController {
       // Check if the school is found
       if (existingSchool ) {
         // console.log(`Existing School: ${existingSchool.nameOfSchool}`);
-        // Remove the principal from the staff list
+        // Remove  from the staff list
         console.log('found')
         const updatedStaffList = existingSchool?.listOfStaff.filter(
           (staffId) => staffId.toString() !== staff.toString()
@@ -211,6 +189,8 @@ export class StaffPostingController {
           // if (err) console.log(err);
           if (err) throw new Error(err);
           const pdfDownloadLink = await generateAndUploadStaffPostingLetter(userData._id);
+          userData.letters.postingLetter = pdfDownloadLink;
+           this.userService.updateUser({ _id: userData._id }, { letters: userData.letters }, ()=>{});
           console.log(pdfDownloadLink);
         }
       );

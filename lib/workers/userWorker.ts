@@ -40,7 +40,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 // ------------------- Worker ----------------------
-export const schoolUpdateWorker = new Worker(
+export const staffPostingWorker = new Worker(
   'schoolUpdatesQueue',
   async (job) => {
     await mongoConnectPromise;
@@ -163,10 +163,10 @@ export const schoolUpdateWorker = new Worker(
 );
 
 // Event listeners
-schoolUpdateWorker.on('completed', (job) => {
+staffPostingWorker.on('completed', (job) => {
   console.log(`✅ Job ${job.id} completed with result:`, job.returnvalue);
 });
 
-schoolUpdateWorker.on('failed', (job, err) => {
+staffPostingWorker.on('failed', (job, err) => {
   console.error(`❌ Job ${job?.id} failed:`, err);
 });

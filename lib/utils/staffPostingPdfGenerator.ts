@@ -25,7 +25,7 @@ export const generateAndDownloadPDF = (
 ): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4' });
-    const buffers: Buffer[] = [];
+    const buffers: Uint8Array[] = [];
 
     // Create a PassThrough stream to capture the PDF output
     const passThroughStream = new PassThrough();
@@ -190,12 +190,9 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
             return ''; // Return an empty string if insufficient parameters
           }
 
-          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
-            letterData.cadre
-          } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category}, ${
-            user?.schoolOfPresentPosting?.location
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your posting to ${user?.schoolOfPresentPosting?.nameOfSchool}, 
           } with effect from ${
-            user?.cadre === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+             '1st January, 2025'
           }.
 
           2. Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.

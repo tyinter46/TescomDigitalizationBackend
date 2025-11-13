@@ -4,6 +4,7 @@ import { redisClient } from '../config/ioRedis';
 
 const connection = redisClient
 export const usersQueue = new Queue('usersQueue', { connection });
+export const staffPostingQueue = new Queue('staffPostingQueue', {connection})
 
 // (async () => {
 //   await usersQueue.add('check-users', {

@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
+import { MongoClient } from 'mongodb';
 import { RESET_PASSWORD } from '../utils/constants';
 import { IUser } from '../modules/users/model';
 import UserService from '../modules/users/service';
@@ -13,6 +14,11 @@ import SMSService from '../modules/sms/service';
 import SchoolService from '../modules/schools/service';
 import { validateAndFormat } from '../utils/ogNumberValidator';
 import { ISchools } from '../modules/schools/model';
+import { esClient } from '../config/elasticsearch';
+import type { estypes } from '@elastic/elasticsearch';
+import importUsers from '../scripts/importUsersToElastic';
+
+
 
 dotenv.config();
 
@@ -521,89 +527,184 @@ class UserController {
 
 
 
-  public getAllUsers = async (req: Request, res: Response) => {
-    const {
-      ogNumber = '',
-      pageNumber = 1,
-      pageSize = 20000,
-      firstName = '',
-      tscFileNumber = '',
-      middleName = '',
-      lastName = '',
-      gradeLevel = '',
-      schoolOfPresentPosting = '',
-      dateOfPresentSchoolPosting = '',
-      dateOfFirstAppointment = '',
-      dateOfRetirement = '',
-      subjectsTaught,
-      sort = 'desc',
-      id = '',
-      isDeleted = false,
-    } = req.query;
+//   public getAllUsers = async (req: Request, res: Response) => {
+//     const {
+//       ogNumber = '',
+//       pageNumber = 1,
+//       pageSize = 20000,
+//       firstName = '',
+//       tscFileNumber = '',
+//       middleName = '',
+//       lastName = '',
+//       gradeLevel = '',
+//       schoolOfPresentPosting = '',
+//       dateOfPresentSchoolPosting = '',
+//       dateOfFirstAppointment = '',
+//       dateOfRetirement = '',
+//       subjectsTaught,
+//       sort = 'desc',
+//       id = '',
+//       isDeleted = false,
+//     } = req.query;
   
-    // Step 1: Generate cache key
-    const cacheKeyRaw = JSON.stringify(req.query);
-    const cacheKey = `getAllUsers:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
+//     // Step 1: Generate cache key
+//     const cacheKeyRaw = JSON.stringify(req.query);
+//     const cacheKey = `getAllUsers:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
   
-    // Step 2: Try to fetch from Redis cache
-    await redisCache.get(cacheKey, async (err, cachedData) => {
-      if (cachedData) {
-        return CommonService.successResponse('Tescom staff (from cache) retrieved successfully', { users: cachedData }, res);
-      }
+//     // Step 2: Try to fetch from Redis cache
+//     await redisCache.get(cacheKey, async (err, cachedData) => {
+//       if (cachedData) {
+//         return CommonService.successResponse('Tescom staff (from cache) retrieved successfully', { users: cachedData }, res);
+//       }
   
-      // Step 3: Build the DB query
-      const orConditions: any[] = [];
   
-      if (ogNumber) orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
-      if (firstName) orConditions.push({ 'staffName.firstName': { $regex: firstName, $options: 'i' } });
-      if (middleName) orConditions.push({ 'staffName.middleName': { $regex: middleName, $options: 'i' } });
-      if (lastName) orConditions.push({ 'staffName.lastName': { $regex: lastName, $options: 'i' } });
-      if (gradeLevel) orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
-      if (tscFileNumber) orConditions.push({ tscFileNumber: { $regex: tscFileNumber, $options: 'i' } });
-      if (schoolOfPresentPosting) orConditions.push({ schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' } });
-      if (subjectsTaught) orConditions.push({ subjectsTaught: { $in: [subjectsTaught] } });
-      if (dateOfPresentSchoolPosting) orConditions.push({ dateOfPresentSchoolPosting });
-      if (dateOfFirstAppointment) orConditions.push({ dateOfFirstAppointment });
-      if (dateOfRetirement) orConditions.push({ dateOfRetirement });
+//       // const orConditions: any[] = [];
   
-      const getAllUsersQuery = orConditions.length > 0 ? { $or: orConditions } : {};
-      if (id) getAllUsersQuery['_id'] = { $eq: id };
+//       // if (ogNumber) orConditions.push({ ogNumber: { $regex: ogNumber, $options: 'i' } });
+//       // if (firstName) orConditions.push({ 'staffName.firstName': { $regex: firstName, $options: 'i' } });
+//       // if (middleName) orConditions.push({ 'staffName.middleName': { $regex: middleName, $options: 'i' } });
+//       // if (lastName) orConditions.push({ 'staffName.lastName': { $regex: lastName, $options: 'i' } });
+//       // if (gradeLevel) orConditions.push({ gradeLevel: { $regex: gradeLevel, $options: 'i' } });
+//       // if (tscFileNumber) orConditions.push({ tscFileNumber: { $regex: tscFileNumber, $options: 'i' } });
+//       // if (schoolOfPresentPosting) orConditions.push({ schoolOfPresentPosting: { $regex: schoolOfPresentPosting, $options: 'i' } });
+//       // if (subjectsTaught) orConditions.push({ subjectsTaught: { $in: [subjectsTaught] } });
+//       // if (dateOfPresentSchoolPosting) orConditions.push({ dateOfPresentSchoolPosting });
+//       // if (dateOfFirstAppointment) orConditions.push({ dateOfFirstAppointment });
+//       // if (dateOfRetirement) orConditions.push({ dateOfRetirement });
   
-      const sortQuery = { createdAt: sort === 'desc' ? -1 : 1 };
+// const must: any [] = []
+
+// if (ogNumber) must.push({match: {ogNumber}});
+// if (firstName) must.push({ match: { 'staffName.firstName': firstName } });
+// if (middleName) must.push({ match: { 'staffName.middleName': middleName } });
+// if (lastName) must.push({ match: { 'staffName.lastName': lastName } });
+// if (gradeLevel) must.push({ match: { gradeLevel } });
+// if (tscFileNumber) must.push({ match: { tscFileNumber } });
+// if (schoolOfPresentPosting) must.push({ match: { schoolOfPresentPosting } });
+// if (subjectsTaught) must.push({ match: { subjectsTaught } });
+// if (dateOfPresentSchoolPosting) must.push({ match: { dateOfPresentSchoolPosting } });
+// if (dateOfFirstAppointment) must.push({ match: { dateOfFirstAppointment } });
+// if (dateOfRetirement) must.push({ match: { dateOfRetirement } });
+// if (id) must.push({ match: { _id: id } });
+// if (isDeleted !== undefined) must.push({ match: { isDeleted } });
+
+
+// const from = (Number(pageNumber) - 1) * Number(pageSize);
+// const size = Number(pageSize);
+//       // const getAllUsersQuery = orConditions.length > 0 ? { $or: orConditions } : {};
+//       // if (id) getAllUsersQuery['_id'] = { $eq: id };
+//   try {
+//     const result = await esClient.search({
+//       index: 'users',
+//       from,
+//       size,
+//       sort : [{createdAt: {order: sort === 'desc' ? 'desc' : 'asc'}}],
+//       query: {
+//         bool: {must},
+//       },
+//     })
   
-      const customLabels = {
-        totalDocs: 'itemsCount',
-        docs: 'users',
-        limit: 'pageSize',
-        nextPage: 'next',
-        prevPage: 'prev',
-        totalPages: 'pageCount',
-      };
+
+//   const users = result.hits.hits.map((hit:any)=> hit._source)
+//   const totalHits =
+//   typeof result.hits.total === 'number'
+//     ? result.hits.total
+//     : result.hits.total?.value || 0;
+
+// await redisCache.setApiData(cacheKey, {users, totalHits}, ()=>{})
+
+//       // const sortQuery = { createdAt: sort === 'desc' ? -1 : 1 };
   
-      const options = {
-        page: parseInt(pageNumber as string, 10),
-        limit: parseInt(pageSize as string, 10),
-        sort: sortQuery,
-        populate: ['schoolOfPresentPosting', 'schoolOfPreviousPosting'],
-        customLabels,
-      };
+//       // const customLabels = {
+//       //   totalDocs: 'itemsCount',
+//       //   docs: 'users',
+//       //   limit: 'pageSize',
+//       //   nextPage: 'next',
+//       //   prevPage: 'prev',
+//       //   totalPages: 'pageCount',
+//       // };
   
-      // Step 4: Fetch from DB and set cache
-      this.userService.getAllUser(getAllUsersQuery, options, async (err: any, users: IUser) => {
-        if (err) {
-          logger.error({ message: err, service: 'userService' });
-          return CommonService.mongoError(err, res);
-        }
+//       // const options = {
+//       //   page: parseInt(pageNumber as string, 10),
+//       //   limit: parseInt(pageSize as string, 10),
+//       //   sort: sortQuery,
+//       //   populate: ['schoolOfPresentPosting', 'schoolOfPreviousPosting'],
+//       //   customLabels,
+//       // };
   
-        // Cache the data
-        await redisCache.setApiData(cacheKey, users, () => {});
+//       // // Step 4: Fetch from DB and set cache
+//       // this.userService.getAllUser(getAllUsersQuery, options, async (err: any, users: IUser) => {
+//       //   if (err) {
+//       //     logger.error({ message: err, service: 'userService' });
+//       //     return CommonService.mongoError(err, res);
+//       //   }
   
-        // Return the response
-        CommonService.successResponse('Tescom staff retrieved successfully', { users }, res);
-      });
+//       //   // Cache the data
+//       //   await redisCache.setApiData(cacheKey, users, () => {});
+  
+//         // Return the response
+//       return   CommonService.successResponse('Tescom staff retrieved successfully', { users }, res);
+//   } catch (error) {
+//     logger.error({ message: error, service: 'ElasticSearch' });
+//     // Fallback to MongoDB if ES fails
+//     logger.warn('Elasticsearch failed. Falling back to MongoDB...');
+//   }
+//       });
+//   };
+public getAllUsers = async (req: Request, res: Response) => {
+
+  try {
+    const { firstName = '', middleName = '', lastName = '', pageSize = 5000 } = req.query;
+
+    const must: estypes.QueryDslQueryContainer[] = [];
+
+    const first = String(firstName ?? '');
+    const middle = String(middleName ?? '');
+    const last = String(lastName ?? '');
+
+    if (first) {
+      must.push({ match: { 'staffName.firstName': { query: first } } });
+    }
+    if (middle) {
+      must.push({ match: { 'staffName.middleName': { query: middle } } });
+    }
+    if (last) {
+      must.push({ match: { 'staffName.lastName': { query: last } } });
+    }
+
+    const query: estypes.QueryDslQueryContainer =
+      must.length > 0 ? { bool: { must } } : { match_all: {} };
+
+    const scrollSearch = esClient.helpers.scrollSearch<Record<string, any>>({
+      index: "users",
+      size: parseInt(pageSize as string, 10),
+      body: { query } as estypes.SearchRequest['body'],
     });
-  };
-  
+
+    const results: any[] = [];
+    for await (const response of scrollSearch) {
+      results.push(...response.documents);
+    }
+
+    CommonService.successResponse(
+      `Tescom staff retrieved successfully from Elasticsearch`,
+      { users: results },
+      res
+    );
+  } catch (error: any) {
+    console.error("ElasticSearch error:", error);
+    // Fallback to MongoDB
+    this.userService.getAllUser({}, { limit: 20000 }, (err: any, users: any) => {
+      if (err) return CommonService.mongoError(err, res);
+      CommonService.successResponse(
+        "Tescom staff retrieved successfully from MongoDB",
+        { users },
+        res
+      );
+    });
+  }
+};
+
   // public getAllUsers(req: Request, res: Response) {
   //   const {
   //     ogNumber = '',

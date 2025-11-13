@@ -12,6 +12,10 @@ export class CsvUploadRoute {
     app.post('/api/uploadCsv', upload.single('file'), (req: Request, res: Response) => {
       this.csvUploadController.uploadCsv(req, res);
     });
+    app.post('/api/uploadStaffPosting', upload.single('file'), (req: Request, res: Response) => {
+      this.csvUploadController.postingCSVUpload(req, res)
+  })
   }
+
 }
     // AuthMiddleWare.verifyToken,          

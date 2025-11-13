@@ -71,6 +71,7 @@ import { Queue } from 'bullmq';
 import UserService from '../modules/users/service';
 import  SchoolsService  from '../modules/schools/service';
 import { callbackPromise } from 'nodemailer/lib/shared';
+import { staffPostingQueue, usersQueue } from '../queues/usersQueue';
 
 const schoolUpdateQueue = new Queue('schoolUpdatesQueue', { connection: redisClient });
 
@@ -147,6 +148,93 @@ export class CsvUploadController {
 
             return CommonService.successResponse(
               'CSV processed and job queued successfully',
+              { totalQueued: updates.length },
+              res
+            );
+          } catch (error) {
+            console.error('❌ CSV Processing Error:', error);
+            return CommonService.UnprocessableResponse('Error processing CSV data', res);
+          }
+        },
+      });
+    } catch (error) {
+      console.error('❌ Upload Error:', error);
+      return CommonService.UnprocessableResponse('Failed to upload CSV', res);
+    }
+  }
+
+  public async postingCSVUpload(req: Request, res: Response) {
+    try {
+      if (!req.file) {
+        return CommonService.UnprocessableResponse('No file uploaded', res);
+      }
+
+      const csvContent = req.file.buffer.toString('utf8');
+
+      Papa.parse(csvContent, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: (header) => header.trim(),
+        complete: async (results) => {
+          try {
+            const rows = results.data as Record<string, string>[];
+            if (!rows.length) {
+              return CommonService.UnprocessableResponse('Invalid or empty CSV file', res);
+            }
+
+            const updates: any[] = [];
+
+            for (const row of rows) {
+              const schoolName = row['School Name']?.trim();
+              const previousSchoolName = row['Previous School']?.trim();
+              const staffName = row['Staff Name']?.trim();
+
+              if (!schoolName || !staffName) {
+                console.warn(`⚠️ Missing required fields in row:`, row);
+                continue;
+              }
+
+              // Find current and previous schools
+              const currentSchool = await this.schoolsService.filterSchool({
+                nameOfSchool: schoolName,
+              });
+
+              const previousSchool = previousSchoolName
+                ? await this.schoolsService.filterSchool({ nameOfSchool: previousSchoolName })
+                : null;
+
+              if (!currentSchool) {
+                console.warn(`⚠️ School not found: ${schoolName}`);
+                continue;
+              }
+
+              // Find staff by name
+              const staff = await this.userService.filterUser({
+                'staffName.firstName': staffName,
+              });
+
+              if (!staff) {
+                console.warn(`⚠️ Staff not found: ${staffName}`);
+                continue;
+              }
+
+              // Build worker job payload
+              updates.push({
+                staffId: staff._id.toString(),
+                schoolId: currentSchool._id.toString(),
+                previousSchoolId: previousSchool?._id?.toString() || '',
+              });
+            }
+
+            if (!updates.length) {
+              return CommonService.UnprocessableResponse('No valid staff-school matches found', res);
+            }
+
+            // Add to BullMQ worker queue
+            await staffPostingQueue.add('bulkStaffPosting', { updates });
+
+            return CommonService.successResponse(
+              'CSV processed and posting job queued successfully',
               { totalQueued: updates.length },
               res
             );
