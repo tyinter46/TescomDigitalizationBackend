@@ -42,11 +42,10 @@ export class schoolRoutes {
       }
     );
 
-    app.get('/api/getSchools/basic', (req: Request, res: Response)=>{
-      this.SchoolsController.getAllBasicSchools(req, res)
-    })
+    app.get('/api/getSchools/basic', (req: Request, res: Response) => {
+      this.SchoolsController.getAllBasicSchools(req, res);
+    });
 
-  
     app.get('/api/schools/users/:id', AuthMiddleWare.verifyToken, (req: Request, res: Response) => {
       this.SchoolsController.getUsersFromAParticularSchool(req, res);
     });

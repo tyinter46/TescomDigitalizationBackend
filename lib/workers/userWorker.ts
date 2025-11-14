@@ -5,13 +5,10 @@
 // import { redisClient } from '../config/ioRedis';
 // import mongoose from 'mongoose';
 
-
 // // Import your modules
 // import {SchoolsController} from '../controllers/schoolsController'; // adjust path
 // import '../modules/schools/schema';
 // import UserService from '../modules/users/service';
-
-
 
 // mongoose.set('strictQuery', false);
 // mongoose.set('bufferCommands', false);
@@ -77,7 +74,6 @@
 //         staleOrNew,
 //       } = update;
 
-
 //       try {
 //         console.log(`Processing school: ${schoolId}`);
 
@@ -112,11 +108,11 @@
 //   //           principal,
 //   //           schoolId,
 //   //           previousSchoolId || '',
-//   //           staleOrNew 
+//   //           staleOrNew
 //   //         );
 
 //   //  await schoolsController.updatePrincipal(schoolId, principal,'Principal',  previousSchoolId, staleOrNew)
-   
+
 //   //     results.push({ schoolId,  status: 'success' });
 //   //       }
 
@@ -125,9 +121,9 @@
 //   //           vicePrincipalAdmin,
 //   //           schoolId,
 //   //           previousSchoolId || '',
-//   //           staleOrNew 
+//   //           staleOrNew
 //   //         );
-        
+
 //   //   const vicePrincipalAdminPdfUrl =    await schoolsController.updateVicePrincipalAdmin(schoolId, vicePrincipalAdmin,'Vice-Principal Admin',  previousSchoolId, staleOrNew)
 //   //   console.log(vicePrincipalAdminPdfUrl)
 //   //   results.push({ schoolId,  vicePrincipalAdminPdfUrl, status: 'success' });
@@ -142,7 +138,6 @@
 //   //         );
 //   //       }
 //   //     await schoolsController.updateVicePrincipalAcademics(schoolId, vicePrincipalAcademics,'Vice-Principal Academics',  previousSchoolId, staleOrNew)
-      
 
 //   //       results.push({ schoolId,  status: 'success' });
 //   //     } catch (error) {

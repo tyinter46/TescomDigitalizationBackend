@@ -34,8 +34,6 @@ export const generateAndDownloadPDF = (
     const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
     const arialnarrow_italic = path.join(__dirname, 'arialnarrow_italic.ttf');
 
-
-
     // Pipe the document to the PassThrough stream
     doc.pipe(passThroughStream);
     doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
@@ -43,19 +41,19 @@ export const generateAndDownloadPDF = (
     doc.registerFont('arialnarrow_bold', arialnarrow_bold);
     doc.registerFont('arialnarrow_italic', arialnarrow_italic);
     // Collect chunks of data from the PassThrough stream
-passThroughStream.on('data', (chunk: Buffer) => {
-  buffers.push((chunk));
-});
-   passThroughStream.on('end', () => {
-  const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
-  const result = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const buf of buffers) {
-    result.set(buf, offset);
-    offset += buf.length;
-  }
-  resolve(Buffer.from(result));
-});
+    passThroughStream.on('data', (chunk: Buffer) => {
+      buffers.push(chunk);
+    });
+    passThroughStream.on('end', () => {
+      const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const buf of buffers) {
+        result.set(buf, offset);
+        offset += buf.length;
+      }
+      resolve(Buffer.from(result));
+    });
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
@@ -216,7 +214,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
           sourceSchool: user?.schoolOfPreviousPosting?.nameOfSchool ?? 'Unknown',
           destinationSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
           dateOfPreviousSchoolPosting: user?.dateOfPresentSchoolPosting ?? new Date(),
-          dateOfNewSchoolPosting:  new Date().toLocaleDateString(),
+          dateOfNewSchoolPosting: new Date().toLocaleDateString(),
           previousPosition: user?.position ?? 'Unknown',
           newPosition: user?.position ?? 'Unknown',
           staleOrNew: user?.staleOrNew ?? 'Unknown',
@@ -272,7 +270,7 @@ export const generateAndUploadPostingLetter = (userId: string): Promise<string |
 
           return '';
         };
-        let letterContent = generateLetterContent(user);
+        const letterContent = generateLetterContent(user);
         // Generate and upload the PDF
         //
         generateAndDownloadPDF(user, fileName, title, letterContent)

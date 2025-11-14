@@ -1,7 +1,7 @@
 import { Application, Request, Response } from 'express';
 import AuthMiddleWare from '../middlewares/auth';
-import {CsvUploadController} from '../controllers/csvUploadController';
-import multer from 'multer';    
+import { CsvUploadController } from '../controllers/csvUploadController';
+import multer from 'multer';
 
 const upload = multer();
 
@@ -13,9 +13,8 @@ export class CsvUploadRoute {
       this.csvUploadController.uploadCsv(req, res);
     });
     app.post('/api/uploadStaffPosting', upload.single('file'), (req: Request, res: Response) => {
-      this.csvUploadController.postingCSVUpload(req, res)
-  })
+      this.csvUploadController.postingCSVUpload(req, res);
+    });
   }
-
 }
-    // AuthMiddleWare.verifyToken,          
+// AuthMiddleWare.verifyToken,

@@ -12,7 +12,7 @@ const PostingReportSchema = new Schema(
     },
     sourceSchool: {
       type: String,
-    
+
       default: null,
     },
     destinationSchool: {

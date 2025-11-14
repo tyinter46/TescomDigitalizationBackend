@@ -51,7 +51,6 @@ class App {
     this.postingReportRoutes.route(this.app);
     this.csvUploadRoute.staffToPostCsvRoutes(this.app);
     this.commonRoutes.route(this.app);
-
   }
   private config(): void {
     this.app.use(helmet.hsts());

@@ -65,8 +65,8 @@ export interface IUser {
   };
   staleOrNew?: string;
   schoolOfPreviousPosting?: ISchools;
-  letters?: {postingLetter: string};
-    position?: PositionEnum;
+  letters?: { postingLetter: string };
+  position?: PositionEnum;
   gender?: GenderEnum;
   phoneNumber?: string;
   confirmPhoneNumber?: string;

@@ -5,7 +5,7 @@ metadata:
   namespace: backend
 spec:
   rules:
-    - host: "oguntescom.com"
+    - host: 'oguntescom.com'
       http:
         paths:
           - path: /api/
@@ -22,7 +22,7 @@ spec:
                 name: tescom-frontend-srv
                 port:
                   number: 3000
-    - host: "oguntescom.gov.ng"  # Add your new domain here
+    - host: 'oguntescom.gov.ng' # Add your new domain here
       http:
         paths:
           - path: /api/

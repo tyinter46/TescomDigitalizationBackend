@@ -62,7 +62,7 @@ export class PostingsReportController {
       limit,
       sort: sortQuery,
       populate: [
-                      {
+        {
           path: 'staffDetails',
           select:
             'staffName gender position qualifications phoneNumber ogNumber tscFileNumber dateOfFirstAppointment dateOfBirth gradeLevel dateOfRetirement',

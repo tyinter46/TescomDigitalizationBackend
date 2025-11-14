@@ -11,9 +11,6 @@
 // import { ISchools } from '../modules/schools/model';
 // import { generateAndUploadStaffPostingLetter } from '../utils/staffPostingPdfGenerator';
 
-
-
-
 // // MongoDB connection setup
 // const mongoUri = process.env.MONGO_DB_URI;
 // if (!mongoUri) {
@@ -238,7 +235,6 @@
 //   console.log('✅ Worker is READY and listening for jobs');
 // });
 
-
 // // Handle worker events
 // worker.on('completed', (job: Job) => {
 //   console.log(`✅ Job ${job.id} completed successfully for staff ${job.data.staffId}`);
@@ -266,8 +262,6 @@
 //     error: err.message,
 //   });
 // });
-
-
 
 // // ADDED: Listen for active event to confirm worker is ready
 // worker.on('active', (job: Job) => {
@@ -301,18 +295,16 @@
 //     process.exit(1);
 //   });
 
-
-
 // CRITICAL: Load environment variables FIRST before any other imports
 import dotenv from 'dotenv';
 import path from 'path';
 
 // Try to load .env from multiple possible locations
 const possiblePaths = [
-  path.resolve(process.cwd(), '.env'),           // Project root
-  path.resolve(__dirname, '../../.env'),         // Two levels up from dist/workers
-  path.resolve(__dirname, '../../../.env'),      // Three levels up
-  path.resolve(__dirname, '.env'),               // Current directory
+  path.resolve(process.cwd(), '.env'), // Project root
+  path.resolve(__dirname, '../../.env'), // Two levels up from dist/workers
+  path.resolve(__dirname, '../../../.env'), // Three levels up
+  path.resolve(__dirname, '.env'), // Current directory
 ];
 
 let envLoaded = false;
@@ -338,23 +330,33 @@ console.log(`   NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);
 // Verify critical environment variables
 console.log('\n🔐 Required Environment Variables:');
 const requiredEnvVars = {
-  'MONGO_DB_URI': process.env.MONGO_DB_URI,
-  'CLOUDINARY_CLOUD_NAME': process.env.CLOUDINARY_NAME,
-  'CLOUDINARY_API_KEY': process.env.CLOUDINARY_API_KEY,
-  'CLOUDINARY_API_SECRET': process.env.CLOUDINARY_SECRET,
+  MONGO_DB_URI: process.env.MONGO_DB_URI,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_SECRET,
 };
 
 let hasAllVars = true;
 for (const [key, value] of Object.entries(requiredEnvVars)) {
   const status = value ? '✅' : '❌ MISSING';
-  const displayValue = key.includes('SECRET') || key.includes('KEY') ? (value ? '***hidden***' : 'not set') : (value || 'not set');
-  console.log(`   ${key}: ${status} ${key.includes('SECRET') || key.includes('KEY') ? '' : displayValue}`);
+  const displayValue =
+    key.includes('SECRET') || key.includes('KEY')
+      ? value
+        ? '***hidden***'
+        : 'not set'
+      : value || 'not set';
+  console.log(
+    `   ${key}: ${status} ${key.includes('SECRET') || key.includes('KEY') ? '' : displayValue}`
+  );
   if (!value) hasAllVars = false;
 }
 
 if (!hasAllVars) {
   console.error('\n❌ Missing required environment variables!');
-  console.error('Available env variables containing "CLOUD":', Object.keys(process.env).filter(k => k.includes('CLOUD')));
+  console.error(
+    'Available env variables containing "CLOUD":',
+    Object.keys(process.env).filter((k) => k.includes('CLOUD'))
+  );
   console.error('\nWorker cannot proceed without all required environment variables.');
   process.exit(1);
 }
@@ -378,13 +380,15 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
-  secure: true
+  secure: true,
 });
 
 console.log('☁️  Cloudinary configured for worker process');
 console.log(`   Cloud Name: ${cloudinary.config().cloud_name}`);
 console.log(`   API Key: ${cloudinary.config().api_key ? '***configured***' : '❌ not set'}`);
-console.log(`   API Secret: ${cloudinary.config().api_secret ? '***configured***' : '❌ not set'}\n`);
+console.log(
+  `   API Secret: ${cloudinary.config().api_secret ? '***configured***' : '❌ not set'}\n`
+);
 
 // MongoDB connection setup
 const mongoUri = process.env.MONGO_DB_URI;
@@ -478,7 +482,12 @@ const worker = new Worker(
 
       console.log(`Worker: Updating staff posting...`);
       // Implement updateExistingStaff logic
-      const updatedSchool = await updateExistingStaff(staffId, currentSchoolId, previousSchoolId || '', cadre);
+      const updatedSchool = await updateExistingStaff(
+        staffId,
+        currentSchoolId,
+        previousSchoolId || '',
+        cadre
+      );
 
       logger.info({
         message: `Successfully processed posting for staff ${staffId} to school ${currentSchoolId}`,
@@ -509,7 +518,12 @@ const worker = new Worker(
   }
 );
 
-async function updateStaff(schoolId: string, staffId: any, cadre: string, previousSchoolId: string): Promise<ISchools> {
+async function updateStaff(
+  schoolId: string,
+  staffId: any,
+  cadre: string,
+  previousSchoolId: string
+): Promise<ISchools> {
   try {
     const result = await schoolService.filterSchool({ _id: schoolId });
     if (!result) {
@@ -542,17 +556,13 @@ async function updateStaff(schoolId: string, staffId: any, cadre: string, previo
     };
 
     const userData = await new Promise<IUser>((resolve, reject) => {
-      userService.updateUser(
-        { _id: staffId },
-        userUpdate,
-        (err: any, updatedUser: IUser) => {
-          if (err) {
-            reject(new Error(`Failed to update user: ${err.message}`));
-          } else {
-            resolve(updatedUser);
-          }
+      userService.updateUser({ _id: staffId }, userUpdate, (err: any, updatedUser: IUser) => {
+        if (err) {
+          reject(new Error(`Failed to update user: ${err.message}`));
+        } else {
+          resolve(updatedUser);
         }
-      );
+      });
     });
 
     // Generate and upload posting letter
@@ -561,9 +571,9 @@ async function updateStaff(schoolId: string, staffId: any, cadre: string, previo
       console.log('📄 Generating posting letter...');
       console.log(`   Staff ID: ${staffId}`);
       console.log(`   Cloudinary configured: ${!!process.env.CLOUDINARY_API_KEY}`);
-      
+
       pdfDownloadLink = await generateAndUploadStaffPostingLetter(userData._id);
-      
+
       if (!pdfDownloadLink) {
         throw new Error('Failed to generate posting letter: No download link returned');
       }
@@ -604,7 +614,12 @@ async function updateStaff(schoolId: string, staffId: any, cadre: string, previo
 }
 
 // Independent updateExistingStaff logic
-async function updateExistingStaff(staffId: string, currentSchoolId: string, previousSchoolId: string, cadre: string): Promise<ISchools> {
+async function updateExistingStaff(
+  staffId: string,
+  currentSchoolId: string,
+  previousSchoolId: string,
+  cadre: string
+): Promise<ISchools> {
   try {
     // Find the school where the staff is currently assigned
     const existingSchool = await schoolService.filterSchool({ listOfStaff: staffId });
@@ -612,7 +627,10 @@ async function updateExistingStaff(staffId: string, currentSchoolId: string, pre
       const updatedStaffList = existingSchool.listOfStaff.filter(
         (staff) => staff.toString() !== staffId.toString()
       );
-      await schoolService.updateSchool({ _id: existingSchool._id }, { listOfStaff: updatedStaffList });
+      await schoolService.updateSchool(
+        { _id: existingSchool._id },
+        { listOfStaff: updatedStaffList }
+      );
       logger.info(`Removed staff ${staffId} from existing school ${existingSchool._id}`);
     }
 
@@ -620,7 +638,10 @@ async function updateExistingStaff(staffId: string, currentSchoolId: string, pre
     const updatedSchool = await updateStaff(currentSchoolId, staffId, cadre, previousSchoolId);
     return updatedSchool;
   } catch (err: any) {
-    logger.error({ message: `Failed to update existing staff: ${err.message}`, service: 'updateExistingStaff' });
+    logger.error({
+      message: `Failed to update existing staff: ${err.message}`,
+      service: 'updateExistingStaff',
+    });
     throw new Error(`Failed to update existing staff: ${err.message}`);
   }
 }
@@ -691,19 +712,19 @@ mongoConnectPromise
     console.log('✅ Worker: MongoDB connected successfully');
     console.log('✅ Worker: Started processing staff posting jobs');
     console.log(`🔍 Worker: Listening to queue "staffPostingQueue" on Redis`);
-    
+
     // CRITICAL: Check if worker is actually connected and ready
     const isRunning = await worker.isRunning();
     console.log(`🔍 Worker running status: ${isRunning}`);
-    
+
     // Check queue connection
     const queueHealth = await redisClient.ping();
     console.log(`✅ Redis connection health: ${queueHealth}`);
-    
+
     // Keep the process alive - this is CRITICAL
     console.log('⏳ Worker process will stay alive and listen for jobs...');
     console.log('   Press Ctrl+C to stop\n');
-    
+
     // Optional: Set up a heartbeat to show worker is alive
     setInterval(() => {
       console.log(`💓 Worker heartbeat - ${new Date().toISOString()}`);

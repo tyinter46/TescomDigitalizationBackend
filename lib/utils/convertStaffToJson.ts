@@ -13,7 +13,7 @@ function convertDataToJSON(data) {
       gradeLevel,
       dateOfFirstAppointment,
       dateOfBirth,
-     
+
       dateOfRetirement,
     ] = matches;
 
@@ -23,7 +23,7 @@ function convertDataToJSON(data) {
       gradeLevel,
       dateOfFirstAppointment,
       dateOfBirth,
-     
+
       dateOfRetirement,
     };
   });

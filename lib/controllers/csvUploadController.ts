@@ -6,7 +6,6 @@
 // import { IUser } from '../modules/users/model';
 // import { usersQueue } from '../queues/usersQueue';
 
-
 // export class CsvUploadController {
 //   private userService: UserService = new UserService();
 //   public async uploadCsv(req: Request, res: Response) {
@@ -29,14 +28,13 @@
 
 //       console.log("Mapped Data:", mappedData[0].ogNumber);
 //       console.log("Mapped Data:", mappedData[1].ogNumber);
-       
+
 //       await usersQueue.add('processUsers', {  ogNumbers: mappedData.map(user => user.ogNumber.toString().trim())});
 //       // this.userService.getAllUser({ogNumber: mappedData.map(user => user.ogNumber.toString())}, {}, (err: any, userData: IUser | null) => {
 //       //   if (err) return CommonService.UnprocessableResponse('Error checking existing user', res);
 //       //   console.log("User Data:", userData);
 //       //  CommonService.successResponse('CSV processed successfully', {userData}, res);
 //       // });
-
 
 //       if (!mappedData.length) {
 //         return CommonService.UnprocessableResponse(
@@ -62,14 +60,13 @@
 // }
 // }
 
-
 import { Request, Response } from 'express';
 import Papa from 'papaparse';
 import CommonService from '../modules/common/service';
 import { redisClient } from '../config/ioRedis';
 import { Queue } from 'bullmq';
 import UserService from '../modules/users/service';
-import  SchoolsService  from '../modules/schools/service';
+import SchoolsService from '../modules/schools/service';
 import { callbackPromise } from 'nodemailer/lib/shared';
 // import { staffPostingQueue} from '../queues/usersQueue';
 
@@ -201,8 +198,9 @@ export class CsvUploadController {
                 nameOfSchool: schoolName,
               });
 
-              const previousSchool = await this.schoolsService.filterSchool({ nameOfSchool: previousSchoolName })
-              
+              const previousSchool = await this.schoolsService.filterSchool({
+                nameOfSchool: previousSchoolName,
+              });
 
               if (!currentSchool) {
                 console.warn(`⚠️ School not found: ${schoolName}`);
@@ -223,8 +221,7 @@ export class CsvUploadController {
               const jobData = {
                 staffId: staff._id.toString(),
                 currentSchoolId: currentSchool._id.toString(),
-                previousSchoolId: previousSchool?._id?.toString() ,
-              
+                previousSchoolId: previousSchool?._id?.toString(),
               };
 
               // Add individual job to queue
@@ -232,11 +229,14 @@ export class CsvUploadController {
               await staffPostingQueue.add('staffPostingQueue', jobData);
               queuedJobs++;
               updates.push(jobData);
-              console.log(jobData)
+              console.log(jobData);
             }
 
             if (!queuedJobs) {
-              return CommonService.UnprocessableResponse('No valid staff-school matches found', res);
+              return CommonService.UnprocessableResponse(
+                'No valid staff-school matches found',
+                res
+              );
             }
 
             console.info(`Queued ${queuedJobs} staff posting jobs`);
@@ -246,7 +246,11 @@ export class CsvUploadController {
               res
             );
           } catch (error: any) {
-            console.error({ message: 'CSV Processing Error', error: error.message, stack: error.stack });
+            console.error({
+              message: 'CSV Processing Error',
+              error: error.message,
+              stack: error.stack,
+            });
             return CommonService.UnprocessableResponse('Error processing CSV data', res);
           }
         },
@@ -347,5 +351,4 @@ export class CsvUploadController {
   //     return CommonService.UnprocessableResponse('Failed to upload CSV', res);
   //   }
   // }
-  
 }

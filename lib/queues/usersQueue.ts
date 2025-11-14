@@ -1,10 +1,9 @@
-import {Queue} from 'bullmq';
+import { Queue } from 'bullmq';
 import { redisClient } from '../config/ioRedis';
 
 const connection = redisClient;
-export const staffPostingQueue = new Queue('staffPostingQueue', {connection});
+export const staffPostingQueue = new Queue('staffPostingQueue', { connection });
 //   export const usersQueue = new Queue('usersQueue', { connection });
-
 
 // (async () => {
 //   await staffPostingQueue.addBulk( [

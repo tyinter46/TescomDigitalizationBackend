@@ -16,24 +16,23 @@ spec:
         app: redis
     spec:
       containers:
-      - name: redis
-        image: redis:6.2.5-alpine
-        ports:
-        - containerPort: 6379
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-        volumeMounts:
-        - name: redis-storage
-          mountPath: /data
+        - name: redis
+          image: redis:6.2.5-alpine
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              memory: '256Mi'
+              cpu: '500m'
+            requests:
+              memory: '128Mi'
+              cpu: '250m'
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
       volumes:
-      - name: redis-storage
-        emptyDir: {}
-
+        - name: redis-storage
+          emptyDir: {}
 
 ---
 apiVersion: v1
@@ -46,7 +45,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 6379
-    targetPort: 6379
+    - port: 6379
+      targetPort: 6379
   selector:
     app: redis
