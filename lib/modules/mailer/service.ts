@@ -29,8 +29,6 @@
 // //     },
 // // });
 
-
-
 // //   const mail = {
 // //     from: 'john.doe@example.org',
 // //     to: 'jane.doe@example.org',

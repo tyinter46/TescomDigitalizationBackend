@@ -156,9 +156,9 @@ const userValidatorSchema = {
     dateOfFirstAppointmentAtTescom: Joi.string().optional(),
     dateOnGradeLevelEight: Joi.string().optional(),
     gradeLevel: Joi.string().required(),
-    nameOfNextOfKin:Joi.string().required(),
-    nextOfKinAddress:Joi.string().required(),
-    nextOfKinPhoneNumber:Joi.string().required(),
+    nameOfNextOfKin: Joi.string().required(),
+    nextOfKinAddress: Joi.string().required(),
+    nextOfKinPhoneNumber: Joi.string().required(),
     email: Joi.string().optional(),
     staffType: Joi.string().required().messages({
       'string.required': 'Pension Number cannot be empty',

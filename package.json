@@ -5,7 +5,7 @@
   "main": "/dist/server.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json lib/server.ts",
-   "worker": "nodemon --watch lib/workers lib/workers/postingWorker.ts",
+    "worker": "nodemon --watch lib/workers lib/workers/postingWorker.ts",
     "start": "node ./dist/server.js",
     "build": "tsc -b",
     "lint": "eslint . --exit .ts",

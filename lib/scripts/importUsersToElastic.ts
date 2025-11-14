@@ -97,12 +97,17 @@ export default async function importUsers() {
       } catch (error: any) {
         if (attempt <= MAX_RETRIES) {
           console.warn(
-            `⚠️ Batch ${batchNumber} failed (attempt ${attempt}/${MAX_RETRIES}): ${error.message}. Retrying in ${RETRY_BACKOFF_MS * attempt}ms...`
+            `⚠️ Batch ${batchNumber} failed (attempt ${attempt}/${MAX_RETRIES}): ${
+              error.message
+            }. Retrying in ${RETRY_BACKOFF_MS * attempt}ms...`
           );
           await new Promise((resolve) => setTimeout(resolve, RETRY_BACKOFF_MS * attempt));
           return indexBatch(batch, attempt + 1);
         }
-        console.error(`❌ Batch ${batchNumber} failed after ${MAX_RETRIES} retries:`, error.message);
+        console.error(
+          `❌ Batch ${batchNumber} failed after ${MAX_RETRIES} retries:`,
+          error.message
+        );
         return 0; // Count as failed
       }
     };

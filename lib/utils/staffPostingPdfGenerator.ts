@@ -10,7 +10,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
 
-
 /**
  * Generates a PDF file and returns it as a buffer.
  * @param {IUser} user - The user object containing relevant data for the PDF.
@@ -192,10 +191,10 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
             return ''; // Return an empty string if insufficient parameters
           }
 
-          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your posting to ${user?.schoolOfPresentPosting?.nameOfSchool}, 
-           with effect from ${
-             '1st January, 2025'
-          }.
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your posting to ${
+            user?.schoolOfPresentPosting?.nameOfSchool
+          }, 
+           with effect from ${'1st January, 2025'}.
 
           2. Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
 
@@ -203,7 +202,7 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
         };
 
         const letterContent = generateLetterContent(user);
-       
+
         // Generate and upload the PDF
         generateAndDownloadPDF(user, fileName, title, letterContent)
           .then((pdfBuffer) => {
@@ -230,7 +229,7 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
           })
           .then((uploadResult) => {
             const downloadLink = uploadResult.secure_url;
-                    if (!downloadLink) {
+            if (!downloadLink) {
               throw new Error('Failed to generate download link.');
             }
 

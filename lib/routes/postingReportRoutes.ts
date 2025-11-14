@@ -8,7 +8,7 @@ export class PostingsReportRoutes {
 
   // private PDFController = new PDFController();
   public route(app: Application) {
-    app.get('/api/postingReports',  (req: Request, res: Response) => {
+    app.get('/api/postingReports', (req: Request, res: Response) => {
       this.PostingsReportController.getPostingReport(req, res);
     });
 

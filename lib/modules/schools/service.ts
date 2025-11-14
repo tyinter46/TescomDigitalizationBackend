@@ -41,13 +41,11 @@ export default class SchoolService {
       query,
       {
         ...options,
-         select: '_id nameOfSchool category location'
-       
+        select: '_id nameOfSchool category location',
       },
       callback
     );
-}
-
+  }
 
   public async filterSchool(query: any): Promise<ISchools | null> {
     try {

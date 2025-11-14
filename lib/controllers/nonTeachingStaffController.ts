@@ -11,8 +11,6 @@ import { IUser } from '../modules/users/model';
 import { generateAndUploadStaffPostingLetter } from '../utils/staffPostingPdfGenerator';
 import UsersModel from '../modules/users/schema';
 
-
-
 export class StaffPostingController {
   public schoolsService: SchoolsService = new SchoolsService();
   private userService: UserService = new UserService();
@@ -20,7 +18,19 @@ export class StaffPostingController {
 
   public async updateStaffSchool(req: Request, res: Response) {
     const { id } = req.params;
-    const { previousSchoolId, nameOfSchool, category, address = null, location, zone, cadre, staff, division, latitude, longitude } = req.body;
+    const {
+      previousSchoolId,
+      nameOfSchool,
+      category,
+      address = null,
+      location,
+      zone,
+      cadre,
+      staff,
+      division,
+      latitude,
+      longitude,
+    } = req.body;
 
     if (!id) {
       return CommonService.insufficientParameters(res);
@@ -47,7 +57,7 @@ export class StaffPostingController {
         return CommonService.failureResponse('School not found', null, res);
       }
 
-      let currentStaffList = currentSchoolToBeUpdated?.listOfStaff || [];
+      const currentStaffList = currentSchoolToBeUpdated?.listOfStaff || [];
       let updatedSchool: any;
 
       if (currentStaffList.length > 0) {
@@ -75,14 +85,22 @@ export class StaffPostingController {
     }
   }
 
-  public async updateExistingStaff(staff: IUser, currentSchoolId: string, previousSchoolId: string, cadre: string) {
+  public async updateExistingStaff(
+    staff: IUser,
+    currentSchoolId: string,
+    previousSchoolId: string,
+    cadre: string
+  ) {
     try {
       const existingSchool = await this.schoolsService.filterSchool({ listOfStaff: staff });
       if (existingSchool) {
         const updatedStaffList = existingSchool?.listOfStaff.filter(
           (staffId) => staffId.toString() !== staff.toString()
         );
-        await this.schoolsService.updateSchool({ _id: existingSchool._id }, { listOfStaff: updatedStaffList });
+        await this.schoolsService.updateSchool(
+          { _id: existingSchool._id },
+          { listOfStaff: updatedStaffList }
+        );
         logger.info(`Removed staff ${staff} from existing school ${existingSchool._id}`);
       }
 
@@ -94,7 +112,12 @@ export class StaffPostingController {
     }
   }
 
-  public async updateStaff(schoolId: string, staff: IUser, cadre: string, previousSchoolId: string) {
+  public async updateStaff(
+    schoolId: string,
+    staff: IUser,
+    cadre: string,
+    previousSchoolId: string
+  ) {
     try {
       const result = await this.schoolsService.filterSchool({ _id: schoolId });
       if (!result) {
@@ -126,17 +149,13 @@ export class StaffPostingController {
       };
 
       const userData = await new Promise<IUser>((resolve, reject) => {
-        this.userService.updateUser(
-          { _id: staff },
-          userUpdate,
-          (err: any, updatedUser: IUser) => {
-            if (err) {
-              reject(new Error(`Failed to update user: ${err.message}`));
-            } else {
-              resolve(updatedUser);
-            }
+        this.userService.updateUser({ _id: staff }, userUpdate, (err: any, updatedUser: IUser) => {
+          if (err) {
+            reject(new Error(`Failed to update user: ${err.message}`));
+          } else {
+            resolve(updatedUser);
           }
-        );
+        });
       });
 
       // Generate and upload posting letter

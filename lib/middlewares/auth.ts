@@ -21,9 +21,9 @@ class AuthMiddleWare {
           user.authLevel === UserLevelEnum.ZONALSECREATARY ||
           user.authLevel === UserLevelEnum.PRINCIPAL,
       },
-      process.env.JWT_SEC,
+      process.env.JWT_SEC
     );
-    console.log(accessToken)
+    console.log(accessToken);
     return accessToken;
   }
 

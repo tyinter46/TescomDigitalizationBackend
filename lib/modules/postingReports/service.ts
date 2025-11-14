@@ -19,8 +19,8 @@ export default class PostingReportService {
             select: 'nameOfSchool',
           },
           {
-            path: 'sourceSchool', 
-          select: 'nameOfSchool',
+            path: 'sourceSchool',
+            select: 'nameOfSchool',
           },
         ],
       });
@@ -43,31 +43,28 @@ export default class PostingReportService {
 
   public async createPostingReport(params: any): Promise<IPostingReport> {
     try {
-     // Step 1: Create and save the document
-const createdReport = await PostingReportModel.create(params);
+      // Step 1: Create and save the document
+      const createdReport = await PostingReportModel.create(params);
 
-// Step 2: Fetch it back populated
-const populatedReport = await PostingReportModel.findById(createdReport._id)
-  .populate({
-    path: 'staffDetails',
-    select:
-      'staffName  dateOfRetirement',
-  })
-  .populate({
-    path: 'sourceSchool',
-    select: 'nameOfSchool',
-  }).
-  populate({
-    path: 'destinationSchool',
-    select: 'nameOfSchool',
-  });
-// console.log(populatedReport)
-return populatedReport;
-
+      // Step 2: Fetch it back populated
+      const populatedReport = await PostingReportModel.findById(createdReport._id)
+        .populate({
+          path: 'staffDetails',
+          select: 'staffName  dateOfRetirement',
+        })
+        .populate({
+          path: 'sourceSchool',
+          select: 'nameOfSchool',
+        })
+        .populate({
+          path: 'destinationSchool',
+          select: 'nameOfSchool',
+        });
+      // console.log(populatedReport)
+      return populatedReport;
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
       throw new Error(`Error creating posting report : ${err.message}`);
-      
     }
   }
   public async updatePostingReport(

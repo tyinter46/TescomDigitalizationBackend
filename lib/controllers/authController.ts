@@ -73,7 +73,7 @@ class AuthController {
 
           if (!existingStaff?.ogNum) {
             //  throw new Error(err.message);
-               return CommonService.notFoundResponse('An error occured!', res);
+            return CommonService.notFoundResponse('An error occured!', res);
           }
 
           this.userService.filterUser(
@@ -380,19 +380,19 @@ class AuthController {
             res
           );
         }
-  
+
         req.logIn(user, function (err) {
           if (err) {
             return next(err);
           }
-  
+
           const accessToken = AuthMiddleWare.createToken(user, school);
-  
+
           // Directly access the populated profilePhoto field
           const profilePhoto = user.profilePhoto ? user.profilePhoto.imageUrl : '';
           const { password, ...rest } = user; // Exclude password
           const { ...schoolRest } = school;
-  
+
           // Send the cleaned user object and token
           return CommonService.successResponse(
             'Successful',
@@ -403,13 +403,15 @@ class AuthController {
       }
     )(req, res, next);
   }
-    public logoutUser(req: Request, res: Response) {
+  public logoutUser(req: Request, res: Response) {
     req.headers.authorization = null;
     this.userService.filterUser({ _id: req?.user._id }, (err: any, userData: any) => {
       if (userData) {
         userData.lastVisited = new Date();
 
-        req.logOut(() => {});
+        req.logOut(() => {
+           // intentionally empty
+        });
         //   req.session.destroy((err) => {
         // res.clearCookie("tsc-cookie-session")
         // });
@@ -487,46 +489,45 @@ class AuthController {
   //     }
   //   );
 
-    // this.userService.filterUser(
-    //   {
-    //     resetPasswordToken: token,
-    //     resetPasswordExpires: {
-    //       $gte: Date.now(),
-    //     },
-    //   },
-    //   async (err: any, userData: any) => {
-    //     if (err || !userData) {
-    //       return CommonService.failureResponse('Token is invalid or has expired. ', err, res);
-    //     }
-    //     const hashedPassword = cryptoJs.AES.encrypt(
-    //       password,
-    //       process.env.CRYPTO_JS_PASS_SEC
-    //     ).toString();
-    //     userData.password = hashedPassword;
-    //     userData.resetPasswordToken = null;
-    //     userData.resetPasswordExpires = null;
-    //     const updateData: IUser = {
-    //       password: userData.password,
-    //       resetPasswordToken: userData.resetPasswordToken,
-    //       resetPasswordExpires: userData.resetPasswordExpires,
-    //     };
-    //     this.userService.updateUser(userData._id, updateData, (err: any) => {
-    //       if (err) {
-    //         return CommonService.mongoError(err, res);
-    //       } else {
-    //         return CommonService.successResponse(
-    //           'Password reset successful',
-    //           {
-    //             id: userData._id,
-    //             email: userData.email,
-    //           },
-    //           res
-    //         );
-    //       }
-    //     });
-    //   }
-    // );
-  
+  // this.userService.filterUser(
+  //   {
+  //     resetPasswordToken: token,
+  //     resetPasswordExpires: {
+  //       $gte: Date.now(),
+  //     },
+  //   },
+  //   async (err: any, userData: any) => {
+  //     if (err || !userData) {
+  //       return CommonService.failureResponse('Token is invalid or has expired. ', err, res);
+  //     }
+  //     const hashedPassword = cryptoJs.AES.encrypt(
+  //       password,
+  //       process.env.CRYPTO_JS_PASS_SEC
+  //     ).toString();
+  //     userData.password = hashedPassword;
+  //     userData.resetPasswordToken = null;
+  //     userData.resetPasswordExpires = null;
+  //     const updateData: IUser = {
+  //       password: userData.password,
+  //       resetPasswordToken: userData.resetPasswordToken,
+  //       resetPasswordExpires: userData.resetPasswordExpires,
+  //     };
+  //     this.userService.updateUser(userData._id, updateData, (err: any) => {
+  //       if (err) {
+  //         return CommonService.mongoError(err, res);
+  //       } else {
+  //         return CommonService.successResponse(
+  //           'Password reset successful',
+  //           {
+  //             id: userData._id,
+  //             email: userData.email,
+  //           },
+  //           res
+  //         );
+  //       }
+  //     });
+  //   }
+  // );
 }
 
 export default AuthController;

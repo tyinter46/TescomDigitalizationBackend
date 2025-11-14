@@ -2,8 +2,6 @@ import { IUser } from './model';
 import UsersModel from './schema';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 
-
-
 export default class UserService {
   public createUser(params: IUser, callback: any) {
     const newUser = new UsersModel(params);
@@ -15,7 +13,7 @@ export default class UserService {
   //     strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
   //   }).lean();
   // }
-  
+
   // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
   //   if (selectPassword) {
   //     UsersModel.findOne(query, callback).select('+password').populate({
@@ -23,7 +21,7 @@ export default class UserService {
   //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
   //     });
   //   }
-    
+
   //   else UsersModel.findOne(query, callback).populate({
   //       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
   //       strictPopulate: false, // Disable strictPopulate to avoid the StrictPopulateError
@@ -40,38 +38,35 @@ export default class UserService {
         path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
         strictPopulate: false,
       });
-  
+
       if (selectPassword) queryBuilder.select('+password');
-  
+
       const result = await queryBuilder.lean<IUser>().exec();
-  
+
       if (callback) callback(null, result);
       return result;
     } catch (err) {
       if (callback) callback(err);
-      throw err;      
+      throw err;
     }
   }
-  
-  
+
   // public filterUser(query: FilterQuery<IUser>, callback: any, selectPassword?: boolean) {
   //   const queryBuilder = UsersModel.findOne(query, callback).populate({
   //     path: 'schoolOfPresentPosting schoolOfPreviousPosting profilePhoto',
   //     strictPopulate: false,
   //   });
-  
+
   //   if (selectPassword) {
   //     queryBuilder.select('+password');
   //   }
-  
+
   //   return queryBuilder.lean(); // Ensure we return a plain object
   // }
-  
+
   public deleteUser(query: FilterQuery<IUser>, callback: any) {
     UsersModel.deleteOne(query, callback);
   }
-
-
 
   public updateUser(query: FilterQuery<IUser>, updateQuery: UpdateQuery<IUser>, callback: any) {
     UsersModel.findOneAndUpdate(
@@ -89,23 +84,22 @@ export default class UserService {
       query,
       {
         ...options,
-         select: '_id staffName'
-       
+        select: '_id staffName',
       },
       callback
     );
-}
+  }
 
-public getUsersWithUpdatedProfiles (query: any, options: any, callback: any){
-  UsersModel.paginate(query,
-    {
-      ...options,
-       select: '_id staffName'
-     
-    },
-    callback
-  )
-}
+  public getUsersWithUpdatedProfiles(query: any, options: any, callback: any) {
+    UsersModel.paginate(
+      query,
+      {
+        ...options,
+        select: '_id staffName',
+      },
+      callback
+    );
+  }
   public getAllUser(query: any, options: any, callback: any) {
     UsersModel.paginate(
       query,
@@ -131,11 +125,9 @@ public getUsersWithUpdatedProfiles (query: any, options: any, callback: any){
   }
 
   public async updateUsers(query: object, update: object) {
-    const result = await  UsersModel.updateMany(query, update).populate({
+    const result = await UsersModel.updateMany(query, update).populate({
       path: 'schoolOfPresentPosting schoolOfPreviousPosting', // You can combine the two paths here
       strictPopulate: false,
     });
-
-   
   }
 }

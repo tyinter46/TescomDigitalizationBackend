@@ -214,7 +214,7 @@ import { IUser } from '../modules/users/model';
 export class UploadController {
   private cloudConf = cloudinaryConfig;
   private uploadService: UploadService = new UploadService();
-  private userService: UserService = new UserService()
+  private userService: UserService = new UserService();
 
   // Upload PDF File
   public uploadPDF(req: any, res: Response, result: any) {
@@ -300,9 +300,6 @@ export class UploadController {
     });
   }
 
-
-
-  
   public getImage(req: Request, res: Response) {
     const { id } = req.params;
     if (!id) return CommonService.insufficientParameters(res);
@@ -339,24 +336,27 @@ export class UploadController {
         }
         const userFilter = { _id: req.params.id };
 
-        this.userService.updateUser(userFilter, {profilePhoto: imageParams.imageUrl}, (err: any, userData: IUser)=>{
-          if (err) {
-            logger.error({ message: err, service: 'UserService' });
-            CommonService.mongoError(err, res);
-          } else if (userData) {
-            console.log('updated profile photo field')
-            return CommonService.successResponse(
-              'Image Uploaded Successfully!',
-              {
-                imageId: uploadedImage?._id,
-                publicId: uploadedImage?.publicId,
-                imageUrl: uploadedImage?.imageUrl,
-              },
-              res
-            );
+        this.userService.updateUser(
+          userFilter,
+          { profilePhoto: imageParams.imageUrl },
+          (err: any, userData: IUser) => {
+            if (err) {
+              logger.error({ message: err, service: 'UserService' });
+              CommonService.mongoError(err, res);
+            } else if (userData) {
+              console.log('updated profile photo field');
+              return CommonService.successResponse(
+                'Image Uploaded Successfully!',
+                {
+                  imageId: uploadedImage?._id,
+                  publicId: uploadedImage?.publicId,
+                  imageUrl: uploadedImage?.imageUrl,
+                },
+                res
+              );
+            }
           }
-        } )
-       
+        );
       });
     } else {
       CommonService.insufficientParameters(res);
