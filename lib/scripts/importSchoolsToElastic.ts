@@ -1,7 +1,7 @@
 import {MongoClient} from 'mongodb'
 import {esClient} from '../config/elasticsearch'
 import { mongo } from 'mongoose';
-
+  
 const BATCH_SIZE = parseInt(process.env.SCHOOL_BATCH_SIZE || '50', 10)
 const concurrency = parseInt(process.env.CONCURRENCY || '2', 10)
 const MAX_RETRIES = 3;

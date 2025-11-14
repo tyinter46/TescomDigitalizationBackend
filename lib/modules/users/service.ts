@@ -49,7 +49,7 @@ export default class UserService {
       return result;
     } catch (err) {
       if (callback) callback(err);
-      throw err;
+      throw err;      
     }
   }
   

@@ -7,7 +7,6 @@ import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
-import streamifier from 'streamifier';
 import PostingReportService from '../modules/postingReports/service';
 
 /**

@@ -19,8 +19,8 @@ export default class PostingReportService {
             select: 'nameOfSchool',
           },
           {
-            path: 'sourceSchool',
-            select: 'nameOfSchool',
+            path: 'sourceSchool', 
+          select: 'nameOfSchool',
           },
         ],
       });

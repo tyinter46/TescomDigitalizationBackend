@@ -66,7 +66,7 @@ export interface IUser {
   staleOrNew?: string;
   schoolOfPreviousPosting?: ISchools;
   letters?: {postingLetter: string};
-  position?: PositionEnum;
+    position?: PositionEnum;
   gender?: GenderEnum;
   phoneNumber?: string;
   confirmPhoneNumber?: string;

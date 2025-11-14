@@ -5,6 +5,6 @@ import importUsers from './scripts/importUsersToElastic';
 
 
 http.createServer(app).listen(PORT, () => {
-  importUsers ()
+   importUsers ()
   logger.info(`Express server listening on port ${PORT} `);
 });

@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import PDFDocument from 'pdfkit';
 import { PassThrough } from 'stream';
 import path from 'path';
@@ -7,7 +9,7 @@ import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
-import streamifier from 'streamifier';
+
 
 /**
  * Generates a PDF file and returns it as a buffer.
@@ -191,7 +193,7 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
           }
 
           return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your posting to ${user?.schoolOfPresentPosting?.nameOfSchool}, 
-          } with effect from ${
+           with effect from ${
              '1st January, 2025'
           }.
 
