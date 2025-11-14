@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-import { Request, response, Response } from 'express';
+dotenv.config();
+import { Request, Response } from 'express';
 import CommonService from '../modules/common/service';
 import SchoolsService from '../modules/schools/service';
 import PostingReportService from '../modules/postingReports/service';
@@ -11,32 +12,15 @@ import { generateAndUploadStaffPostingLetter } from '../utils/staffPostingPdfGen
 import UsersModel from '../modules/users/schema';
 
 
-dotenv.config();
 
 export class StaffPostingController {
-  private schoolsService: SchoolsService = new SchoolsService();
-
+  public schoolsService: SchoolsService = new SchoolsService();
   private userService: UserService = new UserService();
   private postingReportService: PostingReportService = new PostingReportService();
- 
 
-  //UPDATE SCHOOL ######################### UPDATE SCHOOL
   public async updateStaffSchool(req: Request, res: Response) {
     const { id } = req.params;
-    const {
-      previousSchoolId,
-      nameOfSchool,
-      category,
-      address = null,
-      location,
-      zone,
-      cadre, 
-      staff,
-      division,
-      latitude,
-      longitude,
-    
-    } = req.body;
+    const { previousSchoolId, nameOfSchool, category, address = null, location, zone, cadre, staff, division, latitude, longitude } = req.body;
 
     if (!id) {
       return CommonService.insufficientParameters(res);
@@ -51,7 +35,6 @@ export class StaffPostingController {
     if (division) updateData.division = division;
     if (latitude) updateData.latitude = latitude;
     if (longitude) updateData.longitude = longitude;
-    
 
     if (Object.keys(updateData).length === 0) {
       return CommonService.insufficientParameters(res);
@@ -65,161 +48,133 @@ export class StaffPostingController {
       }
 
       let currentStaffList = currentSchoolToBeUpdated?.listOfStaff || [];
-      let updatedSchool : any
-     if (currentStaffList.length > 0){
+      let updatedSchool: any;
 
-      // Ensure uniqueness of the staff list
-      const makeStaffListUnique = (staffList) => {
-        const seen = new Set();
-        return staffList.filter((staff) => {
-          const id = staff.toString();
-          return id && !seen.has(id) && seen.add(id);
-        });
-      };
-      
-
-       updateData.listOfStaff = makeStaffListUnique(currentStaffList)
-       await this.schoolsService.updateSchool(query, updateData);
-    
-      if (staff) {
-      updatedSchool =  await this.updateExistingStaff(
-          staff,
-          id,
-          previousSchoolId,
-          cadre,      
-           
-        );
+      if (currentStaffList.length > 0) {
+        const makeStaffListUnique = (staffList: any[]) => {
+          const seen = new Set();
+          return staffList.filter((staff) => {
+            const id = staff.toString();
+            return id && !seen.has(id) && seen.add(id);
+          });
+        };
+        updateData.listOfStaff = makeStaffListUnique(currentStaffList);
+        await this.schoolsService.updateSchool(query, updateData);
+        if (staff) {
+          updatedSchool = await this.updateExistingStaff(staff, id, previousSchoolId, cadre);
+        }
       }
-    }
-    if (staff) {
-      updatedSchool =  await this.updateExistingStaff(
-        staff,
-         id,
-        previousSchoolId,
-        cadre,      
-         
-      );
-    }
 
-    // updateData.listOfStaff = currentStaffList
-    //  updatedSchool = await this.schoolsService.updateSchool(query, updateData);
-
-      // if (vicePrincipalAdmin) {
-      //   await this.updateVicePrincipalAdmin(
-      //     updatedSchool._id,
-      //     vicePrincipalAdmin,
-      //     'Vice-Principal',
-      //     previousSchoolId,
-      //     staleOrNew
-      //   );
-      // }
-
-      // if (vicePrincipalAcademics) {
-      //   await this.updateVicePrincipalAcademics(
-      //     updatedSchool._id,
-      //     vicePrincipalAcademics,
-      //     'Vice-Principal',
-      //     previousSchoolId,
-      //     staleOrNew
-      //   );
-      // }
+      if (staff) {
+        updatedSchool = await this.updateExistingStaff(staff, id, previousSchoolId, cadre);
+      }
 
       return CommonService.successResponse('School updated successfully', updatedSchool, res);
-    } catch (error) {
+    } catch (error: any) {
       return CommonService.mongoError(error.message, res);
     }
   }
 
-  public async updateExistingStaff(
-    staff: IUser,
-    currentSchoolId: string,
-    previousSchoolId: string,
-    cadre: string
-   
-  ) {
-    // console.log(principal);
+  public async updateExistingStaff(staff: IUser, currentSchoolId: string, previousSchoolId: string, cadre: string) {
     try {
-      // Find the school where the staff is currently being assigned
-      const existingSchool = await this.schoolsService.filterSchool(
-       
-           { listOfStaff: staff} 
-           
-      );
-
-      // Check if the school is found
-      if (existingSchool ) {
-        // console.log(`Existing School: ${existingSchool.nameOfSchool}`);
-        // Remove the principal from the staff list
-        console.log('found')
+      const existingSchool = await this.schoolsService.filterSchool({ listOfStaff: staff });
+      if (existingSchool) {
         const updatedStaffList = existingSchool?.listOfStaff.filter(
           (staffId) => staffId.toString() !== staff.toString()
-         
-        );    
-        await this.schoolsService.updateSchool({_id: existingSchool}, {listOfStaff: updatedStaffList})
-           console.log('removed from existing school');
-           this.updateStaff(currentSchoolId, staff, cadre, previousSchoolId)
-        } 
-          this.updateStaff(currentSchoolId, staff, cadre, previousSchoolId)
-      
-      
-    } catch (err) {
+        );
+        await this.schoolsService.updateSchool({ _id: existingSchool._id }, { listOfStaff: updatedStaffList });
+        logger.info(`Removed staff ${staff} from existing school ${existingSchool._id}`);
+      }
+
+      const updatedSchool = await this.updateStaff(currentSchoolId, staff, cadre, previousSchoolId);
+      return updatedSchool;
+    } catch (err: any) {
       logger.error({ message: err.message, service: 'updateExistingStaff SchoolsService' });
-      throw new Error('existing school is the same with current school');
+      throw new Error(`Failed to update existing staff: ${err.message}`);
     }
   }
 
-  public async updateStaff(
-    schoolId: string,  
-    staff: IUser,
-    cadre: string,
-    previousSchoolId: string,
-   
-  ) {
+  public async updateStaff(schoolId: string, staff: IUser, cadre: string, previousSchoolId: string) {
     try {
-     const result =  await this.schoolsService.filterSchool({ _id: schoolId }) 
-    //  console.log(result)
-    //  let newListOfStaff =   result.listOfStaff.push(staff)
-     // Ensure uniqueness of the staff list
-     const makeStaffListUnique = (staffList) => {
-      const seen = new Set();
-      return staffList.filter((staff : string) => {
-        const id = staff.toString();
-        return id && !seen.has(id) && seen.add(id);
+      const result = await this.schoolsService.filterSchool({ _id: schoolId });
+      if (!result) {
+        throw new Error(`School ${schoolId} not found`);
+      }
+
+      const makeStaffListUnique = (staffList: any[]) => {
+        const seen = new Set();
+        return staffList.filter((staff: string) => {
+          const id = staff.toString();
+          return id && !seen.has(id) && seen.add(id);
+        });
+      };
+
+      if (!result.listOfStaff.includes(staff)) {
+        result.listOfStaff.push(staff);
+      }
+
+      const uniqueStaffList = makeStaffListUnique(result.listOfStaff);
+      await this.schoolsService.updateSchool({ _id: schoolId }, { listOfStaff: uniqueStaffList });
+      logger.info(`Updated school ${schoolId} with staff ${staff}`);
+
+      // Update user record and generate letter
+      const userUpdate = {
+        schoolOfPreviousPosting: previousSchoolId || null,
+        schoolOfPresentPosting: schoolId,
+        cadre: cadre,
+        dateOfPresentSchoolPosting: new Date().toISOString(),
+      };
+
+      const userData = await new Promise<IUser>((resolve, reject) => {
+        this.userService.updateUser(
+          { _id: staff },
+          userUpdate,
+          (err: any, updatedUser: IUser) => {
+            if (err) {
+              reject(new Error(`Failed to update user: ${err.message}`));
+            } else {
+              resolve(updatedUser);
+            }
+          }
+        );
       });
-    };
 
-
-    if (!result.listOfStaff.includes(staff)){
-    
-   result.listOfStaff.push(staff)
-    }
-   makeStaffListUnique(result.listOfStaff)
-     console.log(result.listOfStaff)
-     await this.schoolsService.updateSchool({_id:schoolId}, {listOfStaff:  result.listOfStaff} )
-      
-
-      this.userService.updateUser(
-        { _id: staff },
-
-        {
-          schoolOfPreviousPosting: previousSchoolId ?? null,
-          schoolOfPresentPosting: schoolId ,
-          cadre: cadre,
-          dateOfPresentSchoolPosting: Date.now().toString(),
-        },
-        async (err: any, userData: IUser) => {
-          // if (err) console.log(err);
-          if (err) throw new Error(err);
-          const pdfDownloadLink = await generateAndUploadStaffPostingLetter(userData._id);
-          console.log(pdfDownloadLink);
+      // Generate and upload posting letter
+      let pdfDownloadLink: string | null = null;
+      try {
+        pdfDownloadLink = await generateAndUploadStaffPostingLetter(userData._id);
+        if (!pdfDownloadLink) {
+          throw new Error('Failed to generate posting letter: No download link returned');
         }
-      );
-    
-    } catch (err) {
+        logger.info(`Generated posting letter for staff ${staff}: ${pdfDownloadLink}`);
+      } catch (letterError: any) {
+        logger.error({
+          message: `Failed to generate posting letter for staff ${staff}: ${letterError.message}`,
+          service: 'generateAndUploadStaffPostingLetter',
+        });
+        throw letterError; // Re-throw to ensure the job fails
+      }
+
+      // Update user with the posting letter link
+      await new Promise<void>((resolve, reject) => {
+        this.userService.updateUser(
+          { _id: userData._id },
+          { letters: { ...userData.letters, postingLetter: pdfDownloadLink } },
+          (err: any) => {
+            if (err) {
+              reject(new Error(`Failed to update user with letter: ${err.message}`));
+            } else {
+              logger.info(`Updated user ${userData._id} with posting letter: ${pdfDownloadLink}`);
+              resolve();
+            }
+          }
+        );
+      });
+
+      return result; // Return the updated school
+    } catch (err: any) {
       logger.error({ message: err.message, service: 'updateStaff SchoolsService' });
       throw err;
     }
   }
-
-
 }

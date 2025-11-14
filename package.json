@@ -5,7 +5,7 @@
   "main": "/dist/server.js",
   "scripts": {
     "dev": "nodemon --config nodemon.json lib/server.ts",
-    "worker": "ts-node lib/workers/userWorker.ts",
+   "worker": "nodemon --watch lib/workers lib/workers/postingWorker.ts",
     "start": "node ./dist/server.js",
     "build": "tsc -b",
     "lint": "eslint . --exit .ts",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/tyinter46/TescomDigitalizationBackend#readme",
   "dependencies": {
+    "@elastic/elasticsearch": "^9.2.0",
     "@types/json2csv": "^5.0.7",
     "@types/papaparse": "^5.3.16",
     "@types/pdfkit": "^0.13.4",

@@ -2,18 +2,19 @@ import expressSession from 'express-session';
 import { createClient } from 'redis';
 import dotenv from 'dotenv';
 import RedisStore from 'connect-redis';
+import { redisClient } from './ioRedis';
 
 dotenv.config();
 
-const redisClient = createClient({
-  socket: {
-    host: process.env.REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT),
-  },
-  password: process.env.REDIS_PASSWORD,
-});
+// const redisClient = createClient({
+//   socket: {
+//     host: process.env.REDIS_HOST,
+//     port: parseInt(process.env.REDIS_PORT),
+//   },
+//   password: process.env.REDIS_PASSWORD,
+// });
 
-redisClient.connect();
+// redisClient.connect();
 
 const redisStore = new RedisStore({
   client: redisClient,
