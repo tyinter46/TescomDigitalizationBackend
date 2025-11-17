@@ -20,115 +20,83 @@ import './passport';
 dotenv.config();
 
 class App {
-  public app: Application;
+public app: Application;
 
-  public mongoUrl = process.env.MONGO_DB_URI;
+public mongoUrl = process.env.MONGO_DB_URI;
 
-  // process.env.NODE_ENV === 'development'
-  //   ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
-  //   : process.env.MONGO_DB_URI;
+// process.env.NODE_ENV === 'development'
+//   ? `mongodb://127.0.0.1/${enviroment.getDbName()}`
+//   : process.env.MONGO_DB_URI;
 
-  private authRoutes: AuthRoutes = new AuthRoutes();
-  private csvUploadRoute: CsvUploadRoute = new CsvUploadRoute();
-  private userRoutes: UserRoutes = new UserRoutes();
-  private uploadRoutes: UploadRoutes = new UploadRoutes();
-  private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
-  private schoolRoutes: schoolRoutes = new schoolRoutes();
-  private postingReportRoutes: PostingsReportRoutes = new PostingsReportRoutes();
-  private commonRoutes: CommonRoutes = new CommonRoutes();
+private authRoutes: AuthRoutes = new AuthRoutes();
+private csvUploadRoute: CsvUploadRoute = new CsvUploadRoute();
+private userRoutes: UserRoutes = new UserRoutes();
+private uploadRoutes: UploadRoutes = new UploadRoutes();
+private existingStaffRoutes: ExistingStaffRoutes = new ExistingStaffRoutes();
+private schoolRoutes: schoolRoutes = new schoolRoutes();
+private postingReportRoutes: PostingsReportRoutes = new PostingsReportRoutes();
+private commonRoutes: CommonRoutes = new CommonRoutes();
 
-  constructor() {
-    this.app = express();
-    this.config();
-    this.mongoSetup();
+constructor() {
+this.app = express();
+this.config();
+this.mongoSetup();
 
-    //every other routes must come above the common routes
-    this.authRoutes.route(this.app);
-    this.userRoutes.route(this.app);
-    this.uploadRoutes.route(this.app);
-    this.existingStaffRoutes.route(this.app);
-    this.schoolRoutes.route(this.app);
-    this.postingReportRoutes.route(this.app);
-    this.csvUploadRoute.staffToPostCsvRoutes(this.app);
-    this.commonRoutes.route(this.app);
-  }
-  private config(): void {
-    this.app.use(helmet.hsts());
-    this.app.use(
-      cors({
-        origin:
-          process.env.NODE_ENV !== 'development'
-            ? process.env.PROD_CLIENT_BASE_URL
-            : 'http://localhost:3000',
-        methods: 'GET,POST,PUT,DELETE,PATCH',
-        credentials: true,
-      })
-    );
-    if (config.trustProxy) {
-      this.app.set('trust proxy', config.trustProxy);
-    }
-    this.app.disable('etag');
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(session);
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
-    this.app.use(function (req, res, next) {
-      const _send = res.send;
-      let sent = false;
-      res.send = function (data) {
-        if (sent) return;
-        _send.bind(res)(data);
-        sent = true;
-      } as any;
-      next();
-    });
-  }
+//every other routes must come above the common routes
+this.authRoutes.route(this.app);
+this.userRoutes.route(this.app);
+this.uploadRoutes.route(this.app);
+this.existingStaffRoutes.route(this.app);
+this.schoolRoutes.route(this.app);
+this.postingReportRoutes.route(this.app);
+this.csvUploadRoute.staffToPostCsvRoutes(this.app);
+this.commonRoutes.route(this.app);
 
-  private mongoSetup(): void {
-    if (!this.mongoUrl || this.mongoUrl.trim().length === 0) {
-      logger.error('MONGO_DB_URI is not set. Aborting startup.');
-      // Fail fast so we do not start serving requests without a DB
-      process.exit(1);
-      return;
-    }
+}
+private config(): void {
+this.app.use(helmet.hsts());
+this.app.use(
+cors({
+origin:
+process.env.NODE_ENV !== 'development'
+? process.env.PROD_CLIENT_BASE_URL
+: 'http://localhost:3000',
+methods: 'GET,POST,PUT,DELETE,PATCH',
+credentials: true,
+})
+);
+if (config.trustProxy) {
+this.app.set('trust proxy', config.trustProxy);
+}
+this.app.disable('etag');
+this.app.use(express.json());
+this.app.use(express.urlencoded({ extended: true }));
+this.app.use(session);
+this.app.use(passport.initialize());
+this.app.use(passport.session());
+this.app.use(function (req, res, next) {
+const _send = res.send;
+let sent = false;
+res.send = function (data) {
+if (sent) return;
+_send.bind(res)(data);
+sent = true;
+} as any;
+next();
+});
+}
 
-    mongoose.set('strictQuery', false);
-    mongoose.set('bufferCommands', false);
-
-    const connectionOptions = {
-      serverSelectionTimeoutMS: 10000,
-      connectTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
-      maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE || '50', 10), // Increased for concurrent users
-      minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '5', 10), // Keep connections warm
-      heartbeatFrequencyMS: 10000,
-      family: 4,
-      maxIdleTimeMS: 30000, // Close idle connections after 30s
-    } as any;
-
-    // Connection event listeners for better diagnostics
-    mongoose.connection.on('connected', () => {
-      logger.info('MongoDB connection established');
-    });
-
-    mongoose.connection.on('disconnected', () => {
-      logger.warn('MongoDB connection disconnected');
-    });
-
-    mongoose.connection.on('error', (err) => {
-      logger.error(`MongoDB connection error: ${err.message}`);
-    });
-
-    (mongoose as any)
-      .connect(this.mongoUrl, connectionOptions)
-      .then(() => {
-        logger.info('Mongo Server Connected Successfully');
-      })
-      .catch((err: any) => {
-        logger.error(`There is an error connecting: ${err.message}`);
-      });
-  }
+private mongoSetup(): void {
+    mongoose
+      .set('strictQuery', false)
+      .connect(this.mongoUrl)
+.then(() => {
+logger.info('Mongo Server Connected Successfully');
+})
+      .catch((err) => {
+        logger.error(err, 'there is an error connecting', err.message);
+});
+}
 }
 // port working with Digital Ocean
 export const PORT = process.env.PORT || enviroment.getPort();
@@ -136,8 +104,8 @@ export const PORT = process.env.PORT || enviroment.getPort();
 // export const PORT = process.env.PORT || 8001;
 
 export const ClientBaseUrl =
-  process.env.NODE_ENV !== 'development'
-    ? process.env.PROD_CLIENT_BASE_URL
-    : 'http://localhost:3000';
+process.env.NODE_ENV !== 'development'
+? process.env.PROD_CLIENT_BASE_URL
+: 'http://localhost:3000';
 
 export default new App().app;
