@@ -1,0 +1,52 @@
+[
+  {
+    "source": "0.0.0.0/0",
+    "protocol": "6",
+    "tcp-options": {
+      "destination-port-range": {
+        "min": 22,
+        "max": 22
+      }
+    }
+  },
+  {
+    "source": "0.0.0.0/0",
+    "protocol": "6",
+    "tcp-options": {
+      "destination-port-range": {
+        "min": 80,
+        "max": 80
+      }
+    }
+  },
+  {
+    "source": "0.0.0.0/0",
+    "protocol": "6",
+    "tcp-options": {
+      "destination-port-range": {
+        "min": 443,
+        "max": 443
+      }
+    }
+  },
+  {
+    "source": "0.0.0.0/0",
+    "protocol": "6",
+    "tcp-options": {
+      "destination-port-range": {
+        "min": 5601,
+        "max": 5601
+      }
+    }
+  },
+  {
+    "source": "0.0.0.0/0",
+    "protocol": "6",
+    "tcp-options": {
+      "destination-port-range": {
+        "min": 9200,
+        "max": 9200
+      }
+    }
+  }
+]

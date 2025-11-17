@@ -3,6 +3,7 @@ import userValidatorSchema from '../modules/users/validator';
 import ValidationMiddleware from '../middlewares/validator';
 import AuthController from '../controllers/authController';
 import AuthMiddleWare from '../middlewares/auth';
+import { loginRateLimitMiddleware, rateLimitMiddleware, generalRateLimiter, passwordResetRateLimiter } from '../middlewares/rateLimiter';
 
 export class AuthRoutes {
   private authController: AuthController = new AuthController();
@@ -10,6 +11,7 @@ export class AuthRoutes {
   public route(app: Application) {
     app.post(
       '/api/auth/local/signup',
+      // rateLimitMiddleware(generalRateLimiter),
       ValidationMiddleware(userValidatorSchema.signUp, 'body'),
       (req: Request, res: Response) => {
         this.authController.signup(req, res);
@@ -18,6 +20,7 @@ export class AuthRoutes {
 
     app.post(
       '/api/auth/local/signin',
+      // loginRateLimitMiddleware,
       ValidationMiddleware(userValidatorSchema.login, 'body'),
       (req: Request, res: Response, next: NextFunction) => {
         this.authController.loginUser(req, res, next);
@@ -39,6 +42,7 @@ export class AuthRoutes {
 
     app.patch(
       '/api/auth/local/account-activation',
+      // rateLimitMiddleware(generalRateLimiter),
       // ValidationMiddleware(userValidatorSchema.verifyParamsId, 'params'),
       ValidationMiddleware(userValidatorSchema.confirmAccount, 'body'),
       (req: Request, res: Response) => {
@@ -48,6 +52,7 @@ export class AuthRoutes {
 
     app.patch(
       '/api/auth/local/resendConfirmAccountToken',
+      // rateLimitMiddleware(generalRateLimiter),
       ValidationMiddleware(userValidatorSchema.resendConfirmAccountToken, 'body'),
       (req: Request, res: Response) => {
         this.authController.resendConfirmAccountToken(req, res);
