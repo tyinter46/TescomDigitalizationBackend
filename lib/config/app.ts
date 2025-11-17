@@ -100,10 +100,11 @@ class App {
       serverSelectionTimeoutMS: 10000,
       connectTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      maxPoolSize: 10,
-      minPoolSize: 0,
+      maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE || '50', 10), // Increased for concurrent users
+      minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '5', 10), // Keep connections warm
       heartbeatFrequencyMS: 10000,
       family: 4,
+      maxIdleTimeMS: 30000, // Close idle connections after 30s
     } as any;
 
     // Connection event listeners for better diagnostics

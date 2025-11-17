@@ -4,7 +4,7 @@ metadata:
   name: tescom-backend-depl
   namespace: backend
 spec:
-  replicas: 1
+  replicas: 2  # Start with 2 replicas for basic HA, scale up as needed
   selector:
     matchLabels:
       app: tescom-backend
@@ -16,6 +16,13 @@ spec:
       containers:
         - name: testcom-backend
           image: teewhy/tescom:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: PORT
               value: '8001'
@@ -47,6 +54,34 @@ spec:
               value: '6E6MaBlSoVEemelJXvsOwszI_jI'
             - name: PROD_CLIENT_BASE_URL
               value: 'https://oguntescom.com'
+            - name: NODE_ENV
+              value: 'production'
+            - name: ELASTICSEARCH_URL
+              value: 'http://elasticsearch-srv:9200'
+            - name: ELASTICSEARCH_USERNAME
+              value: 'elastic'
+            - name: ELASTICSEARCH_PASSWORD
+              value: 'yMyg9NqOyr4G5XK5bNNx'
+            - name: MONGO_MAX_POOL_SIZE
+              value: '50'
+            - name: MONGO_MIN_POOL_SIZE
+              value: '5'
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
       imagePullSecrets:
         - name: my-registry-secret
 
