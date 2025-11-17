@@ -6,7 +6,7 @@ import { redisClient } from './ioRedis';
 
 dotenv.config();
 
-// const redisClient = createClient({
+// export const redisClient = createClient({
 //   socket: {
 //     host: process.env.REDIS_HOST,
 //     port: parseInt(process.env.REDIS_PORT),
