@@ -676,7 +676,7 @@ class UserController {
       const scrollSearch = esClient.helpers.scrollSearch<Record<string, any>>({
         index: 'users',
         size: parseInt(pageSize as string, 10),
-        body: { query } as estypes.SearchRequest['body'],
+        query,
       });
 
       const results: any[] = [];

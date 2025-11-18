@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/tyinter46/TescomDigitalizationBackend#readme",
   "dependencies": {
-    "@elastic/elasticsearch": "^9.2.0",
+    "@elastic/elasticsearch": "^8.19.1",
     "@types/json2csv": "^5.0.7",
     "@types/papaparse": "^5.3.16",
     "@types/pdfkit": "^0.13.4",
