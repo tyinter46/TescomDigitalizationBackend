@@ -423,9 +423,30 @@ interface StaffPostingJobData {
 
 console.log('Staff posting Worker initializing...');
 
-// CRITICAL: Verify Redis connection before starting worker
-redisClient.on('ready', () => {
+// CRITICAL: Verify Redis connection and version before starting worker
+redisClient.on('ready', async () => {
   console.log('✅ Worker: Redis connection ready');
+  
+  // Check Redis version - BullMQ requires Redis 5.0+
+  try {
+    const info = await redisClient.info('server');
+    const versionMatch = info.match(/redis_version:([\d.]+)/);
+    if (versionMatch) {
+      const version = versionMatch[1];
+      const [major, minor] = version.split('.').map(Number);
+      console.log(`📊 Redis version detected: ${version}`);
+      
+      if (major < 5) {
+        console.error(`\n❌ CRITICAL ERROR: Redis version ${version} is incompatible!`);
+        console.error('   BullMQ requires Redis 5.0.0 or higher.');
+        console.error('   Please upgrade your Redis server to version 5.0+ or connect to a compatible Redis instance.');
+        console.error(`   Current Redis host: ${process.env.REDIS_HOST}:${process.env.REDIS_PORT}\n`);
+        process.exit(1);
+      }
+    }
+  } catch (err: any) {
+    console.warn(`⚠️  Could not check Redis version: ${err.message}`);
+  }
 });
 
 redisClient.on('error', (err) => {
