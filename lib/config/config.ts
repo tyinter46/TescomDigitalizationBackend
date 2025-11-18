@@ -45,7 +45,7 @@ const configSchema = convict({
   listeningPort: {
     doc: 'The HTTPS listening port.',
     format: 'port',
-    default: 5000,
+    default: 8001,
   },
   httpOnly: {
     doc: 'Listens only on HTTP on listeningPort; listeningRedirectPort disabled. Use case: load balancer backend.',
