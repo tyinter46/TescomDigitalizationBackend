@@ -1,39 +1,43 @@
-import IORedis, { RedisOptions } from 'ioredis';
+import IORedis from 'ioredis';
+import { Queue, Worker } from 'bullmq';
 
-// Helper to safely parse port with fallback
-const getRedisPort = (): number => {
-  const port = process.env.REDIS_PORT;
-  if (!port) return 6379;
+const connection = process.env.REDIS_URL
+  ? new IORedis(process.env.REDIS_URL, {
+      maxRetriesPerRequest: null,
+      db: 1,
+    })
+  : new IORedis({
+      host: process.env.REDIS_HOST || 'redis',
+      port: Number(process.env.REDIS_PORT) || 6379,
+      maxRetriesPerRequest: null,
+      db: 1,
+    });
 
-  const parsed = parseInt(port, 10);
-  return isNaN(parsed) ? 6379 : parsed;
+console.log('Connecting to Redis using REDIS_URL:', process.env.REDIS_URL || 'host/port');
+
+// This is the magic part:
+connection.on('error', (err) => {
+  console.error('Redis connection error:', err);
+});
+
+// Export a promise that resolves when Redis is ready
+export const redisReady = connection.status === 'ready'
+  ? Promise.resolve(connection)
+  : new Promise((resolve, reject) => {
+      connection.once('ready', () => resolve(connection));
+      connection.once('error', reject);
+    });
+
+// Now export queues ONLY after it's ready
+export const getQueue = async (name: string) => {
+  await redisReady;                     // ← this line saves your life
+  return new Queue(name, { connection });
 };
 
-// Build connection options with safe defaults
-const redisOptions: RedisOptions = {
-  host: process.env.REDIS_HOST || 'redis',
-  port: getRedisPort(),
-  password: process.env.REDIS_PASSWORD || undefined, // ioredis treats undefined as "no password"
-  db: 1,
-  maxRetriesPerRequest: null,
-  retryStrategy: (times) => {
-    // Optional: nicer reconnect behavior
-    if (times > 10) return null; // stop retrying after 10 attempts
-    return Math.min(times * 500, 2000); // exponential back-off
-  },
+export const getWorker = async (name: string, processor: any) => {
+  await redisReady;
+  return new Worker(name, processor, { connection });
 };
 
-// If REDIS_URL is provided (recommended), use it directly and ignore host/port
-let redisClient: IORedis;
-if (process.env.REDIS_URL) {
-  console.log('Connecting to Redis using REDIS_URL:', process.env.REDIS_URL);
-  redisClient = new IORedis(process.env.REDIS_URL, {
-    maxRetriesPerRequest: null,
-    db: 1,
-  });
-} else {
-  console.log(`Connecting to Redis at ${redisOptions.host}:${redisOptions.port}`);
-  redisClient = new IORedis(redisOptions);
-}
-
-export { redisClient };
+// Export connection for direct access (backward compatibility)
+export const redisClient = connection;
