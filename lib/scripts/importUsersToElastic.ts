@@ -3,11 +3,34 @@ import { esClient } from '../config/elasticsearch';
 
 // Environment variables for tuning
 const BATCH_SIZE = parseInt(process.env.BATCH_SIZE || '500', 10);
-const CONCURRENCY = parseInt(process.env.CONCURRENCY || '2', 10); // Parallel batches
+const CONCURRENCY = parseInt(process.env.CONCURRENCY || '2', 10);
 const MAX_RETRIES = 3;
-const RETRY_BACKOFF_MS = 1000; // Initial delay for retries
+const RETRY_BACKOFF_MS = 1000;
+const ES_READY_TIMEOUT = 30000; // 30 seconds to wait for ES
 
 let hasImported = false;
+
+// Wait for Elasticsearch to be ready
+async function waitForElasticsearch(timeoutMs = ES_READY_TIMEOUT): Promise<void> {
+  const startTime = Date.now();
+  let lastError: Error | null = null;
+
+  while (Date.now() - startTime < timeoutMs) {
+    try {
+      await esClient.info();
+      console.log('✅ Elasticsearch is ready');
+      return;
+    } catch (err: any) {
+      lastError = err;
+      console.warn(`⚠️ Elasticsearch not ready yet: ${err.message}. Retrying...`);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+
+  throw new Error(
+    `Elasticsearch not ready after ${timeoutMs}ms. Last error: ${lastError?.message}`
+  );
+}
 
 export default async function importUsers() {
   if (hasImported) {
@@ -19,42 +42,62 @@ export default async function importUsers() {
   let totalIndexed = 0;
 
   try {
+    // Wait for Elasticsearch to be ready before proceeding
+    console.log('⏳ Waiting for Elasticsearch to be ready...');
+    await waitForElasticsearch();
+
     // Connect to MongoDB
+    console.log('⏳ Connecting to MongoDB...');
     mongoClient = new MongoClient(process.env.MONGO_DB_URI!, {
-      maxPoolSize: 10, // Limit connections for free-tier resource constraints
+      maxPoolSize: 10,
     });
     await mongoClient.connect();
     console.log('✅ Connected to MongoDB');
-    const db = mongoClient.db('test'); // Replace with your DB name
+
+    const db = mongoClient.db('test'); // Use your actual DB name
     const collection = db.collection('users');
 
-    // Ensure Elasticsearch index exists with correct mapping
-    const indexExists = await esClient.indices.exists({ index: 'users' });
-    if (!indexExists) {
-      await esClient.indices.create({
-        index: 'users',
-        mappings: {
-          properties: {
-            id: { type: 'keyword' }, // Store MongoDB _id as 'id'
-            dateOfFirstAppointment: { type: 'date' },
-            dateOfPresentSchoolPosting: { type: 'date' },
-            // Add other fields, e.g., name: { type: 'text' }
-          },
-        },
-      });
-      console.log('✅ Created users index in Elasticsearch');
-    }
-
-    // Stream users to avoid loading all into memory
-    const cursor = collection.find().batchSize(BATCH_SIZE);
+    // Check if collection exists and has documents
     const totalUsers = await collection.countDocuments();
     if (totalUsers === 0) {
-      console.log('⚠️ No users found in MongoDB');
+      console.log('⚠️ No users found in MongoDB, skipping import');
+      hasImported = true;
       return;
     }
     console.log(`ℹ️ Found ${totalUsers} users in MongoDB`);
 
-    // Process batches
+    // Ensure Elasticsearch index exists with correct mapping
+    try {
+      const indexExists = await esClient.indices.exists({ index: 'users' });
+      
+      if (!indexExists) {
+        console.log('📝 Creating Elasticsearch index...');
+        await esClient.indices.create({
+          index: 'users',
+          settings: {
+            number_of_shards: 1,
+            number_of_replicas: 0,
+          },
+          mappings: {
+            properties: {
+              id: { type: 'keyword' },
+              dateOfFirstAppointment: { type: 'date' },
+              dateOfPresentSchoolPosting: { type: 'date' },
+              // Add other fields as needed
+            },
+          },
+        });
+        console.log('✅ Created users index in Elasticsearch');
+      } else {
+        console.log('ℹ️ Users index already exists');
+      }
+    } catch (err: any) {
+      // Index might already exist, continue
+      console.warn(`⚠️ Index creation warning: ${err.message}`);
+    }
+
+    // Stream users to avoid loading all into memory
+    const cursor = collection.find().batchSize(BATCH_SIZE);
     let batch: any[] = [];
     let batchNumber = 0;
 
@@ -65,7 +108,7 @@ export default async function importUsers() {
         return [
           { index: { _index: 'users', _id: _id?.toString() } },
           {
-            id: _id?.toString(), // Store _id as 'id' in document payload
+            id: _id?.toString(),
             ...rest,
             dateOfFirstAppointment: doc.dateOfFirstAppointment
               ? new Date(doc.dateOfFirstAppointment).toISOString()
@@ -79,6 +122,7 @@ export default async function importUsers() {
 
       try {
         const bulkResponse = await esClient.bulk({ refresh: true, body });
+        
         if (bulkResponse.errors) {
           const erroredDocs = bulkResponse.items
             .filter((item: any) => item.index?.error)
@@ -87,43 +131,46 @@ export default async function importUsers() {
               error: item.index.error.reason,
             }));
           console.error(
-            `❌ Batch ${batchNumber} failed for ${erroredDocs.length} docs:`,
-            erroredDocs
+            `❌ Batch ${batchNumber} had errors for ${erroredDocs.length} docs:`,
+            erroredDocs.slice(0, 3) // Log first 3 errors only
           );
-          return batch.length - erroredDocs.length; // Count successful docs
+          return batch.length - erroredDocs.length;
         }
+        
         console.log(`✅ Batch ${batchNumber} indexed (${batch.length} users)`);
         return batch.length;
       } catch (error: any) {
         if (attempt <= MAX_RETRIES) {
+          const delayMs = RETRY_BACKOFF_MS * attempt;
           console.warn(
-            `⚠️ Batch ${batchNumber} failed (attempt ${attempt}/${MAX_RETRIES}): ${
-              error.message
-            }. Retrying in ${RETRY_BACKOFF_MS * attempt}ms...`
+            `⚠️ Batch ${batchNumber} failed (attempt ${attempt}/${MAX_RETRIES}): ${error.message}. Retrying in ${delayMs}ms...`
           );
-          await new Promise((resolve) => setTimeout(resolve, RETRY_BACKOFF_MS * attempt));
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
           return indexBatch(batch, attempt + 1);
         }
         console.error(
-          `❌ Batch ${batchNumber} failed after ${MAX_RETRIES} retries:`,
-          error.message
+          `❌ Batch ${batchNumber} failed after ${MAX_RETRIES} retries: ${error.message}`
         );
-        return 0; // Count as failed
+        return 0;
       }
     };
 
     // Process batches with controlled concurrency
     const batchPromises: Promise<number>[] = [];
+    
     for await (const doc of cursor) {
       batch.push(doc);
+      
       if (batch.length >= BATCH_SIZE) {
         batchNumber++;
-        batchPromises.push(indexBatch(batch));
+        batchPromises.push(indexBatch([...batch])); // Clone batch
         batch = [];
+        
         // Limit concurrency
         if (batchPromises.length >= CONCURRENCY) {
-          totalIndexed += (await Promise.all(batchPromises)).reduce((sum, count) => sum + count, 0);
-          batchPromises.length = 0; // Clear processed promises
+          const results = await Promise.all(batchPromises);
+          totalIndexed += results.reduce((sum, count) => sum + count, 0);
+          batchPromises.length = 0;
         }
       }
     }
@@ -135,12 +182,14 @@ export default async function importUsers() {
     }
 
     // Wait for all remaining batches
-    totalIndexed += (await Promise.all(batchPromises)).reduce((sum, count) => sum + count, 0);
+    const results = await Promise.all(batchPromises);
+    totalIndexed += results.reduce((sum, count) => sum + count, 0);
 
-    console.log(`🎉 Finished indexing. Total users indexed: ${totalIndexed}/${totalUsers}`);
+    console.log(`🎉 Import completed! Total indexed: ${totalIndexed}/${totalUsers}`);
     hasImported = true;
-  } catch (error) {
-    console.error('❌ Import failed:', error);
+  } catch (error: any) {
+    console.error('❌ Import failed:', error.message);
+    // Don't throw - let the server continue running
   } finally {
     if (mongoClient) {
       await mongoClient.close();
