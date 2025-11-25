@@ -22,7 +22,7 @@ try {
 }
 
 console.log('[SERVER] Importing importUsers script...');
-import importUsers from './scripts/importUsersToElastic';
+// import importUsers from './scripts/importUsersToElastic';
 
 console.log('[SERVER] All imports successful, creating HTTP server...');
 const server = http.createServer(app);
@@ -33,7 +33,7 @@ server.listen(PORT, async () => {
   
   try {
     console.log('[SERVER] Starting user import...');
-    await importUsers();
+    // await importUsers();
     console.log('[SERVER] User import completed');
   } catch (err) {
     console.error('[SERVER] Error importing users:', err);
