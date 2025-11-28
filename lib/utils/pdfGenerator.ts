@@ -57,8 +57,12 @@ export const generateAndDownloadPDF = (
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
-    const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
-    const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+    // const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
+    // const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+
+
+const logoPath = path.join(process.cwd(), 'public', 'assets', 'ogunlogohd.png');
+const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png'); 
     // Get the page dimensions
     const pageWidth = doc.page.width;
     const pageHeight = doc.page.height;
