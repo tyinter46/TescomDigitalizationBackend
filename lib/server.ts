@@ -21,8 +21,13 @@ try {
   process.exit(1);
 }
 
+<<<<<<< HEAD
 // console.log('[SERVER] Importing importUsers script...');
 import importUsers from './scripts/importUsersToElastic';
+=======
+console.log('[SERVER] Importing importUsers script...');
+// import importUsers from './scripts/importUsersToElastic';
+>>>>>>> 335fa73b2a9830534b6963588b607e29eed3a5f0
 
 // console.log('[SERVER] All imports successful, creating HTTP server...');
 const server = http.createServer(app);
@@ -32,8 +37,13 @@ server.listen(PORT, async () => {
   logger.info(`Express server listening on port ${PORT}`);
   
   try {
+<<<<<<< HEAD
     // console.log('[SERVER] Starting user import...');
     await importUsers();
+=======
+    console.log('[SERVER] Starting user import...');
+    // await importUsers();
+>>>>>>> 335fa73b2a9830534b6963588b607e29eed3a5f0
     console.log('[SERVER] User import completed');
   } catch (err) {
     // console.error('[SERVER] Error importing users:', err);
