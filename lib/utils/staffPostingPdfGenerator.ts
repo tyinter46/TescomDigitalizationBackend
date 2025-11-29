@@ -9,7 +9,7 @@ import { IUser } from '../modules/users/model';
 import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
-
+import axios from 'axios';
 /**
  * Generates a PDF file and returns it as a buffer.
  * @param {IUser} user - The user object containing relevant data for the PDF.
@@ -18,16 +18,37 @@ import { response, Response } from 'express';
  * @param {string} content - The content of the document.
  * @returns {Promise<Buffer>} - The PDF file as a buffer.
  */
+
+
 export const generateAndDownloadPDF = (
   user: IUser,
   fileName: string,
   title: string,
   content: string
 ): Promise<Buffer> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4' });
     const buffers: Uint8Array[] = [];
 
+
+    const logoPath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417636/fuaxe9suql03ykyihj36.png'
+const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417643/jreeabexdzglxtgaytjk.png'
+    // Get the page dimensions
+// Function to fetch image from URL
+async function fetchImageFromUrl(url: string): Promise<Buffer | null> {
+  try {
+    const response = await axios.get(url, { 
+      responseType: 'arraybuffer' 
+    });
+    return Buffer.from(response.data);
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    return null; // Return null instead of throwing to allow PDF generation to continue
+  }
+}
+
+const logo = await fetchImageFromUrl(logoPath)
+const signature = await fetchImageFromUrl(signaturePath)
     // Create a PassThrough stream to capture the PDF output
     const passThroughStream = new PassThrough();
     const arialnarrow_bolditalicPath = path.join(__dirname, 'arialnarrow_bolditalic.ttf');
@@ -47,9 +68,11 @@ export const generateAndDownloadPDF = (
     passThroughStream.on('error', reject);
 
     // Add content to the PDF
-    const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
-    const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+   
     // Get the page dimensions
+    // const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
+    // const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+    // // Get the page dimensions
     const pageWidth = doc.page.width;
     const pageHeight = doc.page.height;
 
@@ -64,8 +87,8 @@ export const generateAndDownloadPDF = (
     const z = 400;
 
     // Add logo at the top header
-    if (logoPath) {
-      doc.image(logoPath, x, y, {
+    if (logo) {
+      doc.image(logo, x, y, {
         fit: [50, 50], // Adjust the size of the logo as needed
         align: 'right', // Center the logo horizontally (optional)
         valign: 'center',
@@ -127,9 +150,9 @@ export const generateAndDownloadPDF = (
     doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
     // Add signature
     doc.moveDown(3);
-    if (signaturePath) {
+    if (signature) {
       const a = 500;
-      doc.image(signaturePath, z, a, {
+      doc.image(signature, z, a, {
         fit: [100, 50], // Adjust the size of the signature image as needed
         align: 'right', // Adjust alignment if needed
       });

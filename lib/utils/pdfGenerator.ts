@@ -8,6 +8,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import CommonService from '../modules/common/service';
 import { response, Response } from 'express';
 import PostingReportService from '../modules/postingReports/service';
+import axios from 'axios';
 
 /**
  * Generates a PDF file and returns it as a buffer.
@@ -23,7 +24,7 @@ export const generateAndDownloadPDF = (
   title: string,
   content: string
 ): Promise<Buffer> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4' });
     const buffers: Buffer[] = [];
 
@@ -61,8 +62,27 @@ export const generateAndDownloadPDF = (
     // const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
 
 
-const logoPath = path.join(process.cwd(), 'public', 'assets', 'ogunlogohd.png');
-const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png'); 
+// const logoPath = path.join(process.cwd(), 'public', 'assets', 'ogunlogohd.png');
+// const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png'); 
+
+const logoPath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417636/fuaxe9suql03ykyihj36.png'
+const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417643/jreeabexdzglxtgaytjk.png'
+    // Get the page dimensions
+    // Function to fetch image from URL
+    async function fetchImageFromUrl(url: string): Promise<Buffer | null> {
+      try {
+        const response = await axios.get(url, { 
+          responseType: 'arraybuffer' 
+        });
+        return Buffer.from(response.data);
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        return null; // Return null instead of throwing to allow PDF generation to continue
+      }
+    }
+
+    const logo = await fetchImageFromUrl(logoPath);
+    const signature = await fetchImageFromUrl(signaturePath);
     // Get the page dimensions
     const pageWidth = doc.page.width;
     const pageHeight = doc.page.height;
@@ -78,8 +98,8 @@ const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png
     const z = 400;
 
     // Add logo at the top header
-    if (logoPath) {
-      doc.image(logoPath, x, y, {
+    if (logo) {
+      doc.image(logo, x, y, {
         fit: [50, 50], // Adjust the size of the logo as needed
         align: 'right', // Center the logo horizontally (optional)
         valign: 'center',
@@ -141,9 +161,9 @@ const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png
     doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
     // Add signature
     doc.moveDown(3);
-    if (signaturePath) {
+    if (signature) {
       const a = 500;
-      doc.image(signaturePath, z, a, {
+      doc.image(signature, z, a, {
         fit: [100, 50], // Adjust the size of the signature image as needed
         align: 'right', // Adjust alignment if needed
       });
