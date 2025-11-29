@@ -1,3 +1,378 @@
+// import PDFDocument from 'pdfkit';
+// import { PassThrough } from 'stream';
+// import path from 'path';
+// import logger from '../config/logger';
+// import UserService from '../modules/users/service';
+// import { IUser } from '../modules/users/model';
+// import { v2 as cloudinary } from 'cloudinary';
+// import CommonService from '../modules/common/service';
+// import { response, Response } from 'express';
+// import PostingReportService from '../modules/postingReports/service';
+// import axios from 'axios';
+
+// /**
+//  * Generates a PDF file and returns it as a buffer.
+//  * @param {IUser} user - The user object containing relevant data for the PDF.
+//  * @param {string} fileName - The name of the file.
+//  * @param {string} title - The title of the document.
+//  * @param {string} content - The content of the document.
+//  * @returns {Promise<Buffer>} - The PDF file as a buffer.
+//  */
+// export const generateAndDownloadPDF = (
+//   user: IUser,
+//   fileName: string,
+//   title: string,
+//   content: string
+// ): Promise<Buffer> => {
+//   return new Promise(async (resolve, reject) => {
+//     const doc = new PDFDocument({ size: 'A4' });
+//     const buffers: Buffer[] = [];
+
+//     // Create a PassThrough stream to capture the PDF output
+//     const passThroughStream = new PassThrough();
+//     const arialnarrow_bolditalicPath = path.join(__dirname, 'arialnarrow_bolditalic.ttf');
+//     const arialnarrow = path.join(__dirname, 'arialnarrow.ttf');
+//     const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
+//     const arialnarrow_italic = path.join(__dirname, 'arialnarrow_italic.ttf');
+
+//     // Pipe the document to the PassThrough stream
+//     doc.pipe(passThroughStream);
+//     doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
+//     doc.registerFont('arialnarrow', arialnarrow);
+//     doc.registerFont('arialnarrow_bold', arialnarrow_bold);
+//     doc.registerFont('arialnarrow_italic', arialnarrow_italic);
+//     // Collect chunks of data from the PassThrough stream
+//     passThroughStream.on('data', (chunk: Buffer) => {
+//       buffers.push(chunk);
+//     });
+//     passThroughStream.on('end', () => {
+//       const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
+//       const result = new Uint8Array(totalLength);
+//       let offset = 0;
+//       for (const buf of buffers) {
+//         result.set(buf, offset);
+//         offset += buf.length;
+//       }
+//       resolve(Buffer.from(result));
+//     });
+//     passThroughStream.on('error', reject);
+
+//     // Add content to the PDF
+//     // const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
+//     // const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
+
+
+// // const logoPath = path.join(process.cwd(), 'public', 'assets', 'ogunlogohd.png');
+// // const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png'); 
+
+// const logoPath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417636/fuaxe9suql03ykyihj36.png'
+// const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417643/jreeabexdzglxtgaytjk.png'
+//     // Get the page dimensions
+//     // Function to fetch image from URL
+//     async function fetchImageFromUrl(url: string): Promise<Buffer | null> {
+//       try {
+//         const response = await axios.get(url, { 
+//           responseType: 'arraybuffer' 
+//         });
+//         return Buffer.from(response.data);
+//       } catch (error) {
+//         console.error('Error fetching image:', error);
+//         return null; // Return null instead of throwing to allow PDF generation to continue
+//       }
+//     }
+
+//     const logo = await fetchImageFromUrl(logoPath);
+//     const signature = await fetchImageFromUrl(signaturePath);
+//     // Get the page dimensions
+//     const pageWidth = doc.page.width;
+//     const pageHeight = doc.page.height;
+
+//     // Set the desired logo dimensions
+//     const logoWidth = 60;
+//     const logoHeight = 60;
+//     const signatureWidth = 180;
+
+//     // Calculate the position for top center
+//     const x = (pageWidth - logoWidth) / 2;
+//     const y = 10; // Adjust this value to move the logo up or down
+//     const z = 400;
+
+//     // Add logo at the top header
+//     if (logo) {
+//       doc.image(logo, x, y, {
+//         fit: [50, 50], // Adjust the size of the logo as needed
+//         align: 'right', // Center the logo horizontally (optional)
+//         valign: 'center',
+//       });
+//     }
+
+
+
+
+
+    
+
+//     // Add header and other details
+//     doc.moveDown();
+//     doc
+//       .fillAndStroke('green', 'yellow')
+//       .font('arialnarrow_bold')
+//       .fontSize(25)
+//       .text('TEACHING SERVICE COMMISSION', { align: 'center' });
+//     doc
+//       .fillColor('purple')
+//       .fontSize(15)
+//       .text('P.M.B 2081. ABEOKUTA, OGUN STATE OF NIGERIA', { align: 'center' });
+//     doc.moveDown(1);
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow_bolditalic')
+//       .fontSize(14)
+//       .text('All Communications should be addressed', { align: 'left' });
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow_bolditalic')
+//       .fontSize(14)
+//       .text('to the Permanent Secretary', { align: 'left' });
+
+//     doc.moveDown(3);
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow')
+//       .fontSize(13)
+//       .text('TSC/29/Vol.IV/', { align: 'left' });
+//     doc.text('9th September, 2024', { align: 'right' });
+
+//     // Insert user-specific content
+//     doc.moveDown(1);
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow_bold')
+//       .fontSize(12)
+//       .text(`${user?.staffName?.firstName}`, { align: 'left' });
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow')
+//       .fontSize(12)
+//       .text(
+//         `${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.location}`,
+//         { align: 'left' }
+//       );
+//     doc.moveDown(2);
+
+//     doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
+
+//     // Add content to the PDF
+//     doc.moveDown();
+//     doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
+//     // Add signature
+//     doc.moveDown(3);
+//     if (signature) {
+//       const a = 500;
+//       doc.image(signature, z, a, {
+//         fit: [100, 50], // Adjust the size of the signature image as needed
+//         align: 'right', // Adjust alignment if needed
+//       });
+//     }
+//     doc.moveDown(2);
+//     doc
+//       .fillColor('black')
+//       .font('arialnarrow_bold')
+//       .fontSize(12)
+//       .text('Afolabi Abiodun F. (Mrs.)', { align: 'right' })
+//       .fillColor('black')
+//       .font('arialnarrow_italic')
+//       .fontSize(12)
+//       .text('for: Permanent Secretary', { align: 'right' });
+//     // Finalize the PDF and end the stream
+//     doc.end();
+//   });
+// };
+
+// /**
+//  * Generates and uploads a posting letter for a specific user.
+//  * @param {string} userId - The ID of the user.
+//  * @returns {Promise<string | null>} - The URL of the uploaded PDF, or null if the user is not found.
+//  */
+// export const generateAndUploadPostingLetter = (userId: string): Promise<string | null> => {
+//   const userService = new UserService();
+
+//   return new Promise((resolve, reject) => {
+//     // Find the user
+//     try {
+//       userService.filterUser({ _id: userId }, (err: any, user: IUser) => {
+//         if (err) {
+//           logger.error({
+//             message: err.message || 'Error fetching user',
+//             service: 'PDF Generation and Upload',
+//           });
+//           return reject(err); // Reject if error occurs
+//         }
+
+//         if (!user) {
+//           logger.error({ message: 'User not found', service: 'PDF Generation and Upload' });
+//           resolve(null); // Resolve with null if no user is found
+//         }
+
+//         // Prepare PDF content
+//         const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
+
+//         let title: string;
+//         if (user.position === 'Principal' && user.staleOrNew === 'New') {
+//           title = `APPOINTMENT AS PRINCIPAL`;
+//         }
+//         if (user.position === 'Vice-Principal' && user.staleOrNew === 'New') {
+//           title = `APPOINTMENT AS VICE-PRINCIPAL`;
+//         }
+//         if (user.position === 'Principal' && user.staleOrNew === 'Stale') {
+//           title = `REDEPLOYMENT OF PRINCIPAL`;
+//         }
+//         if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
+//           title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
+//         }
+//         const letterData = {
+//           name: user?.staffName?.firstName ?? 'Unknown',
+//           newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+//           position: user?.position ?? 'Unknown',
+//           previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
+//         };
+//         console.log(letterData);
+//         const postingReport = new PostingReportService();
+
+//         postingReport.createPostingReport({
+//           staffDetails: user?.staffName?.firstName ?? 'Unknown',
+//           sourceSchool: user?.schoolOfPreviousPosting?.nameOfSchool ?? 'Unknown',
+//           destinationSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+//           dateOfPreviousSchoolPosting: user?.dateOfPresentSchoolPosting ?? new Date(),
+//           dateOfNewSchoolPosting: new Date().toLocaleDateString(),
+//           previousPosition: user?.position ?? 'Unknown',
+//           newPosition: user?.position ?? 'Unknown',
+//           staleOrNew: user?.staleOrNew ?? 'Unknown',
+//         });
+//         // let letterContent: string;
+//         // const letterData = {
+//         //   name: user.staffName?.firstName ?? 'Unknown ',
+//         //   newSchool:
+//         //     user.schoolOfPresentPosting?.nameOfSchool ??
+//         //     'Unknown Please contact headquarters you will get your letter',
+//         //   position:
+//         //     user?.position ??
+//         //     'Unknown Unknown Please contact headquarters headquarters you will get your letter',
+//         //   previousSchool: user?.ward,
+//         // };
+//         const generateLetterContent = (user: IUser): string => {
+//           if (!user) return void CommonService.insufficientParameters(response as Response);
+//           if (
+//             (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
+//             user.staleOrNew === 'New'
+//           ) {
+//             return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
+//               letterData.position
+//             } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
+//               user?.schoolOfPresentPosting?.location
+//             } with effect from ${
+//               '6th March, 2025'
+//               //  user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
+//             }.
+    
+//           2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
+    
+//           3.      Congratulations on this well-deserved elevation.`;
+//           }
+
+//           if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
+//             return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}  to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},   ${user?.schoolOfPresentPosting?.location}  with immediate effect.
+    
+//           2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
+    
+//           3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the assumption at the new office.
+    
+//           4.    Thank you.`;
+//           }
+
+//           if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
+//             return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
+    
+//           2.    Kindly ensure proper handing over before leaving.
+    
+//           3.    Many thanks`;
+//           }
+
+//           return '';
+//         };
+//         const letterContent = generateLetterContent(user);
+//         // Generate and upload the PDF
+//         //
+//         generateAndDownloadPDF(user, fileName, title, letterContent)
+//           .then((pdfBuffer) => {
+//             // Upload the PDF buffer to Cloudinary using the .upload function
+//             return new Promise<any>((resolve, reject) => {
+//               // Convert the buffer to a base64 encoded string
+//               const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
+
+//               // Upload the base64 string using the .upload function
+//               cloudinary.uploader.upload(
+//                 base64String,
+//                 {
+//                   resource_type: 'raw',
+//                   public_id: fileName,
+//                   invalidate: true,
+//                 },
+//                 (error, result) => {
+//                   if (error) {
+//                     return reject(error); // Reject on upload error
+//                   }
+//                   resolve(result); // Resolve with upload result
+//                 }
+//               );
+//               //     cloudinary.uploader.unsigned_upload(
+//               //       base64String,
+//               //       'ml_default',
+
+//               //       (error, result) => {
+//               //         if (error) {
+//               //           return reject(error); // Reject on upload error
+//               //         }
+//               //         resolve(result); // Resolve with upload result
+//               //       }
+//               //     );
+//             });
+//           })
+//           .then((uploadResult) => {
+//             const downloadLink = uploadResult.secure_url;
+
+//             if (!downloadLink) {
+//               throw new Error('Failed to generate download link.');
+//             }
+
+//             // Update the user's posting letter in the database
+//             userService.updateUser(
+//               { _id: userId },
+//               { letters: { postingLetter: downloadLink } },
+//               (err, updatedUser) => {
+//                 if (err) {
+//                   reject(err); // Reject if there's an error updating the user
+//                 }
+//                 resolve(downloadLink); // Resolve with the download link
+//               }
+//             );
+//           })
+//           .catch((error) => {
+//             logger.error({
+//               message: error.message || 'Unknown error during PDF generation or upload',
+//               service: 'PDF Generation and Upload',
+//             });
+
+//             reject(error); // Reject if any error occurs
+//           });
+//       });
+//     } catch (error) {
+//       return reject(error);
+//     }
+//   });
+// };
+
+
 import PDFDocument from 'pdfkit';
 import { PassThrough } from 'stream';
 import path from 'path';
@@ -11,6 +386,28 @@ import PostingReportService from '../modules/postingReports/service';
 import axios from 'axios';
 
 /**
+ * Fetch image from URL as a Buffer
+ */
+async function fetchImageFromUrl(url: string): Promise<Buffer | null> {
+  try {
+    logger.info({ message: `Fetching image from: ${url}`, service: 'PDF Generation' });
+    const response = await axios.get(url, {
+      responseType: 'arraybuffer',
+      timeout: 10000, // 10 second timeout
+    });
+    logger.info({ message: `Successfully fetched image from: ${url}`, service: 'PDF Generation' });
+    return Buffer.from(response.data);
+  } catch (error: any) {
+    logger.error({
+      message: `Error fetching image from ${url}: ${error.message}`,
+      service: 'PDF Generation',
+      stack: error.stack,
+    });
+    return null;
+  }
+}
+
+/**
  * Generates a PDF file and returns it as a buffer.
  * @param {IUser} user - The user object containing relevant data for the PDF.
  * @param {string} fileName - The name of the file.
@@ -18,169 +415,243 @@ import axios from 'axios';
  * @param {string} content - The content of the document.
  * @returns {Promise<Buffer>} - The PDF file as a buffer.
  */
-export const generateAndDownloadPDF = (
+export const generateAndDownloadPDF = async (
   user: IUser,
   fileName: string,
   title: string,
   content: string
 ): Promise<Buffer> => {
-  return new Promise(async (resolve, reject) => {
-    const doc = new PDFDocument({ size: 'A4' });
-    const buffers: Buffer[] = [];
+  try {
+    logger.info({ message: `Starting PDF generation for: ${fileName}`, service: 'PDF Generation' });
 
-    // Create a PassThrough stream to capture the PDF output
-    const passThroughStream = new PassThrough();
+    // Define font paths
     const arialnarrow_bolditalicPath = path.join(__dirname, 'arialnarrow_bolditalic.ttf');
     const arialnarrow = path.join(__dirname, 'arialnarrow.ttf');
     const arialnarrow_bold = path.join(__dirname, 'arialnarrow_bold.ttf');
     const arialnarrow_italic = path.join(__dirname, 'arialnarrow_italic.ttf');
 
+    // Define Cloudinary image URLs
+    const logoPath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417636/fuaxe9suql03ykyihj36.png';
+    const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417643/jreeabexdzglxtgaytjk.png';
+
+    // Fetch images from Cloudinary BEFORE creating the PDF
+    logger.info({ message: 'Fetching logo and signature images...', service: 'PDF Generation' });
+    const [logo, signature] = await Promise.all([
+      fetchImageFromUrl(logoPath),
+      fetchImageFromUrl(signaturePath),
+    ]);
+
+    if (!logo) {
+      logger.warn({ message: 'Logo image could not be fetched, continuing without logo', service: 'PDF Generation' });
+    }
+    if (!signature) {
+      logger.warn({ message: 'Signature image could not be fetched, continuing without signature', service: 'PDF Generation' });
+    }
+
+    // Create PDF document
+    const doc = new PDFDocument({ size: 'A4' });
+    const buffers: Buffer[] = [];
+    const passThroughStream = new PassThrough();
+
     // Pipe the document to the PassThrough stream
     doc.pipe(passThroughStream);
+
+    // Register fonts
     doc.registerFont('arialnarrow_bolditalic', arialnarrow_bolditalicPath);
     doc.registerFont('arialnarrow', arialnarrow);
     doc.registerFont('arialnarrow_bold', arialnarrow_bold);
     doc.registerFont('arialnarrow_italic', arialnarrow_italic);
-    // Collect chunks of data from the PassThrough stream
-    passThroughStream.on('data', (chunk: Buffer) => {
-      buffers.push(chunk);
-    });
-    passThroughStream.on('end', () => {
-      const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
-      const result = new Uint8Array(totalLength);
-      let offset = 0;
-      for (const buf of buffers) {
-        result.set(buf, offset);
-        offset += buf.length;
-      }
-      resolve(Buffer.from(result));
-    });
-    passThroughStream.on('error', reject);
 
-    // Add content to the PDF
-    // const logoPath = path.join(__dirname, 'ogunlogohd.png'); // Path to the logo image
-    // const signaturePath = path.join(__dirname, 'signature.png'); // Path to the signature image
-
-
-// const logoPath = path.join(process.cwd(), 'public', 'assets', 'ogunlogohd.png');
-// const signaturePath = path.join(process.cwd(), 'public', 'assets','signature.png'); 
-
-const logoPath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417636/fuaxe9suql03ykyihj36.png'
-const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v1764417643/jreeabexdzglxtgaytjk.png'
-    // Get the page dimensions
-    // Function to fetch image from URL
-    async function fetchImageFromUrl(url: string): Promise<Buffer | null> {
-      try {
-        const response = await axios.get(url, { 
-          responseType: 'arraybuffer' 
-        });
-        return Buffer.from(response.data);
-      } catch (error) {
-        console.error('Error fetching image:', error);
-        return null; // Return null instead of throwing to allow PDF generation to continue
-      }
-    }
-
-    const logo = await fetchImageFromUrl(logoPath);
-    const signature = await fetchImageFromUrl(signaturePath);
-    // Get the page dimensions
-    const pageWidth = doc.page.width;
-    const pageHeight = doc.page.height;
-
-    // Set the desired logo dimensions
-    const logoWidth = 60;
-    const logoHeight = 60;
-    const signatureWidth = 180;
-
-    // Calculate the position for top center
-    const x = (pageWidth - logoWidth) / 2;
-    const y = 10; // Adjust this value to move the logo up or down
-    const z = 400;
-
-    // Add logo at the top header
-    if (logo) {
-      doc.image(logo, x, y, {
-        fit: [50, 50], // Adjust the size of the logo as needed
-        align: 'right', // Center the logo horizontally (optional)
-        valign: 'center',
+    // Return a Promise that resolves when PDF generation is complete
+    const pdfPromise = new Promise<Buffer>((resolve, reject) => {
+      // Collect chunks of data from the PassThrough stream
+      passThroughStream.on('data', (chunk: Buffer) => {
+        buffers.push(chunk);
       });
-    }
 
-    // Add header and other details
-    doc.moveDown();
-    doc
-      .fillAndStroke('green', 'yellow')
-      .font('arialnarrow_bold')
-      .fontSize(25)
-      .text('TEACHING SERVICE COMMISSION', { align: 'center' });
-    doc
-      .fillColor('purple')
-      .fontSize(15)
-      .text('P.M.B 2081. ABEOKUTA, OGUN STATE OF NIGERIA', { align: 'center' });
-    doc.moveDown(1);
-    doc
-      .fillColor('black')
-      .font('arialnarrow_bolditalic')
-      .fontSize(14)
-      .text('All Communications should be addressed', { align: 'left' });
-    doc
-      .fillColor('black')
-      .font('arialnarrow_bolditalic')
-      .fontSize(14)
-      .text('to the Permanent Secretary', { align: 'left' });
-
-    doc.moveDown(3);
-    doc
-      .fillColor('black')
-      .font('arialnarrow')
-      .fontSize(13)
-      .text('TSC/29/Vol.IV/', { align: 'left' });
-    doc.text('9th September, 2024', { align: 'right' });
-
-    // Insert user-specific content
-    doc.moveDown(1);
-    doc
-      .fillColor('black')
-      .font('arialnarrow_bold')
-      .fontSize(12)
-      .text(`${user?.staffName?.firstName}`, { align: 'left' });
-    doc
-      .fillColor('black')
-      .font('arialnarrow')
-      .fontSize(12)
-      .text(
-        `${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.location}`,
-        { align: 'left' }
-      );
-    doc.moveDown(2);
-
-    doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
-
-    // Add content to the PDF
-    doc.moveDown();
-    doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
-    // Add signature
-    doc.moveDown(3);
-    if (signature) {
-      const a = 500;
-      doc.image(signature, z, a, {
-        fit: [100, 50], // Adjust the size of the signature image as needed
-        align: 'right', // Adjust alignment if needed
+      passThroughStream.on('end', () => {
+        const totalLength = buffers.reduce((acc, buf) => acc + buf.length, 0);
+        const result = new Uint8Array(totalLength);
+        let offset = 0;
+        for (const buf of buffers) {
+          result.set(buf, offset);
+          offset += buf.length;
+        }
+        logger.info({ message: `PDF generation completed for: ${fileName}`, service: 'PDF Generation' });
+        resolve(Buffer.from(result));
       });
-    }
-    doc.moveDown(2);
-    doc
-      .fillColor('black')
-      .font('arialnarrow_bold')
-      .fontSize(12)
-      .text('Afolabi Abiodun F. (Mrs.)', { align: 'right' })
-      .fillColor('black')
-      .font('arialnarrow_italic')
-      .fontSize(12)
-      .text('for: Permanent Secretary', { align: 'right' });
-    // Finalize the PDF and end the stream
-    doc.end();
-  });
+
+      passThroughStream.on('error', (error) => {
+        logger.error({ message: `PDF stream error: ${error.message}`, service: 'PDF Generation' });
+        reject(error);
+      });
+
+      // Get page dimensions
+      const pageWidth = doc.page.width;
+      const pageHeight = doc.page.height;
+
+      // Logo dimensions and position
+      const logoWidth = 60;
+      const logoHeight = 60;
+      const x = (pageWidth - logoWidth) / 2;
+      const y = 10;
+
+      // Add logo at the top header
+      if (logo) {
+        try {
+          doc.image(logo, x, y, {
+            fit: [50, 50],
+            align: 'right',
+            valign: 'center',
+          });
+        } catch (error: any) {
+          logger.error({ message: `Error adding logo to PDF: ${error.message}`, service: 'PDF Generation' });
+        }
+      }
+
+      // Add header and other details
+      doc.moveDown();
+      doc
+        .fillAndStroke('green', 'yellow')
+        .font('arialnarrow_bold')
+        .fontSize(25)
+        .text('TEACHING SERVICE COMMISSION', { align: 'center' });
+      
+      doc
+        .fillColor('purple')
+        .fontSize(15)
+        .text('P.M.B 2081. ABEOKUTA, OGUN STATE OF NIGERIA', { align: 'center' });
+      
+      doc.moveDown(1);
+      doc
+        .fillColor('black')
+        .font('arialnarrow_bolditalic')
+        .fontSize(14)
+        .text('All Communications should be addressed', { align: 'left' });
+      
+      doc
+        .fillColor('black')
+        .font('arialnarrow_bolditalic')
+        .fontSize(14)
+        .text('to the Permanent Secretary', { align: 'left' });
+
+      doc.moveDown(3);
+      doc
+        .fillColor('black')
+        .font('arialnarrow')
+        .fontSize(13)
+        .text('TSC/29/Vol.IV/', { align: 'left' });
+      
+      doc.text('9th September, 2024', { align: 'right' });
+
+      // Insert user-specific content
+      doc.moveDown(1);
+      doc
+        .fillColor('black')
+        .font('arialnarrow_bold')
+        .fontSize(12)
+        .text(`${user?.staffName?.firstName}`, { align: 'left' });
+      
+      doc
+        .fillColor('black')
+        .font('arialnarrow')
+        .fontSize(12)
+        .text(
+          `${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.location}`,
+          { align: 'left' }
+        );
+      
+      doc.moveDown(2);
+
+      // Title
+      doc.fillColor('black').font('arialnarrow_bold').fontSize(14).text(title, { align: 'center' });
+
+      // Add content to the PDF
+      doc.moveDown();
+      doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
+
+      // Add signature
+      doc.moveDown(3);
+      if (signature) {
+        try {
+          const signatureX = 400;
+          const signatureY = 500;
+          doc.image(signature, signatureX, signatureY, {
+            fit: [100, 50],
+            align: 'right',
+          });
+        } catch (error: any) {
+          logger.error({ message: `Error adding signature to PDF: ${error.message}`, service: 'PDF Generation' });
+        }
+      }
+
+      doc.moveDown(2);
+      doc
+        .fillColor('black')
+        .font('arialnarrow_bold')
+        .fontSize(12)
+        .text('Afolabi Abiodun F. (Mrs.)', { align: 'right' })
+        .fillColor('black')
+        .font('arialnarrow_italic')
+        .fontSize(12)
+        .text('for: Permanent Secretary', { align: 'right' });
+
+      // Finalize the PDF and end the stream
+      doc.end();
+    });
+
+    return await pdfPromise;
+  } catch (error: any) {
+    logger.error({
+      message: `Fatal error in generateAndDownloadPDF: ${error.message}`,
+      service: 'PDF Generation',
+      stack: error.stack,
+    });
+    throw error;
+  }
+};
+
+/**
+ * Generate letter content based on user position and status
+ */
+const generateLetterContent = (user: IUser): string => {
+  const letterData = {
+    name: user?.staffName?.firstName ?? 'Unknown',
+    newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+    position: user?.position ?? 'Unknown',
+    previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
+  };
+
+  if (
+    (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
+    user.staleOrNew === 'New'
+  ) {
+    return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${letterData.position} of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with effect from 6th March, 2025.
+
+          2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
+
+          3.      Congratulations on this well-deserved elevation.`;
+  }
+
+  if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
+    return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}  to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},   ${user?.schoolOfPresentPosting?.location}  with immediate effect.
+
+          2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
+
+          3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the assumption at the new office.
+
+          4.    Thank you.`;
+  }
+
+  if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
+    return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
+
+          2.    Kindly ensure proper handing over before leaving.
+
+          3.    Many thanks`;
+  }
+
+  return '';
 };
 
 /**
@@ -188,180 +659,137 @@ const signaturePath = 'https://res.cloudinary.com/dhkhxaxca/image/upload/v176441
  * @param {string} userId - The ID of the user.
  * @returns {Promise<string | null>} - The URL of the uploaded PDF, or null if the user is not found.
  */
-export const generateAndUploadPostingLetter = (userId: string): Promise<string | null> => {
+export const generateAndUploadPostingLetter = async (userId: string): Promise<string | null> => {
   const userService = new UserService();
+  const postingReportService = new PostingReportService();
 
-  return new Promise((resolve, reject) => {
-    // Find the user
-    try {
+  try {
+    logger.info({ message: `Starting posting letter generation for user: ${userId}`, service: 'PDF Generation and Upload' });
+
+    // Find the user (convert callback to promise)
+    const user = await new Promise<IUser>((resolve, reject) => {
       userService.filterUser({ _id: userId }, (err: any, user: IUser) => {
         if (err) {
           logger.error({
             message: err.message || 'Error fetching user',
             service: 'PDF Generation and Upload',
           });
-          return reject(err); // Reject if error occurs
+          return reject(err);
         }
 
         if (!user) {
           logger.error({ message: 'User not found', service: 'PDF Generation and Upload' });
-          resolve(null); // Resolve with null if no user is found
+          return reject(new Error('User not found'));
         }
 
-        // Prepare PDF content
-        const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
+        resolve(user);
+      });
+    });
 
-        let title: string;
-        if (user.position === 'Principal' && user.staleOrNew === 'New') {
-          title = `APPOINTMENT AS PRINCIPAL`;
-        }
-        if (user.position === 'Vice-Principal' && user.staleOrNew === 'New') {
-          title = `APPOINTMENT AS VICE-PRINCIPAL`;
-        }
-        if (user.position === 'Principal' && user.staleOrNew === 'Stale') {
-          title = `REDEPLOYMENT OF PRINCIPAL`;
-        }
-        if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
-          title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
-        }
-        const letterData = {
-          name: user?.staffName?.firstName ?? 'Unknown',
-          newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
-          position: user?.position ?? 'Unknown',
-          previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
-        };
-        console.log(letterData);
-        const postingReport = new PostingReportService();
+    // Prepare PDF content
+    const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
 
-        postingReport.createPostingReport({
-          staffDetails: user?.staffName?.firstName ?? 'Unknown',
-          sourceSchool: user?.schoolOfPreviousPosting?.nameOfSchool ?? 'Unknown',
-          destinationSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
-          dateOfPreviousSchoolPosting: user?.dateOfPresentSchoolPosting ?? new Date(),
-          dateOfNewSchoolPosting: new Date().toLocaleDateString(),
-          previousPosition: user?.position ?? 'Unknown',
-          newPosition: user?.position ?? 'Unknown',
-          staleOrNew: user?.staleOrNew ?? 'Unknown',
-        });
-        // let letterContent: string;
-        // const letterData = {
-        //   name: user.staffName?.firstName ?? 'Unknown ',
-        //   newSchool:
-        //     user.schoolOfPresentPosting?.nameOfSchool ??
-        //     'Unknown Please contact headquarters you will get your letter',
-        //   position:
-        //     user?.position ??
-        //     'Unknown Unknown Please contact headquarters headquarters you will get your letter',
-        //   previousSchool: user?.ward,
-        // };
-        const generateLetterContent = (user: IUser): string => {
-          if (!user) return void CommonService.insufficientParameters(response as Response);
-          if (
-            (letterData.position === 'Principal' || letterData.position === 'Vice-Principal') &&
-            user.staleOrNew === 'New'
-          ) {
-            return `          I am directed to inform you that the Ogun State Teaching Service Commission has approved your appointment as the ${
-              letterData.position
-            } of ${letterData.newSchool}, ${user?.schoolOfPresentPosting?.category},  ${
-              user?.schoolOfPresentPosting?.location
-            } with effect from ${
-              '6th March, 2025'
-              //  user?.position === 'Principal' ? '30th July, 2024' : '31st July, 2024'
-            }.
-    
-          2.      Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-    
-          3.      Congratulations on this well-deserved elevation.`;
-          }
+    // Determine title based on position and status
+    let title: string = '';
+    if (user.position === 'Principal' && user.staleOrNew === 'New') {
+      title = `APPOINTMENT AS PRINCIPAL`;
+    } else if (user.position === 'Vice-Principal' && user.staleOrNew === 'New') {
+      title = `APPOINTMENT AS VICE-PRINCIPAL`;
+    } else if (user.position === 'Principal' && user.staleOrNew === 'Stale') {
+      title = `REDEPLOYMENT OF PRINCIPAL`;
+    } else if (user.position === 'Vice-Principal' && user.staleOrNew === 'Stale') {
+      title = `REDEPLOYMENT OF VICE-PRINCIPAL`;
+    }
 
-          if (letterData?.position === 'Vice-Principal' && user?.staleOrNew === 'Stale') {
-            return `             I am directed to inform you that the Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}  to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},   ${user?.schoolOfPresentPosting?.location}  with immediate effect.
-    
-          2.    Kindly ensure a strict compliance and proper handing over of all the school materials in your possession to your principal immediately.
-    
-          3.    Please, you are to forward to the Commission the evidence of assumption of duty not later than two(2) weeks of the assumption at the new office.
-    
-          4.    Thank you.`;
-          }
+    // Log letter data
+    const letterData = {
+      name: user?.staffName?.firstName ?? 'Unknown',
+      newSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+      position: user?.position ?? 'Unknown',
+      previousSchool: user?.schoolOfPreviousPosting?.nameOfSchool,
+    };
+    logger.info({ message: 'Letter data prepared', data: letterData, service: 'PDF Generation and Upload' });
 
-          if (letterData?.position === 'Principal' && user?.staleOrNew === 'Stale') {
-            return `            I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${user?.schoolOfPreviousPosting?.nameOfSchool}, ${user?.schoolOfPreviousPosting?.category}, ${user?.schoolOfPreviousPosting?.location}   to ${letterData.newSchool} ${user?.schoolOfPresentPosting?.category},  ${user?.schoolOfPresentPosting?.location} with immediate effect.
-    
-          2.    Kindly ensure proper handing over before leaving.
-    
-          3.    Many thanks`;
-          }
+    // Create posting report
+    await postingReportService.createPostingReport({
+      staffDetails: user?.staffName?.firstName ?? 'Unknown',
+      sourceSchool: user?.schoolOfPreviousPosting?.nameOfSchool ?? 'Unknown',
+      destinationSchool: user?.schoolOfPresentPosting?.nameOfSchool ?? 'Unknown',
+      dateOfPreviousSchoolPosting: user?.dateOfPresentSchoolPosting ?? new Date(),
+      dateOfNewSchoolPosting: new Date().toLocaleDateString(),
+      previousPosition: user?.position ?? 'Unknown',
+      newPosition: user?.position ?? 'Unknown',
+      staleOrNew: user?.staleOrNew ?? 'Unknown',
+    });
 
-          return '';
-        };
-        const letterContent = generateLetterContent(user);
-        // Generate and upload the PDF
-        //
-        generateAndDownloadPDF(user, fileName, title, letterContent)
-          .then((pdfBuffer) => {
-            // Upload the PDF buffer to Cloudinary using the .upload function
-            return new Promise<any>((resolve, reject) => {
-              // Convert the buffer to a base64 encoded string
-              const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
+    // Generate letter content
+    const letterContent = generateLetterContent(user);
 
-              // Upload the base64 string using the .upload function
-              cloudinary.uploader.upload(
-                base64String,
-                {
-                  resource_type: 'raw',
-                  public_id: fileName,
-                  invalidate: true,
-                },
-                (error, result) => {
-                  if (error) {
-                    return reject(error); // Reject on upload error
-                  }
-                  resolve(result); // Resolve with upload result
-                }
-              );
-              //     cloudinary.uploader.unsigned_upload(
-              //       base64String,
-              //       'ml_default',
+    // Generate PDF
+    logger.info({ message: 'Generating PDF...', service: 'PDF Generation and Upload' });
+    const pdfBuffer = await generateAndDownloadPDF(user, fileName, title, letterContent);
+    logger.info({ message: 'PDF generated successfully', service: 'PDF Generation and Upload' });
 
-              //       (error, result) => {
-              //         if (error) {
-              //           return reject(error); // Reject on upload error
-              //         }
-              //         resolve(result); // Resolve with upload result
-              //       }
-              //     );
-            });
-          })
-          .then((uploadResult) => {
-            const downloadLink = uploadResult.secure_url;
+    // Upload PDF to Cloudinary
+    logger.info({ message: 'Uploading PDF to Cloudinary...', service: 'PDF Generation and Upload' });
+    const uploadResult = await new Promise<any>((resolve, reject) => {
+      const base64String = `data:application/pdf;base64,${pdfBuffer.toString('base64')}`;
 
-            if (!downloadLink) {
-              throw new Error('Failed to generate download link.');
-            }
-
-            // Update the user's posting letter in the database
-            userService.updateUser(
-              { _id: userId },
-              { letters: { postingLetter: downloadLink } },
-              (err, updatedUser) => {
-                if (err) {
-                  reject(err); // Reject if there's an error updating the user
-                }
-                resolve(downloadLink); // Resolve with the download link
-              }
-            );
-          })
-          .catch((error) => {
+      cloudinary.uploader.upload(
+        base64String,
+        {
+          resource_type: 'raw',
+          public_id: fileName,
+          invalidate: true,
+        },
+        (error, result) => {
+          if (error) {
             logger.error({
-              message: error.message || 'Unknown error during PDF generation or upload',
+              message: `Cloudinary upload error: ${error.message}`,
               service: 'PDF Generation and Upload',
             });
+            return reject(error);
+          }
+          logger.info({ message: 'PDF uploaded to Cloudinary successfully', service: 'PDF Generation and Upload' });
+          resolve(result);
+        }
+      );
+    });
 
-            reject(error); // Reject if any error occurs
-          });
-      });
-    } catch (error) {
-      return reject(error);
+    const downloadLink = uploadResult.secure_url;
+
+    if (!downloadLink) {
+      throw new Error('Failed to generate download link from Cloudinary.');
     }
-  });
+
+    logger.info({ message: `PDF download link: ${downloadLink}`, service: 'PDF Generation and Upload' });
+
+    // Update the user's posting letter in the database
+    await new Promise<void>((resolve, reject) => {
+      userService.updateUser(
+        { _id: userId },
+        { letters: { postingLetter: downloadLink } },
+        (err, updatedUser) => {
+          if (err) {
+            logger.error({
+              message: `Error updating user with posting letter: ${err.message}`,
+              service: 'PDF Generation and Upload',
+            });
+            return reject(err);
+          }
+          logger.info({ message: 'User updated with posting letter', service: 'PDF Generation and Upload' });
+          resolve();
+        }
+      );
+    });
+
+    return downloadLink;
+  } catch (error: any) {
+    logger.error({
+      message: error.message || 'Unknown error during PDF generation or upload',
+      service: 'PDF Generation and Upload',
+      stack: error.stack,
+    });
+    throw error; // Re-throw to be caught by the controller
+  }
 };
