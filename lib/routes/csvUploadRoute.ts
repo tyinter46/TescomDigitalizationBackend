@@ -11,7 +11,7 @@ export class CsvUploadRoute {
 
   public staffToPostCsvRoutes(app: Application) {
     app.post('/api/uploadCsv', 
-      AuthMiddleWare.verifyToken,
+      // AuthMiddleWare.verifyToken,
       // rateLimitMiddleware(csvUploadRateLimiter),
       upload.single('file'), 
       (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ export class CsvUploadRoute {
       }
     );
     app.post('/api/uploadStaffPosting', 
-      // AuthMiddleWare.verifyToken,
+     // AuthMiddleWare.verifyToken,
       // rateLimitMiddleware(csvUploadRateLimiter),
       upload.single('file'), 
       (req: Request, res: Response) => {

@@ -83,7 +83,7 @@ const signature = await fetchImageFromUrl(signaturePath)
 
     // Calculate the position for top center
     const x = (pageWidth - logoWidth) / 2;
-    const y = 10; // Adjust this value to move the logo up or down
+    const y = 20; // Adjust this value to move the logo up or down
     const z = 400;
 
     // Add logo at the top header
@@ -117,14 +117,17 @@ const signature = await fetchImageFromUrl(signaturePath)
       .font('arialnarrow_bolditalic')
       .fontSize(14)
       .text('to the Permanent Secretary', { align: 'left' });
+    
+    doc.moveDown(2);
+    // doc.fillColor('black').font('arialnarrow_bold').fontSize(12).text( , { align: 'left' });
 
     doc.moveDown(3);
     doc
       .fillColor('black')
       .font('arialnarrow')
       .fontSize(13)
-      .text('TSC/29/Vol.IV/', { align: 'left' });
-    doc.text('9th September, 2024', { align: 'right' });
+      .text('TSC/1039/VOL.XT2/', { align: 'left' });
+    doc.text('15th December, 2025', { align: 'right' });
 
     // Insert user-specific content
     doc.moveDown(1);
@@ -149,15 +152,16 @@ const signature = await fetchImageFromUrl(signaturePath)
     doc.moveDown();
     doc.fillColor('black').font('arialnarrow').fontSize(12).text(content, { align: 'left' });
     // Add signature
-    doc.moveDown(3);
+  
     if (signature) {
       const a = 500;
+      doc.moveDown(4);
       doc.image(signature, z, a, {
         fit: [100, 50], // Adjust the size of the signature image as needed
         align: 'right', // Adjust alignment if needed
       });
     }
-    doc.moveDown(2);
+ 
     doc
       .fillColor('black')
       .font('arialnarrow_bold')
@@ -166,7 +170,11 @@ const signature = await fetchImageFromUrl(signaturePath)
       .fillColor('black')
       .font('arialnarrow_italic')
       .fontSize(12)
-      .text('for: Permanent Secretary', { align: 'right' });
+      .text('for: Permanent Secretary', { align: 'right' }).
+      font('arialnarrow_bold').fontSize(12).text('(TSC.1039/VOL.XT2/)', { align: 'right' });
+
+      
+
     // Finalize the PDF and end the stream
     doc.end();
   });
@@ -199,7 +207,7 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
 
         // Prepare PDF content
         const fileName = `${user.staffName?.firstName} POSTING LETTER.pdf`;
-        const title = 'POSTING INSTRUCTION';
+        const title = 'POSTING OF TEACHERS';
 
         const letterData = {
           name: user?.staffName?.firstName ?? 'Unknown',
@@ -214,14 +222,16 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
             return ''; // Return an empty string if insufficient parameters
           }
 
-          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your posting to ${
-            user?.schoolOfPresentPosting?.nameOfSchool
-          }, 
-           with effect from ${'1st January, 2025'}.
+          return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${
+            user?.schoolOfPreviousPosting?.nameOfSchool
+          } to ${user?.schoolOfPresentPosting?.nameOfSchool}, 
+           with immediate effect.
 
-          2. Kindly ensure that you handover all school documents and materials in your care to your Principal before leaving.
-
-          3. Congratulations on this well-deserved elevation.`;
+          2. Kindly ensure a strict compliance and proper handing over of all office materials in your possession to your Principal immediately.
+         
+          3. Please, you are to forward to the Commission, the evidence of assumption of duty not later than two(2) weeks of the assumption at the new School.
+       
+          4. Many thanks.`;
         };
 
         const letterContent = generateLetterContent(user);

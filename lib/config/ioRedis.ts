@@ -47,7 +47,7 @@ export const redisReady = new Promise<IORedis>((resolve, reject) => {
   } else {
     const timeout = setTimeout(() => {
       reject(new Error('Redis connection timeout after 10 seconds'));
-    }, 10000);
+    }, 20000);
 
     connection.once('ready', () => {
       clearTimeout(timeout);
