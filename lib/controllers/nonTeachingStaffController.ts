@@ -126,17 +126,17 @@ export class StaffPostingController {
 
       const makeStaffListUnique = (staffList: any[]) => {
         const seen = new Set();
-        return staffList.filter((staff: string) => {
-          const id = staff.toString();
+        return staffList?.filter((staff: string) => {
+          const id = staff?.toString();
           return id && !seen.has(id) && seen.add(id);
         });
       };
 
-      if (!result.listOfStaff.includes(staff)) {
-        result.listOfStaff.push(staff);
+      if (!result.listOfStaff?.includes(staff)) {
+        result?.listOfStaff?.push(staff);
       }
 
-      const uniqueStaffList = makeStaffListUnique(result.listOfStaff);
+      const uniqueStaffList = makeStaffListUnique(result?.listOfStaff);
       await this.schoolsService.updateSchool({ _id: schoolId }, { listOfStaff: uniqueStaffList });
       logger.info(`Updated school ${schoolId} with staff ${staff}`);
 

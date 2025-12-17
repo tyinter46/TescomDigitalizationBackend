@@ -154,7 +154,7 @@ const signature = await fetchImageFromUrl(signaturePath)
     // Add signature
   
     if (signature) {
-      const a = 500;
+      const a = 560;
       doc.moveDown(4);
       doc.image(signature, z, a, {
         fit: [100, 50], // Adjust the size of the signature image as needed
@@ -170,8 +170,7 @@ const signature = await fetchImageFromUrl(signaturePath)
       .fillColor('black')
       .font('arialnarrow_italic')
       .fontSize(12)
-      .text('for: Permanent Secretary', { align: 'right' }).
-      font('arialnarrow_bold').fontSize(12).text('(TSC.1039/VOL.XT2/)', { align: 'right' });
+      .text('for: Permanent Secretary', { align: 'right' })
 
       
 
@@ -224,14 +223,14 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
 
           return `I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${
             user?.schoolOfPreviousPosting?.nameOfSchool
-          } to ${user?.schoolOfPresentPosting?.nameOfSchool}, 
+          } to ${user?.schoolOfPresentPosting?.nameOfSchool} ${user?.schoolOfPresentPosting?.location}, 
            with immediate effect.
 
-          2. Kindly ensure a strict compliance and proper handing over of all office materials in your possession to your Principal immediately.
+ 2.    Kindly ensure a strict compliance and proper handing over of all office materials in your possession to your Principal immediately.
          
-          3. Please, you are to forward to the Commission, the evidence of assumption of duty not later than two(2) weeks of the assumption at the new School.
+ 3.    Please, you are to forward to the Commission, the evidence of assumption of duty not later than two(2) weeks of the assumption at the new School.
        
-          4. Many thanks.`;
+ 4.    Many thanks.`;
         };
 
         const letterContent = generateLetterContent(user);

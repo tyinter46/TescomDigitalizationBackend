@@ -23,7 +23,7 @@ const ExistingStaffSchema = new Schema({
     type: Date,
   },
   dateOfFirstAppointment: {
-    type: String,
+    type: Date,
   },
 });
 

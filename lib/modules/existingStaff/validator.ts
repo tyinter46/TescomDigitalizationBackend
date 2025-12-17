@@ -14,7 +14,7 @@ const existingStaffValidationSchema = {
     }),
     dateOfBirth: Joi.string().isoDate(),
     dateOfRetirement: Joi.string().isoDate().optional(),
-    dateOfFirstAppointment: Joi.string().isoDate(),
+    // dateOfFirstAppointment: Joi.string().isoDate(),
 
     sort: Joi.string().optional(),
     pageNumber: Joi.number().max(600).messages({
