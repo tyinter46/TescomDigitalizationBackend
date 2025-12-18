@@ -1,4 +1,7 @@
-import { MongoClient } from 'mongodb';
+// 
+
+
+import { MongoClient, ChangeStream } from 'mongodb';
 import { esClient } from '../config/elasticsearch';
 
 // Environment variables for tuning
@@ -9,6 +12,8 @@ const RETRY_BACKOFF_MS = 1000;
 const ES_READY_TIMEOUT = 30000; // 30 seconds to wait for ES
 
 let hasImported = false;
+let changeStream: ChangeStream | null = null;
+let mongoClient: MongoClient | null = null;
 
 // Wait for Elasticsearch to be ready
 async function waitForElasticsearch(timeoutMs = ES_READY_TIMEOUT): Promise<void> {
@@ -32,13 +37,122 @@ async function waitForElasticsearch(timeoutMs = ES_READY_TIMEOUT): Promise<void>
   );
 }
 
+// Handle individual document changes from MongoDB Change Stream
+async function handleChange(change: any) {
+  try {
+    const { operationType, documentKey, fullDocument } = change;
+    
+    switch (operationType) {
+      case 'insert':
+      case 'replace':
+      case 'update':
+        // Index or update document in Elasticsearch
+        const docToIndex = fullDocument || {};
+        const { _id, ...rest } = docToIndex;
+        
+        await esClient.index({
+          index: 'users',
+          id: _id?.toString(),
+          document: {
+            id: _id?.toString(),
+            ...rest,
+            dateOfFirstAppointment: docToIndex.dateOfFirstAppointment
+              ? new Date(docToIndex.dateOfFirstAppointment).toISOString()
+              : undefined,
+            dateOfPresentSchoolPosting: docToIndex.dateOfPresentSchoolPosting
+              ? new Date(docToIndex.dateOfPresentSchoolPosting).toISOString()
+              : undefined,
+          },
+          refresh: true,
+        });
+        console.log(`✅ Synced ${operationType}: ${_id}`);
+        break;
+        
+      case 'delete':
+        // Delete document from Elasticsearch
+        try {
+          await esClient.delete({
+            index: 'users',
+            id: documentKey._id.toString(),
+            refresh: true,
+          });
+          console.log(`✅ Synced delete: ${documentKey._id}`);
+        } catch (err: any) {
+          // Document might not exist in ES, ignore
+          if (err.meta?.statusCode !== 404) {
+            throw err;
+          }
+        }
+        break;
+        
+      default:
+        console.log(`ℹ️ Ignored operation: ${operationType}`);
+    }
+  } catch (error: any) {
+    console.error('❌ Error handling change:', error.message);
+  }
+}
+
+// Start watching MongoDB changes
+async function startChangeStreamSync() {
+  if (!mongoClient) {
+    console.error('❌ Cannot start change stream: MongoDB client not initialized');
+    return;
+  }
+  
+  if (changeStream) {
+    console.log('ℹ️ Change stream already running');
+    return;
+  }
+  
+  try {
+    const db = mongoClient.db('test');
+    const collection = db.collection('users');
+    
+    // Watch for changes with full document on update
+    changeStream = collection.watch([], { fullDocument: 'updateLookup' });
+    
+    console.log('👀 Started watching MongoDB changes for real-time sync...');
+    
+    changeStream.on('change', handleChange);
+    
+    changeStream.on('error', (error) => {
+      console.error('❌ Change stream error:', error);
+      changeStream = null;
+      
+      // Attempt to reconnect after 5 seconds
+      setTimeout(() => {
+        console.log('🔄 Attempting to restart change stream...');
+        startChangeStreamSync().catch(console.error);
+      }, 5000);
+    });
+    
+    changeStream.on('close', () => {
+      console.log('ℹ️ Change stream closed');
+      changeStream = null;
+    });
+    
+  } catch (error: any) {
+    console.error('❌ Failed to start change stream:', error.message);
+    console.warn('⚠️ Note: Change streams require MongoDB to run as a replica set');
+  }
+}
+
+// Stop watching MongoDB changes
+async function stopChangeStreamSync() {
+  if (changeStream) {
+    await changeStream.close();
+    changeStream = null;
+    console.log('✅ Stopped change stream');
+  }
+}
+
 export default async function importUsers() {
   if (hasImported) {
     console.log('ℹ️ Import already completed, skipping');
-
+    return;
   }
 
-  let mongoClient: MongoClient | null = null;
   let totalIndexed = 0;
 
   try {
@@ -62,6 +176,9 @@ export default async function importUsers() {
     if (totalUsers === 0) {
       console.log('⚠️ No users found in MongoDB, skipping import');
       hasImported = true;
+      
+      // Still start change stream to catch future inserts
+      await startChangeStreamSync();
       return;
     }
     console.log(`ℹ️ Found ${totalUsers} users in MongoDB`);
@@ -187,13 +304,36 @@ export default async function importUsers() {
 
     console.log(`🎉 Import completed! Total indexed: ${totalIndexed}/${totalUsers}`);
     hasImported = true;
+    
+    // Start real-time sync after initial import
+    await startChangeStreamSync();
+    
   } catch (error: any) {
     console.error('❌ Import failed:', error.message);
     // Don't throw - let the server continue running
-  } finally {
-    if (mongoClient) {
-      await mongoClient.close();
-      console.log('✅ MongoDB connection closed');
-    }
+  }
+  // Note: MongoDB connection is kept open for change stream
+}
+
+// Export cleanup function for graceful shutdown
+export async function cleanup() {
+  console.log('⏳ Cleaning up MongoDB sync...');
+  await stopChangeStreamSync();
+  
+  if (mongoClient) {
+    await mongoClient.close();
+    mongoClient = null;
+    console.log('✅ MongoDB connection closed');
   }
 }
+
+// Call cleanup on process termination
+process.on('SIGINT', async () => {
+  await cleanup();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  await cleanup();
+  process.exit(0);
+});
