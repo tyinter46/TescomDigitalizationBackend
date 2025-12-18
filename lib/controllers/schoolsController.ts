@@ -13,6 +13,7 @@ import redisCache from '../config/redisCache';
 import UsersModel from '../modules/users/schema';
 import { IPostingReport } from '../modules/postingReports/model';
 import { error } from 'console';
+import type { estypes } from '@elastic/elasticsearch';
 // import { ModificationNote } from 'modules/common/model';
 
 dotenv.config();
@@ -41,6 +42,29 @@ export class SchoolsController {
       sort = '',
       id = '',
     } = req.query;
+
+  // const must: estypes.QueryDslQueryContainer[] = [];
+
+  // const  schoolName = String(nameOfSchool ?? '');
+  // const  schoolType = String(category ?? '');
+  // const schoolAddress = String(address ?? '');
+  // const schoolLcation = String(location ?? '');
+  // const schoolZone = String(zone ?? '');
+
+  // const schoolDivision = String(division ?? '');
+  // const schoolListOfStaff = String(listOfStaff ?? '');
+  // const schoolPrincipal = String(principal ?? '');
+  // const vicePrincipalAdmin = String(vicePrincipalAdmin ?? '');
+  // const vicePrincipalAcademics = String(vicePrincipalAcademics ?? '');
+  // const latitude = String(latitude ?? '');
+  // const longitude = String(longitude ?? '');
+  // const sort = String(sort ?? '');
+  // const id = String(id ?? '');
+
+
+
+
+
 
     // Step 1: Generate cache key
     const cacheKeyRaw = JSON.stringify(req.query);

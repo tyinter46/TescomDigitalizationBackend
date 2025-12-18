@@ -35,7 +35,7 @@ async function waitForElasticsearch(timeoutMs = ES_READY_TIMEOUT): Promise<void>
 export default async function importUsers() {
   if (hasImported) {
     console.log('ℹ️ Import already completed, skipping');
-    return;
+
   }
 
   let mongoClient: MongoClient | null = null;
