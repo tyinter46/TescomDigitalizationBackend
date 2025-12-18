@@ -89,7 +89,7 @@ export default async function importUsers() {
         });
         console.log('✅ Created users index in Elasticsearch');
       } else {
-       return console.log('ℹ️ Users index already exists');
+        console.log('ℹ️ Users index already exists');
       }
     } catch (err: any) {
       // Index might already exist, continue
