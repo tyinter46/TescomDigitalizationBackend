@@ -23,7 +23,9 @@ try {
 
 // console.log('[SERVER] Importing importUsers script...');
 import importUsers from './scripts/importUsersToElastic';
-
+import UserService from '../lib/modules/users/service';
+import importSchoolsToElastic from './scripts/importSchoolsToElastic';
+import SchoolService from '../lib/modules/schools/service';
 // console.log('[SERVER] All imports successful, creating HTTP server...');
 const server = http.createServer(app);
 
@@ -33,13 +35,20 @@ server.listen(PORT, async () => {
   
   try {
     // console.log('[SERVER] Starting user import...');
-    await importUsers();
+    const userService = new UserService
+    const schoolService = new SchoolService
+
+    // await schoolService.addFieldsToAllSchools()
+   // await userService.addFieldsToAllUsers()
+    await importSchoolsToElastic()
+     await importUsers();
     console.log('[SERVER] User import completed');
   } catch (err) {
     // console.error('[SERVER] Error importing users:', err);
     logger.error('Error importing users to Elasticsearch:', err);
   }
-});
+
+
 
 server.on('error', (err) => {
   // console.error('[SERVER] Server error:', err);
@@ -54,4 +63,5 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   // console.error('[SERVER] Unhandled Rejection:', reason);
   logger.error('Unhandled Rejection:', reason);
-});
+})
+})

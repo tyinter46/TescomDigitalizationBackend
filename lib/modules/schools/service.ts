@@ -1,5 +1,7 @@
 import SchoolsModel from './schema';
 import { ISchools } from './model';
+import {IUser} from '../users/model'
+import UserService from '../users/service';
 import { FilterQuery, UpdateQuery } from 'mongoose';
 
 export default class SchoolService {
@@ -118,6 +120,54 @@ export default class SchoolService {
   ): Promise<ISchools[]> {
     const query: any = {};
     query[role] = staffId;
-    return await SchoolsModel.find(query).exec(); // Adjust according to your model
+    return await SchoolsModel.find(query).exec(); 
   }
+
+  public async addFieldsToAllSchools() {
+    try {
+    //  const result = await this.getAllschoolsWithoutPopulation({},{}, () =>{
+ const usersService = new UserService()
+    const schools = await this.getAllSchools({}, {limit: 1000})
+console.log(schools.docs.length)
+    for (const school of schools.docs || schools) {
+    
+      const staffNames: string[] = []
+      if (school.listOfStaff && Array.isArray(school.listOfStaff)) {
+        for (const staff of school.listOfStaff) {
+          const staffUser = await usersService.filterUser({_id: staff})
+          if (staffUser?.staffName) {
+            const fullName = 
+              staffUser.staffName.firstName
+             
+        
+            staffNames.push(fullName)
+          }
+          
+        }
+      
+    
+
+      // Update the school with collected staff names
+      await SchoolsModel.updateOne(
+        { _id: school._id },
+        {
+          $set: {
+            namesOfListOfStaff: staffNames
+          }
+        }
+      );
+      console.log(`Updated school ${school._id} with ${staffNames.length} staff names`);
+    }
+  }
+  
+    console.log(`Updated all schools`);
+      
+  
+      process.exit(0);
+    } catch (error) {
+      console.error('Error:', error);
+      process.exit(1);
+    }
+  }
+  
 }

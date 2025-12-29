@@ -31,6 +31,7 @@ const SchoolSchema = new Schema(
       default: DivisionsEnum.NULL,
     },
     listOfStaff: [{ type: Schema.Types.ObjectId, ref: 'Users', default: null }],
+   namesOfListOfStaff: [{type: String, default: null}],
 
     principal: {
       type: Schema.Types.ObjectId,

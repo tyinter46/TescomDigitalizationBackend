@@ -118,6 +118,8 @@ export interface IUser {
   nextOfKinAddress?: string;
   nextOfKinPhoneNumber?: string;
   nameOfNextOfKin?: string;
+  nameOfSchoolOfPresentPosting?: string;
+  nameOfSchoolOfPreviousPosting?: string;
   notifications?: INotifications[];
   // staffDetailsFromCaps? :
   modificationNotes?: ModificationNote[];

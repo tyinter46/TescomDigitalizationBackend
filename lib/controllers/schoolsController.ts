@@ -14,6 +14,7 @@ import UsersModel from '../modules/users/schema';
 import { IPostingReport } from '../modules/postingReports/model';
 import { error } from 'console';
 import type { estypes } from '@elastic/elasticsearch';
+import { esClient } from '../config/elasticsearch';
 // import { ModificationNote } from 'modules/common/model';
 
 dotenv.config();
@@ -43,105 +44,221 @@ export class SchoolsController {
       id = '',
     } = req.query;
 
-  // const must: estypes.QueryDslQueryContainer[] = [];
+  const must: estypes.QueryDslQueryContainer[] = [];
 
-  // const  schoolName = String(nameOfSchool ?? '');
-  // const  schoolType = String(category ?? '');
-  // const schoolAddress = String(address ?? '');
-  // const schoolLcation = String(location ?? '');
-  // const schoolZone = String(zone ?? '');
+  const  schoolName = String(nameOfSchool ?? '');
+  const  schoolType = String(category ?? '');
+  const schoolAddress = String(address ?? '');
+  const schoolLcation = String(location ?? '');
+  const schoolZone = String(zone ?? '');
 
-  // const schoolDivision = String(division ?? '');
-  // const schoolListOfStaff = String(listOfStaff ?? '');
-  // const schoolPrincipal = String(principal ?? '');
-  // const vicePrincipalAdmin = String(vicePrincipalAdmin ?? '');
-  // const vicePrincipalAcademics = String(vicePrincipalAcademics ?? '');
-  // const latitude = String(latitude ?? '');
-  // const longitude = String(longitude ?? '');
-  // const sort = String(sort ?? '');
-  // const id = String(id ?? '');
+  const schoolDivision = String(division ?? '');
+  const schoolListOfStaff = String(listOfStaff ?? '');
+  const schoolPrincipal = String(principal ?? '');
+  const schoolVicePrincipalAdmin = String(vicePrincipalAdmin ?? '');
+  const schoolVicePrincipalAcademics = String(vicePrincipalAcademics ?? '');
+  const schoolLatitude = String(latitude ?? '');
+  const schoolLongitude = String(longitude ?? '');
+  const schoolSort = String(sort ?? '');
+  const schoolId = String(id ?? '');
 
 
+    if (schoolName) must.push({match : { 'nameOfSchool': { query: schoolName} }});
+    if (schoolType) must.push({ match: { 'category':  {query: schoolType} } });
+    if (schoolAddress) must.push({ match: { 'address': {query: schoolAddress}} });
+    if (schoolLcation) must.push({ match: { 'location': {query: schoolLcation} } });
+    if (schoolZone) must.push({match : { 'zone': {query: schoolLcation} }});
+    if (schoolListOfStaff) must.push({match : { 'listOfStaff':  {query:  schoolListOfStaff} }});
+    if (schoolPrincipal) must.push({ match : {'principal': { query: schoolPrincipal} } });
+    if (schoolDivision) must.push({ match :{ 'division': { query: schoolDivision} } });
+    if (schoolVicePrincipalAdmin) must.push ({ match: {'vicePrincipalAdmin': {query: schoolVicePrincipalAdmin}}})
+    
+    if (schoolVicePrincipalAcademics)
+      must.push({match: { 'vicePrincipalAcademics': {query: schoolVicePrincipalAcademics} } });
 
+const query : estypes.QueryDslQueryContainer =
+must.length > 0 ? { bool: { must } } : { match_all: {} };
+
+
+const scrollSearch = esClient.helpers.scrollSearch<Record<string, any>>({
+  index: 'schools',
+  size: parseInt(pageSize as string, 10),
+  query,
+});
+const results: any[] = [];
+for await (const response of scrollSearch) {
+  results.push(...response.documents);
+}
 
 
 
     // Step 1: Generate cache key
-    const cacheKeyRaw = JSON.stringify(req.query);
-    const cacheKey = `getAllSchools:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
-    const page = parseInt(pageNumber as string, 10);
-    const limit = parseInt(pageSize as string, 10);
+    // const cacheKeyRaw = JSON.stringify(req.query);
+    // const cacheKey = `getAllSchools:${cryptoJs.MD5(cacheKeyRaw).toString()}`;
+    // const page = parseInt(pageNumber as string, 10);
+    // const limit = parseInt(pageSize as string, 10);
 
-    const query: any = {};
-    const orConditions: any[] = [];
+    // const query: any = {};
+    // const orConditions: any[] = [];
 
-    if (nameOfSchool) orConditions.push({ nameOfSchool: { $regex: nameOfSchool, $options: 'i' } });
-    if (category) orConditions.push({ category: { $regex: category, $options: 'i' } });
-    if (address) orConditions.push({ address: { $regex: address, $options: 'i' } });
-    if (location) orConditions.push({ location: { $regex: location, $options: 'i' } });
-    if (zone) orConditions.push({ zone: { $regex: zone, $options: 'i' } });
-    if (listOfStaff) orConditions.push({ listOfStaff: { $regex: listOfStaff, $options: 'i' } });
-    if (principal) orConditions.push({ principal: { $regex: principal, $options: 'i' } });
-    if (division) orConditions.push({ zone: { $regex: division, $options: 'i' } });
-    if (vicePrincipalAdmin)
-      orConditions.push({ zone: { $regex: vicePrincipalAdmin, $options: 'i' } });
-    if (vicePrincipalAcademics)
-      orConditions.push({ zone: { $regex: vicePrincipalAcademics, $options: 'i' } });
+    // if (nameOfSchool) orConditions.push({ nameOfSchool: { $regex: nameOfSchool, $options: 'i' } });
+    // if (category) orConditions.push({ category: { $regex: category, $options: 'i' } });
+    // if (address) orConditions.push({ address: { $regex: address, $options: 'i' } });
+    // if (location) orConditions.push({ location: { $regex: location, $options: 'i' } });
+    // if (zone) orConditions.push({ zone: { $regex: zone, $options: 'i' } });
+    // if (listOfStaff) orConditions.push({ listOfStaff: { $regex: listOfStaff, $options: 'i' } });
+    // if (principal) orConditions.push({ principal: { $regex: principal, $options: 'i' } });
+    // if (division) orConditions.push({ zone: { $regex: division, $options: 'i' } });
+    // if (vicePrincipalAdmin)
+    //   orConditions.push({ zone: { $regex: vicePrincipalAdmin, $options: 'i' } });
+    // if (vicePrincipalAcademics)
+    //   orConditions.push({ zone: { $regex: vicePrincipalAcademics, $options: 'i' } });
 
-    if (id) query._id = { $eq: id };
-    if (orConditions.length > 0) query.$or = orConditions;
+    // if (id) query._id = { $eq: id };
+    // if (orConditions.length > 0) query.$or = orConditions;
 
-    const sortQuery = {
-      nameOfSchool: sort === 'desc' ? -1 : 1,
-    };
+    // const sortQuery = {
+    //   nameOfSchool: sort === 'desc' ? -1 : 1,
+    // };
 
-    const customLabels = {
-      totalDocs: 'itemsCount',
-      docs: 'programs',
-      limit: 'pageSize',
-      nextPage: 'next',
-      prevPage: 'prev',
-      totalPages: 'pageCount',
-    };
+    // const customLabels = {
+    //   totalDocs: 'itemsCount',
+    //   docs: 'programs',
+    //   limit: 'pageSize',
+    //   nextPage: 'next',
+    //   prevPage: 'prev',
+    //   totalPages: 'pageCount',
+    // };
 
-    const options = {
-      page,
-      limit,
-      sort: sortQuery,
-      populate: [
-        {
-          path: 'principal',
-          select:
-            'staffName position ogNumber phoneNumber  dateOfPresentPosting gradeLevel dateOfRetirement',
-        },
-        {
-          path: 'listOfStaff',
-          select:
-            'staffName gender position phoneNumber ogNumber   dateOfPresentPosting gradeLevel dateOfRetirement',
-        },
-        {
-          path: 'vicePrincipalAdmin',
-          select:
-            'staffName gender position phoneNumber ogNumber   dateOfPresentPosting  gradeLevel dateOfRetirement',
-        },
-        {
-          path: 'vicePrincipalAcademics',
-          select:
-            'staffName gender position phoneNumber ogNumber dateOfPresentPosting gradeLevel dateOfRetirement',
-        },
-      ],
-      customLabels,
-    };
+    // const options = {
+    //   page,
+    //   limit,
+    //   sort: sortQuery,
+    //   populate: [
+    //     {
+    //       path: 'principal',
+    //       select:
+    //         'staffName position ogNumber phoneNumber  dateOfPresentPosting gradeLevel dateOfRetirement',
+    //     },
+    //     {
+    //       path: 'listOfStaff',
+    //       select:
+    //         'staffName gender position phoneNumber ogNumber   dateOfPresentPosting gradeLevel dateOfRetirement',
+    //     },
+    //     {
+    //       path: 'vicePrincipalAdmin',
+    //       select:
+    //         'staffName gender position phoneNumber ogNumber   dateOfPresentPosting  gradeLevel dateOfRetirement',
+    //     },
+    //     {
+    //       path: 'vicePrincipalAcademics',
+    //       select:
+    //         'staffName gender position phoneNumber ogNumber dateOfPresentPosting gradeLevel dateOfRetirement',
+    //     },
+    //   ],
+    //   customLabels,
+    // };
 
     try {
-      const schoolsData = await this.schoolsService.getAllSchools(query, options);
+      // Build the options object as done in the commented-out code above
+      const page = parseInt(pageNumber as string, 1000);
+      const limit = parseInt(pageSize as string, 1000);
+      const sortQuery = {
+        nameOfSchool: sort === 'desc' ? -1 : 1,
+      };
+
+      const customLabels = {
+        totalDocs: 'itemsCount',
+        docs: 'programs',
+        limit: 'pageSize',
+        nextPage: 'next',
+        prevPage: 'prev',
+        totalPages: 'pageCount',
+      };
+
+      const options = {
+        page,
+        limit,
+        sort: sortQuery,
+        populate: [
+          {
+            path: 'principal',
+            select:
+              'staffName position ogNumber phoneNumber  dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'listOfStaff',
+            select:
+              'staffName gender position phoneNumber ogNumber   dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'vicePrincipalAdmin',
+            select:
+              'staffName gender position phoneNumber ogNumber   dateOfPresentPosting  gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'vicePrincipalAcademics',
+            select:
+              'staffName gender position phoneNumber ogNumber dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+        ],
+        customLabels,
+      };
+
+       const schoolsData = await this.schoolsService.getAllSchools(query, options);
 
       CommonService.successResponse('All Schools Retrieved Successfully', schoolsData, res);
-    } catch (err) {
+    } catch (err: any) {
       logger.error({ message: err.message, service: 'Get All SchoolsService' });
       CommonService.mongoError(err, res);
+
+      const customLabels = {
+        totalDocs: 'itemsCount',
+        docs: 'programs',
+        limit: 'pageSize',
+        nextPage: 'next',
+        prevPage: 'prev',
+        totalPages: 'pageCount',
+      };
+      const page = parseInt(pageNumber as string, 1000);
+      const limit = parseInt(pageSize as string, 1000);
+      const sortQuery = {
+        nameOfSchool: sort === 'desc' ? -1 : 1,
+      };
+      const options = {
+        page,
+        limit,
+        sort: sortQuery,
+        populate: [
+          {
+            path: 'principal',
+            select:
+              'staffName position ogNumber phoneNumber  dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'listOfStaff',
+            select:
+              'staffName gender position phoneNumber ogNumber   dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'vicePrincipalAdmin',
+            select:
+              'staffName gender position phoneNumber ogNumber   dateOfPresentPosting  gradeLevel dateOfRetirement',
+          },
+          {
+            path: 'vicePrincipalAcademics',
+            select:
+              'staffName gender position phoneNumber ogNumber dateOfPresentPosting gradeLevel dateOfRetirement',
+          },
+        ],
+        customLabels,
+      };
+      console.error('ElasticSearch error:', error);
+      // Fallback to MongoDB
+      this.schoolsService.getAllSchools({}, options)
     }
-  }
+    }
+  
 
   public async getAllBasicSchools(req: Request, res: Response) {
     const {
@@ -163,8 +280,8 @@ export class SchoolsController {
       id = '',
     } = req.query;
 
-    const page = parseInt(pageNumber as string, 10);
-    const limit = parseInt(pageSize as string, 10);
+    const page = parseInt(pageNumber as string, 1000);
+    const limit = parseInt(pageSize as string, 1000);
 
     const query: any = {};
     const orConditions: any[] = [];

@@ -167,6 +167,14 @@ const UserSchema = new Schema(
       required: [true, 'OG number is required'],
       unique: [true, 'OG number already registered'],
     },
+    nameOfSchoolOfPresentPosting :{
+    type: String,
+    default: null,
+  },
+  nameOfSchoolOfPreviousPosting:{
+    type: String,
+    default: null,
+  },
     password: { type: String, required: true, select: false },
     confirmationCode: {
       type: String,

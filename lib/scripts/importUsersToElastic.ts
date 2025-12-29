@@ -1,6 +1,3 @@
-// 
-
-
 import { MongoClient, ChangeStream } from 'mongodb';
 import { esClient } from '../config/elasticsearch';
 
@@ -65,7 +62,7 @@ async function handleChange(change: any) {
           },
           refresh: true,
         });
-        console.log(`✅ Synced ${operationType}: ${_id}`);
+        console.log(`Synced ${operationType}: ${_id}`);
         break;
         
       case 'delete':
@@ -89,7 +86,7 @@ async function handleChange(change: any) {
         console.log(`ℹ️ Ignored operation: ${operationType}`);
     }
   } catch (error: any) {
-    console.error('❌ Error handling change:', error.message);
+    console.error('Error handling change (users):', error.message);
   }
 }
 
@@ -112,7 +109,7 @@ async function startChangeStreamSync() {
     // Watch for changes with full document on update
     changeStream = collection.watch([], { fullDocument: 'updateLookup' });
     
-    console.log('👀 Started watching MongoDB changes for real-time sync...');
+    console.log('Started watching MongoDB changes for real-time sync... in users');
     
     changeStream.on('change', handleChange);
     
@@ -133,7 +130,7 @@ async function startChangeStreamSync() {
     });
     
   } catch (error: any) {
-    console.error('❌ Failed to start change stream:', error.message);
+    console.error('Failed to start change stream:', error.message);
     console.warn('⚠️ Note: Change streams require MongoDB to run as a replica set');
   }
 }
@@ -143,7 +140,7 @@ async function stopChangeStreamSync() {
   if (changeStream) {
     await changeStream.close();
     changeStream = null;
-    console.log('✅ Stopped change stream');
+    console.log('✅ Stopped users change stream');
   }
 }
 

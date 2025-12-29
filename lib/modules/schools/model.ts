@@ -16,4 +16,5 @@ export interface ISchools {
   latitude: string;
   longitude: string;
   modificationNotes?: ModificationNote[];
+  namesOfListOfStaff: String [];
 }

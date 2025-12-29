@@ -130,4 +130,37 @@ export default class UserService {
       strictPopulate: false,
     });
   }
+
+
+
+  public async addFieldsToAllUsers() {
+    try {
+     const result = await this.getAllUser({},{}, () =>{
+ 
+     })
+
+
+      
+      // const result = await UsersModel.updateMany(
+      //   {},
+      //   {
+      //     $set: {
+      //       nameOfSchoolOfPresentPosting: null,
+      //       nameOfSchoolOfPreviousPosting: null
+      //     }
+      //   }
+      // );
+      console.log(result)
+  
+      // console.log(`Updated ${result.modifiedCount} users`);
+      
+  
+      // process.exit(0);
+    } catch (error) {
+      console.error('Error:', error);
+      process.exit(1);
+    }
+  }
+  
+
 }
