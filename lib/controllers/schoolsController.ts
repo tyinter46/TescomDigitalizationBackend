@@ -161,8 +161,8 @@ for await (const response of scrollSearch) {
 
     try {
       // Build the options object as done in the commented-out code above
-      const page = parseInt(pageNumber as string, 1000);
-      const limit = parseInt(pageSize as string, 1000);
+      const page = parseInt(pageNumber as string, 10);
+      const limit = parseInt(pageSize as string, 10);
       const sortQuery = {
         nameOfSchool: sort === 'desc' ? -1 : 1,
       };
@@ -220,8 +220,8 @@ for await (const response of scrollSearch) {
         prevPage: 'prev',
         totalPages: 'pageCount',
       };
-      const page = parseInt(pageNumber as string, 1000);
-      const limit = parseInt(pageSize as string, 1000);
+      const page = parseInt(pageNumber as string, 10);
+      const limit = parseInt(pageSize as string, 10);
       const sortQuery = {
         nameOfSchool: sort === 'desc' ? -1 : 1,
       };
@@ -280,8 +280,8 @@ for await (const response of scrollSearch) {
       id = '',
     } = req.query;
 
-    const page = parseInt(pageNumber as string, 1000);
-    const limit = parseInt(pageSize as string, 1000);
+    const page = parseInt(pageNumber as string, 10);
+    const limit = parseInt(pageSize as string, 10);
 
     const query: any = {};
     const orConditions: any[] = [];
