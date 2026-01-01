@@ -290,7 +290,14 @@ class UserController {
             residentialAddress: residentialAddress || userData.residentialAddress,
             division: division || userData.division,
           };
-
+          const schoolOfPresentPostingName = await   this.schoolsService.filterSchool({_id: schoolOfPresentPosting})
+          const schoolOfPreviousPostingName = await this.schoolsService.filterSchool({_id: schoolOfPreviousPosting})
+          console.log(schoolOfPreviousPostingName?.nameOfSchool, schoolOfPresentPostingName?.nameOfSchool)
+            this.userService.updateUser({_id:userData._id}, {nameOfSchoolOfPresentPosting:schoolOfPresentPostingName?.nameOfSchool, 
+            nameOfSchoolOfPreviousPosting: schoolOfPreviousPostingName?.nameOfSchool
+          },  (err: any) => {
+            if (err) CommonService.UnprocessableResponse;
+          })
           this.userService.updateUser(
             { _id: userData._id },
             userParams,
@@ -321,7 +328,7 @@ class UserController {
                     const staffList = await this.schoolsService.filterSchool({
                       _id: schoolOfPresentPosting,
                     });
-                    console.log(makeStaffListUnique(staffList.listOfStaff));
+                    // console.log(makeStaffListUnique(staffList.listOfStaff));
                     await this.schoolsService.updateSchool(
                       { _id: schoolOfPresentPosting },
                       { listOfStaff: makeStaffListUnique(staffList.listOfStaff) }
@@ -329,7 +336,7 @@ class UserController {
 
                     if (!staffList.listOfStaff.includes(updatedUserData._id)) {
                       const uniqueStaffList = makeStaffListUnique(staffList.listOfStaff);
-                      console.log(uniqueStaffList);
+                      // console.log(uniqueStaffList);
                       await this.schoolsService.updateSchool(
                         { _id: schoolOfPresentPosting },
                         { listOfStaff: uniqueStaffList }
@@ -338,6 +345,8 @@ class UserController {
                         { _id: schoolOfPresentPosting },
                         { $push: { listOfStaff: updatedUserData._id } }
                       );
+
+                   
                     }
                   }
 

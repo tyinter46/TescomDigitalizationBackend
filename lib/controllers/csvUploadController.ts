@@ -231,7 +231,7 @@ export class CsvUploadController {
               updates.push(jobData);
               console.log(jobData);
             }
-
+        console.log(queuedJobs)
             if (!queuedJobs) {
               return CommonService.UnprocessableResponse(
                 'No valid staff-school matches found',
@@ -251,7 +251,7 @@ export class CsvUploadController {
               error: error.message,
               stack: error.stack,
             });
-            return CommonService.UnprocessableResponse('Error processing CSV data', res);
+            return CommonService.UnprocessableResponse(`Error processing CSV data ${error.message}`, res);
           }
         },
         error: (error) => {

@@ -345,9 +345,9 @@ for (const [key, value] of Object.entries(requiredEnvVars)) {
         ? '***hidden***'
         : 'not set'
       : value || 'not set';
-  console.log(
-    `   ${key}: ${status} ${key.includes('SECRET') || key.includes('KEY') ? '' : displayValue}`
-  );
+  // console.log(
+  //   `   ${key}: ${status} ${key.includes('SECRET') || key.includes('KEY') ? '' : displayValue}`
+  // );
   if (!value) hasAllVars = false;
 }
 
@@ -384,11 +384,11 @@ cloudinary.config({
 });
 
 console.log('☁️  Cloudinary configured for worker process');
-console.log(`   Cloud Name: ${cloudinary.config().cloud_name}`);
-console.log(`   API Key: ${cloudinary.config().api_key ? '***configured***' : '❌ not set'}`);
-console.log(
-  `   API Secret: ${cloudinary.config().api_secret ? '***configured***' : '❌ not set'}\n`
-);
+// console.log(`   Cloud Name: ${cloudinary.config().cloud_name}`);
+// console.log(`   API Key: ${cloudinary.config().api_key ? '***configured***' : '❌ not set'}`);
+// console.log(
+//   `   API Secret: ${cloudinary.config().api_secret ? '***configured***' : '❌ not set'}\n`
+// );
 
 // MongoDB connection setup
 const mongoUri = process.env.MONGO_DB_URI;
@@ -428,25 +428,25 @@ redisClient.on('ready', async () => {
   console.log('✅ Worker: Redis connection ready');
   
   // Check Redis version - BullMQ requires Redis 5.0+
-  try {
-    const info = await redisClient.info('server');
-    const versionMatch = info.match(/redis_version:([\d.]+)/);
-    if (versionMatch) {
-      const version = versionMatch[1];
-      const [major, minor] = version.split('.').map(Number);
-      console.log(`📊 Redis version detected: ${version}`);
+  // try {
+  //   const info = await redisClient.info('server');
+  //   const versionMatch = info.match(/redis_version:([\d.]+)/);
+  //   if (versionMatch) {
+  //     const version = versionMatch[1];
+  //     const [major, minor] = version.split('.').map(Number);
+  //     console.log(`📊 Redis version detected: ${version}`);
       
-      if (major < 5) {
-        console.error(`\n❌ CRITICAL ERROR: Redis version ${version} is incompatible!`);
-        console.error('   BullMQ requires Redis 5.0.0 or higher.');
-        console.error('   Please upgrade your Redis server to version 5.0+ or connect to a compatible Redis instance.');
-        console.error(`   Current Redis host: ${process.env.REDIS_HOST}:${process.env.REDIS_PORT}\n`);
-        process.exit(1);
-      }
-    }
-  } catch (err: any) {
-    console.warn(`⚠️  Could not check Redis version: ${err.message}`);
-  }
+  //     if (major < 5) {
+  //       console.error(`\n❌ CRITICAL ERROR: Redis version ${version} is incompatible!`);
+  //       console.error('   BullMQ requires Redis 5.0.0 or higher.');
+  //       console.error('   Please upgrade your Redis server to version 5.0+ or connect to a compatible Redis instance.');
+  //       console.error(`   Current Redis host: ${process.env.REDIS_HOST}:${process.env.REDIS_PORT}\n`);
+  //       process.exit(1);
+  //     }
+  //   }
+  // } catch (err: any) {
+  //   console.warn(`⚠️  Could not check Redis version: ${err.message}`);
+  // }
 });
 
 redisClient.on('error', (err) => {
@@ -462,9 +462,11 @@ if (redisClient.status !== 'ready' && redisClient.status !== 'connect') {
 const worker = new Worker(
   'staffPostingQueue',
   async (job: Job<StaffPostingJobData>) => {
-    console.log(`Worker: Processing job ${job.id} for staff ${job.data.staffId}`);
+
+   const user = await  userService.filterUser({_id:job.data.staffId})
+    console.log(`Worker: Processing job ${job.id} for staff ${user} in  ${user.schoolOfPresentPosting} ${job.data.staffId}`);
     logger.info({
-      message: `Started processing job ${job.id}`,
+      message: `Started processing job ${job.id} ${user } `,
       service: 'StaffPostingWorker',
       jobData: job.data,
     });
@@ -509,23 +511,29 @@ const worker = new Worker(
         previousSchoolId || '',
         cadre
       );
-
+   const newSchool = await schoolService.filterSchool({_id:currentSchoolId})
       logger.info({
-        message: `Successfully processed posting for staff ${staffId} to school ${currentSchoolId}`,
+        message: `Successfully processed posting for staff  ${staff.staffName.firstName}  to school ${newSchool.nameOfSchool}`,
         service: 'StaffPostingWorker',
         jobId: job.id,
       });
 
       console.log(`Worker: Job ${job.id} completed successfully`);
-      return { status: 'success', staffId, currentSchoolId, updatedSchool };
+      return { status: 'success', staffId, staff, currentSchoolId, updatedSchool };
     } catch (error: any) {
+      const failedUserPosting = await userService.filterUser({_id:job.data.staffId})
+      const failedPreviousSchool = await schoolService.filterSchool({_id:job.data.previousSchoolId})
+      const failedNewSchool = await schoolService.filterSchool({_id:job.data.currentSchoolId})
+      const failedPostings = []
+      failedPostings.push(`${failedUserPosting.staffName.firstName} from ${failedPreviousSchool.nameOfSchool} to ${failedNewSchool.nameOfSchool}` )
       logger.error({
-        message: `Error processing job ${job.id}: ${error.message}`,
+        message: `Error processing job ${job.id}: ${error.message} ${failedPostings}`,
         service: 'StaffPostingWorker',
         stack: error.stack,
         jobData: job.data,
       });
       console.error(`Worker: Job ${job.id} failed:`, error.message);
+      console.error(`Jobs ${failedPostings} failed`)
       throw error;
     }
   },
@@ -579,7 +587,7 @@ async function updateStaff(
     const userData = await new Promise<IUser>((resolve, reject) => {
       userService.updateUser({ _id: staffId }, userUpdate, (err: any, updatedUser: IUser) => {
         if (err) {
-          reject(new Error(`Failed to update user: ${err.message}`));
+          reject(new Error(`Failed to update user: ${updatedUser.staffName.firstName} ${err.message}`));
         } else {
           resolve(updatedUser);
         }
@@ -679,16 +687,26 @@ worker.on('completed', (job: Job) => {
   });
 });
 
-worker.on('failed', (job: Job | undefined, err: Error) => {
-  console.error(`❌ Job ${job?.id || 'unknown'} failed: ${err.message}`);
+worker.on('failed', async (job: Job | undefined, err: Error) => {
+  const failedProcesses = []
+
+  const failedUserProcess = await userService.filterUser({_id:job.data.staffId})
+  const failedPreviousSchoolProcess = await schoolService.filterSchool({_id:job.data.previousSchoolId})
+  const failedNewSchoolProcess = await schoolService.filterSchool({_id:job.data.currentSchoolId})
+  
+  failedProcesses.push(`${failedUserProcess.staffName.firstName} from ${failedPreviousSchoolProcess.nameOfSchool} to ${failedNewSchoolProcess.nameOfSchool}` )
+
+  console.error(`❌ Job ${job?.id || 'unknown'} failed: ${failedProcesses} ${err.message}`);
   logger.error({
-    message: `Job failed: ${job?.id || 'unknown'}`,
+    message: `Job failed: ${job?.id || 'unknown'}  ${failedProcesses} `,
     service: 'StaffPostingWorker',
     error: err.message,
   });
 });
 
 worker.on('error', (err: Error) => {
+
+  
   console.error(`⚠️  Worker error: ${err.message}`);
   logger.error({
     message: 'Worker error',
