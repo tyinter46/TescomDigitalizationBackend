@@ -1,8 +1,14 @@
 import { IUser } from './model';
 import UsersModel from './schema';
 import { FilterQuery, UpdateQuery } from 'mongoose';
-
+import SchoolService from '../schools/service';
+import CommonService from '../common/service';
+// import UserController from '../../controllers/userController';
+import { Request, Response } from 'express';
 export default class UserService {
+
+  private schoolsService = new SchoolService()
+  // private userController = new UserController
   public createUser(params: IUser, callback: any) {
     const newUser = new UsersModel(params);
     newUser.save(callback);
@@ -131,34 +137,38 @@ export default class UserService {
     });
   }
 
-
+  public async getAllUserAsync(query: any, options: any) {
+    return new Promise((resolve, reject) => {
+      UsersModel.paginate(
+        query,
+        {
+          ...options,
+          populate: [
+            {
+              path: 'schoolOfPresentPosting',
+              select:
+                'staffName listOfStaff gender position phoneNumber ogNumber tscFileNumber dateOfBirth gradeLevel dateOfRetirement',
+              strictPopulate: false,
+            },
+          ],
+        },
+        (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        }
+      );
+    });
+  }
 
   public async addFieldsToAllUsers() {
     try {
-     const result = await this.getAllUser({},{}, () =>{
- 
-     })
-
-
-      
-      // const result = await UsersModel.updateMany(
-      //   {},
-      //   {
-      //     $set: {
-      //       nameOfSchoolOfPresentPosting: null,
-      //       nameOfSchoolOfPreviousPosting: null
-      //     }
-      //   }
-      // );
-      console.log(result)
+      const users = await this.getAllUserAsync({}, { limit: 20000 });
+      console.log(users);
   
-      // console.log(`Updated ${result.modifiedCount} users`);
-      
-  
-      // process.exit(0);
+      return users;
     } catch (error) {
-      console.error('Error:', error);
-      process.exit(1);
+      console.error('Error in addFieldsToAllUsers', error);
+      throw error;
     }
   }
   

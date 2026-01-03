@@ -14,7 +14,7 @@ export class PostingsReportController {
   public async getPostingReport(req: Request, res: Response) {
     const {
       pageNumber = 1,
-      pageSize = 100,
+      pageSize = 10000,
       staffDetails = '',
       sourceSchool = '',
       destinationSchool = '',
@@ -26,8 +26,8 @@ export class PostingsReportController {
       id = '',
     } = req.query;
 
-    const page = parseInt(pageNumber as string, 10) || 1;
-    const limit = parseInt(pageSize as string, 10) || 50;
+    const page = parseInt(pageNumber as string, 10) ;
+    const limit = parseInt(pageSize as string, 10) ;
 
     const query: any = {};
     const orConditions: any[] = [];

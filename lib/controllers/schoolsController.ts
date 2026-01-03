@@ -323,7 +323,7 @@ for await (const response of scrollSearch) {
     };
 
     try {
-      await this.schoolsService.getAllschoolsWithoutPopulation(
+       this.schoolsService.getAllschoolsWithoutPopulation(
         query,
         options,
         (err: any, basicSchoolsData: ISchools) => {
@@ -333,7 +333,7 @@ for await (const response of scrollSearch) {
               basicSchoolsData,
               res
             );
-          console.log(basicSchoolsData);
+          // console.log(basicSchoolsData);
           CommonService.successResponse(
             'Basic schools retrieved successfully',
             basicSchoolsData,
@@ -342,7 +342,7 @@ for await (const response of scrollSearch) {
         }
       );
 
-      // CommonService.successResponse("Basic schools retrieved successfully", schoolsData, res);
+      //  CommonService.successResponse("Basic schools retrieved successfully", basicSchoolsData, res);
     } catch (err) {
       logger.error({ message: err.message, service: 'Get All SchoolsService' });
       CommonService.mongoError(err, res);

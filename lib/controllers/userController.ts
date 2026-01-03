@@ -703,6 +703,9 @@ class UserController {
       // Fallback to MongoDB
       this.userService.getAllUser({}, { limit: 20000 }, (err: any, users: any) => {
         if (err) return CommonService.mongoError(err, res);
+
+   console.log(users)
+
         CommonService.successResponse(
           'Tescom staff retrieved successfully from MongoDB',
           { users },

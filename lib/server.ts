@@ -72,7 +72,14 @@ import logger from './config/logger';
 
 import importUsers from './scripts/importUsersToElastic';
 import importSchoolsToElastic from './scripts/importSchoolsToElastic';
+import UserService from '../lib/modules/users/service';
+import {matchedStaff} from '../lib/utils/filterNamesandSchools'
+import { jsonToCSV } from '../lib/utils/csvToJsonForPosting';
+import { abeokutaStaffNamesAndPreviousSchools } from '../lib/utils/csvToJsonForPosting';
+// import {  Request, Response } from 'express';
 
+
+const userService = new UserService()
 // ---- LOAD APP CONFIG ----
 let app;
 let PORT: number | string;
@@ -110,9 +117,13 @@ server.listen(PORT, () => {
 // ---- STARTUP IMPORTS (SAFE) ----
 async function runStartupImports() {
   try {
+    console.log("hello")
+   await  jsonToCSV(abeokutaStaffNamesAndPreviousSchools)
+    // console.log(JSON.stringify(matchedStaff, null, 2));
     logger.info('[STARTUP] Running Elasticsearch imports...');
-    await importSchoolsToElastic();
-    await importUsers();
+     await importSchoolsToElastic();
+    //  await importUsers();
+    // await userService.addFieldsToAllUsers()
     logger.info('[STARTUP] Elasticsearch imports completed');
   } catch (err) {
     /**
