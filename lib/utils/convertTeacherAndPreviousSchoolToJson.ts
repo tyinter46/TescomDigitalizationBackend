@@ -1,0 +1,803 @@
+function convertParallelTextToJSON(rawText) {
+    return rawText
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .map(line => {
+        // Split by TAB first, fallback to 2+ spaces
+        const parts = line.includes('\t')
+          ? line.split('\t')
+          : line.split(/\s{2,}/);
+  
+        return {
+          staffName: parts[0]?.trim() || '',
+          schoolOfPresentPosting: parts[1]?.trim() || ''
+        };
+      });
+  }
+const rawText = `staffName,schoolName
+"ADEBAYO, Adewale david","African Church Grammar School (Jnr), Ita- Iyalode"
+"ADEGBESAN, Adebusola abimbola","African Church Grammar School (Jnr), Ita- Iyalode"
+"ADEGUNLE, Rofiat tosin","African Church Grammar School (Jnr), Ita- Iyalode"
+"ADELEYE, Adetunji adeolu","African Church Grammar School (Jnr), Ita- Iyalode"
+"ADEWALE, Adebukola abidemi","African Church Grammar School (Jnr), Ita- Iyalode"
+"AFOLABI, Adijat mopelola","African Church Grammar School (Jnr), Ita- Iyalode"
+"AKINADE, Nofeesat Mopelola.","African Church Grammar School (Jnr), Ita- Iyalode"
+"AKINWALE, Charles oluwatoyin","African Church Grammar School (Jnr), Ita- Iyalode"
+"AKINWALE, Oluwatoyin abosede","African Church Grammar School (Jnr), Ita- Iyalode"
+"BABAYEJU, Oyeyemi oyeladun","African Church Grammar School (Jnr), Ita- Iyalode"
+"BALOGUN, Oluwakemi omotayo","African Church Grammar School (Jnr), Ita- Iyalode"
+"BALOGUN, Safurat Adunni.","African Church Grammar School (Jnr), Ita- Iyalode"
+"BOLARINWA, Kafilat atinuke","African Church Grammar School (Jnr), Ita- Iyalode"
+"CAXTON-COLE, Oluwaseun koleade","African Church Grammar School (Jnr), Ita- Iyalode"
+"COKER, Olusolape olateju","African Church Grammar School (Jnr), Ita- Iyalode"
+"DADA, Christianah oluwakemi","African Church Grammar School (Jnr), Ita- Iyalode"
+"DADA, Ojuolape Titilayo.","African Church Grammar School (Jnr), Ita- Iyalode"
+"EKWE, Oluwaseyi adedoyin","African Church Grammar School (Jnr), Ita- Iyalode"
+"FATOKUN, Johnson ajewole","African Church Grammar School (Jnr), Ita- Iyalode"
+"FAYOMI, Oluwaseyi taiwo","African Church Grammar School (Jnr), Ita- Iyalode"
+"GANIYU, Aminat adunni","African Church Grammar School (Jnr), Ita- Iyalode"
+"KOJEKU, Funmilayo","African Church Grammar School (Jnr), Ita- Iyalode"
+"LADIGBOLU, Olufunmilayo victoria","African Church Grammar School (Jnr), Ita- Iyalode"
+"MUHEEB, Sulaiman aderemi","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mr. BALOGUN,  Gafar kunle","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mr. KUSIMO,  Simeon  O.","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mr. OSINEYE,  Olugbenga  A.","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mrs. KOLAWOLE,  Alice oluyemi","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mrs. OSANYINPEJU,  Oluwatoyin sadiat","African Church Grammar School (Jnr), Ita- Iyalode"
+"Mrs. SODIPO,  Afolasade abiodun","African Church Grammar School (Jnr), Ita- Iyalode"
+"ODEBIYI, Kolawole emmanuel","African Church Grammar School (Jnr), Ita- Iyalode"
+"ODUBELA, Adedamola Ayokunle.","African Church Grammar School (Jnr), Ita- Iyalode"
+"ODUKOYA, Funke ruth","African Church Grammar School (Jnr), Ita- Iyalode"
+"ODUSOLA, Babafemi olayinka","African Church Grammar School (Jnr), Ita- Iyalode"
+"OKE, Tawakalit Adunni.","African Church Grammar School (Jnr), Ita- Iyalode"
+"OLUBIIRE, Adebisi abosede","African Church Grammar School (Jnr), Ita- Iyalode"
+"OLUSANYA, Bukola abidemi","African Church Grammar School (Jnr), Ita- Iyalode"
+"OYEDOKUN, Adijat motunrayo","African Church Grammar School (Jnr), Ita- Iyalode"
+"POPOOLA, Hassan oyegoke","African Church Grammar School (Jnr), Ita- Iyalode"
+"SANTA, Olawumi veronica","African Church Grammar School (Jnr), Ita- Iyalode"
+"SOBOWALE, Rebecca eyitayo","African Church Grammar School (Jnr), Ita- Iyalode"
+"SODEHINDE, Adesina akanbi","African Church Grammar School (Jnr), Ita- Iyalode"
+"SOLANKE, Maryam iyabode","African Church Grammar School (Jnr), Ita- Iyalode"
+"SOMOYE, Funmilola jiire","African Church Grammar School (Jnr), Ita- Iyalode"
+"SOTUNDE, Olufunmilola temitope","African Church Grammar School (Jnr), Ita- Iyalode"
+"TOFIO, Adesola motunrayo","African Church Grammar School (Jnr), Ita- Iyalode"
+"YUSUFF, Tajudeen adebukola","African Church Grammar School (Jnr), Ita- Iyalode"
+"ADETOLA, Modupeola Oluwakemi.",Ajiboyede Comprhensive High School
+"ADEYEMI, Haruna Abiodun.",Ajiboyede Comprhensive High School
+"ADEYEMI, Victoria Oluwaseun.",Ajiboyede Comprhensive High School
+"AHMOD, Taiwo kuburat",Ajiboyede Comprhensive High School
+"AKINOLA, Monsurat a.",Ajiboyede Comprhensive High School
+"ALARAN, Arinola morenike",Ajiboyede Comprhensive High School
+"DANIEL, Abiola ajoke",Ajiboyede Comprhensive High School
+"EHIWERE, Modupe oluwatosin",Ajiboyede Comprhensive High School
+"FALAJU, Peluola Florence.",Ajiboyede Comprhensive High School
+"ISHOLA, Celina oluwayemisi",Ajiboyede Comprhensive High School
+"MURTADHO, Taofeeq Tunde.",Ajiboyede Comprhensive High School
+"Mr. BAMKOLE,  Olawale abiodun",Ajiboyede Comprhensive High School
+"Mr. OGUNSEYE,  Olukayode olusesan",Ajiboyede Comprhensive High School
+"Mrs. ASEKUN,  Salimot adeyinka",Ajiboyede Comprhensive High School
+"OGUNRINADE, Motunrayo elizabeth",Ajiboyede Comprhensive High School
+"OGUNSANYA, Ganiyat adebola blessing",Ajiboyede Comprhensive High School
+"OLAJIDE, Rofiat Olusola.",Ajiboyede Comprhensive High School
+"OMIKUNLE, Elizabeth alaba folorunso",Ajiboyede Comprhensive High School
+"SODIYA, Grace olukemi",Ajiboyede Comprhensive High School
+"ABIDOYE, Emmanuel olayinka","Ansaru Deen High School, Isaga Orile"
+"ADEBOYE, Fatai isola","Ansaru Deen High School, Isaga Orile"
+"ADEKOYA, Janet aderonke","Ansaru Deen High School, Isaga Orile"
+"ADEYEMI, Abimbola omolara","Ansaru Deen High School, Isaga Orile"
+"AKANDE, Fehintola Hannah.","Ansaru Deen High School, Isaga Orile"
+"AKINTAYO, Taiwo adebola","Ansaru Deen High School, Isaga Orile"
+"ANIMASAUN, Lukmon Abiola.","Ansaru Deen High School, Isaga Orile"
+"AYANNIYI, Oluwaseyi theophilus","Ansaru Deen High School, Isaga Orile"
+"FALOLA, Oludare yemi michael","Ansaru Deen High School, Isaga Orile"
+"GANIU, Kayode saliu","Ansaru Deen High School, Isaga Orile"
+"IJAOLA, Motunrayo Olajumoke.","Ansaru Deen High School, Isaga Orile"
+"KOLAWOLE, Razaq Ayinde.","Ansaru Deen High School, Isaga Orile"
+"LAWAL, Abidemi Samson.","Ansaru Deen High School, Isaga Orile"
+"MADAMIDOLA, Amuda yusuf","Ansaru Deen High School, Isaga Orile"
+"Mrs. OLUWAYINKA,  Alaba opeyemi","Ansaru Deen High School, Isaga Orile"
+"OBEY, Ibraheem Adewale.","Ansaru Deen High School, Isaga Orile"
+"ODUNBAKU, Gbenga olalekan","Ansaru Deen High School, Isaga Orile"
+"ODUNSI, Magnus olabanji","Ansaru Deen High School, Isaga Orile"
+"OGBON, Racheal adeola","Ansaru Deen High School, Isaga Orile"
+"OJO, Aderemi oluwasegun","Ansaru Deen High School, Isaga Orile"
+"OLIYIDE, Olufunke","Ansaru Deen High School, Isaga Orile"
+"OWOLABI, Daniel ayinla","Ansaru Deen High School, Isaga Orile"
+"OYEBOLU, Elizabeth oluwatoyin","Ansaru Deen High School, Isaga Orile"
+"SODIQ, Bashiru Ayomide.","Ansaru Deen High School, Isaga Orile"
+"SODIYA, Funmilola olabisi","Ansaru Deen High School, Isaga Orile"
+"ADELEKAN, Oluwabukola Ayanpeju.","Armyday Secondary School, (Jnr), Alamala"
+"ADENEKAN, Toyin abosede","Armyday Secondary School, (Jnr), Alamala"
+"ADESUYI, Funmilayo racheal","Armyday Secondary School, (Jnr), Alamala"
+"AKINWANDE, Kayode sunday","Armyday Secondary School, (Jnr), Alamala"
+"BABATUNDE, Gloria abosede","Armyday Secondary School, (Jnr), Alamala"
+"BANKOLE, Olawunmi feyisara","Armyday Secondary School, (Jnr), Alamala"
+"FAYALE, Moses adeniyi","Armyday Secondary School, (Jnr), Alamala"
+"IDOWU, Muinat Ajimoh.","Armyday Secondary School, (Jnr), Alamala"
+"ISIAKA, Taiwo Muheenat.","Armyday Secondary School, (Jnr), Alamala"
+"JOLAOSO, Busayo oladipupo","Armyday Secondary School, (Jnr), Alamala"
+"KUYE, Adedayo Victoria.","Armyday Secondary School, (Jnr), Alamala"
+"Mr. ALADE,  Idowu oladeinde","Armyday Secondary School, (Jnr), Alamala"
+"Mr. OJEKUNLE,  Kayode abiodun","Armyday Secondary School, (Jnr), Alamala"
+"Mrs. ADEBOLA,  Elizabeth oluwayemisi","Armyday Secondary School, (Jnr), Alamala"
+"Mrs. AJAYI,  Bukola adedola","Armyday Secondary School, (Jnr), Alamala"
+"Mrs. AKINRINOLA,  Adeyinka  O.","Armyday Secondary School, (Jnr), Alamala"
+"OGUN, Agnes Abiodun.","Armyday Secondary School, (Jnr), Alamala"
+"OGUNPOLA, Adebola idayat","Armyday Secondary School, (Jnr), Alamala"
+"OLADEJI, Grace yinka","Armyday Secondary School, (Jnr), Alamala"
+"OLADOKUN, Tinuke taofikat","Armyday Secondary School, (Jnr), Alamala"
+"OYENIYI, Moshood ibraheem","Armyday Secondary School, (Jnr), Alamala"
+"OYERINDE, Olubukola tawakalitu","Armyday Secondary School, (Jnr), Alamala"
+"SALAKO, Omonike Alimat.","Armyday Secondary School, (Jnr), Alamala"
+"VAUGHAN, Titilayo mulikat adewolu","Armyday Secondary School, (Jnr), Alamala"
+"ADENEKAN, Oluwasanni zacchaeus","Armyday Secondary School, (Snr)"
+"ADENLE, Richard pius","Armyday Secondary School, (Snr)"
+"ADEYEMI, Temitope florence","Armyday Secondary School, (Snr)"
+"AYODEJI, Foluke abidemi","Armyday Secondary School, (Snr)"
+"IDOWU, Olubukola abiodun","Armyday Secondary School, (Snr)"
+"Mrs. ADERONMU,  Oladunni rasidat","Armyday Secondary School, (Snr)"
+"Mrs. AJIBOLA,  Dorcas anuoluwa","Armyday Secondary School, (Snr)"
+"Mrs. OGUNDIRAN,  Elizabeth olutoyin","Armyday Secondary School, (Snr)"
+"OLAYEMI, Rukayat Abidemi.","Armyday Secondary School, (Snr)"
+"OMOYAYI, Modinat kikelomo","Armyday Secondary School, (Snr)"
+"OYEWOLE, Sahyeed afolabi","Armyday Secondary School, (Snr)"
+"SANUSI, Kuburat folasade","Armyday Secondary School, (Snr)"
+"ADEFEMI, Olufikayo  atinuke","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADEKITAN, Adewole joseph","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADEKUNLE, Ayinde wasiu","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADELEYE, Adebiyi oladimeji m.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADENIYI, Adejare tunji","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADENIYI, Titilayo susanah","Ebenezer Grammar School, (Jnr), Iberekodo"
+"AFOLABI, Olubanke abayomi","Ebenezer Grammar School, (Jnr), Iberekodo"
+"AJAYI, Ayoku christiana","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ALAO, Agnes Chekwube.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ANETOR, Ekelekhomen christy","Ebenezer Grammar School, (Jnr), Iberekodo"
+"BABATUNDE, Oluwafunke Oluwafunmilayo.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"BAKARE, Sekinat Olayinka.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"BECKLEY, Abidemi abolanle","Ebenezer Grammar School, (Jnr), Iberekodo"
+"FAYEMI, Toyin modupe","Ebenezer Grammar School, (Jnr), Iberekodo"
+"GBOGBOADE, Jamiu adegboyega","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ILORI, Olugbenga adeola","Ebenezer Grammar School, (Jnr), Iberekodo"
+"JIMOH, Modinat abolaji","Ebenezer Grammar School, (Jnr), Iberekodo"
+"Mrs. ABATAN,  Toyin amope","Ebenezer Grammar School, (Jnr), Iberekodo"
+"Mrs. ADEPEGBA,  Olusola adedoyin","Ebenezer Grammar School, (Jnr), Iberekodo"
+"Mrs. OLAYODE,  Rebecca olufunmike","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ODEJAYI, Motunrayo Kaliyat.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OGUNBANWO, Tolani Rashidat.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OGUNSOLA, Olapeju basirat","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OJO, Olayemi esther","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OLANREWAJU, Oluwabunmi ruth","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OMOTOSO, Rasidat arike","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ONIYIDE, Ganiyat Oluwatoyin.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"OSUNJINMI, Serifat temitayo","Ebenezer Grammar School, (Jnr), Iberekodo"
+"POROYE, Oluwaseun Toyin.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"SHASORE, Basirat abidemi","Ebenezer Grammar School, (Jnr), Iberekodo"
+"SODIMU-DAWODU, Oluwa-solabomi kuburat","Ebenezer Grammar School, (Jnr), Iberekodo"
+"SOREMEKUN, Aminat olubunmi","Ebenezer Grammar School, (Jnr), Iberekodo"
+"SOYEMI, Joseph","Ebenezer Grammar School, (Jnr), Iberekodo"
+"TAYO, Adeniyi Adeyemo.","Ebenezer Grammar School, (Jnr), Iberekodo"
+"YUSUF, Mutiullahi adio","Ebenezer Grammar School, (Jnr), Iberekodo"
+"ADEBOLA, Kabiru adisa","Ebenezer Grammar School, (Snr)"
+"ADELAKUN, Adunola oluyinka","Ebenezer Grammar School, (Snr)"
+"ADELEYE, Fatimot odunyemi","Ebenezer Grammar School, (Snr)"
+"AJOKU, Chinonye henrietta","Ebenezer Grammar School, (Snr)"
+"AKANBI, Emmanuel olawale","Ebenezer Grammar School, (Snr)"
+"AKINPELU SHOETAN, Bukola","Ebenezer Grammar School, (Snr)"
+"ALABI, Waheed williams","Ebenezer Grammar School, (Snr)"
+"AMOO, Rukayat Adeyemi.","Ebenezer Grammar School, (Snr)"
+"AMUSAN, Rachel Olusola.","Ebenezer Grammar School, (Snr)"
+"ANIMASAUN, Ayobami olalekan","Ebenezer Grammar School, (Snr)"
+"AYANWALE, Haleemat Bola.","Ebenezer Grammar School, (Snr)"
+"AYODEJI, Mutiu abiodun","Ebenezer Grammar School, (Snr)"
+"AYOOLA, Esther olatoyosi","Ebenezer Grammar School, (Snr)"
+"BABATUNDE, Samisideen tajudeen","Ebenezer Grammar School, (Snr)"
+"FABIYI, Adebimpe Tolu.","Ebenezer Grammar School, (Snr)"
+"FADAIRO, Saheed Abayomi.","Ebenezer Grammar School, (Snr)"
+"LAWAL, Ganiyat titilayo","Ebenezer Grammar School, (Snr)"
+"Mr. OYERINDE,  Abiodun  I.","Ebenezer Grammar School, (Snr)"
+"Mr. SHODEKO,  Abdulhakeem d. oladehind","Ebenezer Grammar School, (Snr)"
+"Mrs. ODUGBEMI,  Adeola  O.","Ebenezer Grammar School, (Snr)"
+"OBADINA, Nimotalahi ayinke","Ebenezer Grammar School, (Snr)"
+"OGUNDEYI, Nurudeen olalekan","Ebenezer Grammar School, (Snr)"
+"OGUNSEYE, Abidemi titus","Ebenezer Grammar School, (Snr)"
+"OLADEINDE, Deborah abosede","Ebenezer Grammar School, (Snr)"
+"OMOGBEMILE, Bukola olawunmi","Ebenezer Grammar School, (Snr)"
+"ONANUGA, Adedayo olukorede","Ebenezer Grammar School, (Snr)"
+"OYEWOLE, Olasunkanmi zulikha","Ebenezer Grammar School, (Snr)"
+"SALAMI, Fasilat temitope","Ebenezer Grammar School, (Snr)"
+"SOETAN, Betty arike","Ebenezer Grammar School, (Snr)"
+"SOLUKE, Taobat yomi","Ebenezer Grammar School, (Snr)"
+"SOREMI, Taiwo Adesola.","Ebenezer Grammar School, (Snr)"
+"SUBAIR, Adebayo Gafar.","Ebenezer Grammar School, (Snr)"
+"SULEIMAN, Aminat abimbola","Ebenezer Grammar School, (Snr)"
+"YEKINNI, Fatimah abolanle","Ebenezer Grammar School, (Snr)"
+"ABATI, Adewole Atanda.","Gateway Secondary School, (Jnr), Ita - Eko"
+"ADEBAYO, Uthman ayoola","Gateway Secondary School, (Jnr), Ita - Eko"
+"ADELANI, Adunni adedunke","Gateway Secondary School, (Jnr), Ita - Eko"
+"ADETAYO, Florence olabimpe","Gateway Secondary School, (Jnr), Ita - Eko"
+"ADEWOLE, Bolanle riskat","Gateway Secondary School, (Jnr), Ita - Eko"
+"AJAYI, Modupe maria","Gateway Secondary School, (Jnr), Ita - Eko"
+"AKANDE, Adiat adebola","Gateway Secondary School, (Jnr), Ita - Eko"
+"AKINBODE, Ayowale stella","Gateway Secondary School, (Jnr), Ita - Eko"
+"AKINSANYA, Ogenevbogaga maria","Gateway Secondary School, (Jnr), Ita - Eko"
+"AKINTUNDE, Omotayo olabisi","Gateway Secondary School, (Jnr), Ita - Eko"
+"AYODELE, Bola helen","Gateway Secondary School, (Jnr), Ita - Eko"
+"AZEEZ, Olalekan alao abodunde","Gateway Secondary School, (Jnr), Ita - Eko"
+"BALOGUN, Mary funmi ayobami","Gateway Secondary School, (Jnr), Ita - Eko"
+"BANKOLE, Bilikis olasunmbo","Gateway Secondary School, (Jnr), Ita - Eko"
+"JAMIU, Tawakalit Olajumoke.","Gateway Secondary School, (Jnr), Ita - Eko"
+"KOLAWOLE, Temitope abimbola","Gateway Secondary School, (Jnr), Ita - Eko"
+"LASILO, Yetunde elizabeth","Gateway Secondary School, (Jnr), Ita - Eko"
+"LEMO, Oluwatosin nike","Gateway Secondary School, (Jnr), Ita - Eko"
+"Mrs. AKODU,  Asakun olufunmilayo","Gateway Secondary School, (Jnr), Ita - Eko"
+"Mrs. FAFIOLU,  Titilope olajumoke","Gateway Secondary School, (Jnr), Ita - Eko"
+"Mrs. OYEKUNLE,  Sidikat oluwayemisi","Gateway Secondary School, (Jnr), Ita - Eko"
+"Mrs. SOKEYE,  Folasade olubunmi","Gateway Secondary School, (Jnr), Ita - Eko"
+"OGUNBO, Ayokunle micheal","Gateway Secondary School, (Jnr), Ita - Eko"
+"OKE, Olufunmi olubunmi","Gateway Secondary School, (Jnr), Ita - Eko"
+"OLUMUYIWA, Omotunde elizabeth","Gateway Secondary School, (Jnr), Ita - Eko"
+"OLUWALOGBON, Jelili Kolawole.","Gateway Secondary School, (Jnr), Ita - Eko"
+"OROBIYI, Victoria Olutola.","Gateway Secondary School, (Jnr), Ita - Eko"
+"OTUBANJO, Adenike  oluwakemi","Gateway Secondary School, (Jnr), Ita - Eko"
+"OYETUNJI, Mobolaji oyeleye","Gateway Secondary School, (Jnr), Ita - Eko"
+"SOMEFUN, Racheal omolara","Gateway Secondary School, (Jnr), Ita - Eko"
+"TAIWO, Beatrice Odunayo.","Gateway Secondary School, (Jnr), Ita - Eko"
+"ADEDEJI, Sewanu deborah","Gateway Secondary School, (Snr)"
+"ADEFAKA, Rhoda oluwakemi","Gateway Secondary School, (Snr)"
+"ADENUGA, Adetayo Abayomi.","Gateway Secondary School, (Snr)"
+"AGBOOLA, Oluwaseyi Adeyinka.","Gateway Secondary School, (Snr)"
+"AKINDE, Silifat funmilayo","Gateway Secondary School, (Snr)"
+"AKINYEMI, Olaide kehinde","Gateway Secondary School, (Snr)"
+"AKOREDE, Kamlu adebayo","Gateway Secondary School, (Snr)"
+"ALABA, Bolaji olaoluwa","Gateway Secondary School, (Snr)"
+"ALAGA, Faruq owolabi","Gateway Secondary School, (Snr)"
+"ALATISE, Abdush-shakoor olanrewaju","Gateway Secondary School, (Snr)"
+"APENA, Nofisat yewande","Gateway Secondary School, (Snr)"
+"EFOSA, Masan janet","Gateway Secondary School, (Snr)"
+"FASHINA, Olubunmi omolara","Gateway Secondary School, (Snr)"
+"IBRAHEEM IMAM, Abdul-lahi","Gateway Secondary School, (Snr)"
+"IDOWU, Nofisat Temitope.","Gateway Secondary School, (Snr)"
+"JOHNSON, Samson Ifedayo.","Gateway Secondary School, (Snr)"
+"MOSAKU, Opeyemi Olufunmilayo.","Gateway Secondary School, (Snr)"
+"Mr. GANIYU,  Olatunbosun wasiu","Gateway Secondary School, (Snr)"
+"Mr. OYEDOKUN,  Caleb idowu","Gateway Secondary School, (Snr)"
+"Mrs. AKINOLA,  Adeola olayinka","Gateway Secondary School, (Snr)"
+"Mrs. OYEGUNLE,  Rachael olubisi","Gateway Secondary School, (Snr)"
+"ODAGI, Oluwabukola Benita.","Gateway Secondary School, (Snr)"
+"OGUNSANYA, Adekunle sunday","Gateway Secondary School, (Snr)"
+"OKESANJO, Adeola grace","Gateway Secondary School, (Snr)"
+"OKOH, Mary Aladi.","Gateway Secondary School, (Snr)"
+"OLANLOYE, Omotoke kesirat","Gateway Secondary School, (Snr)"
+"OLASORE, Omolayo elizabeth","Gateway Secondary School, (Snr)"
+"OMOATAMAN, Eromosele sunday","Gateway Secondary School, (Snr)"
+"ONIYINDE, Olukunle abel","Gateway Secondary School, (Snr)"
+"OYENOLA, Mukaila abiodun","Gateway Secondary School, (Snr)"
+"OYETAYO, Tope oluwatobi","Gateway Secondary School, (Snr)"
+"RAJI-ORELOPE, Luqman Iyanda.","Gateway Secondary School, (Snr)"
+"RUNSEWE, Olusola omowunmi","Gateway Secondary School, (Snr)"
+"SALAU, Olusesan adedayo","Gateway Secondary School, (Snr)"
+"WAHAB, Ahmed peter","Gateway Secondary School, (Snr)"
+"ADEBULE, John oluwatoyin",Idi- Emi High School
+"ADEDEJI, Adeyemi abiola",Idi- Emi High School
+"ARIBISALA, Olajumoke omotola",Idi- Emi High School
+"DALMEIDA, Basirat oluwaremilekun",Idi- Emi High School
+"OGUNOJUKAN, Esther adebisi",Idi- Emi High School
+"OLOYEDE, Abimbola sakiru",Idi- Emi High School
+"POPOOLA, John oladele",Idi- Emi High School
+"ABIOLA, Rasaki olagunju","Ikija High School (Comb), Ikija Iberekodo"
+"ADEBO, Bukola folakemi","Ikija High School (Comb), Ikija Iberekodo"
+"ADEDIGBA, Fasilat aderonke","Ikija High School (Comb), Ikija Iberekodo"
+"ADEGOKE, Elizabeth folashade","Ikija High School (Comb), Ikija Iberekodo"
+"ADEKUNLE, Folasade kikelomo","Ikija High School (Comb), Ikija Iberekodo"
+"ADEKUNTE, Samson sunday","Ikija High School (Comb), Ikija Iberekodo"
+"ADEOYE, Folake olanike","Ikija High School (Comb), Ikija Iberekodo"
+"ADESINA, Saliu adeyemi","Ikija High School (Comb), Ikija Iberekodo"
+"AKINLADE, Adepeju esther","Ikija High School (Comb), Ikija Iberekodo"
+"ALARAN, Samod adebayo","Ikija High School (Comb), Ikija Iberekodo"
+"AYO-ALAGBE, Ademola ayodele","Ikija High School (Comb), Ikija Iberekodo"
+"BELLO, Taofeek oluwasegun","Ikija High School (Comb), Ikija Iberekodo"
+"ECHI, Emily Elohor.","Ikija High School (Comb), Ikija Iberekodo"
+"FALOLA, Kehinde olawunmi","Ikija High School (Comb), Ikija Iberekodo"
+"KAREEM, Nurat aderonke","Ikija High School (Comb), Ikija Iberekodo"
+"NURAIN, Sherif Oladimeji.","Ikija High School (Comb), Ikija Iberekodo"
+"OGUNDELE, Victoria temitope","Ikija High School (Comb), Ikija Iberekodo"
+"OLAGUNJU, Oluwakemi motunrayo","Ikija High School (Comb), Ikija Iberekodo"
+"OLUBIYI, Babatunde oluwatosin","Ikija High School (Comb), Ikija Iberekodo"
+"OMOJOLA, Patricia titilayo","Ikija High School (Comb), Ikija Iberekodo"
+"OMOTOSO, Adenike christianah","Ikija High School (Comb), Ikija Iberekodo"
+"ONIKEKU, Olajumoke Rasidat.","Ikija High School (Comb), Ikija Iberekodo"
+"OSENI, Oladunni funke","Ikija High School (Comb), Ikija Iberekodo"
+"OYEKAN, Segun adewale","Ikija High School (Comb), Ikija Iberekodo"
+"SOYOYE, Mobolanle mutiat","Ikija High School (Comb), Ikija Iberekodo"
+"SUBAIR, Bukola adijat","Ikija High School (Comb), Ikija Iberekodo"
+"TIJANI, Ganiyat anike","Ikija High School (Comb), Ikija Iberekodo"
+"AJENIFUJA, Sulaiman Oluwaseun.",Ilewo Community High School
+"AKINDELE, Fatimah Oluwakemisola.",Ilewo Community High School
+"ALADESOFIN, Adekunle Johnson.",Ilewo Community High School
+"DUROJAYE, Abimbola ajoke",Ilewo Community High School
+"EKUNDAYO, Gbenga mathew",Ilewo Community High School
+"FAROTIMI, Olugbenga omoniyi",Ilewo Community High School
+"FAYOMI, Stephen abiodun",Ilewo Community High School
+"IJABOR, Mathew ighowho",Ilewo Community High School
+"Mr. AMUDA,  Oluwatoyin aliyu",Ilewo Community High School
+"Mr. PEREOLA,  Samuel  A.",Ilewo Community High School
+"Mrs. AKINHANMI,  Aina  C.",Ilewo Community High School
+"OGUNAIKE, Tosin Oluwaseun.",Ilewo Community High School
+"SHITTU, Adekemi olayinka",Ilewo Community High School
+"SOFOLUKE, Taiwo olawunmi",Ilewo Community High School
+"ADEBAYO, Adeyinka oluwatosin","Ilugun High School (Jnr), Elega"
+"ADEKUNLE, Josephine Onabolajoko.","Ilugun High School (Jnr), Elega"
+"AJASA, Oluwabusayo aderonke","Ilugun High School (Jnr), Elega"
+"AKINWUNMI, Adepeju olufunmilayo","Ilugun High School (Jnr), Elega"
+"AKOLAWOLE, Olugbenga paul","Ilugun High School (Jnr), Elega"
+"BADMUS, Abimbola abiola","Ilugun High School (Jnr), Elega"
+"BANKOLE, Emmanuel adegoke akineyin","Ilugun High School (Jnr), Elega"
+"IDOWU, Asisat olawunmi","Ilugun High School (Jnr), Elega"
+"IDOWU, Bernice folake","Ilugun High School (Jnr), Elega"
+"KELANI, Blessing ewere","Ilugun High School (Jnr), Elega"
+"MALAOLU, O. aderonke","Ilugun High School (Jnr), Elega"
+"MORENIKEJI, Oredola mobolaji","Ilugun High School (Jnr), Elega"
+"MUOLEEH, Taibat oluwakemi","Ilugun High School (Jnr), Elega"
+"Mr. SOBOLA,  Ibrahim abolaji","Ilugun High School (Jnr), Elega"
+"Mrs. ADESANWO,  Olawunmi abidemi","Ilugun High School (Jnr), Elega"
+"Mrs. OLUWAMBE,  Titilayo olabisi","Ilugun High School (Jnr), Elega"
+"Mrs. POPOOLA,  Monsurat tolu","Ilugun High School (Jnr), Elega"
+"ODENIKE, Abdulkareem abayomi","Ilugun High School (Jnr), Elega"
+"OGUNWANDE, Lucy elizabeth","Ilugun High School (Jnr), Elega"
+"OKUNLOLA, Olakunle philip","Ilugun High School (Jnr), Elega"
+"OLAKUNLE, Kabirat temitope","Ilugun High School (Jnr), Elega"
+"OLANREWAJU, Serifat adebunmi","Ilugun High School (Jnr), Elega"
+"OLUBUNMI, Christianah olubusayo","Ilugun High School (Jnr), Elega"
+"OLUKOGA, Adeyemi alaba","Ilugun High School (Jnr), Elega"
+"OMOLAJA, Oluwaseun Ifeoluwa.","Ilugun High School (Jnr), Elega"
+"OYETUBOH, Olayemi oluyinka","Ilugun High School (Jnr), Elega"
+"POPOOLA, Abosede Iyabode.","Ilugun High School (Jnr), Elega"
+"SOGUNLE, Bolanle taofikat","Ilugun High School (Jnr), Elega"
+"TUMBI, Ekundayo julianah","Ilugun High School (Jnr), Elega"
+"ABDUL-SALAMI, Bolanle amoke",Ilugun High School (Snr)
+"ABIOYE, Dorcas olufunke",Ilugun High School (Snr)
+"ADERIBIGBE, Adebola nofisat",Ilugun High School (Snr)
+"ADESALU, Olamide Awawu.",Ilugun High School (Snr)
+"AFOLABI, Kehinde olumolagun",Ilugun High School (Snr)
+"AJAYI, Oluwatobi Oluwadare.",Ilugun High School (Snr)
+"AKINDELE, Motunrayo dorcas",Ilugun High School (Snr)
+"AKINTUNDE, Kudirat abeni",Ilugun High School (Snr)
+"AKINYEMI, Folasade Omobolanle.",Ilugun High School (Snr)
+"AKINYEMI, Isiaka idowu",Ilugun High School (Snr)
+"ASUBIARO, Azeezat temitope",Ilugun High School (Snr)
+"ATEGUN, Akeem babatunde",Ilugun High School (Snr)
+"AYELESO, Ayoyinka olugbenga",Ilugun High School (Snr)
+"AYO-ALAGBE, Bolaji olaide",Ilugun High School (Snr)
+"BABALOLA, Ronke olubisi",Ilugun High School (Snr)
+"IDOWU, Omolola Oluranti.",Ilugun High School (Snr)
+"JEBOODA, Oluwafemi Samuel.",Ilugun High School (Snr)
+"JIDE-AKINTOLA, Titilayo",Ilugun High School (Snr)
+"KUSIMO, Monsuru Ajibola.",Ilugun High School (Snr)
+"LAUCK, Nofisat Oluwaseun.",Ilugun High School (Snr)
+"MAJEKODUNMI, Akinola femi",Ilugun High School (Snr)
+"Mr. BADRUDEEN,  Musa  A.",Ilugun High School (Snr)
+"Mr. KEHINDE,  Olawale ganniu",Ilugun High School (Snr)
+"Mr. ODIMEREHINWO,  Omolayo stephen",Ilugun High School (Snr)
+"Mr. OGINNI,  Ebenezer bamidele",Ilugun High School (Snr)
+"Mrs. DURODOLA,  Foluso emily",Ilugun High School (Snr)
+"Mrs. JACOBS,  Bolajoko olatundun",Ilugun High School (Snr)
+"Mrs. LADIPO,  Olabisi temitope",Ilugun High School (Snr)
+"Mrs. OGUNBASE,  Christianah  O.",Ilugun High School (Snr)
+"ODEWABI, Emily oluseun",Ilugun High School (Snr)
+"OGUNTOYINBO, Olutoyin oluyomi",Ilugun High School (Snr)
+"OLAWUYI, Olagoke akano",Ilugun High School (Snr)
+"OLUFELA, Olufunmilayo olufolake",Ilugun High School (Snr)
+"ONADA, Modupe folake",Ilugun High School (Snr)
+"OSIYEMI, Adebisi oluwatosin alice",Ilugun High School (Snr)
+"OSOBA, Abosede Temitayo falilat.",Ilugun High School (Snr)
+"SALAUDEEN, Saidat ayobami",Ilugun High School (Snr)
+"TEJUOSO, Maria salimot",Ilugun High School (Snr)
+"ABIONA, Fatimo abeni",Imala Community High School
+"ADEBAYO, Bamidele patricia",Imala Community High School
+"AJISAFE, Serifat yetunde",Imala Community High School
+"ALAO, Rofiat Omobolanle.",Imala Community High School
+"FAKILE, Yusuf Kehinde.",Imala Community High School
+"IDOWU, Rebecca ayoola",Imala Community High School
+"MICHEAL, Daniel",Imala Community High School
+"Mr. AFENISUMEN,  Solomon olukayode",Imala Community High School
+"Mr. YUSUFF,  Adekunle taofeek",Imala Community High School
+"OGUNLEYE, Timothy Kayode.",Imala Community High School
+"OJEBIYI, Adeniyi Abiodun.",Imala Community High School
+"OKE, Solomon taiwo",Imala Community High School
+"OLAWOLU, Michael igbehinadun",Imala Community High School
+"OTULANA, Abiodun elizabeth",Imala Community High School
+"SOYOYE, Folake adunni",Imala Community High School
+"ADEBESIN, Mary oluwafunmilayo","Lafenwa High School (Jnr), Lafenwa"
+"ADEDAMOLA, Saburi adelekan","Lafenwa High School (Jnr), Lafenwa"
+"ADEDOYIN, Folasade aminat","Lafenwa High School (Jnr), Lafenwa"
+"ADISA, Oladunni Adejoke.","Lafenwa High School (Jnr), Lafenwa"
+"AKAYINODE, Basirat Omowunmi.","Lafenwa High School (Jnr), Lafenwa"
+"AKINLEYE, Abimbola oluwakemi","Lafenwa High School (Jnr), Lafenwa"
+"AKINWUMI, Oluwakemi adebisi","Lafenwa High School (Jnr), Lafenwa"
+"ALADE, Oluwabunmi","Lafenwa High School (Jnr), Lafenwa"
+"AMOSUN, Tundun Rashidat.","Lafenwa High School (Jnr), Lafenwa"
+"AYEDUN, Oluwaseyi samuel","Lafenwa High School (Jnr), Lafenwa"
+"BAGBILE, Eunice abiola","Lafenwa High School (Jnr), Lafenwa"
+"BALOGUN, Elizabeth oluyemisi","Lafenwa High School (Jnr), Lafenwa"
+"FASOLA, Olamide ganiyat","Lafenwa High School (Jnr), Lafenwa"
+"JOLAOSO, Victoria  foluke","Lafenwa High School (Jnr), Lafenwa"
+"KOKU, Adewunmi abiodun","Lafenwa High School (Jnr), Lafenwa"
+"MORAKINYO, Morufat Dewunmi.","Lafenwa High School (Jnr), Lafenwa"
+"Mr. AJIBADE,  Adesola olayiwola","Lafenwa High School (Jnr), Lafenwa"
+"Mrs. OMONAIYE,  Grace yemisi","Lafenwa High School (Jnr), Lafenwa"
+"Mrs. ONAJOBI,  Bosede bolanle","Lafenwa High School (Jnr), Lafenwa"
+"OGUNGBUYI, Oluwatoyin arin-ola","Lafenwa High School (Jnr), Lafenwa"
+"OGUNSOLA, Mulikat adeola","Lafenwa High School (Jnr), Lafenwa"
+"OGUNTOYINBO, Oluwatoyin wunmi","Lafenwa High School (Jnr), Lafenwa"
+"OLOWOKERE, Taiwo adenike","Lafenwa High School (Jnr), Lafenwa"
+"OLOYEDE, Lydia omotayo","Lafenwa High School (Jnr), Lafenwa"
+"OYERO, Olanrewaju raimot","Lafenwa High School (Jnr), Lafenwa"
+"RUFAI, Akeem adedamola","Lafenwa High School (Jnr), Lafenwa"
+"RUFAI, Muslimat omolola","Lafenwa High School (Jnr), Lafenwa"
+"SHITTU, Fatima abdullahi","Lafenwa High School (Jnr), Lafenwa"
+"SIKIRU, Aderoju ameedat","Lafenwa High School (Jnr), Lafenwa"
+"SOGEKE, Elizabeth mojisola","Lafenwa High School (Jnr), Lafenwa"
+"TOLUWANI, Joseph Olufunmi.","Lafenwa High School (Jnr), Lafenwa"
+"ABDUSSALAM, Azeezat Ayinbo.",Lafenwa High School (Snr)
+"ADEBAYO, Jamiu Abiodun.",Lafenwa High School (Snr)
+"ADEDAPO, Simeon tunde",Lafenwa High School (Snr)
+"ADEGBOYEGA, Mujidat temitope",Lafenwa High School (Snr)
+"ADEKANBI, Olubukola abosede",Lafenwa High School (Snr)
+"ADELEKE, Olufunmike olubusola",Lafenwa High School (Snr)
+"ADELOTAN, Serifat kehinde",Lafenwa High School (Snr)
+"ADEWUSI, Oluwayemisi Atinuke.",Lafenwa High School (Snr)
+"BADMOS, Omolara Olufunmilayo.",Lafenwa High School (Snr)
+"EWEBIYI, Rasaki akanni",Lafenwa High School (Snr)
+"FAKUNLE, Samuel sunday",Lafenwa High School (Snr)
+"IBITOKUN, Adenike Omolara.",Lafenwa High School (Snr)
+"JIMOH, Azeez aremu",Lafenwa High School (Snr)
+"LADOKUN, Nimotallahi Gbemisola.",Lafenwa High School (Snr)
+"Mr. AJAYI,  Felix adekunle",Lafenwa High School (Snr)
+"Mr. ENILOLOBO,  Adekunle ajani",Lafenwa High School (Snr)
+"Mr. SOBAYO,  Sakirudeen adeola",Lafenwa High School (Snr)
+"Mrs. AYOADE,  Rofiat abosede",Lafenwa High School (Snr)
+"Mrs. SOTOYINBO,  Aderonke olubunmi",Lafenwa High School (Snr)
+"ODUDELE, Kafilat Oyinlola.",Lafenwa High School (Snr)
+"OKEDIRAN, Saheed akanbi",Lafenwa High School (Snr)
+"OKELABI, Aminat Olatundun.",Lafenwa High School (Snr)
+"OLADIPO, Tajudeen adedeji",Lafenwa High School (Snr)
+"OLAIBI, Catherine folasade",Lafenwa High School (Snr)
+"OLATUNJI, Abosede motunrayo",Lafenwa High School (Snr)
+"OLOJEDE, Kudirat alaba",Lafenwa High School (Snr)
+"ONIFADE, Ayoola toyin",Lafenwa High School (Snr)
+"OROBIYI, Mary oluyemisi",Lafenwa High School (Snr)
+"OSUNGBOYE, Oluwatoyin Abosede.",Lafenwa High School (Snr)
+"OYEDIRAN, Stephen adepegba",Lafenwa High School (Snr)
+"POPOOLA, Temitope beatrice",Lafenwa High School (Snr)
+"SALAMI, Folasade Rebecca.",Lafenwa High School (Snr)
+"SANYAOLU, Ayobode abayomi",Lafenwa High School (Snr)
+"SOBAYO, Elizabeth omolara",Lafenwa High School (Snr)
+"SODUNKE, Kemi bolanle",Lafenwa High School (Snr)
+"ABDUL-SALAMI, Yetunde salamat",Oke- Ona Grammar School
+"ADEBAYO, Khadeejah",Oke- Ona Grammar School
+"ADEBESIN, Olaitan kabirat",Oke- Ona Grammar School
+"ADEGBITE, Oluwakemi janet",Oke- Ona Grammar School
+"ADEKUNLE, Adetoun ebunlola",Oke- Ona Grammar School
+"ADEPOJU, Yinusa aderemi",Oke- Ona Grammar School
+"ADESANYA, Oluwabunmi olatunji",Oke- Ona Grammar School
+"AKINDELE, Mutiat  temitope",Oke- Ona Grammar School
+"AKINLOLU, Emmanuel Akintomiwa.",Oke- Ona Grammar School
+"AKINOLA, Monsurat apinke abosede",Oke- Ona Grammar School
+"AKINSOJI, Janet oluwayemisi",Oke- Ona Grammar School
+"AKINYEMI, Adesola alaba",Oke- Ona Grammar School
+"AKIYODE, Giaz taiwo",Oke- Ona Grammar School
+"ALARAN, Iqmat Adenike.",Oke- Ona Grammar School
+"ASORONA, Oluwabunmi blessing",Oke- Ona Grammar School
+"AYOADE, Florence adetola",Oke- Ona Grammar School
+"BABALOLA, Rahmot",Oke- Ona Grammar School
+"BANKOLE, Taiwo kayode",Oke- Ona Grammar School
+"BHADMUS-AKOREDE, Shakirat Adebukola.",Oke- Ona Grammar School
+"EWULO, Hephzibah taiwo",Oke- Ona Grammar School
+"FADIRAN, Jimoh ishola",Oke- Ona Grammar School
+"FAGBEMI, Titilayo atoke",Oke- Ona Grammar School
+"FAKOYA, Yemisi adebola",Oke- Ona Grammar School
+"FAKUNLE, Mobolaji grace",Oke- Ona Grammar School
+"FALAJA, Olawale adedeji",Oke- Ona Grammar School
+"HAMZAT, Samrat iyabode",Oke- Ona Grammar School
+"MUKAILA, Ishaq kolawole",Oke- Ona Grammar School
+"Mr. OGUNSOLA,  Johnson olukayode",Oke- Ona Grammar School
+"Mr. OLANIYI,  Emilola  C.",Oke- Ona Grammar School
+"Mrs. OLUWOLE,  Julianah onome",Oke- Ona Grammar School
+"Mrs. Raji,  Abiola folakemi",Oke- Ona Grammar School
+"Mrs. TEJUOSO,  Cecilia oluwakemi",Oke- Ona Grammar School
+"NOSIRU, Surajudeen olawale",Oke- Ona Grammar School
+"ODEGBO, Alake Iyanat.",Oke- Ona Grammar School
+"ODUSOLA, Folasade olubunmi",Oke- Ona Grammar School
+"OLABODE, Busayo Adetutu.",Oke- Ona Grammar School
+"OLATUNJI, Bilikisu bimpe",Oke- Ona Grammar School
+"OLUBIYI, Titilola",Oke- Ona Grammar School
+"OYEWOLE, Motunrayo f.",Oke- Ona Grammar School
+"OYEWUMI, Bola esther",Oke- Ona Grammar School
+"POPOOLA, Musibau Olakunle.",Oke- Ona Grammar School
+"RAHEEM, Moyosola basirat",Oke- Ona Grammar School
+"SANNI, Alimat dupe",Oke- Ona Grammar School
+"SHASORE, Ibrahim olamide",Oke- Ona Grammar School
+"SOLUKE, Jelili Bamidele.",Oke- Ona Grammar School
+"SOMOYE YUSUF, Taiwo Nimotalahi.",Oke- Ona Grammar School
+"SOWUNMI, Ayoola Emmanuel.",Oke- Ona Grammar School
+"ADEJUMO, Adetunji oluwasegun",Olorunda Community High School
+"ADEWALE OJO, Adenike Taibat.",Olorunda Community High School
+"AKINLADE, Olushola Kuburat.",Olorunda Community High School
+"AKOREDE, Shamusideen Opeoluwa.",Olorunda Community High School
+"APETU, Dorcas ayobami",Olorunda Community High School
+"AWONUGA, Agbeke olaide",Olorunda Community High School
+"KUSENTAN, Amos Oluyemi.",Olorunda Community High School
+"MATILUKO, Olayinka joseph",Olorunda Community High School
+"Mr. ABIODUN,  Oluwafemi  O.",Olorunda Community High School
+"OLAOGUN, Semiu akanbi",Olorunda Community High School
+"SOMOYE, Folorunso collins",Olorunda Community High School
+"ADELANI, Risikat adenike",Olumo High School
+"ADELEKE, Ayodeji fisayo",Olumo High School
+"AKINYEMI, Olajide michael",Olumo High School
+"ALAGBE, Olufemi kolawole",Olumo High School
+"EWEBIYI, Falilat adunni",Olumo High School
+"HASSAN, Oluwatoyin Enitan.",Olumo High School
+"IBIRINDE, Aminat arinpe",Olumo High School
+"Mr. ADENIYI,  James olusegun",Olumo High School
+"Mr. JIMOH,  Morenikeji saheed",Olumo High School
+"Mr. JUNAID,  Waheed adebisi",Olumo High School
+"Mr. OJO,  Mayowa timothy",Olumo High School
+"Mr. SOBAYO,  Matthew olu",Olumo High School
+"Mr. SULAIMAN,  Yusuph ademola",Olumo High School
+"Mrs. ABIDOYE,  Olukemi racheal",Olumo High School
+"Mrs. ADEDIRAN,  Wuraolu racheal",Olumo High School
+"Mrs. ADENIYI,  Taiwo  T.",Olumo High School
+"Mrs. AJAYI,  Racheal bolanle",Olumo High School
+"Mrs. ALAO,  Funmilola wunmi",Olumo High School
+"Mrs. BAMKOLE,  Oluwafadekemi odunola",Olumo High School
+"Mrs. KASALI,  Simbat adeola",Olumo High School
+"Mrs. OJO - BRIGHT,  Nimota olukemi",Olumo High School
+"Mrs. OLAGUNJU,  Christi motunrayo",Olumo High School
+"Mrs. OLUGBEMISI,  Oluyinka  C.",Olumo High School
+"Mrs. OMOLADE,  Oluranti ibiyosi",Olumo High School
+"Mrs. SALAMI,  Mopelola olutayo",Olumo High School
+"Mrs. SHASORE,  Afusat  K.",Olumo High School
+"Mrs. SODIYA,  Oluwatoyin agnes",Olumo High School
+"ODUBONA, Remilekun esther",Olumo High School
+"OGUNLEYE, Faidat olanike",Olumo High School
+"OGUNRINU, Mayowa omolola",Olumo High School
+"OLASUPO, Barakat oluwakemi",Olumo High School
+"OLUWAFEMI, Funmilola kike",Olumo High School
+"RAJI, Habibat Olabisi.",Olumo High School
+"SALAKO, Lekan Oluwatosin.",Olumo High School
+"SOETAN, Kehinde Maruff.",Olumo High School
+"SORINLO, Olufunmilayo olubukola",Olumo High School
+"SORUNKE, Ismail ayinde",Olumo High School
+"ADENUGA, Morufat","Premier Grammar School (Jnr), Lafenwa"
+"AHMED, Aminat Yemi.","Premier Grammar School (Jnr), Lafenwa"
+"AJETUNMOBI, Gift Olubusayo.","Premier Grammar School (Jnr), Lafenwa"
+"AKINSOLA, Tosin adetutu","Premier Grammar School (Jnr), Lafenwa"
+"AKINWANDE, Akintomiwa ben","Premier Grammar School (Jnr), Lafenwa"
+"ALABI, Khadijat Opeyemi.","Premier Grammar School (Jnr), Lafenwa"
+"BABARINDE, Eunice arinola","Premier Grammar School (Jnr), Lafenwa"
+"FAYOMI, Oluwabunmi dorcas","Premier Grammar School (Jnr), Lafenwa"
+"IDOWU, Opeyemi Oluwakemi.","Premier Grammar School (Jnr), Lafenwa"
+"KOKU, Olaniyi Taiwo.","Premier Grammar School (Jnr), Lafenwa"
+"ODUNYEMI, Christianah bose","Premier Grammar School (Jnr), Lafenwa"
+"OGUN, Adebayo kabir","Premier Grammar School (Jnr), Lafenwa"
+"OGUNBONA, Oluseyi samuel","Premier Grammar School (Jnr), Lafenwa"
+"OGUNMOYE, Fatimoh Opeolopin.","Premier Grammar School (Jnr), Lafenwa"
+"OGUNSIJI, Ayodele anthonia","Premier Grammar School (Jnr), Lafenwa"
+"OJELEYE, Oluwatoyin Busola.","Premier Grammar School (Jnr), Lafenwa"
+"OLANREWAJU, Ponle Funmilola.","Premier Grammar School (Jnr), Lafenwa"
+"OLATUNBOSUN, Kehinde oluwakemi","Premier Grammar School (Jnr), Lafenwa"
+"OLIYIDE, Olusoji festus","Premier Grammar School (Jnr), Lafenwa"
+"ONI, Adijat R..","Premier Grammar School (Jnr), Lafenwa"
+"OWODEYI, Serifat Olatundun.","Premier Grammar School (Jnr), Lafenwa"
+"SHITTU, Bilikiz olabisi","Premier Grammar School (Jnr), Lafenwa"
+"ADEGBAJU, Elizabeth dolapo",Premier Grammar School (Snr)
+"ADEGOKE, Abiola oluremi",Premier Grammar School (Snr)
+"AGBENIGA, Aminu Oluwatosin.",Premier Grammar School (Snr)
+"AJAYI, Adeyinka Olumuyiwa.",Premier Grammar School (Snr)
+"AKINMAMEJI, Oluwadolapo Mary.",Premier Grammar School (Snr)
+"AKINTAYO, Oluwasegun Abel.",Premier Grammar School (Snr)
+"AZEEZ, Sakirat modupe",Premier Grammar School (Snr)
+"BALOGUN, Samuel abimbola",Premier Grammar School (Snr)
+"BANKOLE, Olukayode Olusegun.",Premier Grammar School (Snr)
+"DIPEOLU, Morufat Toyin.",Premier Grammar School (Snr)
+"DOSUNMU, Gbemisola atinuke",Premier Grammar School (Snr)
+"DUROJOLA, Adejumoke Ttilayo.",Premier Grammar School (Snr)
+"FAGBENRO, Alli muhammed",Premier Grammar School (Snr)
+"FAKUNLE, Deborah oluwatosin",Premier Grammar School (Snr)
+"JESUDAINI, Victor oluwafemi kolawole",Premier Grammar School (Snr)
+"KOLAWOLE, Iswat temitope",Premier Grammar School (Snr)
+"Mr. AKINYOOLA,  Taiwo  O.",Premier Grammar School (Snr)
+"Mr. OYEYEMI,  Victor  J.",Premier Grammar School (Snr)
+"Mrs. ABIODUN,  Adebukola amudalat",Premier Grammar School (Snr)
+"Mrs. AYOADE,  Ganiyat olanike",Premier Grammar School (Snr)
+"Mrs. FASHINA,  Olubusola taiwo",Premier Grammar School (Snr)
+"Mrs. SALAU,  Oluyemisi omolara",Premier Grammar School (Snr)
+"NEJO, Feyisara helen",Premier Grammar School (Snr)
+"OGUNDARE, Wasiu Isola.",Premier Grammar School (Snr)
+"OGUNEKO, Oluyinka Nike.",Premier Grammar School (Snr)
+"OKE, David adelani",Premier Grammar School (Snr)
+"OLANIYI, Funmilayo abosede",Premier Grammar School (Snr)
+"OLAWUWO, Gbenga Adekunle.",Premier Grammar School (Snr)
+"OLIGBINDE, Olatunbosun ayodeji",Premier Grammar School (Snr)
+"OLUFOWOBI, Kehinde oluwaseun",Premier Grammar School (Snr)
+"OYEGOKE, Akimot funmi",Premier Grammar School (Snr)
+"RABIU, Cornelius adesina",Premier Grammar School (Snr)
+"SAMBO, Ismail olanrewaju",Premier Grammar School (Snr)
+"SHITTU, Musiliu olugbenga",Premier Grammar School (Snr)
+"ABIDEMI, Olorunwa florence","St. Peter's College, (Jnr), Olomore"
+"ADEBIYI, Foluke esther","St. Peter's College, (Jnr), Olomore"
+"ADEGBOYEGA, Abayomi owolabi","St. Peter's College, (Jnr), Olomore"
+"ADELAKUN, Mojisola mujidat","St. Peter's College, (Jnr), Olomore"
+"ADEOYE, Motunrayo","St. Peter's College, (Jnr), Olomore"
+"AJAYI, Fatimoh abiola","St. Peter's College, (Jnr), Olomore"
+"AKINBILE, Aminat Olasunbo.","St. Peter's College, (Jnr), Olomore"
+"AKINDE, Tosin ayoade","St. Peter's College, (Jnr), Olomore"
+"AKINDELE, Olufemi emmanuel","St. Peter's College, (Jnr), Olomore"
+"AKINLABI, Rafiat ajoke","St. Peter's College, (Jnr), Olomore"
+"AKINLOTAN, Mary lere","St. Peter's College, (Jnr), Olomore"
+"AKINODE, Mofoluwake","St. Peter's College, (Jnr), Olomore"
+"AKINRINADE, Mojisola adebola","St. Peter's College, (Jnr), Olomore"
+"AKINYEMI, Deborah abosede","St. Peter's College, (Jnr), Olomore"
+"AYODEJI, Tawakalit Olaide.","St. Peter's College, (Jnr), Olomore"
+"BAKENNE, Ismaeel adedolapo .o.","St. Peter's College, (Jnr), Olomore"
+"BALOGUN, Toyibat bolatito","St. Peter's College, (Jnr), Olomore"
+"BUSARI, Kamilat aderonke","St. Peter's College, (Jnr), Olomore"
+"ERO-PHILIPS, Eunice oluwakemi","St. Peter's College, (Jnr), Olomore"
+"FANU, Abayomi adenrele","St. Peter's College, (Jnr), Olomore"
+"GBOLA-YUSUFF, Sharon adefunke","St. Peter's College, (Jnr), Olomore"
+"KUPONIYI, Grace titilade","St. Peter's College, (Jnr), Olomore"
+"LENTULUS, Abiola  adelayo","St. Peter's College, (Jnr), Olomore"
+"MATHEW, Tuesday olusegun","St. Peter's College, (Jnr), Olomore"
+"Mr. AJIBOYE,  Olufemi","St. Peter's College, (Jnr), Olomore"
+"Mr. FAJOBI,  Akintunde","St. Peter's College, (Jnr), Olomore"
+"Mrs. LAWAL,  Fatimot olapeju","St. Peter's College, (Jnr), Olomore"
+"ODUGBEMI, Oluwakemi ramotalahi","St. Peter's College, (Jnr), Olomore"
+"OGUNDIMU, Adunola olutayo","St. Peter's College, (Jnr), Olomore"
+"OLALEYE, Taiwo abidemi","St. Peter's College, (Jnr), Olomore"
+"OLAMILEHIN, Adeola abiodun","St. Peter's College, (Jnr), Olomore"
+"OLATUNDE, Regina oluyemisi","St. Peter's College, (Jnr), Olomore"
+"OLATUNJI, Olubukola folasade","St. Peter's College, (Jnr), Olomore"
+"OLONADE, Mary Omobolanle.","St. Peter's College, (Jnr), Olomore"
+"OLUBIYI, Gbenga theophilus","St. Peter's College, (Jnr), Olomore"
+"OLUMUYIWA, Sarah ajoke","St. Peter's College, (Jnr), Olomore"
+"OMOBOSOYE, Akinfemiwa Foluso.","St. Peter's College, (Jnr), Olomore"
+"ONAFUYE, Bukola Oriyomi.","St. Peter's College, (Jnr), Olomore"
+"OSUNGBOYE, Adenike Adeyemi.","St. Peter's College, (Jnr), Olomore"
+"OYEBANJI, Babatunde oluwadamilare","St. Peter's College, (Jnr), Olomore"
+"PHILLIPS, Adeola bamidele","St. Peter's College, (Jnr), Olomore"
+"POPOOLA, Ayoka catherine","St. Peter's College, (Jnr), Olomore"
+"SALAKO, Abayomi Waheed.","St. Peter's College, (Jnr), Olomore"
+"SOMIDE, Toyin funmilade","St. Peter's College, (Jnr), Olomore"
+"SOREMI, Emmanuel olurotimi","St. Peter's College, (Jnr), Olomore"
+"SOTUNDE, Adesina oluyemi","St. Peter's College, (Jnr), Olomore"
+"SURAKAT-RAUFU, Kudirat Temitope.","St. Peter's College, (Jnr), Olomore"
+"YUSUF, Jamiyu olayinka","St. Peter's College, (Jnr), Olomore"
+"ABASS, Akimot morenikeji","St. Peter's College, (Snr), Olomore"
+"ABESIN, Victoria oluseyi","St. Peter's College, (Snr), Olomore"
+"ABIODUN, Oluwadamilola Mary.","St. Peter's College, (Snr), Olomore"
+"ABUMHERE, Victoria oluwakemi","St. Peter's College, (Snr), Olomore"
+"ADEBAKIN,  afolasade Serifat.","St. Peter's College, (Snr), Olomore"
+"ADEBESIN, Raulat oluwakemi","St. Peter's College, (Snr), Olomore"
+"ADEBOYE, Olufunke Basirat.","St. Peter's College, (Snr), Olomore"
+"ADEIGBE, Olusola olufunmilayo","St. Peter's College, (Snr), Olomore"
+"ADENOPO, Risikat folakemi","St. Peter's College, (Snr), Olomore"
+"ADESIDA, Tinuade Mercy.","St. Peter's College, (Snr), Olomore"
+"ADETOKUNBO, Adekunle olaoluwa","St. Peter's College, (Snr), Olomore"
+"ADEWALE, Olalekan samuel","St. Peter's College, (Snr), Olomore"
+"AGBI, Juliana Olubunmi.","St. Peter's College, (Snr), Olomore"
+"AJAO, Oluwaseun Damilola.","St. Peter's College, (Snr), Olomore"
+"AJAYI, Abosede atoke","St. Peter's College, (Snr), Olomore"
+"AKINOLA, Opeolu timothy","St. Peter's College, (Snr), Olomore"
+"AKINSOLA, Adekunle abayomi adebimpe","St. Peter's College, (Snr), Olomore"
+"ALABA, Abosede esther","St. Peter's College, (Snr), Olomore"
+"AYEROJU, Bilikisu aduke","St. Peter's College, (Snr), Olomore"
+"AYOOLA, Ibironke salifau","St. Peter's College, (Snr), Olomore"
+"BAMGBOSHE, Aderonke Bolanle.","St. Peter's College, (Snr), Olomore"
+"GARUBA, Serifat olapeju","St. Peter's College, (Snr), Olomore"
+"GEORGE, Christianah Temilouwa.","St. Peter's College, (Snr), Olomore"
+"IGE, Grace Omolara.","St. Peter's College, (Snr), Olomore"
+"IPADEOLA, Abosede oluronke","St. Peter's College, (Snr), Olomore"
+"KOLEOSO, Kabir okanlawon","St. Peter's College, (Snr), Olomore"
+"MADANDOLA, Abosede omolara","St. Peter's College, (Snr), Olomore"
+"MAJEKODUNMI, Olajumoke abosede","St. Peter's College, (Snr), Olomore"
+"MAJOLAGBE, Abosede olujoke","St. Peter's College, (Snr), Olomore"
+"MUSARI, Segun omolaja","St. Peter's College, (Snr), Olomore"
+"Mr. ADEROKU,  Augustine kayode","St. Peter's College, (Snr), Olomore"
+"Mr. MAKINDE,  Oluwaseyi omoyemi","St. Peter's College, (Snr), Olomore"
+"Mrs. ADEOGUN,  Florence bukola","St. Peter's College, (Snr), Olomore"
+"Mrs. ALFRED,  Omolara temitope","St. Peter's College, (Snr), Olomore"
+"Mrs. OSHOLAKE,  Olayemi adedoyin","St. Peter's College, (Snr), Olomore"
+"Mrs. SENNAIKE,  Victoria olumide","St. Peter's College, (Snr), Olomore"
+"NUGA, Esther oluwafunmileyi","St. Peter's College, (Snr), Olomore"
+"OBAKURO, Precious Sefunmi.","St. Peter's College, (Snr), Olomore"
+"OBASAN, Olayemi odunayo ayinke","St. Peter's College, (Snr), Olomore"
+"ODEFENWA, Oluwatayo afolasade","St. Peter's College, (Snr), Olomore"
+"OGUNDIYA, Olawale Oluwaseun.","St. Peter's College, (Snr), Olomore"
+"OGUNWA, Aderounbi oyeyemi","St. Peter's College, (Snr), Olomore"
+"OKE, Alice abosede","St. Peter's College, (Snr), Olomore"
+"OKETOLA, Olabisi ajoke","St. Peter's College, (Snr), Olomore"
+"OKUNADE, Afusat Adeola.","St. Peter's College, (Snr), Olomore"
+"OLALOKO, Olubunmi omolade","St. Peter's College, (Snr), Olomore"
+"OLANIYI, Isau alani","St. Peter's College, (Snr), Olomore"
+"OLATUNBOSUN, Kolawole adisa","St. Peter's College, (Snr), Olomore"
+"OLULEYE, Gbonjubola Adeola.","St. Peter's College, (Snr), Olomore"
+"SHONIREGUN, Olubunmi ajike","St. Peter's College, (Snr), Olomore"
+"SHOPADE, Abosede ibukun","St. Peter's College, (Snr), Olomore"
+"SIKIRU, Ahmod olayiwola","St. Peter's College, (Snr), Olomore"
+"SOGBESAN, Temitope","St. Peter's College, (Snr), Olomore"
+"SOMOYE, Adejumoke seun","St. Peter's College, (Snr), Olomore"
+"SOMUYIWA, Oluwatoyin Titilayo.","St. Peter's College, (Snr), Olomore"
+"SOSAN, Samson Oladimeji.","St. Peter's College, (Snr), Olomore"
+"TAIWO, Basirat Temitope.","St. Peter's College, (Snr), Olomore"
+"TAIWO, Doyinsola olufunke","St. Peter's College, (Snr), Olomore"
+"UBA, Oluwaseun Elizabeth.","St. Peter's College, (Snr), Olomore"
+"UGUDU, Emmanuela","St. Peter's College, (Snr), Olomore"
+"ABU, Esther Adetutu.","Unity High School,(Jnr)"
+"ADARAMOLA, Janet eboselume","Unity High School,(Jnr)"
+"ADEBAYO-OYEJIDE, Adefolake oluwaseun","Unity High School,(Jnr)"
+"ADEKUNLE, Abiola simbiat","Unity High School,(Jnr)"
+"ADENEKAN, Oluyemi abeke","Unity High School,(Jnr)"
+"ADENIJI, Comfort Tolulope.","Unity High School,(Jnr)"
+"AFONJA, Adeshina toyeeb","Unity High School,(Jnr)"
+"AINA, Deborah taiwo","Unity High School,(Jnr)"
+"AJAYI, Bunmi bosede","Unity High School,(Jnr)"
+"ATANDA, Asinau bolatito","Unity High School,(Jnr)"
+"AWOLESI, Latifat bisola","Unity High School,(Jnr)"
+"AYOADE, Abiola oluwakemi","Unity High School,(Jnr)"
+"BANKOLE, Mudupola abosede","Unity High School,(Jnr)"
+"BAYEWUNMI, Fatai aremu","Unity High School,(Jnr)"
+"DASAOLU, Rasheed adisa","Unity High School,(Jnr)"
+"FADARE, Abimbola oluwakemi","Unity High School,(Jnr)"
+"FOLARIN, Samuel oluseyi","Unity High School,(Jnr)"
+"IDRIS, Folasade Mariam.","Unity High School,(Jnr)"
+"LAWAL, Saidat abike","Unity High School,(Jnr)"
+"MEBUDE, Juliana yetunde","Unity High School,(Jnr)"
+"Mrs. ADEOTI,  Basirat  O.","Unity High School,(Jnr)"
+"Mrs. AJALA,  Adebimpe oluyemisi","Unity High School,(Jnr)"
+"Mrs. YUSUFF,  Oyebola  I.","Unity High School,(Jnr)"
+"OGUNREMI, Janet Adenihun.","Unity High School,(Jnr)"
+"OJELADE, Olusola oluwaseun","Unity High School,(Jnr)"
+"OLALEYE, Adebayo ezekiel","Unity High School,(Jnr)"
+"OLUWOLE, Oluwafunmilola titi","Unity High School,(Jnr)"
+"RUFAI, Mufutau Ajagbe.","Unity High School,(Jnr)"
+"SHOTUBO, Iyabo bolaji","Unity High School,(Jnr)"
+"SODIQ, Temitope ayobami","Unity High School,(Jnr)"
+"SOWEMIMO, Esther oluwaseun","Unity High School,(Jnr)"
+"SOWUNMI, Dupe olubukunmi","Unity High School,(Jnr)"
+"TINUOYE, Oluyemisi olubukola","Unity High School,(Jnr)"
+"ADENIYI, Olanrewaju ibukun","Unity High School,(Snr)"
+"AJAYI, Lydia funke","Unity High School,(Snr)"
+"BANKOLE, Azeez  titilope","Unity High School,(Snr)"
+"GBEMISOLA, Oluwatayo Roseline.","Unity High School,(Snr)"
+"ILORI, Musiliatu ronke","Unity High School,(Snr)"
+"LAWAL, Zainab abeke","Unity High School,(Snr)"
+"Mr. ABIODUN,  Kazeem adeniyi","Unity High School,(Snr)"
+"Mr. ADEAGA,  Jacob adetokunbo","Unity High School,(Snr)"
+"Mr. AKINDE,  Festus oluwole","Unity High School,(Snr)"
+"Mr. AKINWALE,  Lawrence tunji","Unity High School,(Snr)"
+"Mr. AKINWUNMI,  Lanre  E.","Unity High School,(Snr)"
+"Mr. ALLEN-TAYLOR,  Oludare andrew","Unity High School,(Snr)"
+"Mr. FASHINA,  Tunde michael","Unity High School,(Snr)"
+"Mr. KOLADE,  Isaiah abidemi","Unity High School,(Snr)"
+"Mr. OGUNDIPE,  Sheriffdeen adeola","Unity High School,(Snr)"
+"Mr. SHITTU,  Jamiudeen omoleye","Unity High School,(Snr)"
+"Mr. SOLANKE,  Idowu peter","Unity High School,(Snr)"
+"Mrs. ABIOLA,  Olayinka taiwo","Unity High School,(Snr)"
+"Mrs. AWE,  Oluyemisi abiola","Unity High School,(Snr)"
+"Mrs. COLE,  Abosede  B.","Unity High School,(Snr)"
+"Mrs. LAMIDI,  Kudirat  A.","Unity High School,(Snr)"
+"Mrs. OGUNDIPE,  Busayo deborah","Unity High School,(Snr)"
+"Mrs. OGUNSEYE,  Rahmat adejoke","Unity High School,(Snr)"
+"Mrs. OJO,  Oluwakemi amoke","Unity High School,(Snr)"
+"Mrs. OJO-OLOYE,  Folasade elizabeth","Unity High School,(Snr)"
+"Mrs. OLADIPUPO,  Bukola elizabeth","Unity High School,(Snr)"
+"Mrs. OMOTOYE,  Abidemi mary","Unity High School,(Snr)"
+"Mrs. SODUNKE,  Elizabeth aderonke","Unity High School,(Snr)"
+"Mrs. SORUNKE,  Atinuke ayinke","Unity High School,(Snr)"
+"Mrs. TOGUNWA,  Sakirat bolakunmi","Unity High School,(Snr)"
+"OLATUNJI, Sarah olubukola","Unity High School,(Snr)"
+"Mr. OLUGBADE,  Solomon folorunso","Zonal Secretary Office, Abeokuta North"`
+  
+
+console.log(convertParallelTextToJSON(rawText))

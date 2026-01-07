@@ -222,7 +222,7 @@ export const generateAndUploadStaffPostingLetter = (userId: string): Promise<str
           }
 
           return `     I am directed to inform you that the Ogun State Teaching Service Commission has approved your redeployment from ${
-            user?.schoolOfPreviousPosting?.nameOfSchool} ${user?.schoolOfPreviousPosting?.category} to ${user?.schoolOfPresentPosting?.nameOfSchool}, ${user?.schoolOfPresentPosting?.category} with immediate effect.
+            user?.schoolOfPreviousPosting?.nameOfSchool} ${user?.schoolOfPreviousPosting?.category} to ${user?.schoolOfPresentPosting?.nameOfSchool}, ${user?.schoolOfPresentPosting?.category} ${user?.schoolOfPresentPosting?.location}, with immediate effect.
 
  2.    Kindly ensure a strict compliance and proper handing over of all office materials in your possession to your Principal immediately.
          

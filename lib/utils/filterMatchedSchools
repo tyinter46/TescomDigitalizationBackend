@@ -1,0 +1,2102 @@
+  const typedProposedSchool = [
+    "Luba Comp. High School (Snr), Ijebu-Ode,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Anglican Comp. High School, (JNR),",
+    "Anglican Comp. High School, (JNR),",
+    "Anglican Comp. High School, (SNR),",
+    "Anglican Comp. High School, (SNR),",
+    "Anglican Comp. High School, (SNR),",
+    "Anglican Comp. High School, (JNR),",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Ososa Comp. High School, (JNR),",
+    "Anglican Comp. High School, (JNR),",
+    "Odu'a Comp. High School, (JNR),",
+    "Odu'a Comp. High School, (SNR),",
+    "Odu'a Comp. High School, (SNR),",
+    "Ijebu Southern District Grammar School, Ala,",
+    "St, Kizitos H/S (Snr), Iwopin.,",
+    "Odu'a Comp. High School, (SNR),",
+    "Sonyindo Community High School Snr,Sagamu,",
+    "Ibefun/Ilado Comp. High School (Snr),",
+    "Odu'a Comp. High School, (SNR),",
+    "Imagbon/Imaka Comp. High School,",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Ibefun/Ilado Comp. High (JNR) School,,",
+    "Odogbolu Grammar School (SNR), Odogbolu,",
+    "Odogbolu Grammar School (JNR), Odogbolu,",
+    "Odogbolu Comp. High School Snr, Odogbolu,",
+    "Odogbolu Grammar School (JNR), Odogbolu,",
+    "Multilateral Grammar School (SNR),",
+    "Odogbolu Comp. High School (JNR), Odogbolu,",
+    "Odogbolu Comp. High School (SNR), Odogbolu,",
+    "Odogbolu Comp. High School (JNR), Odogbolu,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Ikenne Commiunity Grammar School (SNR), Ikenne,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Anglican Comp. High School, (SNR),",
+    "Odogbolu Grammar School (SNR), Odogbolu,",
+    "Ososa Comp. High School, (SNR),",
+    "Ibefun Ilado Comm. H/S Junior.,",
+    "Ososa Comp. High School, (SNR),",
+    "Moraika Comp. High School,",
+    "Imodi-Ijasi Comp. High School,,",
+    "Ogbo Comm. Comp. High School,,",
+    "Anglican Comp. High School, (JNR),",
+    "Ibefun/Ilado Comp. High (JNR) School,,",
+    "Moraika Comp. High School,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Idowa Comp. High School,",
+    "Ogbo Comm. Comp. High School,,",
+    "Moraika Comp. High School,",
+    "Imodi-Ijasi Comp. High School,,",
+    "Imodi-Ijasi Comp. High School,,",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Ibefun/Ilado Comp. High School (JNR),",
+    "Idowa Comp. High School,",
+    "Idowa Comp. High School,",
+    "Idowa Comp. High School,",
+    "Muslim Girls High School, Ijebu-ode (Jnr)),",
+    "Igbile Community High School, Igbile,",
+    "Imodi-Ijasi Comp. High School,,",
+    "Omu-Ajose Comp. High School (Snr),",
+    "Ososa Comp. High School (SNR), Ososa,",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Idowa Comp. High School,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Odua Comp High. School (SNR),",
+    "Ososa Comp. High School (JNR), Ososa,",
+    "Ogbo Comm. Comp. High School,,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Ijebu Southern District Grammar School, Ala,",
+    "Moraika Comp. High School,",
+    "Ososa Comp. High School (SNR), Ososa,",
+    "Ilusin Grammar School Senior, Ilusin,",
+    "Community H/S Ibiade, Junior., Ibiade,",
+    "Abigi Community Grammar School, Abigi,",
+    "Omu-Ajose Comp. High School (Snr),",
+    "Imagbon/Imaka Comp. High School,",
+    "Efire Comm. H/S, Efire.,",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Multilateral Grammar School (SNR),",
+    "Moraika Comp. High School,",
+    "Moraika Comp. High School,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "St. Kizito Gramar School, Junior, Iwopin,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Ifesowapo Comp. High School, Imodi-Imosan,",
+    "Ikangba Comp. High School, Ikangba,",
+    "Odua Comp High. School (SNR),",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "St. Kizito Gramar School, Senior, Iwopin,",
+    "Moraika Comp. High School,",
+    "Moraika Comp. High School,",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "Ibiade Compr. H/s Junior, Ibiade.,",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Ahmadiyyah Comprehensive H/s, Jnr, Oni.,",
+    "Anglican Comp. High School (SNR), Ikoto,",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Igbile Community High School, Igbile,",
+    "Imodi-Ijasi Comp. High School,,",
+    "Moraika Comp. High School,",
+    "Idowa Comp. High School,",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Aiyepe Comp. High School, Aiyepe,",
+    "Community Grammar School, Aiyepe,",
+    "Multilateral Grammar School (JNR), Okun - Owa,",
+    "Idowa Comp. High School,",
+    "Anglican Comp. High School (SNR), Ikoto,",
+    "Anglican Comp. High School (SNR), Ikoto,",
+    "Owo Comm High School, Owo, Yewa South.,",
+    "Community Grammar School, Aiyepe,",
+    "Community H/S Ibiade, Senior., Ibiade,",
+    "Igbile Community High School, Igbile,",
+    "Ogbo Comm. Comp. High School,,",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Ibefun/Ilado Comp. High School (SNR),",
+    "Ajebandele J4 High School, Ajebandele,",
+    "Odogbolu Grammar School (SNR), Odogbolu,",
+    "Adeola Odutola College (SNR),",
+    "Ilese Comp. High School (JNR), Ilese,",
+    "Batoro Community Grammar School, Sagamu (Snr),",
+    "Ogooluwa Community Model. Secondary School (SNR), Malato, Ogijo,",
+    "Ijebu Southern District Grammar School, Ala,",
+    "Batoro Community Grammar School (Jnr), Sagamu,",
+    "Titilayo Agbaje Memorial Comp. High School,",
+    "Idowa Comp. High School, Idowa,"
+]
+  const dbSchoolsJson =[{
+    "nameOfSchool": "A New School added, NewSchool"
+  },
+  {
+    "nameOfSchool": "A Test New School"
+  },
+  {
+    "nameOfSchool": "Abeokuta Girls Grammar School (Junior), Onikolobo"
+  },
+  {
+    "nameOfSchool": "Abeokuta Girls Grammar School (Senior), Onikolobo"
+  },
+  {
+    "nameOfSchool": "Abeokuta Grammar School (Junior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Abeokuta Grammar School (Senior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Abigi  Community  Grammar  School, Abigi"
+  },
+  {
+    "nameOfSchool": "Abobi Comprehensive High School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Abobi Comprehesive High School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Abusi Odumare Academy Junior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Abusi Odumare Academy Senior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Adenrele High Schoo (Junior), Ifo"
+  },
+  {
+    "nameOfSchool": "Adenrele High School (Senior), Ifo"
+  },
+  {
+    "nameOfSchool": "Adeola Odutola College (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Adeola Odutola College (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Adeoye Lambo Memorial High School, Obada-Oko."
+  },
+  {
+    "nameOfSchool": "Adesanolu Community High School (Combined), Mowe"
+  },
+  {
+    "nameOfSchool": "Adie Owe Comm High School"
+  },
+  {
+    "nameOfSchool": "Ado-Odo High School (Junior), Ado-Odo"
+  },
+  {
+    "nameOfSchool": "Ado-Odo High School (Senior), Ado-Odo"
+  },
+  {
+    "nameOfSchool": "Adokun High School"
+  },
+  {
+    "nameOfSchool": "African Church Comm. H. School"
+  },
+  {
+    "nameOfSchool": "African Church Grammar School (Jnr), Ita- Iyalode"
+  },
+  {
+    "nameOfSchool": "African Church Grammar School (Senior)"
+  },
+  {
+    "nameOfSchool": "Agbado District Comprehensive High School(Jnr) Oke-Aro"
+  },
+  {
+    "nameOfSchool": "Agbado District Comprehensive High School(Snr) Oke-Aro"
+  },
+  {
+    "nameOfSchool": "Agbara Community Junior High School (Junior), Edu"
+  },
+  {
+    "nameOfSchool": "Agbara Community Senior High School, Edu"
+  },
+  {
+    "nameOfSchool": "Agbara Grammar School, Agbara"
+  },
+  {
+    "nameOfSchool": "Agbele Community High School, Sagamu"
+  },
+  {
+    "nameOfSchool": "Ago Iwoye Secondary School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Ago Iwoye Secondary School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Agosasa Community High School (Senior), Agosasa"
+  },
+  {
+    "nameOfSchool": "Agosasa Community Secondary (Junior), Agosasa"
+  },
+  {
+    "nameOfSchool": "Agude Communiity High School, Oniro"
+  },
+  {
+    "nameOfSchool": "Agunbiade Victory High School (Junior), Magbon"
+  },
+  {
+    "nameOfSchool": "Agunbiade Victory High School (Senior), Magbon"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya Comprehensive High School (Junior), Oni"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya Comprehensive High School (Senior), Oni"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya High School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Ahmadiyya High School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Aiyepe Comprehensive High School, Aiyepe"
+  },
+  {
+    "nameOfSchool": "Ajagbe High School,Iperu"
+  },
+  {
+    "nameOfSchool": "Ajebandele High School, Ajebandele J4"
+  },
+  {
+    "nameOfSchool": "Ajebo Community High School (Junior), Ajebo"
+  },
+  {
+    "nameOfSchool": "Ajebo Community High School (Senior), Ajebo"
+  },
+  {
+    "nameOfSchool": "Ajiboyede Comprhensive High School"
+  },
+  {
+    "nameOfSchool": "Ajoda High School (Junior), Ayetoro"
+  },
+  {
+    "nameOfSchool": "Ajoda High School (Senior), Ayetoro"
+  },
+  {
+    "nameOfSchool": "Ajogbo Grammar School (Junior)"
+  },
+  {
+    "nameOfSchool": "Ajogbo Grammar School (Senior)"
+  },
+  {
+    "nameOfSchool": "Ajuwon High School (Junior), Ajuwon"
+  },
+  {
+    "nameOfSchool": "Ajuwon High School (Senior), Ajuwon"
+  },
+  {
+    "nameOfSchool": "Akesan Community Grammar School,Iperu"
+  },
+  {
+    "nameOfSchool": "Akin Ogunpola Model College, Akinale."
+  },
+  {
+    "nameOfSchool": "Alaari High School, Alaari"
+  },
+  {
+    "nameOfSchool": "Alaari High School, Alaari"
+  },
+  {
+    "nameOfSchool": "Alabata Community High School, Alabata"
+  },
+  {
+    "nameOfSchool": "Alagbagba Community High School, Alagbagba"
+  },
+  {
+    "nameOfSchool": "Alagbe Community High School, Alagbe"
+  },
+  {
+    "nameOfSchool": "Alaketu High School, Imeko"
+  },
+  {
+    "nameOfSchool": "Alaketu High School, Imeko"
+  },
+  {
+    "nameOfSchool": "Alamuwa Grammar School (Junior), Ado Odo"
+  },
+  {
+    "nameOfSchool": "Alamuwa Grammar School (Senior), Ado Odo"
+  },
+  {
+    "nameOfSchool": "Alapako-Oni Community High School (Combined), Alapako-Oni"
+  },
+  {
+    "nameOfSchool": "Alaro Community High School, Odosenlu."
+  },
+  {
+    "nameOfSchool": "Alaye High School, (Junior), Ayetoro"
+  },
+  {
+    "nameOfSchool": "Alaye High School, (Senior), Ayetoro"
+  },
+  {
+    "nameOfSchool": "Anglican Comprehensive High School, Ikoto"
+  },
+  {
+    "nameOfSchool": "Anglican Comprehensive High School, Ikoto Snr"
+  },
+  {
+    "nameOfSchool": "Anglican Girls Gram. Sch. (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Anglican Girls Gram. Sch. (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Anglican Gramm, Sch. (Junior), Ilaro"
+  },
+  {
+    "nameOfSchool": "Anglican Gramm, Sch. (Senior), Ilaro"
+  },
+  {
+    "nameOfSchool": "Anglican Grammar School (Junior) Okenla"
+  },
+  {
+    "nameOfSchool": "Anglican Grammar School (Junior), Ota"
+  },
+  {
+    "nameOfSchool": "Anglican Grammar School (Senior), Ota"
+  },
+  {
+    "nameOfSchool": "Anglican Grammar School Snr Okenla"
+  },
+  {
+    "nameOfSchool": "Anglican High School (Junior), Quarry Road, Ibara"
+  },
+  {
+    "nameOfSchool": "Anglican High School (Senior), Quarry Road, Ibara"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud Deen Compre College,Itele"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen High School, Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen High. Sch. Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen. Comprehensive College (Junior), Ota"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen. Comprehensive College (Senior), Ota"
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen. Comprehensive High School (Senior), Lafenwa, Ota."
+  },
+  {
+    "nameOfSchool": "Ansar-Ud-Deen. Comprehensive High School (Senior), Lafenwa, Ota."
+  },
+  {
+    "nameOfSchool": "Ansaru Deen High School, Isaga Orile"
+  },
+  {
+    "nameOfSchool": "Ansaru Deen High School, Isiwo"
+  },
+  {
+    "nameOfSchool": "Araromi Community High School, Orita"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Jnr, Owode"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Olokuta"
+  },
+  {
+    "nameOfSchool": "Area Comm. High Sch., Snr, Owode"
+  },
+  {
+    "nameOfSchool": "Area Community High School"
+  },
+  {
+    "nameOfSchool": "Arican Church Grammar School (Snr)"
+  },
+  {
+    "nameOfSchool": "Army Day Junior Sec. Sch., Owode"
+  },
+  {
+    "nameOfSchool": "Army Day Senior Sec. Sch., Owode"
+  },
+  {
+    "nameOfSchool": "Armyday Secondary School, (Jnr), Alamala"
+  },
+  {
+    "nameOfSchool": "Armyday Secondary School, (Snr)"
+  },
+  {
+    "nameOfSchool": "Asakanran Grammar School"
+  },
+  {
+    "nameOfSchool": "Asero High School (Junior), Asero"
+  },
+  {
+    "nameOfSchool": "Asero High School (Senior), Asero"
+  },
+  {
+    "nameOfSchool": "Awotunde High School, Ehin-Osun"
+  },
+  {
+    "nameOfSchool": "Ayede Comp. High  School, Ayede"
+  },
+  {
+    "nameOfSchool": "Ayetoro Community Grammar School (Junior)"
+  },
+  {
+    "nameOfSchool": "Ayetoro Community Grammar School (Senior), Ayetoro"
+  },
+  {
+    "nameOfSchool": "Ayila High School (Junior), Ayila"
+  },
+  {
+    "nameOfSchool": "Ayila High School (Senior), Ayila"
+  },
+  {
+    "nameOfSchool": "Baptist Boys' High School (Junior), Saje"
+  },
+  {
+    "nameOfSchool": "Baptist Boys' High School (Senior), Saje"
+  },
+  {
+    "nameOfSchool": "Baptist Girls' College School (Junior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Baptist Girls' College School (Senior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Baptist High School, Ilaro"
+  },
+  {
+    "nameOfSchool": "Batoro Community High School"
+  },
+  {
+    "nameOfSchool": "Batoro Community High School"
+  },
+  {
+    "nameOfSchool": "Beje High School Junior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Beje High School Senior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Catholic Comprehensivve High School (Junior), Panseke, Ibara"
+  },
+  {
+    "nameOfSchool": "Catholic Comprehensivve High School (Senior), Panseke, Ibara"
+  },
+  {
+    "nameOfSchool": "Christ Apostolic Grammar School (Junior),Iperu"
+  },
+  {
+    "nameOfSchool": "Christ Apostolic Grammar School(Senior),Iperu"
+  },
+  {
+    "nameOfSchool": "Christ Church High School (Junior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Christ Church High School (Senior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Coker Area Comprehensive High School, Coker"
+  },
+  {
+    "nameOfSchool": "Comm. High Sch.(Junior) Ojodu-Abiodun"
+  },
+  {
+    "nameOfSchool": "Comm. High Sch.(Snr) Ojodu-Abiodun"
+  },
+  {
+    "nameOfSchool": "Community Commercial High School (Junior), Maun"
+  },
+  {
+    "nameOfSchool": "Community Commercial High School (Senior), Ijoun"
+  },
+  {
+    "nameOfSchool": "Community Commercial High School (Senior), Maun"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive College, Idofa"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School, Atapele"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School, J4/J6 PLANTATION"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School, Oke-Agbede"
+  },
+  {
+    "nameOfSchool": "Community Comprehensive High School, Owowo."
+  },
+  {
+    "nameOfSchool": "Community Grammar School, Aiyepe"
+  },
+  {
+    "nameOfSchool": "Community Grammar School, Ijebu - Ife"
+  },
+  {
+    "nameOfSchool": "Community Grammar School, Ode-Lemo"
+  },
+  {
+    "nameOfSchool": "Community Grammar School, Owu/Ikija"
+  },
+  {
+    "nameOfSchool": "Community High School (Combined), Iro"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Ibafo"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Ibiade"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Idi-Ayin."
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Ijoun"
+  },
+  {
+    "nameOfSchool": "Community High School (Junior), Ilara-Yewa."
+  },
+  {
+    "nameOfSchool": "Community High School (Senior), Ibafo"
+  },
+  {
+    "nameOfSchool": "Community High School (Senior), Ibiade"
+  },
+  {
+    "nameOfSchool": "Community High School (Senior), Idi-Ayin."
+  },
+  {
+    "nameOfSchool": "Community High School (Senior), Ilara-Yewa."
+  },
+  {
+    "nameOfSchool": "Community High School Akute"
+  },
+  {
+    "nameOfSchool": "Community High School Junior, Alapoti"
+  },
+  {
+    "nameOfSchool": "Community High School Junior, Iroko Ota."
+  },
+  {
+    "nameOfSchool": "Community High School Ohunbe"
+  },
+  {
+    "nameOfSchool": "Community High School Senior, Alapoti"
+  },
+  {
+    "nameOfSchool": "Community High School Snr, Iroko Ota."
+  },
+  {
+    "nameOfSchool": "Community High School, Abaren"
+  },
+  {
+    "nameOfSchool": "Community High School, Afon"
+  },
+  {
+    "nameOfSchool": "Community High School, Agada"
+  },
+  {
+    "nameOfSchool": "Community High School, Agbon Ojodu"
+  },
+  {
+    "nameOfSchool": "Community High School, Ebute Igbooro"
+  },
+  {
+    "nameOfSchool": "Community High School, Igbokofi"
+  },
+  {
+    "nameOfSchool": "Community High School, Ijaka-Isale"
+  },
+  {
+    "nameOfSchool": "Community High School, Moboluwaduro"
+  },
+  {
+    "nameOfSchool": "Community High School, Moriwi"
+  },
+  {
+    "nameOfSchool": "Community High School, Odewale"
+  },
+  {
+    "nameOfSchool": "Community High School, Olooji Area J4"
+  },
+  {
+    "nameOfSchool": "Community High School, Oluke"
+  },
+  {
+    "nameOfSchool": "Community High School, Oluke"
+  },
+  {
+    "nameOfSchool": "Community High School, Tube"
+  },
+  {
+    "nameOfSchool": "Community High School, Tube"
+  },
+  {
+    "nameOfSchool": "Community High School,Igbala"
+  },
+  {
+    "nameOfSchool": "Community High School,Okungbolu"
+  },
+  {
+    "nameOfSchool": "Community Junior Secondary School, Ipokia"
+  },
+  {
+    "nameOfSchool": "Community Sec Oko Baale"
+  },
+  {
+    "nameOfSchool": "Community Secondary School, Ipokia"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School (Jnr) Ijebu Ife"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School (Junior)"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School (Snr) Ijebu Ife"
+  },
+  {
+    "nameOfSchool": "Comprehensive High School, Ijebu Imusin"
+  },
+  {
+    "nameOfSchool": "Daniel Comprehensive High School, Sagamu"
+  },
+  {
+    "nameOfSchool": "Deyo-Tuwo Comprehensive High School, Junior"
+  },
+  {
+    "nameOfSchool": "Deyo-Tuwo Comprehensive High School, Senior."
+  },
+  {
+    "nameOfSchool": "District High School, Ipokia"
+  },
+  {
+    "nameOfSchool": "Ebenezer Grammar School, (Jnr), Iberekodo"
+  },
+  {
+    "nameOfSchool": "Ebenezer Grammar School, (Snr)"
+  },
+  {
+    "nameOfSchool": "Efire Community High School, Efire"
+  },
+  {
+    "nameOfSchool": "Egba Comprehensive High School (Junior), Asero"
+  },
+  {
+    "nameOfSchool": "Egba Comprehensive High School (Senior), Asero"
+  },
+  {
+    "nameOfSchool": "Egba Obafemi Community High School (Junior), Obafemi"
+  },
+  {
+    "nameOfSchool": "Egba Obafemi Community High School (Senior), Obafemi"
+  },
+  {
+    "nameOfSchool": "Egba Odeda High School (Jnr), Odeda"
+  },
+  {
+    "nameOfSchool": "Egba Odeda High School (Snr), Odeda"
+  },
+  {
+    "nameOfSchool": "Egba Owode Grammar School (Junior), Owode"
+  },
+  {
+    "nameOfSchool": "Egba Owode Grammar School (Senior), Owode"
+  },
+  {
+    "nameOfSchool": "Ehin-Osun Community High School, Egbeda-Ojelana"
+  },
+  {
+    "nameOfSchool": "Ejila Awori Community Secondary School, Ota."
+  },
+  {
+    "nameOfSchool": "Emeritus Prof. T.O Ogunlasi Model Secondary School"
+  },
+  {
+    "nameOfSchool": "Emmanuel Comm. High Sch., Ilaro"
+  },
+  {
+    "nameOfSchool": "Emmanuel Comm. High Sch., Ilaro"
+  },
+  {
+    "nameOfSchool": "Emulu Comprehensive High School, Orile Itesi"
+  },
+  {
+    "nameOfSchool": "Eyinni Comp. High School"
+  },
+  {
+    "nameOfSchool": "F.A.C.M(Una) High School"
+  },
+  {
+    "nameOfSchool": "Fowoseje Comprehensive High School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Fowoseje Comprehensive High School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Gateway Secondary School, (Jnr), Ita - Eko"
+  },
+  {
+    "nameOfSchool": "Gateway Secondary School, (Snr)"
+  },
+  {
+    "nameOfSchool": "Gbenopo Community Grammar School,Bandu"
+  },
+  {
+    "nameOfSchool": "Head Quarters"
+  },
+  {
+    "nameOfSchool": "Ibefun/Ilado Comprehensive High School (Junior), Ibefun"
+  },
+  {
+    "nameOfSchool": "Ibefun/Ilado Comprehensive High School (Senior), Ibefun"
+  },
+  {
+    "nameOfSchool": "Ibiade Comprehensive High School, Ibiade"
+  },
+  {
+    "nameOfSchool": "Ibiade Comprehensive High School, Ibiade"
+  },
+  {
+    "nameOfSchool": "Ibogun Comprehensive High School,Egbeda"
+  },
+  {
+    "nameOfSchool": "Ibogun Olaogun Community High School, Ibogun Olaogun"
+  },
+  {
+    "nameOfSchool": "Ibu Community Grammar School, Ibu"
+  },
+  {
+    "nameOfSchool": "Idi- Emi High School"
+  },
+  {
+    "nameOfSchool": "Idogo/Ipaja Comm.High Sch"
+  },
+  {
+    "nameOfSchool": "Idomila Comprehensive High School, Idomila."
+  },
+  {
+    "nameOfSchool": "Idowa Comprehensive High School, Idowa"
+  },
+  {
+    "nameOfSchool": "Ifedapo Community Comprehensive High School, Ajegunle-Abalabi."
+  },
+  {
+    "nameOfSchool": "Ifesowapo Comprehensive High School"
+  },
+  {
+    "nameOfSchool": "Ifo High School (Junior), Ifo"
+  },
+  {
+    "nameOfSchool": "Ifo High School (Senior), Ifo"
+  },
+  {
+    "nameOfSchool": "Ifo High School (Senior),Ifo "
+  },
+  {
+    "nameOfSchool": "Iganmode Grammar School (Junior), Ota"
+  },
+  {
+    "nameOfSchool": "Iganmode Grammar School (Senior), Ota"
+  },
+  {
+    "nameOfSchool": "Igbesa  High School(Junior), Igbesa."
+  },
+  {
+    "nameOfSchool": "Igbesa  High School(Senior), Igbesa."
+  },
+  {
+    "nameOfSchool": "Igbile Community High School, Igbile"
+  },
+  {
+    "nameOfSchool": "Igbore High School (Junior), Igbore"
+  },
+  {
+    "nameOfSchool": "Igbore High School (Senior), Igbore"
+  },
+  {
+    "nameOfSchool": "Igbore Robiyan Community High School, Robiyan"
+  },
+  {
+    "nameOfSchool": "Igbusi Comprehensive High School, Igbusi"
+  },
+  {
+    "nameOfSchool": "Igbusi Comprehensive High School, Igbusi"
+  },
+  {
+    "nameOfSchool": "Igiri High School (Junior),  Ijofin"
+  },
+  {
+    "nameOfSchool": "Igiri High School (Senior),  Ijofin"
+  },
+  {
+    "nameOfSchool": "Ijagba Community High School, Sotubo"
+  },
+  {
+    "nameOfSchool": "Ijebu Igbo Girls Grammar School (Junior), Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Ijebu Igbo Girls Grammar School Senior Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "Ijebu Muslim College (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Ijebu Muslim College (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Ijebu Ode Grammar School (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Ijebu Ode Grammar School (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Ijebu Sounthern District Grammar School, Ala"
+  },
+  {
+    "nameOfSchool": "Ijemo-Titun High School (Junior), Housing Estate, Ibara"
+  },
+  {
+    "nameOfSchool": "Ijemo-Titun High School (Senior), Housing Estate, Ibara"
+  },
+  {
+    "nameOfSchool": "Iju Ebiye High School (Senior), Iju, Ota"
+  },
+  {
+    "nameOfSchool": "Iju Ebiye High School (Senior), Iju, Ota"
+  },
+  {
+    "nameOfSchool": "Ikangba Comprehensive High School, Ikangba"
+  },
+  {
+    "nameOfSchool": "Ikenne Community High School(Junior), Ikenne"
+  },
+  {
+    "nameOfSchool": "Ikenne Community High School(Senior), Ikenne"
+  },
+  {
+    "nameOfSchool": "Ikija High School (Comb), Ikija Iberekodo"
+  },
+  {
+    "nameOfSchool": "Iko Gateway Grammar School (Junior), Idiroko"
+  },
+  {
+    "nameOfSchool": "Iko Gateway Grammar School (Senior), Idiroko"
+  },
+  {
+    "nameOfSchool": "Ilara/Akaka Community Grammar School"
+  },
+  {
+    "nameOfSchool": "Ilese Comprehensive High School, Junior"
+  },
+  {
+    "nameOfSchool": "Ilese Comprehensive High School, Senior."
+  },
+  {
+    "nameOfSchool": "Ilewo Community High School"
+  },
+  {
+    "nameOfSchool": "Ilisan High School (Junior),Ilishan"
+  },
+  {
+    "nameOfSchool": "Ilisan High School(Senior),Ilishan"
+  },
+  {
+    "nameOfSchool": "Ilobi/Erinja Comm.High Sch"
+  },
+  {
+    "nameOfSchool": "Ilogbo Asowo Community High Sch"
+  },
+  {
+    "nameOfSchool": "Ilugun Central Academy, Ibido/Odosenbora."
+  },
+  {
+    "nameOfSchool": "Ilugun High School (Jnr), Elega"
+  },
+  {
+    "nameOfSchool": "Ilugun High School (Snr)"
+  },
+  {
+    "nameOfSchool": "Ilusin Grammar School (Junior), Ilusin"
+  },
+  {
+    "nameOfSchool": "Ilusin Grammar School (Senior), Ilusin"
+  },
+  {
+    "nameOfSchool": "Imagbon/Imaka Comprehensive High School, Imagbon"
+  },
+  {
+    "nameOfSchool": "Imala Community High School"
+  },
+  {
+    "nameOfSchool": "Imeko Comprehensive College, Imeko"
+  },
+  {
+    "nameOfSchool": "Imobi Community High School, Oke-Igbaga"
+  },
+  {
+    "nameOfSchool": "Imodi-Ijasi Comprehensive High School, Imodi"
+  },
+  {
+    "nameOfSchool": "Imotu Community Commercial Academy (Junior), Ifonyintedo"
+  },
+  {
+    "nameOfSchool": "Imotu Community Commercial Academy (Senior), Ifonyintedo"
+  },
+  {
+    "nameOfSchool": "Ipara community High School, Ipara"
+  },
+  {
+    "nameOfSchool": "Iraye Community High School, Iraye"
+  },
+  {
+    "nameOfSchool": "Iro Community High School, Iro"
+  },
+  {
+    "nameOfSchool": "Irolu Community High School,Irolu"
+  },
+  {
+    "nameOfSchool": "Isanbi Comprehensive High School (Junior),Ilishan"
+  },
+  {
+    "nameOfSchool": "Isanbi Comprehensive High School(Senior),Ilishan"
+  },
+  {
+    "nameOfSchool": "Isara Community High School, Isara"
+  },
+  {
+    "nameOfSchool": "Isara Secondary School, Isara"
+  },
+  {
+    "nameOfSchool": "Isoyin Grammar School, Junior."
+  },
+  {
+    "nameOfSchool": "Isoyin Grammar School, Senior."
+  },
+  {
+    "nameOfSchool": "Itamapako High School, Iloti"
+  },
+  {
+    "nameOfSchool": "Itamerin Comprehensive High School Junior Oru Ijebu"
+  },
+  {
+    "nameOfSchool": "Itamerin Comprehensive High School Senior Oru Ijebu"
+  },
+  {
+    "nameOfSchool": "Itebu Manuwa Comprehensive High School, Itebu Manuwa"
+  },
+  {
+    "nameOfSchool": "Itele High School (Jnr) Itele Ijebu"
+  },
+  {
+    "nameOfSchool": "Itele High School (Snr) Itele Ijebu"
+  },
+  {
+    "nameOfSchool": "Itoki Community High  School(Junior), Itoki."
+  },
+  {
+    "nameOfSchool": "Itoki Community High  School(Senior), Itoki."
+  },
+  {
+    "nameOfSchool": "Itoki Community High  School(Senior), Itoki."
+  },
+  {
+    "nameOfSchool": "Itolu Comm. H/S Junior, Ilaro"
+  },
+  {
+    "nameOfSchool": "Itolu Comm. H/S Senior, Ilaro"
+  },
+  {
+    "nameOfSchool": "Itori Comprehensive High School (Junior), Itori."
+  },
+  {
+    "nameOfSchool": "Itori Comprehensive High School (Senior), Itori."
+  },
+  {
+    "nameOfSchool": "Iwoye Area Comm. H/S, Iwoye."
+  },
+  {
+    "nameOfSchool": "Iwoye Area Comm. H/S, Iwoye."
+  },
+  {
+    "nameOfSchool": "Iwoye Area Community High School"
+  },
+  {
+    "nameOfSchool": "Iwoye Area Community High School"
+  },
+  {
+    "nameOfSchool": "Iwoye Area Community High School,"
+  },
+  {
+    "nameOfSchool": "Iwoye-Ketu Community High School (Junior), Iwoye-Ketu."
+  },
+  {
+    "nameOfSchool": "Iwoye-Ketu Community High School (Senior), Iwoye-Ketu."
+  },
+  {
+    "nameOfSchool": "Iyankan High School, Isara"
+  },
+  {
+    "nameOfSchool": "Iyesi-Ota High School, Iyesi, Ota"
+  },
+  {
+    "nameOfSchool": "Iyewa High School Jnr. Ajilete"
+  },
+  {
+    "nameOfSchool": "Iyewa High School Snr. Ajilete"
+  },
+  {
+    "nameOfSchool": "Japara High School Junior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Japara High School Senior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Kegbo Community Comprehensive High School Junior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Kegbo Community Comprehensive High School Senior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Ketu College (Junior)"
+  },
+  {
+    "nameOfSchool": "Ketu College (Senior)"
+  },
+  {
+    "nameOfSchool": "Ketu Community High School"
+  },
+  {
+    "nameOfSchool": "Kobape Community High School (Combined), Kobape"
+  },
+  {
+    "nameOfSchool": "Ladugbo Community Comprehensive High School Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Lafenwa High School (Jnr), Lafenwa"
+  },
+  {
+    "nameOfSchool": "Lafenwa High School (Snr)"
+  },
+  {
+    "nameOfSchool": "Lantoro High School (Junior), Lantoro"
+  },
+  {
+    "nameOfSchool": "Lantoro High School (Senior), Lantoro"
+  },
+  {
+    "nameOfSchool": "Lisabi Grammar School (Junior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Lisabi Grammar School (Senior), Idi Aba"
+  },
+  {
+    "nameOfSchool": "Local Government Secondary Commercial School [Jnr] Atan."
+  },
+  {
+    "nameOfSchool": "Local Government Secondary Commercial School [Snr] Atan."
+  },
+  {
+    "nameOfSchool": "Lomiro High School, Lomiro"
+  },
+  {
+    "nameOfSchool": "Luba Comp. High School (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Luba Comp. High School (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Macjob Grammar School (Junior), Onikolobo"
+  },
+  {
+    "nameOfSchool": "Macjob Grammar School (Senior), Onikolobo"
+  },
+  {
+    "nameOfSchool": "Magboro Community High School (Combined), Magboro"
+  },
+  {
+    "nameOfSchool": "Makun High School, (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Makun High School, (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Makun Omi Comprehensive High School, Makun Omi"
+  },
+  {
+    "nameOfSchool": "Male Comprehensive High School(Junior), Igbesa."
+  },
+  {
+    "nameOfSchool": "Male Comprehensive High School(Senior), Igbesa."
+  },
+  {
+    "nameOfSchool": "Mamu Community Comprehensive High School Mamu Ijebu"
+  },
+  {
+    "nameOfSchool": "Matogun Community High School"
+  },
+  {
+    "nameOfSchool": "Mayflower School (Junior),Ikenne"
+  },
+  {
+    "nameOfSchool": "Mayflower School (Senior),Ikenne"
+  },
+  {
+    "nameOfSchool": "Mayigi Community Comprehensive High School, Ilase"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive College (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive College (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive High School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Methodist Comprehensive High School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Methodist High School (Junior), Ogbe"
+  },
+  {
+    "nameOfSchool": "Methodist High School (Senior), Ogbe"
+  },
+  {
+    "nameOfSchool": "Methodist High School(Junior), Arigbajo."
+  },
+  {
+    "nameOfSchool": "Methodist High School(Senior), Arigbajo."
+  },
+  {
+    "nameOfSchool": "Molipa High School (Junior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Molipa High School (Senior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Molusi College Junior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Molusi College Senior Ijebu Igbo"
+  },
+  {
+    "nameOfSchool": "Moraika Comprehensive High School, Atiba"
+  },
+  {
+    "nameOfSchool": "Moslem Comp. High School (Junior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Moslem Comp. High School (Senior), Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Muleruwa Community High School, Gbaga Ogijo"
+  },
+  {
+    "nameOfSchool": "Multilateral Grammar School (Junior), Okun-Owa"
+  },
+  {
+    "nameOfSchool": "Multilateral Grammar School (Senior), Okun-Owa"
+  },
+  {
+    "nameOfSchool": "Musilm High School Senior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Muslim Community High School"
+  },
+  {
+    "nameOfSchool": "Muslim Girls High Sch. (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Muslim Girls High School, Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Muslim Grammar School, Imeko"
+  },
+  {
+    "nameOfSchool": "Muslim High Sch. (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Muslim High Sch. (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Muslim High School Junior Ago Iwoye"
+  },
+  {
+    "nameOfSchool": "Muslim High School, Ilara-Yewa"
+  },
+  {
+    "nameOfSchool": "Muslim High School, Isolu"
+  },
+  {
+    "nameOfSchool": "Muslim Prog. High Sch. (Junior), Oke-Odan"
+  },
+  {
+    "nameOfSchool": "Muslim Prog. High Sch. (Senior), Oke-Odan"
+  },
+  {
+    "nameOfSchool": "N.U.D Grammar School (Junior), Solu"
+  },
+  {
+    "nameOfSchool": "N.U.D Grammar School (Senior), Solu"
+  },
+  {
+    "nameOfSchool": "Nawair-Ud-Deen Grammar School (Jnr), Obantoko"
+  },
+  {
+    "nameOfSchool": "Nawair-Ud-Deen Grammar School (Snr), Obantoko"
+  },
+  {
+    "nameOfSchool": "Nawair-Un-Deen High School Junior, Isabo"
+  },
+  {
+    "nameOfSchool": "Nawair-Un-Deen High School Senior, Isabo"
+  },
+  {
+    "nameOfSchool": "Nazareth High School (Junior), Imeko"
+  },
+  {
+    "nameOfSchool": "Nazareth High School (Senior), Imeko"
+  },
+  {
+    "nameOfSchool": "Oba Community High School (Combined), Oba OBAFEMI"
+  },
+  {
+    "nameOfSchool": "Obada Grammar School, Obada OBADA IDI-EMI"
+  },
+  {
+    "nameOfSchool": "Obafemi Awolowo Comp. High School, Odonoko"
+  },
+  {
+    "nameOfSchool": "Obalaju High School, Joga Orile"
+  },
+  {
+    "nameOfSchool": "Obanta Comprehensive High School Junior Awa Ijebu"
+  },
+  {
+    "nameOfSchool": "Obanta Comprehensive High School Senior Awa Ijebu"
+  },
+  {
+    "nameOfSchool": "Ode Omi Community Grammar Sch, Ode Omi. Ogun Waterside"
+  },
+  {
+    "nameOfSchool": "Ode Remo High School (Junior)"
+  },
+  {
+    "nameOfSchool": "Ode Remo High School (Senior)"
+  },
+  {
+    "nameOfSchool": "Odogbolu Comprehensive High School (Junior), Odogbolu"
+  },
+  {
+    "nameOfSchool": "Odogbolu Comprehensive High School (Senior),Odogbolu"
+  },
+  {
+    "nameOfSchool": "Odogbolu Grammar School (Junior), Odogbolu"
+  },
+  {
+    "nameOfSchool": "Odogbolu Grammar School (Senior), Odogbolu"
+  },
+  {
+    "nameOfSchool": "Odopotu Community High School, Odopotu."
+  },
+  {
+    "nameOfSchool": "Odua Comprehensive High School (Junior), Imoru"
+  },
+  {
+    "nameOfSchool": "Odua Comprehensive High School (Senior), Imoru"
+  },
+  {
+    "nameOfSchool": "Ofada Community High School (Junior), Ofada"
+  },
+  {
+    "nameOfSchool": "Ofada Community High School (Senior), Ofada"
+  },
+  {
+    "nameOfSchool": "Ofin High School, Sagamu"
+  },
+  {
+    "nameOfSchool": "Ogbe Community High School, Mede-Ajegunle"
+  },
+  {
+    "nameOfSchool": "Ogbo Community Comprehensive High School, Ogbo"
+  },
+  {
+    "nameOfSchool": "Ogbogbo Baptist Grammar School, Junior."
+  },
+  {
+    "nameOfSchool": "Ogbogbo Baptist Grammar School, Senior."
+  },
+  {
+    "nameOfSchool": "Ogere Community High School,Ogere"
+  },
+  {
+    "nameOfSchool": "Ogijo Community High School (Junior), Ogijo"
+  },
+  {
+    "nameOfSchool": "Ogijo Community High School (Senior), Ogijo"
+  },
+  {
+    "nameOfSchool": "Ogo-Oluwa C Ommunity Model Secondary School, Ajegunle, Ogijo"
+  },
+  {
+    "nameOfSchool": "Ogunmakin High School (Junior), Sowunmi"
+  },
+  {
+    "nameOfSchool": "Ogunmakin High School (Senior), Sowunmi"
+  },
+  {
+    "nameOfSchool": "Ojumo Community Secondary School (Junior), Ihunbo"
+  },
+  {
+    "nameOfSchool": "Ojumo Community Secondary School (Senior), Ihunbo"
+  },
+  {
+    "nameOfSchool": "Oke - Odan Gram. Sch"
+  },
+  {
+    "nameOfSchool": "Oke- Ona Grammar School"
+  },
+  {
+    "nameOfSchool": "Oke-Eri Comprehensive High School, Oke-Eri."
+  },
+  {
+    "nameOfSchool": "Oke-Imobi Community Grammar School, Terelu-Imobi"
+  },
+  {
+    "nameOfSchool": "Oke-Ore Grammar School, Ota"
+  },
+  {
+    "nameOfSchool": "Okepata Community Community High School,Ifo"
+  },
+  {
+    "nameOfSchool": "Olambe Community Comprehensive High School, Olambe"
+  },
+  {
+    "nameOfSchool": "Olokemeji High School, Olokemeji"
+  },
+  {
+    "nameOfSchool": "Olokine Grammar School Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "Olomimeji Community High School, Emuren"
+  },
+  {
+    "nameOfSchool": "Olorunda Community Comprehensive High School, Olorunda., Ewekoro"
+  },
+  {
+    "nameOfSchool": "Olorunda Community High School"
+  },
+  {
+    "nameOfSchool": "Olorunkole Grammar School"
+  },
+  {
+    "nameOfSchool": "Olorunkole Grammar School (Combined), Kajola KAJOLA-IBOORO"
+  },
+  {
+    "nameOfSchool": "Oluaso High School (Junior)"
+  },
+  {
+    "nameOfSchool": "Oluaso High School (Senior)"
+  },
+  {
+    "nameOfSchool": "Olumo High School"
+  },
+  {
+    "nameOfSchool": "Omu-Ajose Comprehensive High School (Junior), Odogbolu"
+  },
+  {
+    "nameOfSchool": "Omu-Ajose Comprehensive High School (Senior), Odogbolu"
+  },
+  {
+    "nameOfSchool": "Orile Igbore Grammar School (Combined), Ajura"
+  },
+  {
+    "nameOfSchool": "Orile Ilugun Comprehensive High School(Jnr), Orile Ilugun"
+  },
+  {
+    "nameOfSchool": "Orile Ilugun Comprehensive High School(Snr), Orile Ilugun"
+  },
+  {
+    "nameOfSchool": "Orile Imo Grammar School, Orile Imo"
+  },
+  {
+    "nameOfSchool": "Orile Iporo Community High School, Orile Iporo"
+  },
+  {
+    "nameOfSchool": "Orile Keesi Grammar School(Jnr), Olodo"
+  },
+  {
+    "nameOfSchool": "Orile Keesi Grammar School(Snr), Olodo"
+  },
+  {
+    "nameOfSchool": "Orile Kemta Comprehensive High School (Jnr), Olugbo"
+  },
+  {
+    "nameOfSchool": "Orile Kemta Comprehensive High School (Snr), Olugbo"
+  },
+  {
+    "nameOfSchool": "Orile Oko Community High School"
+  },
+  {
+    "nameOfSchool": "Orita Community High School (Junior)"
+  },
+  {
+    "nameOfSchool": "Orita Community High School (Senior)"
+  },
+  {
+    "nameOfSchool": "Oronna High School, Jnr, Ilaro"
+  },
+  {
+    "nameOfSchool": "Oronna High School, Snr, Ilaro"
+  },
+  {
+    "nameOfSchool": "Ositelu Memorial College (Junior),Ogere"
+  },
+  {
+    "nameOfSchool": "Ositelu Memorial College (Senior),Ogere"
+  },
+  {
+    "nameOfSchool": "Ososa Comprehensive High School, Ososa"
+  },
+  {
+    "nameOfSchool": "Ososa Comprehensive High School, Ososa"
+  },
+  {
+    "nameOfSchool": "Our Lady Of Apostles Secondary School (Junior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Our Lady Of Apostles Secondary School (Senior), Ijebu Ode"
+  },
+  {
+    "nameOfSchool": "Owo Community High Sch"
+  },
+  {
+    "nameOfSchool": "Owode High School (Junior), Owode Egba"
+  },
+  {
+    "nameOfSchool": "Owode High School (Senior), Owode Egba"
+  },
+  {
+    "nameOfSchool": "Owode Ketu Commercial High School (Junior)"
+  },
+  {
+    "nameOfSchool": "Owode Ketu Commercial High School (Senior)"
+  },
+  {
+    "nameOfSchool": "Owode Ota Grammar School, Ijako."
+  },
+  {
+    "nameOfSchool": "Owode Sec. School Jnr., Owode"
+  },
+  {
+    "nameOfSchool": "Owode Sec. School Snr., Owode"
+  },
+  {
+    "nameOfSchool": "Owu Community Comprehensive High School, Elere-Adubi."
+  },
+  {
+    "nameOfSchool": "PG Office"
+  },
+  {
+    "nameOfSchool": "PG Office, Ijebu"
+  },
+  {
+    "nameOfSchool": "PG Office, Remo"
+  },
+  {
+    "nameOfSchool": "PG's Office"
+  },
+  {
+    "nameOfSchool": "Pakoto High School (Junior), Ayede"
+  },
+  {
+    "nameOfSchool": "Pakoto High School (Junior), Ayede"
+  },
+  {
+    "nameOfSchool": "Pakoto High School (Senior), Ayede"
+  },
+  {
+    "nameOfSchool": "Papalanto High School (Junior), Papalanto."
+  },
+  {
+    "nameOfSchool": "Papalanto High School (Senior), Papalanto."
+  },
+  {
+    "nameOfSchool": "Plantation High School, Area J4"
+  },
+  {
+    "nameOfSchool": "Premier Grammar School (Jnr), Lafenwa"
+  },
+  {
+    "nameOfSchool": "Premier Grammar School (Snr)"
+  },
+  {
+    "nameOfSchool": "Raluwen High School, Atan."
+  },
+  {
+    "nameOfSchool": "Remo Divisional High School (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Remo Divisional High School (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Remo Secondary School (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Remo Secondary School (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Reverend Kuti Memorial Grammar School (Junior), Isabo"
+  },
+  {
+    "nameOfSchool": "Reverend Kuti Memorial Grammar School (Senior), Isabo"
+  },
+  {
+    "nameOfSchool": "Saapade Grammar School, Saapade"
+  },
+  {
+    "nameOfSchool": "Sagamu High School (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Sagamu High School (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Saint John's Anglican High School (Junior), Kuto"
+  },
+  {
+    "nameOfSchool": "Saint John's Anglican High School (Senior), Kuto"
+  },
+  {
+    "nameOfSchool": "Saint Leo's College (Junior), Onikoko"
+  },
+  {
+    "nameOfSchool": "Saint Leo's College (Senior), Onikoko"
+  },
+  {
+    "nameOfSchool": "Saje High School (Junior), Saje"
+  },
+  {
+    "nameOfSchool": "Saje High School (Senior), Saje"
+  },
+  {
+    "nameOfSchool": "Salawu Abiola Comprehensive High School (Jnr), Osiele"
+  },
+  {
+    "nameOfSchool": "Salawu Abiola Comprehensive High School (Snr), Osiele"
+  },
+  {
+    "nameOfSchool": "Sango Ota High School, (Jnr)"
+  },
+  {
+    "nameOfSchool": "Sango Ota High School, (Snr)"
+  },
+  {
+    "nameOfSchool": "Sawonjo High School"
+  },
+  {
+    "nameOfSchool": "Shamsudeen Grammar School Junior Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "Shamsudeen Grammar School Senior Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "Simawa Community High School, Simawa"
+  },
+  {
+    "nameOfSchool": "Siun High School, Siun"
+  },
+  {
+    "nameOfSchool": "Sonyindo Community High School (Junior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Sonyindo Community High School (Senior), Sagamu"
+  },
+  {
+    "nameOfSchool": "Sopen Comprehensive High School Junior Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "Sopen Comprehensive High School Senior Ijebu-Igbo"
+  },
+  {
+    "nameOfSchool": "St Michael's High School, Ota"
+  },
+  {
+    "nameOfSchool": "St. Anthony'S Grammar School (Jnr) Esure Ijebu Imusin"
+  },
+  {
+    "nameOfSchool": "St. Anthony'S Grammar School (Snr) Esure Ijebu Imusin"
+  },
+  {
+    "nameOfSchool": "St. Brendan'S Grammar School (Jnr) Ogbere"
+  },
+  {
+    "nameOfSchool": "St. Brendan'S Grammar School (Snr) Ogbere"
+  },
+  {
+    "nameOfSchool": "St. John Community High School, Ijoko-Lemode"
+  },
+  {
+    "nameOfSchool": "St. John'S Anglican Grammar School, Ode-Lemo"
+  },
+  {
+    "nameOfSchool": "St. Kizito's High School (Junior), Iwopin."
+  },
+  {
+    "nameOfSchool": "St. Kizito's High School (Senior), Iwopin."
+  },
+  {
+    "nameOfSchool": "St. Peter's College, (Jnr), Olomore"
+  },
+  {
+    "nameOfSchool": "St. Peter's College, (Snr), Olomore"
+  },
+  {
+    "nameOfSchool": "St. Stephen Comprehensive High School(Junior), Ado-Odo."
+  },
+  {
+    "nameOfSchool": "St. Stephen Comprehensive High School(Senior), Ado-Odo."
+  },
+  {
+    "nameOfSchool": "Tayese Community Secondary School, Ibatefin"
+  },
+  {
+    "nameOfSchool": "Titilayo Agbaje Memorial Comprehensive High School, Imosan"
+  },
+  {
+    "nameOfSchool": "Toyon High School, Ere"
+  },
+  {
+    "nameOfSchool": "United Comprehensive High School, Wasinmi."
+  },
+  {
+    "nameOfSchool": "United High School (Junior),Ikenne"
+  },
+  {
+    "nameOfSchool": "United High School (Senior)L, Ikenne"
+  },
+  {
+    "nameOfSchool": "Unity High School (Junior), Ijoko-Ota"
+  },
+  {
+    "nameOfSchool": "Unity High School (Junior), Kajola Ibooro"
+  },
+  {
+    "nameOfSchool": "Unity High School (Senior), Ijoko-Ota"
+  },
+  {
+    "nameOfSchool": "Unity High School (Senior), Kajola Ibooro"
+  },
+  {
+    "nameOfSchool": "Unity High School,(Jnr), Ago-Ika"
+  },
+  {
+    "nameOfSchool": "Unity High School,(Snr), Ago-Ika"
+  },
+  {
+    "nameOfSchool": "YEMMA COMM.GRAMM SCH,AROMOKALA(COMB)"
+  },
+  {
+    "nameOfSchool": "Yemma Community Grammar School Aromokala, Oloparun"
+  },
+  {
+    "nameOfSchool": "Yewa College Junior, Ilaro"
+  },
+  {
+    "nameOfSchool": "Yewa College Senior, Ilaro"
+  },
+  {
+    "nameOfSchool": "Yewa Community High School, Ota"
+  },
+  {
+    "nameOfSchool": "Yewa Secondary School (Junior)"
+  },
+  {
+    "nameOfSchool": "Yewa Secondary School (Senior)"
+  },
+  {
+    "nameOfSchool": "Zonal Office"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Abeokuta North"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Abeokuta South"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ado Odo I"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ado Odo II"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ifo I"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ifo II"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ijebu East"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ijebu North"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ijebu North East"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ijebu-Ode"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Imeko Afon"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ipokia"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Obafemi Owode"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Odeda"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Odogbolu"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Ogun Waterside"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Remo North"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Sagamu"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Yewa North"
+  },
+  {
+    "nameOfSchool": "Zonal Secretary Office, Yewa South"
+  }]
+  function matchAndConvertToCSV(typedSchools, upToDateSchools) {
+  
+    // Extract location from school name
+    function extractLocation(name) {
+      if (!name || typeof name !== 'string') return '';
+      
+      // Common location patterns: after comma, in parentheses at end, after school type
+      const patterns = [
+        /,\s*([^,]+)$/,           // After last comma
+        /\(([^)]+)\)$/,           // In parentheses at end
+        /(?:High|Grammar|Secondary|College|School)\s+(.+?)(?:,|$)/i
+      ];
+      
+      for (const pattern of patterns) {
+        const match = name.match(pattern);
+        if (match && match[1]) {
+          return match[1].toLowerCase().trim();
+        }
+      }
+      
+      return '';
+    }
+    
+    // Normalize name for comparison - extract actual name parts
+    function extractNameParts(name) {
+      if (!name || typeof name !== 'string') return [];
+      
+      // Remove level indicators and parentheses first
+      let cleanName = name
+        .replace(/\(snr\.?\)|senior/gi, '')
+        .replace(/\(jnr\.?\)|junior/gi, '')
+        .replace(/\(comb\.?\)|combined/gi, '')
+        .replace(/\[.*?\]/g, '');  // Remove square brackets
+      
+      return cleanName
+        .toLowerCase()
+        .replace(/mrs?\.|miss|dr\.|prof\./gi, '') // remove titles
+        .replace(/[.,]/g, '')                      // remove punctuation
+        .replace(/\s+/g, ' ')                      // normalize spaces
+        .trim()
+        .split(' ')
+        .filter(word => word.length > 2);          // only words with 3+ chars
+    }
+  
+    // Detect school level (Senior, Junior, Combined)
+    function detectSchoolLevel(schoolName) {
+      const lowerName = schoolName.toLowerCase();
+      
+      // Check for Senior indicators
+      if (/\b(snr\.?|senior)\b/i.test(lowerName)) {
+        return 'SENIOR';
+      }
+      
+      // Check for Junior indicators
+      if (/\b(jnr\.?|junior)\b/i.test(lowerName)) {
+        return 'JUNIOR';
+      }
+      
+      // Check for Combined indicators
+      if (/\b(comb\.?|combined)\b/i.test(lowerName)) {
+        return 'COMBINED';
+      }
+      
+      return 'UNKNOWN';
+    }
+  
+    // Check if location matches
+    function locationMatch(loc1, loc2) {
+      if (!loc1 || !loc2) return 0.5; // Neutral if location missing
+      
+      const l1 = loc1.toLowerCase().replace(/[.,\s]/g, '');
+      const l2 = loc2.toLowerCase().replace(/[.,\s]/g, '');
+      
+      // Exact match
+      if (l1 === l2) return 1.5;
+      
+      // One contains the other
+      if (l1.includes(l2) || l2.includes(l1)) return 1.2;
+      
+      // Check for partial matches (at least 3 chars)
+      if (l1.length >= 3 && l2.length >= 3) {
+        if (l1.includes(l2.substring(0, 3)) || l2.includes(l1.substring(0, 3))) {
+          return 0.9;
+        }
+      }
+      
+      // No match - penalty
+      return 0.4;
+    }
+  
+    // Better name matching with location awareness
+    function calculateNameMatch(typedSchool, dbSchool) {
+      // Get school levels
+      const typedLevel = detectSchoolLevel(typedSchool);
+      const dbLevel = detectSchoolLevel(dbSchool);
+      
+      // Extract locations
+      const typedLocation = extractLocation(typedSchool);
+      const dbLocation = extractLocation(dbSchool);
+      
+      const typedParts = extractNameParts(typedSchool);
+      const dbParts = extractNameParts(dbSchool);
+      
+      if (typedParts.length === 0 || dbParts.length === 0) return 0;
+      
+      // Filter out very generic words that cause false matches
+      const genericWords = ['community', 'high', 'school', 'grammar', 'secondary', 
+                            'comprehensive', 'college', 'academy'];
+      
+      const significantTypedParts = typedParts.filter(p => !genericWords.includes(p));
+      const significantDbParts = dbParts.filter(p => !genericWords.includes(p));
+      
+      // If no significant parts remain, fall back to all parts
+      const partsToMatch = significantTypedParts.length > 0 ? significantTypedParts : typedParts;
+      const partsToCompare = significantDbParts.length > 0 ? significantDbParts : dbParts;
+      
+      // Count matches
+      let exactMatchCount = 0;
+      let partialMatchCount = 0;
+      
+      partsToMatch.forEach(typedPart => {
+        // Exact match
+        if (partsToCompare.includes(typedPart)) {
+          exactMatchCount++;
+        } else {
+          // Partial match (one word contains the other, min 4 chars)
+          partsToCompare.forEach(dbPart => {
+            if (typedPart.length >= 4 && dbPart.length >= 4) {
+              if (typedPart.includes(dbPart) || dbPart.includes(typedPart)) {
+                partialMatchCount += 0.5;
+              }
+            }
+          });
+        }
+      });
+      
+      // Calculate base score - require higher percentage of matches
+      const totalMatches = exactMatchCount + partialMatchCount;
+      
+      // Need at least 50% of significant parts to match
+      if (totalMatches < partsToMatch.length * 0.5) {
+        return 0;
+      }
+      
+      let score = totalMatches / Math.max(partsToMatch.length, 2);
+      
+      // Apply location multiplier
+      const locationMultiplier = locationMatch(typedLocation, dbLocation);
+      score *= locationMultiplier;
+      
+      // Apply level matching bonus/penalty
+      if (typedLevel === dbLevel && typedLevel !== 'UNKNOWN') {
+        // Exact level match - significant bonus
+        score *= 1.5;
+      } else if (typedLevel === 'COMBINED' && dbLevel === 'COMBINED') {
+        // Combined matches combined - bonus
+        score *= 1.4;
+      } else if (typedLevel === 'SENIOR' && dbLevel === 'JUNIOR') {
+        // Senior typed but Junior in DB - major penalty
+        score *= 0.2;
+      } else if (typedLevel === 'JUNIOR' && dbLevel === 'SENIOR') {
+        // Junior typed but Senior in DB - major penalty
+        score *= 0.2;
+      } else if (typedLevel === 'COMBINED' && (dbLevel === 'SENIOR' || dbLevel === 'JUNIOR')) {
+        // Combined can match either Senior or Junior - acceptable
+        score *= 0.85;
+      } else if ((typedLevel === 'SENIOR' || typedLevel === 'JUNIOR') && dbLevel === 'COMBINED') {
+        // Specific level typed but Combined in DB - acceptable match
+        score *= 0.85;
+      } else if (typedLevel !== 'UNKNOWN' && dbLevel !== 'UNKNOWN' && typedLevel !== dbLevel) {
+        // Different levels - major penalty
+        score *= 0.3;
+      }
+      
+      // Penalty for matching too many generic schools
+      const genericScore = exactMatchCount / (exactMatchCount + partialMatchCount + 1);
+      if (genericScore < 0.5) {
+        score *= 0.7; // Reduce score if mostly partial matches
+      }
+      
+      // Cap score at 1.0
+      return Math.min(score, 1.0);
+    }
+  
+    // Assign confidence level based on score
+    function getConfidenceLevel(score) {
+      if (score >= 0.8) return 'High Confidence';
+      if (score >= 0.5) return 'Medium Confidence';
+      if (score >= 0.3) return 'Low Confidence';
+      return 'Very Low Confidence';
+    }
+  
+    // Find best match for each typed school
+    const matchedResults = [];
+    const usedIndices = new Set(); // Track used matches to avoid duplicates
+    
+    typedSchools.forEach((typedSchool, index) => {
+      let bestMatch = null;
+      let bestScore = 0;
+      let bestIndex = -1;
+      
+      upToDateSchools.forEach((dbSchool, dbIndex) => {
+        // Skip if already matched (uncomment to prevent duplicate matches)
+        // if (usedIndices.has(dbIndex)) return;
+        
+        const score = calculateNameMatch(typedSchool, dbSchool.nameOfSchool || '');
+        
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = dbSchool;
+          bestIndex = dbIndex;
+        }
+      });
+      
+      // Only match if score is reasonable (at least 40% match)
+      if (bestMatch && bestScore >= 0.4) {
+        usedIndices.add(bestIndex);
+        matchedResults.push({
+          serialNo: index + 1,
+          typedSchool: typedSchool.replace(/,$/, '').trim(),
+          matchedSchool: bestMatch.nameOfSchool,
+          matchScore: bestScore.toFixed(2),
+          status: getConfidenceLevel(bestScore)
+        });
+      } else {
+        // No good match found
+        matchedResults.push({
+          serialNo: index + 1,
+          typedSchool: typedSchool.replace(/,$/, '').trim(),
+          matchedSchool: 'NO MATCH FOUND',
+          matchScore: '0.00',
+          status: 'No Match'
+        });
+      }
+    });
+    
+    return matchedResults;
+  }
+  
+  // Convert to CSV
+  function arrayToCSV(data) {
+    if (!data || data.length === 0) return '';
+    
+    const headers = Object.keys(data[0]);
+    
+    function escapeCSV(value) {
+      if (value == null) return '';
+      const stringValue = String(value);
+      if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+      }
+      return stringValue;
+    }
+    
+    let csv = headers.map(escapeCSV).join(',') + '\n';
+    
+    data.forEach(row => {
+      const values = headers.map(header => escapeCSV(row[header]));
+      csv += values.join(',') + '\n';
+    });
+    
+    return csv;
+  }
+  
+  // MAIN FUNCTION
+  function matchSchoolsAndExportCSV(typedSchools, upToDateSchools) {
+    const matchedData = matchAndConvertToCSV(typedSchools, upToDateSchools);
+    const csvContent = arrayToCSV(matchedData);
+    
+    // Calculate statistics
+    const stats = {
+      total: matchedData.length,
+      highConfidence: matchedData.filter(m => m.status === 'High Confidence').length,
+      mediumConfidence: matchedData.filter(m => m.status === 'Medium Confidence').length,
+      lowConfidence: matchedData.filter(m => m.status === 'Low Confidence').length,
+      veryLowConfidence: matchedData.filter(m => m.status === 'Very Low Confidence').length,
+      noMatch: matchedData.filter(m => m.status === 'No Match').length
+    };
+    
+    console.log('=== MATCHING STATISTICS ===');
+    console.log(`Total: ${stats.total}`);
+    console.log(`High Confidence: ${stats.highConfidence} (${(stats.highConfidence/stats.total*100).toFixed(1)}%)`);
+    console.log(`Medium Confidence: ${stats.mediumConfidence} (${(stats.mediumConfidence/stats.total*100).toFixed(1)}%)`);
+    console.log(`Low Confidence: ${stats.lowConfidence} (${(stats.lowConfidence/stats.total*100).toFixed(1)}%)`);
+    console.log(`Very Low Confidence: ${stats.veryLowConfidence} (${(stats.veryLowConfidence/stats.total*100).toFixed(1)}%)`);
+    console.log(`No Match: ${stats.noMatch} (${(stats.noMatch/stats.total*100).toFixed(1)}%)`);
+    
+    return {
+      matchedData,
+      csvContent,
+      statistics: stats,
+      csvBlob: new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    };
+  }
+  
+
+  console.log('=== TESTING IMPROVED MATCHER ===\n');
+  const result = matchSchoolsAndExportCSV(typedProposedSchool, dbSchoolsJson);
+  
+  console.log('\n=== SAMPLE RESULTS ===');
+  result.matchedData.slice(0, 10).forEach(item => {
+    console.log(`${item.serialNo}. "${item.typedSchool}" → "${item.matchedSchool}" (${item.matchScore}, ${item.status})`);
+  });
+  
+  console.log('\n=== CSV PREVIEW  ===');
+  const csvLines = result.csvContent
+  console.log(csvLines);

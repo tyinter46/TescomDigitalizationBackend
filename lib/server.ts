@@ -73,7 +73,7 @@ import logger from './config/logger';
 import importUsers from './scripts/importUsersToElastic';
 import importSchoolsToElastic from './scripts/importSchoolsToElastic';
 import UserService from '../lib/modules/users/service';
-import {matchedStaff} from '../lib/utils/filterNamesandSchools'
+
 import { jsonToCSV } from '../lib/utils/csvToJsonForPosting';
 import { abeokutaStaffNamesAndPreviousSchools } from '../lib/utils/csvToJsonForPosting';
 // import {  Request, Response } from 'express';
